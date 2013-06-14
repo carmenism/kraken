@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/new/MyImages">
+        <file>MS_PROD_MAIN_IMAGE.jpg</file>
+    </qresource>
+</RCC>
