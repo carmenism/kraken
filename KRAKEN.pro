@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui opengl
 
 TARGET = KRAKEN
 TEMPLATE = app
@@ -31,7 +31,10 @@ SOURCES += main.cpp\
     HarvestModuleCatch.cpp \
     CompetitionModuleWithinGroup_FillToGuildK.cpp \
     CompetitionBetweenSpeciesNoK.cpp \
-    GrowthModuleLinear.cpp
+    GrowthModuleLinear.cpp \ 
+	Shape.cpp \
+	Rectangle.cpp \
+	MyQGLWidget.cpp
 
 HEADERS  += ms_prod_mainwindow.h \
     PredationModuleTypeIII.h \
@@ -55,7 +58,10 @@ HEADERS  += ms_prod_mainwindow.h \
     CompetitionModuleWithinGroup_FillToGuildK.h \
     MersenneTwister.h \
     CompetitionModuleBetweenSpeciesNoK.h \
-    GrowthModuleLinear.h
+    GrowthModuleLinear.h \ 
+	Shape.h \
+	Rectangle.h \
+	MyQGLWidget.h
 
 FORMS    += ms_prod_mainwindow.ui
 

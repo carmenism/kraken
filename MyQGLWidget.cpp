@@ -1,9 +1,15 @@
 #include <QtGui/QMouseEvent>
 #include "MyQGLWidget.h"
 #include "stdio.h"
+#include "Square.h"
 
 MyQGLWidget::MyQGLWidget(QWidget *parent) : QGLWidget(parent) {
     setMouseTracking(true);
+
+    square = new Square();
+    square->setSize(20, 40);
+    square->setLocation(100, 100);
+    square->setRotation(45);
 }
 
 void MyQGLWidget::initializeGL() {
@@ -13,7 +19,7 @@ void MyQGLWidget::initializeGL() {
     glEnable(GL_BLEND);
     glEnable(GL_POLYGON_SMOOTH);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glClearColor(0, 0, 0, 0);
+    glClearColor(1.0, 1.0, 1.0, 0);
 }
 
 void MyQGLWidget::resizeGL(int w, int h) {
@@ -33,6 +39,8 @@ void MyQGLWidget::paintGL() {
     glVertex2f(100,500);
     glVertex2f(500,100);
     glEnd();
+
+    square->redraw();
 }
 
 void MyQGLWidget::mousePressEvent(QMouseEvent *event) {

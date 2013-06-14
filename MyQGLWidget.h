@@ -3,6 +3,8 @@
 
 #include <QtOpenGL/QGLWidget>
 
+class Square;
+
 class MyQGLWidget : public QGLWidget {
 
     Q_OBJECT // must include this if you use Qt signals/slots
@@ -17,6 +19,8 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
+
+    Square *square;
 };
 
 #endif  /* _MYQGLWIDGET_H */
