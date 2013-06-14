@@ -1,0 +1,82 @@
+SYSTEM CARRYING CAPACITY,1658298,,,,,,,,,
+Units,mt,,,,,,,,,
+GUILDS,Flatfish,Groundfish,Small pelagics,Elasmobranchs,,,,,,
+SPECIES,GB Yt,GB Cod,GB Haddock,GB Winter Fl,GOMGB Windowpane,GB Redfish,GB Herring,GB Mackerel,GB Skates,GB Spiny Dogs
+Guild Membership,Flatfish,Groundfish,Groundfish,Flatfish,Flatfish,Groundfish,Small pelagics,Small pelagics,Elasmobranchs,Elasmobranchs
+Initial Biomass,8000,22563,316000,4301,7288,40048.8,209400,77600,60683,40000
+SPECIES K,230000,700000,700000,230000,230000,700000,350000,350000,450000,450000
+Growth Rate,0.66,0.64,0.52,0.74,0.6,0.232,0.62,0.32,0.2,0.2
+Within Guild Competition Coefficient,,,,,,,,,,
+on GB Yt,0,0.124,0.424,0.721,0.261,0.076,0,0,0,0
+on GB Cod,0.124,0,0.236,0.101,0.248,0.276,0,0,0,0
+on GB Haddock,0.424,0.236,0,0.341,0.233,0.125,0,0,0,0
+on GB Winter Fl,0.721,0.101,0.341,0,0.132,0.041,0,0,0,0
+on GOMGB Windowpane,0.261,0.248,0.233,0.132,0,0.219,0,0,0,0
+on GB Redfish,0.076,0.138,0.06,0.041,0.106,0,0,0,0,0
+on GB Herring,0,0,0,0,0,0,0,0.5,0,0
+on GB Mackerel,0,0,0,0,0,0,0.5,0,0,0
+on GB Skates,0,0,0,0,0,0,0,0,0,0.3
+on GB Spiny Dogs,0,0,0,0,0,0,0,0,0.3,0
+Between Guild Competition Coefficient,Flatfish,Groundfish,Small pelagics,Elasmobranchs,,,,,,
+on Flatfish,0,0.3,0,0,,,,,,
+on Groundfish,0.4,0,0,0,,,,,,
+on Small pelagics,0,0,0,0,,,,,,
+on Elasmobranchs,0,0,0,0,,,,,,
+Predation Loss Rates,,,,,,,,,,
+onGB Yt,0,0.000007,0,0,0,0,0,0,0,0
+onGB Cod,0,0,0,0,0,0,0,0,0,0.000003
+onGB Haddock,6.00E-9,0,0,0,0,0,0,0,0,0
+onGB Winter Fl,0,0,0,0,0,0,0,0,0,0
+onGOMGB Windowpane,0,0,0,0,0,0,0,0,0,0
+onGB Redfish,0,0,0,0,0,0,0,0,0,0
+onGB Herring,0,0.0000002,0,0,0,0.0000002,0,0,0.0000002,0.0000002
+onGB Mackerel,0,0.000002,0,0,0,0.000002,0,0,0.000002,0.000002
+onGB Skates,0,0,0,0,0,0,0,0,0,0
+onGB Spiny Dogs,0,0,0,0,0,0,0,0,0,0
+Spatial Overlap,,,,,,,,,,
+onGB Yt,1,1,1,1,1,1,1,1,1,1
+onGB Cod,0.5,1,0.5,0.5,0.5,0.5,1,1,1,0.5
+onGB Haddock,1,1,1,1,1,1,1,1,1,1
+onGB Winter Fl,1,1,1,1,1,1,1,1,1,1
+onGOMGB Windowpane,1,1,1,1,1,1,1,1,1,1
+onGB Redfish,1,1,1,1,1,1,1,1,1,1
+onGB Herring,1,1,1,1,1,1,1,1,1,1
+onGB Mackerel,1,1,1,1,1,1,1,1,1,1
+onGB Skates,1,1,1,1,1,1,1,1,1,1
+onGB Spiny Dogs,1,1,1,1,1,1,1,1,1,1
+Handling Times,,,,,,,,,,
+onGB Yt,0,0.2,0,0,0,0,0,0,0,0
+onGB Cod,0,0,0,0,0,0,0,0,0,2
+onGB Haddock,0.8,0,0,0,0,0,0,0,0,0
+onGB Winter Fl,0,0,0,0,0,0,0,0,0,0.5
+onGOMGB Windowpane,0,0,0,0,0,0,0,0,0,0
+onGB Redfish,0,0,0,0,0,0,0,0,0,0
+onGB Herring,0,0.5,0,0,0,0.4,0,0,0.5,0.3
+onGB Mackerel,0,1,0,0,0,0.6,0,0,0.8,0.9
+onGB Skates,0,0,0,0,0,0,0,0,0,0
+onGB Spiny Dogs,0,0,0,0,0,0,0,0,0,0
+Type III b Coefficients,,,,,,,,,,
+onGB Yt,2,2,2,2,2,2,2,2,2,2
+onGB Cod,2,2,2,2,2,2,2,2,2,2
+onGB Haddock,2,2,2,2,2,2,2,2,2,2
+onGB Winter Fl,2,2,2,2,2,2,2,2,2,2
+onGOMGB Windowpane,2,2,2,2,2,2,2,2,2,2
+onGB Redfish,2,2,2,2,2,2,2,2,2,2
+onGB Herring,2,2,2,2,2,2,2,2,2,2
+onGB Mackerel,2,2,2,2,2,2,2,2,2,2
+onGB Skates,2,2,2,2,2,2,2,2,2,2
+onGB Spiny Dogs,2,2,2,2,2,2,2,2,2,2
+,,,,,,,,,,
+Catchability,0.1,0.3,0.2,0.2,0.2,0.15,0.2,0.1,0.3,0.3
+Effort,1,2,2,1,1,2,2,2,1,1
+Demersal,1,1,1,1,1,1,0,0,1,1
+Pelagic,0,0,0,0,0,0,1,1,0,0
+,,,,,,,,,,
+Growth Form,Logistic,,,,,,,,,
+Predation Form,Type II,,,,,,,,,
+Harvest Form,QE,,,,,,,,,
+Within Guild Competition Form,MS-PROD,,,,,,,,,
+Between Guild Competition Form,MS-PROD,,,,,,,,,
+,,,,,,,,,,
+Run Length,30,,,,,,,,,
+Time Step,1,,,,,,,,,
