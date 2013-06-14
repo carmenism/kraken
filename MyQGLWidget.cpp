@@ -2,14 +2,29 @@
 #include "MyQGLWidget.h"
 #include "stdio.h"
 #include "Square.h"
+#include "Circle.h"
+#include "Triangle.h"
 
 MyQGLWidget::MyQGLWidget(QWidget *parent) : QGLWidget(parent) {
     setMouseTracking(true);
 
     square = new Square();
-    square->setSize(20, 40);
-    square->setLocation(100, 100);
-    square->setRotation(45);
+    square->setSize(100, 100);
+    square->setLocation(150, 100);
+    square->setBorderColor(0.0, 0.0, 1.0);
+    square->setDrawFill(false);
+
+    circle = new Circle();
+    circle->setSize(100, 100);
+    circle->setLocation(150, 100);
+    circle->setBorderColor(0.0, 1.0, 0.0);
+    circle->setDrawFill(false);
+
+    triangle = new Triangle();
+    triangle->setLocation(150, 100);
+    triangle->setSize(100, 100);
+    triangle->setBorderColor(1.0, 0.0, 0.0);
+    triangle->setDrawFill(false);
 }
 
 void MyQGLWidget::initializeGL() {
@@ -33,14 +48,16 @@ void MyQGLWidget::resizeGL(int w, int h) {
 
 void MyQGLWidget::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT);
-    glColor3f(1,0,0);
+    /*glColor3f(1,0,0);
     glBegin(GL_POLYGON);
     glVertex2f(0,0);
     glVertex2f(100,500);
     glVertex2f(500,100);
-    glEnd();
+    glEnd();*/
 
     square->redraw();
+    circle->redraw();
+    triangle->redraw();
 }
 
 void MyQGLWidget::mousePressEvent(QMouseEvent *event) {

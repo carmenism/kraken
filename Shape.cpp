@@ -22,10 +22,11 @@ Shape::Shape() {
    setLocation(0, 0);
    setRotation(0);
    setSize(100, 100);
-   setBorderWidth(2.0);
+   setBorderWidth(1.0);
    setColor(new Color(0.5, 0.5, 0.5));
    setBorderColor(new Color(0.0, 0.0, 0.0));
    setDrawFill(true);
+   setDrawBorder(true);
    setId(-1);
 }
 
@@ -51,11 +52,11 @@ void Shape::redraw() {
         }
 
         // Draw the border if one is desired.
-        if (borderWidth != 0) {
+        if (drawBorder && borderWidth != 0) {
             //glPolygonMode(GL_FRONT, GL_LINE);
             glColor3f(borderColor->r, borderColor->g, borderColor->b);
             glLineWidth(borderWidth);
-            glBegin(GL_LINE_STRIP);//glBegin(GL_POLYGON);
+            glBegin(GL_LINE_LOOP);//glBegin(GL_POLYGON);
                 drawAtOrigin();
             glEnd();
         }

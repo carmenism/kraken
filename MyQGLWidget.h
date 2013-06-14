@@ -4,6 +4,8 @@
 #include <QtOpenGL/QGLWidget>
 
 class Square;
+class Circle;
+class Triangle;
 
 class MyQGLWidget : public QGLWidget {
 
@@ -21,6 +23,8 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
     Square *square;
+    Circle *circle;
+    Triangle *triangle;
 };
 
 #endif  /* _MYQGLWIDGET_H */

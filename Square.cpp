@@ -11,9 +11,10 @@ Square::~Square()
 }
 
 void Square::drawAtOrigin() {
-    glVertex2f(0, 0);
-    glVertex2f(0, 1);
-    glVertex2f(1, 1);
-    glVertex2f(1, 0);
-    glVertex2f(0, 0);
+    float sideLength = 1.0;
+
+    glVertex2f(-sideLength / 2, -sideLength / 2);
+    glVertex2f(-sideLength / 2, sideLength / 2);
+    glVertex2f(sideLength / 2, sideLength / 2);
+    glVertex2f(sideLength / 2, -sideLength / 2);
 }

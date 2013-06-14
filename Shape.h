@@ -37,6 +37,9 @@ public:
    bool getDrawFill() { return drawFill; }
    void setDrawFill(bool df) { drawFill = df; }
 
+   bool getDrawBorder() { return drawBorder; }
+   void setDrawBorder(bool db) { drawBorder = db; }
+
    void redraw();            
    
    virtual void drawAtOrigin() = 0; // to be overwritten
@@ -49,6 +52,7 @@ protected:
    float borderWidth;            // width of the boundary
    Color *borderColor;           // boundary color
    bool  drawFill;               // true to draw fill color
+   bool  drawBorder;             // true to draw boundary
 };
 
 #endif /*SHAPE_H_*/
