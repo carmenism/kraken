@@ -23,7 +23,7 @@ Shape::Shape() {
    setRotation(0);
    setSize(100, 100);
    setBorderWidth(1.0);
-   setColor(new Color(0.5, 0.5, 0.5));
+   setFillColor(new Color(0.5, 0.5, 0.5));
    setBorderColor(new Color(0.0, 0.0, 0.0));
    setDrawFill(true);
    setDrawBorder(true);
@@ -45,7 +45,7 @@ void Shape::redraw() {
         // Draw the filled polygon from the vertices.
         if (drawFill) {
             glPolygonMode( GL_FRONT, GL_FILL );
-            glColor3f( color->r, color->g, color->b );
+            glColor3f( fillColor->r, fillColor->g, fillColor->b );
             glBegin( GL_POLYGON );
                 drawAtOrigin();
             glEnd();
@@ -73,10 +73,10 @@ void Shape::redraw() {
  * @param g The green component of the desired color (a value from 0.0 to 1.0).
  * @param b The blue component of the desired color (a value from 0.0 to 1.0).
  */
-void Shape::setColor(float r, float g, float b) {
-    color->r = r;
-    color->g = g;
-    color->b = b;
+void Shape::setFillColor(float r, float g, float b) {
+    fillColor->r = r;
+    fillColor->g = g;
+    fillColor->b = b;
 }
 
 /**

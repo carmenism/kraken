@@ -23,9 +23,9 @@ public:
    float getHeight() { return height; }
    void setSize(float w, float h) { width = w; height = h; }
 
-   Color *getColor() { return color; }
-   void setColor(float r, float g, float b); // set color
-   void setColor(Color *c) { color = c; }
+   Color *getFillColor() { return fillColor; }
+   void setFillColor(float r, float g, float b); // set color
+   void setFillColor(Color *c) { fillColor = c; }
    
    float getBorderWidth() { return borderWidth; }
    void setBorderWidth(float w) { borderWidth = w; }
@@ -48,7 +48,7 @@ protected:
    float xLoc, yLoc;             // location of the object
    float width, height;          // size of the object
    float rotation;               // rotation
-   Color *color;                 // color
+   Color *fillColor;             // color
    float borderWidth;            // width of the boundary
    Color *borderColor;           // boundary color
    bool  drawFill;               // true to draw fill color

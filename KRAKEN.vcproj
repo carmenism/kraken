@@ -234,6 +234,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GraphMarker.cpp"
+				>
+			</File>
+			<File
 				RelativePath="GrowthModuleLinear.cpp"
 				>
 			</File>
@@ -255,6 +259,14 @@
 			</File>
 			<File
 				RelativePath="InteractionMatrix.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\LineGraph.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\LineGroup.cpp"
 				>
 			</File>
 			<File
@@ -352,6 +364,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GraphMarker.h"
+				>
+			</File>
+			<File
 				RelativePath="GrowthModuleLinear.h"
 				>
 			</File>
@@ -373,6 +389,14 @@
 			</File>
 			<File
 				RelativePath="InteractionMatrix.h"
+				>
+			</File>
+			<File
+				RelativePath=".\LineGraph.h"
+				>
+			</File>
+			<File
+				RelativePath=".\LineGroup.h"
 				>
 			</File>
 			<File
