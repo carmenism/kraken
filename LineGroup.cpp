@@ -1,5 +1,6 @@
 #include "LineGroup.h"
 #include "GraphMarker.h"
+#include "Color.h"
 #include <QtOpenGL>
 
 
@@ -14,16 +15,17 @@ LineGroup::LineGroup(std::string label, std::vector<float> x, std::vector<float>
         throw "should not be empty values for x or y";
     }
 
-    std::vector<float>::const_iterator ix;
-    std::vector<float>::const_iterator iy;
+    //std::vector<float>::const_iterator ix;
+    //std::vector<float>::const_iterator iy;
 
     max = NULL;
     min = NULL;
 
-    for( ix = x.begin(), iy = y.begin();
-            ix != x.end() && iy != y.end();
-            ++ix, ++iy ){
-        GraphMarker *marker = new GraphMarker(*ix, *iy);
+    //for( ix = x.begin(), iy = y.begin();
+    //        ix != x.end() && iy != y.end();
+    //        ++ix, ++iy ){
+    for (int i = 0; i < x.size(); i++) {
+        GraphMarker *marker = new GraphMarker(x[i], y[i]);
         markers.push_back(marker);
 
         if (max == NULL || max->getValueY() < marker->getValueY()) {
@@ -33,6 +35,8 @@ LineGroup::LineGroup(std::string label, std::vector<float> x, std::vector<float>
             min = marker;
         }
     }
+
+    lineColor = &Color::black;
 }
 
 LineGroup::~LineGroup() {
@@ -45,20 +49,23 @@ void LineGroup::redraw(float graphWidth, float graphHeight,
         GraphMarkerIterator it;
         GraphMarker *last = NULL;
 
-        FOREACH_MARKER(it, markers) {
-            if (displayMarkers) {
-                (*it)->redraw(graphWidth, graphHeight, maxValueX, maxValueY);
-            }
-
+        glColor3f(lineColor->r, lineColor->g, lineColor->b);
+        glBegin(GL_LINES);
+        FOREACH_MARKER(it, markers) {      
             if (last != NULL) {
                 // draw line to last
-                glBegin(GL_LINES);
-                    glVertex2f(last->getPositionX(), last->getPositionY());
-                    glVertex2f((*it)->getPositionX(), (*it)->getPositionY());
-                glEnd();
+                glVertex2f(last->getPositionX(), last->getPositionY());
+                glVertex2f((*it)->getPositionX(), (*it)->getPositionY());                
             }
 
             last = *it;
+        }
+        glEnd();
+
+        if (displayMarkers) {
+            FOREACH_MARKER(it, markers) {
+                (*it)->redraw(graphWidth, graphHeight, maxValueX, maxValueY);
+            }            
         }
     }
 }
@@ -79,7 +86,7 @@ float LineGroup::getMaximumValueY() {
     return max->getValueY();
 }
 
-void LineGroup::setShape(int shape) {
+void LineGroup::setMarkerShape(int shape) {
     GraphMarkerIterator it;
 
     FOREACH_MARKER(it, markers) {
@@ -87,10 +94,32 @@ void LineGroup::setShape(int shape) {
     }
 }
 
-void LineGroup::setSize(float size) {
+void LineGroup::setMarkerSize(float size) {
     GraphMarkerIterator it;
 
     FOREACH_MARKER(it, markers) {
         (*it)->setSize(size);
     }
+}
+
+void LineGroup::setMarkerBorderColor(Color *color) {
+    GraphMarkerIterator it;
+
+    FOREACH_MARKER(it, markers) {
+        (*it)->setBorderColor(color);
+    }
+}
+
+void LineGroup::setMarkerFillColor(Color *color) {
+    GraphMarkerIterator it;
+
+    FOREACH_MARKER(it, markers) {
+        (*it)->setFillColor(color);
+    }
+}
+
+void LineGroup::setColor(Color *c) {
+    setLineColor(c);
+    setMarkerBorderColor(c);
+    setMarkerFillColor(c);
 }

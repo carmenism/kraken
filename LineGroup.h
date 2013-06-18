@@ -39,18 +39,27 @@ public:
     void displayMarkersOn() { displayMarkers = true; }
     void displayMarkersOff() { displayMarkers = false; }
 
-    void setShape(int shape);
-    void setSize(float size);
-    void setBorderColor(Color *color);
-    void setFillColor(Color *color);
-    void setBorderWidth(float width);
+    void setDisplayAsArea(bool d) { displayAsArea = d; }
+    bool getDisplayAsArea() { return displayAsArea; }
+    void displayAsAreaOn() { displayAsArea = true; }
+    void displayAsAreaOff() { displayAsArea = false; }
 
+    void setMarkerShape(int shape);
+    void setMarkerSize(float size);
+    void setMarkerBorderColor(Color *color);
+    void setMarkerFillColor(Color *color);
+    void setMarkerBorderWidth(float width);
+    
+    void setLineColor(Color *c) { lineColor = c; }
+
+    void setColor(Color *c);
 private:
     std::string label;
     GraphMarkerList markers;
     GraphMarker *min, *max;
     //float maxX, maxY;
-    bool display, displayMarkers;
+    Color *lineColor;
+    bool display, displayMarkers, displayAsArea;
 };
 
 #endif /*LINEGROUP_H_*/

@@ -4,11 +4,12 @@
 #include "Square.h"
 #include "Circle.h"
 #include "Triangle.h"
+#include "LineGraph.h"
 
 MyQGLWidget::MyQGLWidget(QWidget *parent) : QGLWidget(parent) {
     setMouseTracking(true);
 
-    square = new Square();
+    /*square = new Square();
     square->setSize(100, 100);
     square->setLocation(150, 100);
     square->setBorderColor(0.0, 0.0, 1.0);
@@ -24,7 +25,9 @@ MyQGLWidget::MyQGLWidget(QWidget *parent) : QGLWidget(parent) {
     triangle->setLocation(150, 100);
     triangle->setSize(100, 100);
     triangle->setBorderColor(1.0, 0.0, 0.0);
-    triangle->setDrawFill(false);
+    triangle->setDrawFill(false);*/
+
+    graph = new LineGraph();
 }
 
 void MyQGLWidget::initializeGL() {
@@ -55,9 +58,10 @@ void MyQGLWidget::paintGL() {
     glVertex2f(500,100);
     glEnd();*/
 
-    square->redraw();
+    /*square->redraw();
     circle->redraw();
-    triangle->redraw();
+    triangle->redraw();*/
+    graph->redraw();
 }
 
 void MyQGLWidget::mousePressEvent(QMouseEvent *event) {

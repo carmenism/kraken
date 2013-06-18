@@ -1,10 +1,10 @@
 #ifndef LINEGRAPH_H_
 #define LINEGRAPH_H_
 
-
 class LineGroup;
 
 #include <vector>
+#include <QList>
 
 typedef std::vector<LineGroup *> LineGroupList;
 typedef std::vector<LineGroup *>::const_iterator LineGroupIterator;
@@ -23,6 +23,9 @@ public:
 private:
     float width, height;
     LineGroupList lines;
+    float round(float num);
+    float roundUp(float num);
+    float roundDown(float num);
 };
 
 #endif /*LINEGRAPH_H_*/

@@ -31,8 +31,8 @@ GraphMarker::~GraphMarker() {
 
 void GraphMarker::redraw(float graphWidth, float graphHeight,
                          float maxValueX,  float maxValueY) {
-    float posX = valueX * maxValueX / graphWidth;
-    float posY = valueY * maxValueY / graphHeight;
+    float posX = valueX * graphWidth /  maxValueX;
+    float posY = valueY * graphHeight / maxValueY;
 
     marker->setLocation(posX, posY);
     marker->redraw();

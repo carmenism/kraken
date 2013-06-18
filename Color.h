@@ -15,6 +15,8 @@
 #ifndef COLOR_H
 #define COLOR_H
 
+#include <vector>
+
 class Color
 {
 public:
@@ -23,6 +25,34 @@ public:
     Color( float red, float green, float blue, float alpha = 1.0f );
 
     float r, g, b, a;
+
+    bool assigned;
+
+    static Color red;
+    static Color orange;
+    static Color yellow;
+    static Color green;
+    static Color blue;
+    static Color purple;
+    static Color goldenrod;
+    static Color pink;
+    static Color skyblue;
+    static Color brown;
+    static Color lavender;
+    static Color tan;
+    static Color magenta;
+    static Color avocado;
+    static Color navy;
+
+    static Color gray;
+    static Color black;
+    static Color white;
+
+    static Color *colors;
+    static int numberColors;
+
+    static Color *getUnassignedColor();
+
 };
 
 #endif /* COLOR_H */

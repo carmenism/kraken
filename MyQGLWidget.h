@@ -6,6 +6,7 @@
 class Square;
 class Circle;
 class Triangle;
+class LineGraph;
 
 class MyQGLWidget : public QGLWidget {
 
@@ -25,6 +26,7 @@ protected:
     Square *square;
     Circle *circle;
     Triangle *triangle;
+    LineGraph *graph;
 };
 
 #endif  /* _MYQGLWIDGET_H */
