@@ -63,26 +63,29 @@ LineGraph::~LineGraph() {
 }
 
 void LineGraph::redraw() {
-    glBegin(GL_LINE_LOOP);
-        glVertex2f( 0, 0 );
-        glVertex2f( 0, height );
-        glVertex2f( width, height );
-        glVertex2f( width, 0 );
-    glEnd();
+    redrawBoundary();    
+    recalculateGlobalBounds();
+    redrawLines();
+}
 
-    LineGroupList it;
-    
-    float globalMaxX = -1 * (std::numeric_limits<float>::max)();
+void LineGraph::recalculateGlobalBounds() {
+    globalMinX = (std::numeric_limits<float>::max)();
+    globalMaxX = -1 * (std::numeric_limits<float>::max)();
 
-    float globalMinY = (std::numeric_limits<float>::max)();
-    float globalMaxY = -1 * (std::numeric_limits<float>::max)();
+    globalMinY = (std::numeric_limits<float>::max)();
+    globalMaxY = -1 * (std::numeric_limits<float>::max)();
 
     FOREACH_LINEGROUP(it, lines) {
         if ((*it)->getDisplay()) {
+            float minX = (*it)->getMinimumValueX();
             float maxX = (*it)->getMaximumValueX();
 
             float minY = (*it)->getMinimumValueY();
             float maxY = (*it)->getMaximumValueY();
+
+            if (globalMinX > minX) {
+                globalMinX = minX;
+            }
 
             if (globalMaxX < maxX) {
                 globalMaxX = maxX;
@@ -98,11 +101,22 @@ void LineGraph::redraw() {
         }
     }
 
-    std::cout << "max y: " << globalMaxY << std::endl;
-    //std::cout << "round down max y: " << roundDown(globalMaxY) << std::endl;
     globalMaxY = round(globalMaxY);
-    std::cout << "max y: " << globalMaxY << std::endl;
+}
 
+void LineGraph::redrawBoundary() {  
+    glPolygonMode(GL_FRONT, GL_LINE);   
+    glColor4f(0, 0, 0, 1);
+
+    glBegin(GL_LINE_LOOP);
+        glVertex2f( 0, 0 );
+        glVertex2f( 0, height );
+        glVertex2f( width, height );
+        glVertex2f( width, 0 );
+    glEnd();
+}
+
+void LineGraph::redrawLines() {
     FOREACH_LINEGROUP(it, lines) {
         if ((*it)->getDisplay()) {
             (*it)->redraw(width, height, globalMaxX, globalMaxY);
@@ -117,30 +131,28 @@ float LineGraph::round(float number) {
     return up - down;
 }
 
-float LineGraph::roundUp(float number) {
-    int exponent = (int) floor(log10(number));
-    float val = number * pow(10.0, -exponent);
-
-    if (val > 5.0) {
-        val = 10.0;
-    } else if (val > 2.0) {
-        val = 5.0;
-    } else if (val > 1.0) {
-        val = 2.0;
-    }
-
-    val = val * pow(10.0, exponent);
-
-    return val;
+void LineGraph::addLine(LineGroup *line) {
+    lines.push_back(line);
+    //line.setColor(Color::getUnassignedColor());
 }
 
-float LineGraph::roundDown(float number) {
-    float f1 = 1 * pow(10, (floor(log10(number / 1))));
-    float f2 = 2 * pow(10, (floor(log10(number / 2))));
-    float f5 = 5 * pow(10, (floor(log10(number / 5))));
+//http://stackoverflow.com/questions/6364908/
+float LineGraph::f(float num, float c) {
+    return c * pow(10, floor(log10(num / c)));
+}
 
-    float max = max(f1, f2);
-    max = max(max, f5);
+float LineGraph::roundDown(float num) { 
+    float max = max(f(num, 1), f(num, 2));
 
-    return max;
+    return max(max, f(num, 5));
+}
+
+float LineGraph::g(float num, float c) { 
+    return c * pow(10, ceil(log10(num / c)));
+}
+
+float LineGraph::roundUp(float num) { 
+    float min = min(g(num, 1), g(num, 2));
+    
+    return min(min, g(num, 5));
 }

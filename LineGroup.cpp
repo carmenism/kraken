@@ -15,15 +15,9 @@ LineGroup::LineGroup(std::string label, std::vector<float> x, std::vector<float>
         throw "should not be empty values for x or y";
     }
 
-    //std::vector<float>::const_iterator ix;
-    //std::vector<float>::const_iterator iy;
-
     max = NULL;
     min = NULL;
 
-    //for( ix = x.begin(), iy = y.begin();
-    //        ix != x.end() && iy != y.end();
-    //        ++ix, ++iy ){
     for (int i = 0; i < x.size(); i++) {
         GraphMarker *marker = new GraphMarker(x[i], y[i]);
         markers.push_back(marker);
@@ -37,6 +31,8 @@ LineGroup::LineGroup(std::string label, std::vector<float> x, std::vector<float>
     }
 
     lineColor = &Color::black;
+
+    displayAsArea = false;
 }
 
 LineGroup::~LineGroup() {
@@ -46,11 +42,30 @@ LineGroup::~LineGroup() {
 void LineGroup::redraw(float graphWidth, float graphHeight,
                        float maxValueX,  float maxValueY) {
     if (display) {
-        GraphMarkerIterator it;
-        GraphMarker *last = NULL;
+        recalculateMarkerLocations(graphWidth, graphHeight, maxValueX, maxValueY);
 
-        glColor3f(lineColor->r, lineColor->g, lineColor->b);
-        glBegin(GL_LINES);
+        if (displayAsArea) {
+            redrawAsArea();
+        } else {
+            redrawAsLines();
+        }
+    }
+}
+
+void LineGroup::recalculateMarkerLocations(float graphWidth, 
+        float graphHeight, float maxValueX, float maxValueY) {
+    FOREACH_MARKER(it, markers) {
+        (*it)->calculateLocation(graphWidth, graphHeight, maxValueX, maxValueY); 
+    } 
+}
+
+void LineGroup::redrawAsLines() {
+    GraphMarker *last = NULL;
+   
+    glPolygonMode(GL_FRONT, GL_LINE);
+    glColor4f(lineColor->r, lineColor->g, lineColor->b, lineColor->a);
+    
+    glBegin(GL_LINES);
         FOREACH_MARKER(it, markers) {      
             if (last != NULL) {
                 // draw line to last
@@ -60,13 +75,32 @@ void LineGroup::redraw(float graphWidth, float graphHeight,
 
             last = *it;
         }
-        glEnd();
+    glEnd();
 
-        if (displayMarkers) {
-            FOREACH_MARKER(it, markers) {
-                (*it)->redraw(graphWidth, graphHeight, maxValueX, maxValueY);
-            }            
+    if (displayMarkers) {
+        FOREACH_MARKER(it, markers) {
+            (*it)->redraw();
+        }            
+    }
+}
+
+void LineGroup::redrawAsArea() {
+    GraphMarker *last = NULL;
+
+    glPolygonMode( GL_FRONT, GL_FILL );
+    glColor4f(lineColor->r, lineColor->g, lineColor->b, lineColor->a);
+    
+    FOREACH_MARKER(it, markers) {   
+        if (last != NULL) {
+            glBegin( GL_POLYGON );
+                glVertex2f(last->getPositionX(), 0);
+                glVertex2f(last->getPositionX(), last->getPositionY());
+                glVertex2f((*it)->getPositionX(), (*it)->getPositionY()); 
+                glVertex2f((*it)->getPositionX(), 0);                 
+            glEnd();
         }
+        
+        last = *it;
     }
 }
 

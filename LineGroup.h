@@ -21,7 +21,7 @@ public:
     virtual ~LineGroup();
     
     void redraw(float graphWidth, float graphHeight,
-        float maxValueX,  float maxValueY);
+                float maxValueX,  float maxValueY);
 
     float getMaximumValueX();
     float getMaximumValueY();  
@@ -60,6 +60,11 @@ private:
     //float maxX, maxY;
     Color *lineColor;
     bool display, displayMarkers, displayAsArea;
+
+    void recalculateMarkerLocations(float graphWidth, float graphHeight,
+                                    float maxValueX,  float maxValueY);
+    void redrawAsLines();
+    void redrawAsArea();
 };
 
 #endif /*LINEGROUP_H_*/

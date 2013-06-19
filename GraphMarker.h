@@ -14,8 +14,10 @@ public:
     GraphMarker(float vX, float vY, int shape = SHAPE_CIRCLE);
     virtual ~GraphMarker();
 
-    void redraw(float graphWidth, float graphHeight,
-                float maxValueX,  float maxValueY);
+    void redraw();
+
+    void calculateLocation(float graphWidth, float graphHeight,
+                           float maxValueX,  float maxValueY);
 
     void setShape(int shape);
     void setSize(float size);

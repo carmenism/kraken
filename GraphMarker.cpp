@@ -22,24 +22,27 @@ GraphMarker::GraphMarker(float vX, float vY, int shape) {
             break;
     }
 
-    setSize(10);
+    setSize(8);
+    setBorderWidth(0.0);
 }
 
 GraphMarker::~GraphMarker() {
     delete marker;
 }
 
-void GraphMarker::redraw(float graphWidth, float graphHeight,
-                         float maxValueX,  float maxValueY) {
+void GraphMarker::calculateLocation(float graphWidth, float graphHeight,
+                                    float maxValueX,  float maxValueY) {
     float posX = valueX * graphWidth /  maxValueX;
     float posY = valueY * graphHeight / maxValueY;
 
     marker->setLocation(posX, posY);
+}
+
+void GraphMarker::redraw() {
     marker->redraw();
 }
 
 void GraphMarker::setShape(int shape) {
-    //delete marker;
     Shape *newMarker;
 
     switch (shape) {

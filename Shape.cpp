@@ -45,7 +45,8 @@ void Shape::redraw() {
         // Draw the filled polygon from the vertices.
         if (drawFill) {
             glPolygonMode( GL_FRONT, GL_FILL );
-            glColor3f( fillColor->r, fillColor->g, fillColor->b );
+            glColor4f( fillColor->r, fillColor->g, fillColor->b, fillColor->a );
+            
             glBegin( GL_POLYGON );
                 drawAtOrigin();
             glEnd();
@@ -53,9 +54,10 @@ void Shape::redraw() {
 
         // Draw the border if one is desired.
         if (drawBorder && borderWidth != 0) {
-            //glPolygonMode(GL_FRONT, GL_LINE);
-            glColor3f(borderColor->r, borderColor->g, borderColor->b);
+            glPolygonMode(GL_FRONT, GL_LINE);
+            glColor4f(borderColor->r, borderColor->g, borderColor->b, borderColor->a);
             glLineWidth(borderWidth);
+            
             glBegin(GL_LINE_LOOP);//glBegin(GL_POLYGON);
                 drawAtOrigin();
             glEnd();
