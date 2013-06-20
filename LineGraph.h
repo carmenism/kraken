@@ -5,6 +5,8 @@
 #include <QList>
 #include "LineGroup.h"
 
+class GraphAxis;
+
 typedef std::vector<LineGroup *> LineGroupList;
 typedef std::vector<LineGroup *>::const_iterator LineGroupIterator;
 
@@ -34,6 +36,9 @@ public:
 
     GraphMarkerList *getMarkers();
 private:
+    GraphAxis *axisX;
+    GraphAxis *axisY;
+
     float width, height;
     LineGroupList lines;
     

@@ -234,6 +234,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GraphAxis.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\GraphMarker.cpp"
 				>
 			</File>
@@ -365,6 +369,10 @@
 			</File>
 			<File
 				RelativePath="GA_Estimator.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GraphAxis.h"
 				>
 			</File>
 			<File

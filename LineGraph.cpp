@@ -4,6 +4,7 @@
 #include <iostream>
 #include <QtOpenGL>
 #include "Color.h"
+#include "GraphAxis.h"
 
 LineGraph::LineGraph() {
     width = 400;
@@ -55,6 +56,8 @@ LineGraph::LineGraph() {
 
     Color *c2 = Color::getUnassignedColor();
     lg2->setColor(c2);
+
+    axisX = new GraphAxis();
 }
 
 LineGraph::~LineGraph() {
@@ -67,7 +70,11 @@ void LineGraph::draw() {
 
     drawBoundary();    
     calculateGlobalBounds();
-    drawLines();
+    drawLines();    
+
+    axisX->setMinimumValue(globalMinX);
+    axisX->setMaximumValue(globalMaxX);
+    axisX->draw(width);
 
     glPopMatrix();
 }
@@ -114,6 +121,7 @@ void LineGraph::calculateGlobalBounds() {
             if (globalMaxY < maxY) {
                 globalMaxY = maxY;
             }
+
         }
     }
 
