@@ -32,9 +32,16 @@ public:
     float getValueY() { return valueY; }
     float getPositionX();
     float getPositionY();
+
+    void setDisplayLabel( bool d ) { displayLabel = d; }
+    bool getDisplayLabel() { return displayLabel; }
+    void displayLabelOn() { displayLabel = true; }
+    void displayLabelOff() { displayLabel = false; }
 private:
     float valueX, valueY;
     Shape *marker;
+    std::string label;
+    bool displayLabel;
 };
 
 #endif /*GRAPHMARKER_H_*/

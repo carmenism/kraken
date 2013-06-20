@@ -7,6 +7,7 @@ class Square;
 class Circle;
 class Triangle;
 class LineGraph;
+class GraphMarker;
 
 class MyQGLWidget : public QGLWidget {
 
@@ -25,10 +26,8 @@ protected:
 
     void selectItem(int x, int y);
 
-    Square *square;
-    Circle *circle;
-    Triangle *triangle;
     LineGraph *graph;
+    GraphMarker *hovered;
 };
 
 #endif  /* _MYQGLWIDGET_H */

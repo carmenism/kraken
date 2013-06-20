@@ -46,6 +46,7 @@ public:
    void drawToPick();
    
    virtual void drawAtOrigin() = 0; // to be overwritten
+   //virtual void mouseHover();
 protected: 
    int id;                       // id of the object
    float xLoc, yLoc;             // location of the object

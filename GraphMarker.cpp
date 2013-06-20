@@ -4,10 +4,12 @@
 #include "Square.h"
 #include "Triangle.h"
 #include "Color.h"
+#include "PrintText.h"
 
 GraphMarker::GraphMarker(float vX, float vY, int shape) {
     valueX = vX;
     valueY = vY;
+    label = toStr(vY);
 
     switch (shape) {
         case SHAPE_SQUARE:
@@ -24,6 +26,7 @@ GraphMarker::GraphMarker(float vX, float vY, int shape) {
 
     setSize(8);
     setBorderWidth(0.0);
+    setDisplayLabel(false);
 }
 
 GraphMarker::~GraphMarker() {
@@ -40,6 +43,14 @@ void GraphMarker::calculateLocation(float graphWidth, float graphHeight,
 
 void GraphMarker::draw() {
     marker->draw();
+
+    if (displayLabel) {
+        float posX = marker->getX() + 3 *(marker->getWidth() / 4);
+        float posY = marker->getY() + (marker->getHeight() / 2);
+
+        glColor4f(0.0, 0.0, 0.0, 1.0);
+        PrintText::printAt(posX, posY, label, false, false, GLUT_BITMAP_HELVETICA_12);
+    }
 }
 
 void GraphMarker::drawToPick() {

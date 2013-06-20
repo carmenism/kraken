@@ -9,6 +9,10 @@ QT       += core gui opengl
 TARGET = KRAKEN
 TEMPLATE = app
 
+#LIBS += -lglut
+#LIBS += -LC:\glut
+
+#INCLUDEPATH = c:/Carmen/thesis/lib
 
 SOURCES += main.cpp\
         ms_prod_mainwindow.cpp \
