@@ -1,5 +1,4 @@
 #include "LineGraph.h"
-#include "LineGroup.h"
 #include "GraphMarker.h"
 #include <limits>
 #include <iostream>
@@ -23,7 +22,7 @@ LineGraph::LineGraph() {
     x.push_back(8);
     x.push_back(9);
 
-    y.push_back(20);
+    y.push_back(42);
     y.push_back(30);
     y.push_back(80);
     y.push_back(16);
@@ -62,13 +61,30 @@ LineGraph::~LineGraph() {
 
 }
 
-void LineGraph::redraw() {
-    redrawBoundary();    
-    recalculateGlobalBounds();
-    redrawLines();
+void LineGraph::draw() {
+    glPushMatrix();
+    glTranslatef(50, 50, 0);
+
+    drawBoundary();    
+    calculateGlobalBounds();
+    drawLines();
+
+    glPopMatrix();
 }
 
-void LineGraph::recalculateGlobalBounds() {
+void LineGraph::drawToPick() {
+    glPushMatrix();
+    glTranslatef(50, 50, 0);
+
+    //drawBoundary();    
+    calculateGlobalBounds();
+    drawToPickLines();
+
+    glPopMatrix();
+}
+
+
+void LineGraph::calculateGlobalBounds() {
     globalMinX = (std::numeric_limits<float>::max)();
     globalMaxX = -1 * (std::numeric_limits<float>::max)();
 
@@ -104,7 +120,7 @@ void LineGraph::recalculateGlobalBounds() {
     globalMaxY = round(globalMaxY);
 }
 
-void LineGraph::redrawBoundary() {  
+void LineGraph::drawBoundary() {  
     glPolygonMode(GL_FRONT, GL_LINE);   
     glColor4f(0, 0, 0, 1);
 
@@ -116,10 +132,18 @@ void LineGraph::redrawBoundary() {
     glEnd();
 }
 
-void LineGraph::redrawLines() {
+void LineGraph::drawLines() {
     FOREACH_LINEGROUP(it, lines) {
         if ((*it)->getDisplay()) {
-            (*it)->redraw(width, height, globalMaxX, globalMaxY);
+            (*it)->draw(width, height, globalMaxX, globalMaxY);
+        }
+    }
+}
+
+void LineGraph::drawToPickLines() {
+    FOREACH_LINEGROUP(it, lines) {
+        if ((*it)->getDisplay()) {
+            (*it)->drawToPick(width, height, globalMaxX, globalMaxY);
         }
     }
 }
@@ -155,4 +179,18 @@ float LineGraph::roundUp(float num) {
     float min = min(g(num, 1), g(num, 2));
     
     return min(min, g(num, 5));
+}
+
+GraphMarkerList *LineGraph::getMarkers() {
+    GraphMarkerList *newList = new GraphMarkerList();
+
+    FOREACH_LINEGROUP(it, lines) {
+        if ((*it)->getDisplay()) {
+            FOREACH_MARKERP(it2, (*it)->getMarkers()) {
+                newList->push_back((*it2));
+            }
+        }
+    }
+
+    return newList;
 }

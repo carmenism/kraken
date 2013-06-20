@@ -8,7 +8,7 @@
  *
  * History
  *  09/07/2012: Modified to inherit from NShape instead of Shape.
- *  09/06/2012: Created class; modified to redraw with border.
+ *  09/06/2012: Created class; modified to draw with border.
  */
 #ifndef CIRCLE_H_
 #define CIRCLE_H_

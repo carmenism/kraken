@@ -1,10 +1,9 @@
 #ifndef LINEGRAPH_H_
 #define LINEGRAPH_H_
 
-class LineGroup;
-
 #include <vector>
 #include <QList>
+#include "LineGroup.h"
 
 typedef std::vector<LineGroup *> LineGroupList;
 typedef std::vector<LineGroup *>::const_iterator LineGroupIterator;
@@ -19,7 +18,9 @@ public:
     LineGraph();
     ~LineGraph();
 
-    void redraw();
+    void draw();
+    void drawToPick();
+    void drawToPickLines();
 
     float getWidth() { return width; }
     void setWidth(float w) { width = w; }
@@ -30,6 +31,8 @@ public:
     void addLine(LineGroup *line);
     void clearLines() { lines.clear(); }
     LineGroupList getLines() { return lines; }
+
+    GraphMarkerList *getMarkers();
 private:
     float width, height;
     LineGroupList lines;
@@ -37,9 +40,9 @@ private:
     float globalMinX, globalMaxX;
     float globalMinY, globalMaxY;
 
-    void recalculateGlobalBounds();
-    void redrawBoundary();
-    void redrawLines();
+    void calculateGlobalBounds();
+    void drawBoundary();
+    void drawLines();
 
     float round(float num);
     float f(float num, float c);

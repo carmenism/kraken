@@ -39,16 +39,27 @@ LineGroup::~LineGroup() {
     
 }
 
-void LineGroup::redraw(float graphWidth, float graphHeight,
-                       float maxValueX,  float maxValueY) {
+void LineGroup::draw(float graphWidth, float graphHeight,
+                     float maxValueX,  float maxValueY) {
     if (display) {
         recalculateMarkerLocations(graphWidth, graphHeight, maxValueX, maxValueY);
 
         if (displayAsArea) {
-            redrawAsArea();
+            drawAsArea();
         } else {
-            redrawAsLines();
+            drawAsLines();
         }
+    }
+}
+
+void LineGroup::drawToPick(float graphWidth, float graphHeight,
+                           float maxValueX,  float maxValueY) {
+    if (display) {
+        recalculateMarkerLocations(graphWidth, graphHeight, maxValueX, maxValueY);
+
+        FOREACH_MARKER(it, markers) {
+            (*it)->drawToPick();
+        } 
     }
 }
 
@@ -59,7 +70,7 @@ void LineGroup::recalculateMarkerLocations(float graphWidth,
     } 
 }
 
-void LineGroup::redrawAsLines() {
+void LineGroup::drawAsLines() {
     GraphMarker *last = NULL;
    
     glPolygonMode(GL_FRONT, GL_LINE);
@@ -79,12 +90,12 @@ void LineGroup::redrawAsLines() {
 
     if (displayMarkers) {
         FOREACH_MARKER(it, markers) {
-            (*it)->redraw();
+            (*it)->draw();
         }            
     }
 }
 
-void LineGroup::redrawAsArea() {
+void LineGroup::drawAsArea() {
     GraphMarker *last = NULL;
 
     glPolygonMode( GL_FRONT, GL_FILL );
@@ -157,3 +168,4 @@ void LineGroup::setColor(Color *c) {
     setMarkerBorderColor(c);
     setMarkerFillColor(c);
 }
+

@@ -38,8 +38,12 @@ void GraphMarker::calculateLocation(float graphWidth, float graphHeight,
     marker->setLocation(posX, posY);
 }
 
-void GraphMarker::redraw() {
-    marker->redraw();
+void GraphMarker::draw() {
+    marker->draw();
+}
+
+void GraphMarker::drawToPick() {
+    marker->drawToPick();
 }
 
 void GraphMarker::setShape(int shape) {
@@ -93,4 +97,8 @@ float GraphMarker::getPositionX() {
 
 float GraphMarker::getPositionY() {
     return marker->getY();
+}
+
+void GraphMarker::setPickColor(int r, int g, int b) {
+    marker->setPickColor(r, g, b);
 }

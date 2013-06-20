@@ -23,6 +23,8 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
 
+    void selectItem(int x, int y);
+
     Square *square;
     Circle *circle;
     Triangle *triangle;

@@ -14,7 +14,8 @@ public:
     GraphMarker(float vX, float vY, int shape = SHAPE_CIRCLE);
     virtual ~GraphMarker();
 
-    void redraw();
+    void draw();
+    void drawToPick();
 
     void calculateLocation(float graphWidth, float graphHeight,
                            float maxValueX,  float maxValueY);
@@ -24,6 +25,8 @@ public:
     void setBorderColor(Color *color);
     void setFillColor(Color *color);
     void setBorderWidth(float width);
+
+    void setPickColor(int r, int g, int b); 
 
     float getValueX() { return valueX; }
     float getValueY() { return valueY; }

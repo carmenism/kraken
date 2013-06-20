@@ -28,6 +28,8 @@ Shape::Shape() {
    setDrawFill(true);
    setDrawBorder(true);
    setId(-1);
+
+   //setDrawToPick(false);
 }
 
 //------------------ Destructor ------------------------------------
@@ -36,7 +38,7 @@ Shape::~Shape() {
 
 //------------------ public methods -------------------------------
 
-void Shape::redraw() {
+void Shape::draw() {
     glPushMatrix();
         glTranslatef(xLoc, yLoc, 0);
         glRotatef(rotation, 0, 0, 1);
@@ -44,9 +46,9 @@ void Shape::redraw() {
 
         // Draw the filled polygon from the vertices.
         if (drawFill) {
-            glPolygonMode( GL_FRONT, GL_FILL );
+            glPolygonMode( GL_FRONT, GL_FILL );            
             glColor4f( fillColor->r, fillColor->g, fillColor->b, fillColor->a );
-            
+
             glBegin( GL_POLYGON );
                 drawAtOrigin();
             glEnd();
@@ -55,10 +57,39 @@ void Shape::redraw() {
         // Draw the border if one is desired.
         if (drawBorder && borderWidth != 0) {
             glPolygonMode(GL_FRONT, GL_LINE);
-            glColor4f(borderColor->r, borderColor->g, borderColor->b, borderColor->a);
+            glColor4f( borderColor->r, borderColor->g, borderColor->b, borderColor->a );
             glLineWidth(borderWidth);
             
             glBegin(GL_LINE_LOOP);//glBegin(GL_POLYGON);
+                drawAtOrigin();
+            glEnd();
+        }
+    glPopMatrix();
+}
+
+void Shape::drawToPick() {
+    glPushMatrix();
+        glTranslatef(xLoc, yLoc, 0);
+        glRotatef(rotation, 0, 0, 1);
+        glScalef(width, height, 1.0);
+
+        // Draw the filled polygon from the vertices.
+        if (drawFill) {
+            glPolygonMode( GL_FRONT, GL_FILL );            
+            glColor3ub(pickR, pickG, pickB);
+
+            glBegin( GL_POLYGON );
+                drawAtOrigin();
+            glEnd();
+        }
+
+        // Draw the border if one is desired.
+        if (drawBorder && borderWidth != 0) {
+            glPolygonMode(GL_FRONT, GL_LINE);          
+            glColor3ub(pickR, pickG, pickB);
+            glLineWidth(borderWidth);
+            
+            glBegin(GL_LINE_LOOP);
                 drawAtOrigin();
             glEnd();
         }

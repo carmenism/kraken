@@ -2,9 +2,11 @@
 #define LINEGROUP_H_
 
 #include <vector>
+//#include "Shape.h"
 
 class GraphMarker;
 class Color;
+class Shape;
 
 typedef std::vector<GraphMarker *> GraphMarkerList;
 typedef std::vector<GraphMarker *>::const_iterator GraphMarkerIterator;
@@ -20,8 +22,11 @@ public:
     LineGroup(std::string label, std::vector<float> x, std::vector<float> y);
     virtual ~LineGroup();
     
-    void redraw(float graphWidth, float graphHeight,
-                float maxValueX,  float maxValueY);
+    void draw(float graphWidth, float graphHeight,
+              float maxValueX,  float maxValueY);
+
+    void drawToPick(float graphWidth, float graphHeight,
+                    float maxValueX,  float maxValueY);
 
     float getMaximumValueX();
     float getMaximumValueY();  
@@ -53,6 +58,8 @@ public:
     void setLineColor(Color *c) { lineColor = c; }
 
     void setColor(Color *c);
+
+    GraphMarkerList *getMarkers() { return &markers; }// { return markers; }
 private:
     std::string label;
     GraphMarkerList markers;
@@ -63,8 +70,8 @@ private:
 
     void recalculateMarkerLocations(float graphWidth, float graphHeight,
                                     float maxValueX,  float maxValueY);
-    void redrawAsLines();
-    void redrawAsArea();
+    void drawAsLines();
+    void drawAsArea();
 };
 
 #endif /*LINEGROUP_H_*/
