@@ -1,5 +1,7 @@
 #include "ms_prod_mainwindow.h"
 #include "ui_ms_prod_mainwindow.h"
+#include "MyQGLWidget.h"
+#include "LineGraph.h"
 #include <QFileDialog>
 #include <QFile>
 #include <QTextStream>
@@ -619,6 +621,9 @@ void MS_PROD_MainWindow::runModel() {
     Model model(ptr_paramObj, ptr_modelParamObj);
     model.runModel();
     QMessageBox::information(this, tr("Kraken 1.1"), tr("Run Completed"));
+
+    LineGraph *g = LineGraph::createGraph(ptr_paramObj->getBiomassMatrix());
+    glWidget->setGraph(g);
 
 }
 

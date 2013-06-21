@@ -1,7 +1,5 @@
 #include "Parameters.h"
 #include "ModelComponent.h"
-#include "LineGraph.h"
-#include "MyQGLWidget.h"
 
 Parameters::Parameters() {
     m_BiomassUnits = "mt";
@@ -540,9 +538,6 @@ void Parameters::outputResults(const QList<ModelComponent *> modelComponentList)
     foreach (component, modelComponentList) {
         component->outputResults(outputStream, speciesList);
     }
-
-    LineGraph *g = LineGraph::createGraph(outputBiomassMatrix);
-    MyQGLWidget::setGraph(g);
 }
 
 

@@ -7,14 +7,12 @@
 #include "LineGraph.h"
 #include "GraphMarker.h"
 
-LineGraph *MyQGLWidget::graph = NULL;
-
 MyQGLWidget::MyQGLWidget(QWidget *parent) : QGLWidget(parent) {
     hovered = NULL;
 
     setMouseTracking(true);
 
-    //graph = new LineGraph();
+    graph = NULL;
 }
 
 void MyQGLWidget::initializeGL() {

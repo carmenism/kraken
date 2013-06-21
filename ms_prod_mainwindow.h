@@ -18,6 +18,8 @@
 #include "Model.h"
 #include "GA_Estimator.h"
 
+class MyQGLWidget;
+
 namespace Ui {
     class MS_PROD_MainWindow;
 }
@@ -30,8 +32,11 @@ public:
     explicit MS_PROD_MainWindow(QWidget *parent = 0);
     ~MS_PROD_MainWindow();
 
+    void setGLWidget(MyQGLWidget *w) { glWidget = w; }
 private:
     Ui::MS_PROD_MainWindow *ui;
+
+    MyQGLWidget *glWidget;
 
     Parameters paramObj;
     TimeSeriesObservations tsObj;
