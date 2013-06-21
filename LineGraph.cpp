@@ -101,9 +101,9 @@ void LineGraph::draw() {
         glTranslatef(50, 50, 0);
         drawBoundary();    
         calculateGlobalBounds();
+        drawAxes();
         drawLines();  
         drawLabels();
-        drawAxes();
     glPopMatrix();
 }
 

@@ -78,9 +78,10 @@ Color Color::white(1.0, 1.0, 1.0);
 
 Color arr[] = {Color::red, Color::blue, Color::green, 
                   Color::orange, Color::yellow, Color::purple,
-                  Color::goldenrod, Color::pink, Color::skyblue,
-                  Color::magenta, Color::avocado, Color::navy,
-                  Color::brown, Color::lavender, Color::tan};
+                  Color::tan, Color::pink, Color::skyblue,
+                  Color::lavender, Color::avocado, Color::navy,
+                  Color::brown, Color::gray, Color::magenta, 
+                  Color::goldenrod};
 
 Color *Color::colors = arr;
 
