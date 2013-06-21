@@ -2,60 +2,78 @@
 #include <QtOpenGL>
 #include <iostream>
 
-GraphAxis::GraphAxis() {
-    minorTickSpacing = 1.0;
-    majorTickSpacing = 5.0;
+GraphAxis::GraphAxis(int type) {
+    axisType = type;    
 
     minorTickLength = 5.0;
     majorTickLength = 10.0;
 
     displayMinorTicks = true;
     displayMajorTicks = true;
-}
 
-GraphAxis::GraphAxis(float minV, float maxV) {
-    minValue = minV;
-    maxValue = maxV;
-
-    minorTickSpacing = 1.0;
-    majorTickSpacing = 5.0;
-
-    minorTickLength = 10.0;
-    majorTickLength = 20.0;
-
-    displayMinorTicks = true;
-    displayMajorTicks = true;
+    switch (axisType) {
+        case AXIS_LEFT:      
+        case AXIS_RIGHT:
+            minorTickSpacing = 10000.0;
+            majorTickSpacing =  5000.0;
+            break;
+        case AXIS_TOP:
+        case AXIS_BOTTOM:
+        default:            
+            minorTickSpacing = 1.0;
+            majorTickSpacing = 5.0;
+            break;
+    }
 }
 
 GraphAxis::~GraphAxis() {
 
 }
 
-void GraphAxis::draw(float graphLength) {
-    if (displayMinorTicks) {
-        drawTicks(graphLength, minorTickSpacing, minorTickLength);
-    }
+void GraphAxis::draw(float graphWidth, float graphHeight) {
+    glPushMatrix();
+        float axisLength;
 
-    if (displayMajorTicks) {
-        drawTicks(graphLength, majorTickSpacing, majorTickLength);
-    }
+        switch (axisType) {
+            case AXIS_TOP:
+                axisLength = graphWidth;
+                glTranslatef(0, graphHeight, 0);
+                glScalef(1.0, -1.0, 1.0);
+                break;
+            case AXIS_LEFT:            
+                axisLength = graphHeight;
+                glRotatef(90, 0, 0, 1);
+                glScalef(1.0, -1.0, 1.0);
+                break;
+            case AXIS_RIGHT:
+                axisLength = graphHeight;
+                glTranslatef(graphWidth, 0, 0);
+                glRotatef(90, 0, 0, 1);
+                break;
+            case AXIS_BOTTOM:
+            default:
+                axisLength = graphWidth;
+                break;
+        }
 
-    std::cout << "DRAWING AXIS" << std::endl;
-    std::cout << "min v " << minValue << std::endl;
-    std::cout << "max v " << maxValue << std::endl;
+        if (displayMinorTicks) {
+            drawTicks(axisLength, minorTickSpacing, minorTickLength);
+        }
+
+        if (displayMajorTicks) {
+            drawTicks(axisLength, majorTickSpacing, majorTickLength);
+        }
+    glPopMatrix();
 }
 
-void GraphAxis::drawTicks(float graphLength, float tickSpacing, float tickLength) {
+void GraphAxis::drawTicks(float axisLength, float tickSpacing, float tickLength) {
     float value = minValue;
     
     glLineWidth(1.0);
     glColor4f(0.0, 0.0, 0.0, 1.0);
 
     while (value < maxValue) {
-
-        float pos = valueToPosition(graphLength, value);
-
-        std::cout << "value: " << value << ", pos: " << pos << std::endl;
+        float pos = valueToPosition(axisLength, value);
 
         glBegin(GL_LINES);
             glVertex3f(pos, 0.0, 0.0);
@@ -64,13 +82,11 @@ void GraphAxis::drawTicks(float graphLength, float tickSpacing, float tickLength
 
         value = value + tickSpacing;
     }
-
-
 }
 
-float GraphAxis::valueToPosition(float length, float value) {
+float GraphAxis::valueToPosition(float axisLength, float value) {
     float range = maxValue - minValue;
     float distFromMin = value - minValue;
 
-    return distFromMin * length / range;
+    return distFromMin * axisLength / range;
 }

@@ -15,17 +15,16 @@
 #ifndef GRAPHAXIS_H_
 #define GRAPHAXIS_H_
 
+enum {AXIS_BOTTOM, AXIS_TOP, AXIS_LEFT, AXIS_RIGHT};
+
 class GraphAxis
 {
 public:
-    GraphAxis();
+    GraphAxis(int type = AXIS_BOTTOM);
     GraphAxis(float minV, float maxV);
     ~GraphAxis();
 
-    void draw(float graphLength);
-
-   // float getLength() { return length; }
-   // void setLength(float len) { length = len; }
+    void draw(float graphWidth, float graphHeight);
 
     float getMinorTickSpacing() { return minorTickSpacing; }
     void setMinorTickSpacing(float m) { minorTickSpacing = m; }
@@ -57,13 +56,15 @@ public:
 
 private:
     //float length;
+    int axisType;
+
     float minValue, maxValue;
     float minorTickSpacing, majorTickSpacing;
     float minorTickLength, majorTickLength;
     bool displayMinorTicks, displayMajorTicks;
 
-    float valueToPosition(float length, float value);
-    void drawTicks(float graphLength, float tickSpacing, float tickLength);
+    float valueToPosition(float axisLength, float value);
+    void drawTicks(float axisLength, float tickSpacing, float tickLength);
 };
 
 #endif /* GRAPHAXIS_H_ */

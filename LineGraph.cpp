@@ -57,7 +57,8 @@ LineGraph::LineGraph() {
     Color *c2 = Color::getUnassignedColor();
     lg2->setColor(c2);
 
-    axisX = new GraphAxis();
+    axisX = new GraphAxis(AXIS_BOTTOM);
+    axisY = new GraphAxis(AXIS_LEFT);
 }
 
 LineGraph::~LineGraph() {
@@ -74,7 +75,13 @@ void LineGraph::draw() {
 
     axisX->setMinimumValue(globalMinX);
     axisX->setMaximumValue(globalMaxX);
-    axisX->draw(width);
+    axisX->draw(width, height);
+
+    axisY->setMinimumValue(globalMinY);
+    axisY->setMaximumValue(globalMaxY);
+    axisY->setMinorTickSpacing(10);
+    axisY->setMajorTickSpacing(50);
+    axisY->draw(width, height);
 
     glPopMatrix();
 }
