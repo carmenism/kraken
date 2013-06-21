@@ -14,6 +14,18 @@ public:
         bool needRaw = true, GLboolean shadow = GL_TRUE, 
         void *font = DEFAULT_FONT, float alpha = 1.0);
     
+    static bool printCenteredAt(float rx, float ry, std::string text,
+        bool needRaw = true, GLboolean shadow = GL_TRUE, 
+        void *font = DEFAULT_FONT, float alpha = 1.0);
+    
+    static bool printVerticallyCenteredAt(float rx, float ry, std::string text,
+        bool needRaw = true, GLboolean shadow = GL_TRUE, 
+        void *font = DEFAULT_FONT, float alpha = 1.0);
+    
+    static bool printAlignedRightCenteredAt(float rx, float ry, std::string text,
+        bool needRaw = true, GLboolean shadow = GL_TRUE, 
+        void *font = DEFAULT_FONT, float alpha = 1.0);
+    
 protected:
     static int inRawGL;
     static bool compiling;

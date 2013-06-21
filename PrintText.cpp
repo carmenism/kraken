@@ -132,6 +132,25 @@ bool PrintText::printAt(float rx, float ry, std::string text, bool needRaw, GLbo
     return true;
 }
 
+bool PrintText::printCenteredAt(float rx, float ry, std::string text, bool needRaw, GLboolean shadow, void *font, float alpha) {
+    float nx = rx - printingWidth(text, font) / 2;
+
+    return printAt(nx, ry, text, needRaw, shadow, font, alpha);
+}
+
+bool PrintText::printVerticallyCenteredAt(float rx, float ry, std::string text, bool needRaw, GLboolean shadow, void *font, float alpha) {
+    float ny = ry - (printingHeight(font) / 4);
+
+    return printAt(rx, ny, text, needRaw, shadow, font, alpha);
+}
+
+bool PrintText::printAlignedRightCenteredAt(float rx, float ry, std::string text, bool needRaw, GLboolean shadow, void *font, float alpha) {
+    float nx = rx - printingWidth(text, font);
+    float ny = ry - (printingHeight(font) / 4);
+
+    return printAt(nx, ny, text, needRaw, shadow, font, alpha);
+}
+
 /*
 bool PrintText::printCenteredAt(float rx, float ry, std::string text, bool needRaw,
                                 GLboolean shadow, void *font, float alpha) {

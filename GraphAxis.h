@@ -58,6 +58,8 @@ private:
     //float length;
     int axisType;
 
+    bool displayLabels;
+
     float minValue, maxValue;
     float minorTickSpacing, majorTickSpacing;
     float minorTickLength, majorTickLength;
@@ -65,6 +67,11 @@ private:
 
     float valueToPosition(float axisLength, float value);
     void drawTicks(float axisLength, float tickSpacing, float tickLength);
+    
+    void drawLabels(float graphWidth, float graphHeight);
+    void drawLeftLabels(float graphHeight, float horizOffset);
+    void drawRightLabels(float graphWidth, float graphHeight, float horizOffset);
+    void drawHorizontalLabels(float graphWidth, float vertOffset);
 };
 
 #endif /* GRAPHAXIS_H_ */

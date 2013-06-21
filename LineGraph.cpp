@@ -109,7 +109,7 @@ void LineGraph::draw() {
     axisX->setMaximumValue(globalMaxX);
     axisX->draw(width, height);
 
-    axisY->setMinimumValue(globalMinY);
+    axisY->setMinimumValue(0);
     axisY->setMaximumValue(globalMaxY);
     axisY->draw(width, height);
 

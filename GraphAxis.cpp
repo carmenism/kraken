@@ -1,4 +1,5 @@
 #include "GraphAxis.h"
+#include "PrintText.h"
 #include <QtOpenGL>
 #include <iostream>
 
@@ -62,8 +63,67 @@ void GraphAxis::draw(float graphWidth, float graphHeight) {
 
         if (displayMajorTicks) {
             drawTicks(axisLength, majorTickSpacing, majorTickLength);
-        }
+        }        
     glPopMatrix();
+
+    if (displayLabels) {
+       drawLabels(graphWidth, graphHeight);
+    }
+}
+
+
+void GraphAxis::drawLabels(float graphWidth, float graphHeight) {
+    switch (axisType) {
+        case AXIS_TOP:
+            drawHorizontalLabels(graphWidth, graphHeight + 5);
+            break;
+        case AXIS_LEFT:            
+            drawLeftLabels(graphHeight, -5);
+            break;
+        case AXIS_RIGHT:
+            drawRightLabels(graphWidth, graphHeight, 5);
+            break;
+        case AXIS_BOTTOM:
+        default:
+            drawHorizontalLabels(graphWidth, -10);
+            break;
+    } 
+}    
+
+void GraphAxis::drawRightLabels(float graphWidth, float graphHeight, float horizOffset) {
+    float value = minValue;
+
+    while (value <= maxValue) {
+        float pos = valueToPosition(graphHeight, value);
+
+        PrintText::printVerticallyCenteredAt(graphWidth + horizOffset, pos, toStr(value), false, false, GLUT_BITMAP_HELVETICA_10);
+
+        value = value + majorTickSpacing;
+    }
+}
+
+void GraphAxis::drawLeftLabels(float graphHeight, float horizOffset) {
+    float value = minValue;
+
+    while (value <= maxValue) {
+        float pos = valueToPosition(graphHeight, value);
+
+        PrintText::printAlignedRightCenteredAt(horizOffset, pos, toStr(value), false, false, GLUT_BITMAP_HELVETICA_10);
+
+        value = value + majorTickSpacing;
+    }
+}
+
+void GraphAxis::drawHorizontalLabels(float graphWidth, float vertOffset) {
+    float value = minValue;
+
+    while (value <= maxValue) {
+        float pos = valueToPosition(graphWidth, value);
+
+        PrintText::printCenteredAt(pos, vertOffset, toStr(value), false, false, GLUT_BITMAP_HELVETICA_10);
+
+        value = value + majorTickSpacing;
+    }
 }
 
 void GraphAxis::drawTicks(float axisLength, float tickSpacing, float tickLength) {
@@ -72,7 +132,7 @@ void GraphAxis::drawTicks(float axisLength, float tickSpacing, float tickLength)
     glLineWidth(1.0);
     glColor4f(0.0, 0.0, 0.0, 1.0);
 
-    while (value < maxValue) {
+    while (value <= maxValue) {
         float pos = valueToPosition(axisLength, value);
 
         glBegin(GL_LINES);
