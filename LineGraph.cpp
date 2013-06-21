@@ -98,22 +98,38 @@ LineGraph::~LineGraph() {
 
 void LineGraph::draw() {
     glPushMatrix();
-    glTranslatef(50, 50, 0);
+        glTranslatef(50, 50, 0);
+        drawBoundary();    
+        calculateGlobalBounds();
+        drawLines();  
+        drawLabels();
+        drawAxes();
+    glPopMatrix();
+}
 
-    drawBoundary();    
-    calculateGlobalBounds();
-    drawLines();  
-    drawLabels();
+void LineGraph::drawAxes() {
+    float xInterval = calculateIntervalSize(globalMinX, globalMaxX);
+    float yInterval = calculateIntervalSize(globalMinY, globalMaxY);
 
     axisX->setMinimumValue(globalMinX);
     axisX->setMaximumValue(globalMaxX);
-    axisX->draw(width, height);
+    axisX->setMajorTickSpacing(xInterval);
+    axisX->setMinorTickSpacing(xInterval / 5);
 
     axisY->setMinimumValue(0);
     axisY->setMaximumValue(globalMaxY);
-    axisY->draw(width, height);
+    axisY->setMajorTickSpacing(yInterval);
+    axisY->setMinorTickSpacing(yInterval / 5);
 
-    glPopMatrix();
+    axisX->draw(width, height);
+    axisY->draw(width, height);
+}
+
+float LineGraph::calculateIntervalSize(float min, float max) {
+    float range = max - min;
+    float tempInterval = range / 8.0;
+
+    return roundUp(tempInterval);
 }
 
 void LineGraph::drawToPick() {
@@ -158,11 +174,10 @@ void LineGraph::calculateGlobalBounds() {
             if (globalMaxY < maxY) {
                 globalMaxY = maxY;
             }
-
         }
     }
 
-    globalMaxY = 1.075 * globalMaxY;//round(globalMaxY);
+    globalMaxY = globalMaxY + 0.05 * (globalMaxY - globalMinY);
 }
 
 void LineGraph::drawBoundary() {  

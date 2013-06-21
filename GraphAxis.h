@@ -15,6 +15,8 @@
 #ifndef GRAPHAXIS_H_
 #define GRAPHAXIS_H_
 
+#include <string>
+
 enum {AXIS_BOTTOM, AXIS_TOP, AXIS_LEFT, AXIS_RIGHT};
 
 class GraphAxis
@@ -59,6 +61,8 @@ private:
     int axisType;
 
     bool displayLabels;
+
+    std::string getLabel(float value);
 
     float minValue, maxValue;
     float minorTickSpacing, majorTickSpacing;

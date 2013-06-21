@@ -62,12 +62,15 @@ private:
     void drawBoundary();
     void drawLines();
     void drawLabels();
+    void drawAxes();
 
     float round(float num);
     float f(float num, float c);
     float roundDown(float num);
     float g(float num, float c);
     float roundUp(float num);
+
+    float calculateIntervalSize(float min, float max);
 };
 
 #endif /*LINEGRAPH_H_*/

@@ -96,7 +96,7 @@ void GraphAxis::drawRightLabels(float graphWidth, float graphHeight, float horiz
     while (value <= maxValue) {
         float pos = valueToPosition(graphHeight, value);
 
-        PrintText::printVerticallyCenteredAt(graphWidth + horizOffset, pos, toStr(value), false, false, GLUT_BITMAP_HELVETICA_10);
+        PrintText::printVerticallyCenteredAt(graphWidth + horizOffset, pos, getLabel(value), false, false, GLUT_BITMAP_HELVETICA_10);
 
         value = value + majorTickSpacing;
     }
@@ -108,7 +108,7 @@ void GraphAxis::drawLeftLabels(float graphHeight, float horizOffset) {
     while (value <= maxValue) {
         float pos = valueToPosition(graphHeight, value);
 
-        PrintText::printAlignedRightCenteredAt(horizOffset, pos, toStr(value), false, false, GLUT_BITMAP_HELVETICA_10);
+        PrintText::printAlignedRightCenteredAt(horizOffset, pos, getLabel(value), false, false, GLUT_BITMAP_HELVETICA_10);
 
         value = value + majorTickSpacing;
     }
@@ -120,7 +120,7 @@ void GraphAxis::drawHorizontalLabels(float graphWidth, float vertOffset) {
     while (value <= maxValue) {
         float pos = valueToPosition(graphWidth, value);
 
-        PrintText::printCenteredAt(pos, vertOffset, toStr(value), false, false, GLUT_BITMAP_HELVETICA_10);
+        PrintText::printCenteredAt(pos, vertOffset, getLabel(value), false, false, GLUT_BITMAP_HELVETICA_10);
 
         value = value + majorTickSpacing;
     }
@@ -150,3 +150,22 @@ float GraphAxis::valueToPosition(float axisLength, float value) {
 
     return distFromMin * axisLength / range;
 }
+
+
+std::string GraphAxis::getLabel(float value) {
+    int intValue = (int) value;
+
+    if (intValue != 0 && intValue == value) {
+        if (intValue % 1000000 == 0) {
+            float newValue = value / 1000000;
+
+            return toStr(newValue) + "M";
+        } else if (intValue % 1000 == 0) {
+            float newValue = value / 1000;
+
+            return toStr(newValue) + "k";
+        }
+    }
+
+    return toStr(value);
+}   
