@@ -43,7 +43,9 @@ void GraphMarker::calculateLocation(float graphWidth, float graphHeight,
 
 void GraphMarker::draw() {
     marker->draw();
+}
 
+void GraphMarker::drawLabel() {
     if (displayLabel) {
         float posX = marker->getX() + 3 *(marker->getWidth() / 4);
         float posY = marker->getY() + (marker->getHeight() / 2);

@@ -24,6 +24,7 @@ public:
     
     void draw(float graphWidth, float graphHeight,
               float maxValueX,  float maxValueY);
+    void drawLabels();
 
     void drawToPick(float graphWidth, float graphHeight,
                     float maxValueX,  float maxValueY);
@@ -57,6 +58,9 @@ public:
     
     void setLineColor(Color *c) { lineColor = c; }
 
+    float getLineWidth() { return lineWidth; }
+    void setLineWidth(float w) { lineWidth = w; }
+
     void setColor(Color *c);
 
     GraphMarkerList *getMarkers() { return &markers; }// { return markers; }
@@ -64,7 +68,7 @@ private:
     std::string label;
     GraphMarkerList markers;
     GraphMarker *min, *max;
-    //float maxX, maxY;
+    float lineWidth;
     Color *lineColor;
     bool display, displayMarkers, displayAsArea;
 

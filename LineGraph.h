@@ -34,6 +34,17 @@ public:
     void clearLines() { lines.clear(); }
     LineGroupList getLines() { return lines; }
 
+    void setLineWidths(float w);
+
+    void setDisplayMarkers(bool d);
+    void displayMarkersOn();
+    void displayMarkersOff();
+
+    void setMarkersSize(float s);
+
+    void displayAsAreas();
+    void displayAsLines();
+
     GraphMarkerList *getMarkers();
 
     static LineGraph *createGraph(QList<QList<double>> matrix);
@@ -50,6 +61,7 @@ private:
     void calculateGlobalBounds();
     void drawBoundary();
     void drawLines();
+    void drawLabels();
 
     float round(float num);
     float f(float num, float c);

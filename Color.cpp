@@ -13,7 +13,6 @@
  *  09/24/2012: For now this is little more than a struct.
  */
 #include "Color.h"
-#include <iostream>
 
 //------------- simple constructors -----------------------
 Color::Color() {
@@ -46,8 +45,6 @@ Color::Color( const Color& col ) {
 }
 
 Color *Color::getUnassignedColor() {
-    std::cout << "Number colors: " << numberColors;
-
     for (int i = 0; i < numberColors; i++) {
         if (!colors[i].assigned) {
             colors[i].assigned = true;

@@ -31,6 +31,7 @@ LineGroup::LineGroup(std::string label, std::vector<float> x, std::vector<float>
     }
 
     lineColor = &Color::black;
+    lineWidth = 1.0;
 
     displayAsArea = false;
 }
@@ -49,6 +50,12 @@ void LineGroup::draw(float graphWidth, float graphHeight,
         } else {
             drawAsLines();
         }
+    }
+}
+
+void LineGroup::drawLabels() {
+    FOREACH_MARKER(it, markers) {
+        (*it)->drawLabel();
     }
 }
 
@@ -74,6 +81,7 @@ void LineGroup::drawAsLines() {
     GraphMarker *last = NULL;
    
     glPolygonMode(GL_FRONT, GL_LINE);
+    glLineWidth(lineWidth);
     glColor4f(lineColor->r, lineColor->g, lineColor->b, lineColor->a);
     
     glBegin(GL_LINES);

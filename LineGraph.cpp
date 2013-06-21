@@ -28,6 +28,9 @@ LineGraph *LineGraph::createGraph(QList<QList<double>> matrix) {
 
     graph->setHeight(480);
     graph->setWidth(600);
+    graph->setLineWidths(2);
+    graph->setMarkersSize(4);
+    graph->displayMarkersOn();
 
     return graph;
 }
@@ -81,10 +84,12 @@ LineGraph::LineGraph() {
     lg->setColor(c);
 
     Color *c2 = Color::getUnassignedColor();
-    lg2->setColor(c2);*/
+    lg2->setColor(c2);
+
+    displayAsAreas();*/
 
     axisX = new GraphAxis(AXIS_BOTTOM);
-    axisY = new GraphAxis(AXIS_LEFT);
+    axisY = new GraphAxis(AXIS_LEFT);    
 }
 
 LineGraph::~LineGraph() {
@@ -97,7 +102,8 @@ void LineGraph::draw() {
 
     drawBoundary();    
     calculateGlobalBounds();
-    drawLines();    
+    drawLines();  
+    drawLabels();
 
     axisX->setMinimumValue(globalMinX);
     axisX->setMaximumValue(globalMaxX);
@@ -156,7 +162,7 @@ void LineGraph::calculateGlobalBounds() {
         }
     }
 
-    globalMaxY = round(globalMaxY);
+    globalMaxY = 1.075 * globalMaxY;//round(globalMaxY);
 }
 
 void LineGraph::drawBoundary() {  
@@ -178,6 +184,14 @@ void LineGraph::drawLines() {
         }
     }
 }
+
+void LineGraph::drawLabels() {
+    FOREACH_LINEGROUP(it, lines) {
+        if ((*it)->getDisplay()) {
+            (*it)->drawLabels();
+        }
+    }
+}   
 
 void LineGraph::drawToPickLines() {
     FOREACH_LINEGROUP(it, lines) {
@@ -232,4 +246,46 @@ GraphMarkerList *LineGraph::getMarkers() {
     }
 
     return newList;
+}
+
+void LineGraph::setLineWidths(float w) {
+    FOREACH_LINEGROUP(it, lines) {       
+        (*it)->setLineWidth(w);
+    }
+}
+
+void LineGraph::setDisplayMarkers(bool d) {
+    FOREACH_LINEGROUP(it, lines) {       
+        (*it)->setDisplayMarkers(d);
+    }
+}
+
+void LineGraph::displayMarkersOn() {
+    FOREACH_LINEGROUP(it, lines) {       
+        (*it)->displayMarkersOn();
+    }
+}
+
+void LineGraph::displayMarkersOff() {
+    FOREACH_LINEGROUP(it, lines) {       
+        (*it)->displayMarkersOff();
+    }
+}
+
+void LineGraph::setMarkersSize(float s) {
+    FOREACH_LINEGROUP(it, lines) {       
+        (*it)->setMarkerSize(5.0);
+    }
+}
+
+void LineGraph::displayAsAreas() {
+    FOREACH_LINEGROUP(it, lines) {       
+        (*it)->displayAsAreaOn();
+    }
+}
+
+void LineGraph::displayAsLines() {  
+    FOREACH_LINEGROUP(it, lines) {       
+        (*it)->displayAsAreaOff();
+    }
 }

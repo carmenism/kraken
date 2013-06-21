@@ -15,6 +15,7 @@ public:
     virtual ~GraphMarker();
 
     void draw();
+    void drawLabel();
     void drawToPick();
 
     void calculateLocation(float graphWidth, float graphHeight,
