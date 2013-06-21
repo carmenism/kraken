@@ -5,12 +5,38 @@
 #include <QtOpenGL>
 #include "Color.h"
 #include "GraphAxis.h"
+#include <QList>
+
+LineGraph *LineGraph::createGraph(QList<QList<double>> matrix) {
+    LineGraph *graph = new LineGraph();
+
+    for (int i = 0; i < matrix.size(); i++) {
+        std::vector<float> x;
+        std::vector<float> y;
+
+        for (int j = 0; j < matrix.at(i).size(); j++) {
+            x.push_back(j);
+            y.push_back(matrix.at(i).at(j));
+        }
+
+        LineGroup *lg = new LineGroup("Test", x, y);
+        Color *c = Color::getUnassignedColor();
+        lg->setColor(c);
+
+        graph->addLine(lg);
+    }
+
+    graph->setHeight(480);
+    graph->setWidth(600);
+
+    return graph;
+}
 
 LineGraph::LineGraph() {
     width = 400;
     height = 300;
 
-    std::vector<float> x, y, y2;
+    /*std::vector<float> x, y, y2;
 
     x.push_back(0);
     x.push_back(1);
@@ -55,7 +81,7 @@ LineGraph::LineGraph() {
     lg->setColor(c);
 
     Color *c2 = Color::getUnassignedColor();
-    lg2->setColor(c2);
+    lg2->setColor(c2);*/
 
     axisX = new GraphAxis(AXIS_BOTTOM);
     axisY = new GraphAxis(AXIS_LEFT);
@@ -79,8 +105,6 @@ void LineGraph::draw() {
 
     axisY->setMinimumValue(globalMinY);
     axisY->setMaximumValue(globalMaxY);
-    axisY->setMinorTickSpacing(10);
-    axisY->setMajorTickSpacing(50);
     axisY->draw(width, height);
 
     glPopMatrix();

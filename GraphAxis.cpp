@@ -15,7 +15,7 @@ GraphAxis::GraphAxis(int type) {
         case AXIS_LEFT:      
         case AXIS_RIGHT:
             minorTickSpacing = 10000.0;
-            majorTickSpacing =  5000.0;
+            majorTickSpacing = 50000.0;
             break;
         case AXIS_TOP:
         case AXIS_BOTTOM:

@@ -16,6 +16,7 @@ class MyQGLWidget : public QGLWidget {
 public:
     MyQGLWidget(QWidget *parent = NULL);
 
+    static void setGraph(LineGraph *g) { graph = g; }
 protected:
     void initializeGL();
     void resizeGL(int w, int h);
@@ -26,7 +27,7 @@ protected:
 
     void selectItem(int x, int y);
 
-    LineGraph *graph;
+    static LineGraph *graph;
     GraphMarker *hovered;
 };
 

@@ -7,30 +7,14 @@
 #include "LineGraph.h"
 #include "GraphMarker.h"
 
+LineGraph *MyQGLWidget::graph = NULL;
+
 MyQGLWidget::MyQGLWidget(QWidget *parent) : QGLWidget(parent) {
     hovered = NULL;
 
     setMouseTracking(true);
 
-    /*square = new Square();
-    square->setSize(100, 100);
-    square->setLocation(150, 100);
-    square->setBorderColor(0.0, 0.0, 1.0);
-    square->setDrawFill(false);
-
-    circle = new Circle();
-    circle->setSize(100, 100);
-    circle->setLocation(150, 100);
-    circle->setBorderColor(0.0, 1.0, 0.0);
-    circle->setDrawFill(false);
-
-    triangle = new Triangle();
-    triangle->setLocation(150, 100);
-    triangle->setSize(100, 100);
-    triangle->setBorderColor(1.0, 0.0, 0.0);
-    triangle->setDrawFill(false);*/
-
-    graph = new LineGraph();
+    //graph = new LineGraph();
 }
 
 void MyQGLWidget::initializeGL() {
@@ -54,57 +38,52 @@ void MyQGLWidget::resizeGL(int w, int h) {
 
 void MyQGLWidget::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT);
-    /*glColor3f(1,0,0);
-    glBegin(GL_POLYGON);
-    glVertex2f(0,0);
-    glVertex2f(100,500);
-    glVertex2f(500,100);
-    glEnd();*/
 
-    /*square->draw();
-    circle->draw();
-    triangle->draw();*/
-    graph->draw();
+    if (graph != NULL) {
+        graph->draw();
+    }
 }
 
 void MyQGLWidget::selectItem(int x, int y) {
-    float color[4];    
-    unsigned char val[3];
-    int i;
+    if (graph != NULL) {
+        float color[4];    
+        unsigned char val[3];
+        int i;
 
-    glGetFloatv(GL_COLOR_CLEAR_VALUE, color);
-    glClearColor(1.0, 1.0, 1.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glClearColor(color[0], color[1], color[2], color[3]);
+        glGetFloatv(GL_COLOR_CLEAR_VALUE, color);
+        glClearColor(1.0, 1.0, 1.0, 1.0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClearColor(color[0], color[1], color[2], color[3]);
 
-    GraphMarkerList *markers = graph->getMarkers();
-    
-    for (i = 0; i < markers->size(); i++) {
-        (*markers)[i]->setPickColor(i & 0xFF, (i >> 8) & 0xFF, 0);
-    }
-
-    graph->drawToPick();
-
-    glReadBuffer(GL_BACK);
-    glReadPixels(x, y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, val);
-    
-    i = (val[1] << 8) + val[0];
-
-    if (i >=0 && i < markers->size()) {
-        (*markers)[i]->displayLabelOn();
+        GraphMarkerList *markers = graph->getMarkers();
         
-        if (hovered != (*markers)[i]) {
-            if (hovered != NULL) {
-                hovered->displayLabelOff();
-            }
-            
-            hovered = (*markers)[i];
+        for (i = 0; i < markers->size(); i++) {
+            (*markers)[i]->setPickColor(i & 0xFF, (i >> 8) & 0xFF, 0);
         }
-    } else if (hovered != NULL) {
-        hovered->displayLabelOff();
-    }
 
-    updateGL();
+        graph->drawToPick();
+
+        glReadBuffer(GL_BACK);
+        glReadPixels(x, y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, val);
+        
+        i = (val[1] << 8) + val[0];
+
+        if (i >=0 && i < markers->size()) {
+            (*markers)[i]->displayLabelOn();
+            
+            if (hovered != (*markers)[i]) {
+                if (hovered != NULL) {
+                    hovered->displayLabelOff();
+                }
+                
+                hovered = (*markers)[i];
+            }
+        } else if (hovered != NULL) {
+            hovered->displayLabelOff();
+        }
+
+        updateGL();
+    }
 }
 
 void MyQGLWidget::mousePressEvent(QMouseEvent *event) {

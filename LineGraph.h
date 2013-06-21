@@ -35,6 +35,8 @@ public:
     LineGroupList getLines() { return lines; }
 
     GraphMarkerList *getMarkers();
+
+    static LineGraph *createGraph(QList<QList<double>> matrix);
 private:
     GraphAxis *axisX;
     GraphAxis *axisY;
