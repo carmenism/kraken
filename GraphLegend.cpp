@@ -15,8 +15,8 @@ void GraphLegend::draw(float x, float y, float lineLength, float spacing, void *
         int num = lines.size();
         float maxWidth = -1;
 
-        for (int i = 0; i < num; i++) {
-            float width = lines[i]->drawInLegend(0, h * i, lineLength, spacing, font);
+        for (int i = num - 1; i >= 0; i--) {
+            float width = lines[i]->drawInLegend(0, h * (num - i - 1), lineLength, spacing, font);
 
             if (width > maxWidth) {
                 maxWidth = width;
@@ -32,7 +32,7 @@ void GraphLegend::draw(float x, float y, float lineLength, float spacing, void *
 void GraphLegend::drawBoundary(float width, float height) {  
     glPolygonMode(GL_FRONT, GL_LINE);  
     glLineWidth(1.0);
-    glColor4f(0, 0, 0, 1);
+    glColor4f(0.5, 0.5, 0.5, 1);
 
     glBegin(GL_LINE_LOOP);
         glVertex2f( 0, 0 );

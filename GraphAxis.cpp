@@ -73,6 +73,8 @@ void GraphAxis::draw(float graphWidth, float graphHeight) {
 
 
 void GraphAxis::drawLabels(float graphWidth, float graphHeight) {
+    glColor4f(0.0, 0.0, 0.0, 1.0);
+
     switch (axisType) {
         case AXIS_TOP:
             drawHorizontalLabels(graphWidth, graphHeight + 5);
@@ -130,7 +132,7 @@ void GraphAxis::drawTicks(float axisLength, float tickSpacing, float tickLength)
     float value = minValue;
     
     glLineWidth(1.0);
-    glColor4f(0.0, 0.0, 0.0, 1.0);
+    glColor4f(0.5, 0.5, 0.5, 1.0);
 
     while (value <= maxValue) {
         float pos = valueToPosition(axisLength, value);

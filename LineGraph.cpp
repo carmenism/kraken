@@ -144,7 +144,7 @@ void LineGraph::calculateGlobalBounds() {
 void LineGraph::drawBoundary() {  
     glPolygonMode(GL_FRONT, GL_LINE);  
     glLineWidth(1.0);
-    glColor4f(0, 0, 0, 1);
+    glColor4f(0.5, 0.5, 0.5, 1);
 
     glBegin(GL_LINE_LOOP);
         glVertex2f( 0, 0 );
