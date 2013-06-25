@@ -43,58 +43,11 @@ LineGraph::LineGraph() {
     width = 400;
     height = 300;
 
-    /*std::vector<float> x, y, y2;
-
-    x.push_back(0);
-    x.push_back(1);
-    x.push_back(2);
-    x.push_back(3);
-    x.push_back(4);
-    x.push_back(5);
-    x.push_back(6);
-    x.push_back(7);
-    x.push_back(8);
-    x.push_back(9);
-
-    y.push_back(42);
-    y.push_back(30);
-    y.push_back(80);
-    y.push_back(16);
-    y.push_back(37);
-    y.push_back(22);
-    y.push_back(76);
-    y.push_back(66);
-    y.push_back(53);
-    y.push_back(98);
-
-    y2.push_back(60);
-    y2.push_back(34);
-    y2.push_back(34);
-    y2.push_back(54);
-    y2.push_back(87);
-    y2.push_back(123);
-    y2.push_back(88);
-    y2.push_back(44);
-    y2.push_back(3);
-    y2.push_back(16);
-
-    LineGroup *lg = new LineGroup("Test", x, y);
-    LineGroup *lg2 = new LineGroup("Test", x, y2);
-    lg2->setMarkerShape(SHAPE_SQUARE);
-    lines.push_back(lg);
-    lines.push_back(lg2);
-
-    Color *c = Color::getUnassignedColor();
-    lg->setColor(c);
-
-    Color *c2 = Color::getUnassignedColor();
-    lg2->setColor(c2);
-
-    displayAsAreas();*/
-
     axisX = new GraphAxis(AXIS_BOTTOM);
     axisY = new GraphAxis(AXIS_LEFT);   
     legend = new GraphLegend(this);
+
+    displayLegend = true;
 }
 
 LineGraph::~LineGraph() {
@@ -110,7 +63,9 @@ void LineGraph::draw() {
         drawLines();  
         drawLabels();
 
-        legend->draw(width + 5, height / 2, 15, 5, GLUT_BITMAP_HELVETICA_10);
+        if (displayLegend) {
+            legend->draw(width + 5, height / 2, 15, 5, GLUT_BITMAP_HELVETICA_10);
+        }
     glPopMatrix();
 }
 
@@ -142,8 +97,7 @@ float LineGraph::calculateIntervalSize(float min, float max) {
 void LineGraph::drawToPick() {
     glPushMatrix();
     glTranslatef(50, 50, 0);
-
-    //drawBoundary();    
+ 
     calculateGlobalBounds();
     drawToPickLines();
 

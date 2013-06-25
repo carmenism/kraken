@@ -47,6 +47,11 @@ public:
     void displayAsAreas();
     void displayAsLines();
 
+    bool getDisplayLegend() { return displayLegend; }
+    void setDisplayLegend(bool d) { displayLegend = d; }
+    void displayLegendOn() { displayLegend = true; }
+    void displayLegendOff() { displayLegend = false; }
+
     GraphMarkerList *getMarkers();
 
     static LineGraph *createGraph(QList<QList<double>> matrix, QStringList labels);
@@ -57,6 +62,8 @@ private:
 
     float width, height;
     LineGroupList lines;
+
+    bool displayLegend;
     
     float globalMinX, globalMaxX;
     float globalMinY, globalMaxY;

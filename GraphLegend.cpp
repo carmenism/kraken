@@ -10,10 +10,6 @@ void GraphLegend::draw(float x, float y, float lineLength, float spacing, void *
     glPushMatrix();
         glTranslatef(x, y, 0);
 
-        //void *font = GLUT_BITMAP_HELVETICA_10;
-        //float lineLength = 15.0;
-        //float spacing = 5.0;
-
         LineGroupList lines = graph->getLines();
         float h = PrintText::printingHeight(font);
         int num = lines.size();
