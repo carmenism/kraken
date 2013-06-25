@@ -24,8 +24,9 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
-
+private:
     void selectItem(int x, int y);
+    void setHovered(GraphMarker *marker);
 
     LineGraph *graph;
     GraphMarker *hovered;

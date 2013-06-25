@@ -67,20 +67,24 @@ void MyQGLWidget::selectItem(int x, int y) {
         i = (val[1] << 8) + val[0];
 
         if (i >=0 && i < markers->size()) {
-            (*markers)[i]->displayLabelOn();
-            
-            if (hovered != (*markers)[i]) {
-                if (hovered != NULL) {
-                    hovered->displayLabelOff();
-                }
-                
-                hovered = (*markers)[i];
-            }
+            setHovered((*markers)[i]);
         } else if (hovered != NULL) {
             hovered->displayLabelOff();
         }
 
         updateGL();
+    }
+}
+
+void MyQGLWidget::setHovered(GraphMarker *marker) {
+    marker->displayLabelOn();
+    
+    if (hovered != marker) {
+        if (hovered != NULL) {
+            hovered->displayLabelOff();
+        }
+        
+        hovered = marker;
     }
 }
 

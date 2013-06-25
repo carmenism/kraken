@@ -33,6 +33,9 @@ public:
     float getValueY() { return valueY; }
     float getPositionX();
     float getPositionY();
+    
+    void setPositionX(float x);
+    void setPositionY(float y);
 
     void setDisplayLabel( bool d ) { displayLabel = d; }
     bool getDisplayLabel() { return displayLabel; }

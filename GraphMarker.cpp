@@ -115,3 +115,11 @@ float GraphMarker::getPositionY() {
 void GraphMarker::setPickColor(int r, int g, int b) {
     marker->setPickColor(r, g, b);
 }
+
+void GraphMarker::setPositionX(float x) {
+    marker->setLocation(x, marker->getY());
+}
+
+void GraphMarker::setPositionY(float y) {
+    marker->setLocation(marker->getX(), y);
+}

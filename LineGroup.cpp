@@ -1,6 +1,7 @@
 #include "LineGroup.h"
 #include "GraphMarker.h"
 #include "Color.h"
+#include "PrintText.h"
 #include <QtOpenGL>
 
 
@@ -75,6 +76,43 @@ void LineGroup::recalculateMarkerLocations(float graphWidth,
     FOREACH_MARKER(it, markers) {
         (*it)->calculateLocation(graphWidth, graphHeight, maxValueX, maxValueY); 
     } 
+}
+
+float LineGroup::drawInLegend(float x, float y, float lineLength, float spacing, void *font) {
+    float h = PrintText::printingHeight(font);
+
+    glPushMatrix();
+        glTranslatef(x, y, 0);
+        glTranslatef(lineLength / 2.0 + spacing, h / 2, 0);
+
+        glLineWidth(lineWidth);
+        glColor4f(lineColor->r, lineColor->g, lineColor->b, lineColor->a);
+        glBegin(GL_LINES);
+            glVertex2f(-lineLength / 2.0, 0);
+            glVertex2f(lineLength / 2.0, 0);
+        glEnd();
+
+        if (displayMarkers) {
+            float origX = markers[0]->getPositionX();
+            float origY = markers[0]->getPositionY();
+
+            markers[0]->setPositionX(0);
+            markers[0]->setPositionY(0);
+
+            markers[0]->draw();
+
+            markers[0]->setPositionX(origX);
+            markers[0]->setPositionY(origY);
+        }
+
+        int posX = lineLength / 2.0 + spacing;
+        int posY = 0;
+
+        glColor4f(0, 0, 0, 1);
+        PrintText::printVerticallyCenteredAt(posX, posY, label, false, false, font);
+    glPopMatrix();
+
+    return PrintText::printingWidth(label, font) + 3 * spacing + lineLength;
 }
 
 void LineGroup::drawAsLines() {

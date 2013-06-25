@@ -25,7 +25,9 @@ public:
     static bool printAlignedRightCenteredAt(float rx, float ry, std::string text,
         bool needRaw = true, GLboolean shadow = GL_TRUE, 
         void *font = DEFAULT_FONT, float alpha = 1.0);
-    
+
+    static int printingWidth(std::string text, void *font = DEFAULT_FONT);
+    static int printingHeight(void *font = DEFAULT_FONT);
 protected:
     static int inRawGL;
     static bool compiling;
@@ -40,8 +42,7 @@ private:
     static bool beginRaster2D(float rx, float ry, bool needRaw = true);
     static void endRaster2D();
 
-    static int printingWidth(std::string text, void *font = DEFAULT_FONT);
-    static int printingHeight(void *font = DEFAULT_FONT);
+
 };
 
 inline std::string toStr(float x) {

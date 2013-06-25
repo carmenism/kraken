@@ -6,6 +6,8 @@
 #include "LineGroup.h"
 
 class GraphAxis;
+class GraphLegend;
+class QStringList;
 
 typedef std::vector<LineGroup *> LineGroupList;
 typedef std::vector<LineGroup *>::const_iterator LineGroupIterator;
@@ -47,10 +49,11 @@ public:
 
     GraphMarkerList *getMarkers();
 
-    static LineGraph *createGraph(QList<QList<double>> matrix);
+    static LineGraph *createGraph(QList<QList<double>> matrix, QStringList labels);
 private:
     GraphAxis *axisX;
     GraphAxis *axisY;
+    GraphLegend *legend;
 
     float width, height;
     LineGroupList lines;

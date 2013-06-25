@@ -1,25 +1,29 @@
 #include "LineGraph.h"
 #include "GraphMarker.h"
+#include "Color.h"
+#include "GraphAxis.h"
+#include "GraphLegend.h"
+#include <QList>
+#include <QStringList>
+#include <QString>
 #include <limits>
 #include <iostream>
 #include <QtOpenGL>
-#include "Color.h"
-#include "GraphAxis.h"
-#include <QList>
+#include <GL/glut.h>
 
-LineGraph *LineGraph::createGraph(QList<QList<double>> matrix) {
+LineGraph *LineGraph::createGraph(QList<QList<double>> matrix, QStringList labels) {
     LineGraph *graph = new LineGraph();
 
     for (int i = 0; i < matrix.size(); i++) {
         std::vector<float> x;
         std::vector<float> y;
-
+        
         for (int j = 0; j < matrix.at(i).size(); j++) {
             x.push_back(j);
             y.push_back(matrix.at(i).at(j));
         }
 
-        LineGroup *lg = new LineGroup("Test", x, y);
+        LineGroup *lg = new LineGroup(labels.at(i).toStdString(), x, y);
         Color *c = Color::getUnassignedColor();
         lg->setColor(c);
 
@@ -89,7 +93,8 @@ LineGraph::LineGraph() {
     displayAsAreas();*/
 
     axisX = new GraphAxis(AXIS_BOTTOM);
-    axisY = new GraphAxis(AXIS_LEFT);    
+    axisY = new GraphAxis(AXIS_LEFT);   
+    legend = new GraphLegend(this);
 }
 
 LineGraph::~LineGraph() {
@@ -104,6 +109,8 @@ void LineGraph::draw() {
         drawAxes();
         drawLines();  
         drawLabels();
+
+        legend->draw(width + 5, height / 2, 15, 5, GLUT_BITMAP_HELVETICA_10);
     glPopMatrix();
 }
 
@@ -290,7 +297,7 @@ void LineGraph::displayMarkersOff() {
 
 void LineGraph::setMarkersSize(float s) {
     FOREACH_LINEGROUP(it, lines) {       
-        (*it)->setMarkerSize(5.0);
+        (*it)->setMarkerSize(s);
     }
 }
 

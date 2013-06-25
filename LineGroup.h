@@ -26,6 +26,8 @@ public:
               float maxValueX,  float maxValueY);
     void drawLabels();
 
+    float drawInLegend(float x, float y, float lineLength, float spacing, void *font);
+
     void drawToPick(float graphWidth, float graphHeight,
                     float maxValueX,  float maxValueY);
 

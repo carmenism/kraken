@@ -238,6 +238,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GraphLegend.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\GraphMarker.cpp"
 				>
 			</File>
@@ -373,6 +377,10 @@
 			</File>
 			<File
 				RelativePath=".\GraphAxis.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GraphLegend.h"
 				>
 			</File>
 			<File

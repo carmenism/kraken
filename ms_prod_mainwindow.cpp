@@ -622,7 +622,7 @@ void MS_PROD_MainWindow::runModel() {
     model.runModel();
     QMessageBox::information(this, tr("Kraken 1.1"), tr("Run Completed"));
 
-    LineGraph *g = LineGraph::createGraph(ptr_paramObj->getBiomassMatrix());
+    LineGraph *g = LineGraph::createGraph(ptr_paramObj->getBiomassMatrix(), ptr_paramObj->getSpeciesList());
     glWidget->setGraph(g);
 
 }
