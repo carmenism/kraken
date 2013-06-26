@@ -20,7 +20,7 @@ GraphMarkerSeries::GraphMarkerSeries(std::string label, std::vector<float> x, st
     min = NULL;
 
     for (int i = 0; i < x.size(); i++) {
-        GraphMarker *marker = new GraphMarker(x[i], y[i]);
+        GraphMarker *marker = new GraphMarker(label, x[i], y[i]);
         markers.push_back(marker);
 
         if (max == NULL || max->getValueY() < marker->getValueY()) {

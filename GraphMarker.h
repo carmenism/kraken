@@ -11,7 +11,7 @@ class Color;
 class GraphMarker
 {
 public:
-    GraphMarker(float vX, float vY, int shape = SHAPE_CIRCLE);
+    GraphMarker(std::string label, float vX, float vY, int shape = SHAPE_CIRCLE);
     virtual ~GraphMarker();
 
     void draw();

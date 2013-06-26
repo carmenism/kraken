@@ -255,7 +255,6 @@ float LineGraph::round(float number) {
 
 void LineGraph::addMarkerSeries(GraphMarkerSeries *series) {
     seriesList.push_back(series);
-    //line.setColor(Color::getUnassignedColor());
 }
 
 //http://stackoverflow.com/questions/6364908/

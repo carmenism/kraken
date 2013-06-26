@@ -6,10 +6,10 @@
 #include "Color.h"
 #include "PrintText.h"
 
-GraphMarker::GraphMarker(float vX, float vY, int shape) {
+GraphMarker::GraphMarker(std::string label, float vX, float vY, int shape) {
     valueX = vX;
     valueY = vY;
-    label = toStr(vY);
+    this->label = label + ": " + toStr(vY);
 
     switch (shape) {
         case SHAPE_SQUARE:
