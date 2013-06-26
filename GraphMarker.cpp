@@ -46,12 +46,27 @@ void GraphMarker::draw() {
 }
 
 void GraphMarker::drawLabel() {
+    void *font = GLUT_BITMAP_HELVETICA_12;
+
     if (displayLabel) {
-        float posX = marker->getX() + 3 *(marker->getWidth() / 4);
-        float posY = marker->getY() + (marker->getHeight() / 2);
+        float x = marker->getX() + 3 *(marker->getWidth() / 4);
+        float y = marker->getY() + (marker->getHeight() / 2);
+
+        float w = PrintText::printingWidth(label, font);
+        float h = PrintText::printingHeight(font);
+
+        glPolygonMode(GL_FRONT, GL_FILL);  
+        glColor4f(1.0, 1.0, 1.0, 0.75);
+
+        glBegin(GL_POLYGON);
+            glVertex2f( x, y );
+            glVertex2f( x, y + h );
+            glVertex2f( x + w, y + h );
+            glVertex2f( x + w, y );
+        glEnd();
 
         glColor4f(0.0, 0.0, 0.0, 1.0);
-        PrintText::printAt(posX, posY, label, false, false, GLUT_BITMAP_HELVETICA_12);
+        PrintText::printAt(x, y + 0.2 * h, label, false, false, font);
     }
 }
 
