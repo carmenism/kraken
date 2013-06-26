@@ -51,8 +51,12 @@ public:
     static Color *colors;
     static int numberColors;
 
+    static Color *getEvenlyDistributedColor(int numberColors, int offset);
     static Color *getUnassignedColor();
 
+private:
+    static Color *hslToRgb(float h, float s, float l, float a = 1.0);
+    static float hueToRgb(float p, float q, float t);
 };
 
 #endif /* COLOR_H */

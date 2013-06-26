@@ -56,6 +56,63 @@ Color *Color::getUnassignedColor() {
     return NULL;
 }
 
+// http://stackoverflow.com/questions/180/function-for-creating-color-wheels
+Color *Color::getEvenlyDistributedColor(int numberColors, int offset) {
+    float hueInterval = 1.0 / numberColors;
+    float hue = hueInterval * offset;
+
+    float saturation = 1.0;
+    float brightness = 0.5;
+
+    if (offset % 3 == 1) {
+        brightness = 0.4;
+    } else if (offset % 3 == 2) {
+        brightness = 0.6;
+    }
+
+    return hslToRgb(hue, saturation, brightness);
+}
+
+// http://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
+Color *Color::hslToRgb(float h, float s, float l, float a) {
+    if (s == 0) {
+        return new Color(l, l, l, a);
+    }
+
+    float q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    float p = 2.0 * l - q;
+
+    float r = hueToRgb(p, q, h + 1.0 / 3.0);
+    float g = hueToRgb(p, q, h);
+    float b = hueToRgb(p, q, h - 1.0 / 3.0);
+
+    return new Color(r, g, b, a);
+}
+
+float Color::hueToRgb(float p, float q, float t) {
+    if (t < 0) {
+        t = t + 1;
+    }
+
+    if (t > 1) {
+        t = t - 1;
+    }
+
+    if (t < (1.0 / 6.0)) {
+        return p + (q - p) * 6 * t;
+    }
+
+    if (t < (1.0 / 2.0)) {
+        return q;
+    }
+
+    if (t < (2.0 / 3.0)) {
+        return p + (q - p) * (2.0 / 3.0 - t) * 6;
+    }
+
+    return p;
+}
+
 Color Color::red(0.85, 0.0, 0.0);
 Color Color::orange(0.93, 0.60, 0.0);
 Color Color::goldenrod(0.85, 0.65, 0.13);

@@ -24,7 +24,7 @@ LineGraph *LineGraph::createGraph(QList<QList<double>> matrix, QStringList label
         }
 
         LineGroup *lg = new LineGroup(labels.at(i).toStdString(), x, y);
-        Color *c = Color::getUnassignedColor();
+        Color *c = Color::getEvenlyDistributedColor(matrix.size(), i);
         lg->setColor(c);
 
         graph->addLine(lg);
