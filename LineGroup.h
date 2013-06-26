@@ -22,6 +22,8 @@ public:
     LineGroup(std::string label, std::vector<float> x, std::vector<float> y);
     virtual ~LineGroup();
     
+    void setValues(std::vector<float> x, std::vector<float> y);
+
     void draw(float graphWidth, float graphHeight,
               float maxValueX,  float maxValueY);
     void drawLabels();

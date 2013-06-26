@@ -143,9 +143,3 @@ Color arr[] = {Color::red, Color::blue, Color::green,
 Color *Color::colors = arr;
 
 int Color::numberColors = (sizeof(arr)/sizeof(*arr));
-
-//std::vector<Color> Color::colors = {Color::red, Color::blue, Color::green, 
-//                   Color::orange, Color::yellow, Color::purple,
-//                   Color::goldenrod, Color::pink, Color::skyblue,
-//                   Color::magenta, Color::avocado, Color::navy,
-//                   Color::brown, Color::lavender, Color::tan};

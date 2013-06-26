@@ -20,7 +20,11 @@ typedef std::vector<LineGroup *>::const_iterator LineGroupIterator;
 class LineGraph {
 public:
     LineGraph();
+    LineGraph(QList<QList<double>> matrix, QStringList labels);
+
     ~LineGraph();
+
+    void setValues(QList<QList<double>> matrix);
 
     void draw();
     void drawToPick();

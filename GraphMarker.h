@@ -29,14 +29,18 @@ public:
 
     void setPickColor(int r, int g, int b); 
 
+    void setValueX(float x) { valueX = x; }
     float getValueX() { return valueX; }
+    
+    void setValueY(float y) { valueY = y; }
     float getValueY() { return valueY; }
+
+    void setPositionX(float x);  
     float getPositionX();
+
+    void setPositionY(float y);
     float getPositionY();
     
-    void setPositionX(float x);
-    void setPositionY(float y);
-
     void setDisplayLabel( bool d ) { displayLabel = d; }
     bool getDisplayLabel() { return displayLabel; }
     void displayLabelOn() { displayLabel = true; }

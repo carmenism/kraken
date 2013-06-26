@@ -37,6 +37,25 @@ LineGroup::LineGroup(std::string label, std::vector<float> x, std::vector<float>
     displayAsArea = false;
 }
 
+void LineGroup::setValues(std::vector<float> x, std::vector<float> y) {
+    if (x.size() != y.size()) {
+        throw "should be equal number of x and y values";
+    }
+
+    if (x.empty() || y.empty()) {
+        throw "should not be empty values for x or y";
+    }   
+
+    if (markers.size() != y.size()) {
+        throw "to change marker values you must specify one values for each marker";
+    }
+
+    for (int i = 0; i < markers.size(); i++) {
+        markers[i]->setValueX(x[i]);
+        markers[i]->setValueY(y[i]);
+    }
+}
+
 LineGroup::~LineGroup() {
     
 }

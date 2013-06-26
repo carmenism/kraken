@@ -50,8 +50,52 @@ LineGraph::LineGraph() {
     displayLegend = true;
 }
 
+LineGraph::LineGraph(QList<QList<double>> matrix, QStringList labels) {
+    for (int i = 0; i < matrix.size(); i++) {
+        std::vector<float> x;
+        std::vector<float> y;
+        
+        for (int j = 0; j < matrix.at(i).size(); j++) {
+            x.push_back(j);
+            y.push_back(matrix.at(i).at(j));
+        }
+
+        LineGroup *lg = new LineGroup(labels.at(i).toStdString(), x, y);
+        Color *c = Color::getEvenlyDistributedColor(matrix.size(), i);
+        lg->setColor(c);
+
+        addLine(lg);
+    }
+    
+    axisX = new GraphAxis(AXIS_BOTTOM);
+    axisY = new GraphAxis(AXIS_LEFT);   
+    legend = new GraphLegend(this);
+
+    setHeight(480);
+    setWidth(600);
+    setLineWidths(2);
+    setMarkersSize(4);
+    displayMarkersOn();
+    displayLegendOn();
+}
+
 LineGraph::~LineGraph() {
 
+}
+
+
+void LineGraph::setValues(QList<QList<double>> matrix) {
+    for (int i = 0; i < matrix.size(); i++) {
+        std::vector<float> x;
+        std::vector<float> y;
+        
+        for (int j = 0; j < matrix.at(i).size(); j++) {
+            x.push_back(j);
+            y.push_back(matrix.at(i).at(j));
+        }
+
+        lines[i]->setValues(x, y);
+    }
 }
 
 void LineGraph::draw() {
