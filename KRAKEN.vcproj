@@ -274,7 +274,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\LineGroup.cpp"
+				RelativePath=".\GraphMarkerSeries.cpp"
 				>
 			</File>
 			<File
@@ -416,7 +416,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\LineGroup.h"
+				RelativePath=".\GraphMarkerSeries.h"
 				>
 			</File>
 			<File

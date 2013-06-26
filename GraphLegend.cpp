@@ -10,13 +10,13 @@ void GraphLegend::draw(float x, float y, float lineLength, float spacing, void *
     glPushMatrix();
         glTranslatef(x, y, 0);
 
-        LineGroupList lines = graph->getLines();
+        GraphMarkerSeriesList seriesList = graph->getMarkerSeriesList();
         float h = PrintText::printingHeight(font);
-        int num = lines.size();
+        int num = seriesList.size();
         float maxWidth = -1;
 
         for (int i = num - 1; i >= 0; i--) {
-            float width = lines[i]->drawInLegend(0, h * (num - i - 1), lineLength, spacing, font);
+            float width = seriesList[i]->drawInLegend(0, h * (num - i - 1), lineLength, spacing, font);
 
             if (width > maxWidth) {
                 maxWidth = width;

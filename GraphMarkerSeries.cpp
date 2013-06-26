@@ -1,11 +1,11 @@
-#include "LineGroup.h"
+#include "GraphMarkerSeries.h"
 #include "GraphMarker.h"
 #include "Color.h"
 #include "PrintText.h"
 #include <QtOpenGL>
 
 
-LineGroup::LineGroup(std::string label, std::vector<float> x, std::vector<float> y) {
+GraphMarkerSeries::GraphMarkerSeries(std::string label, std::vector<float> x, std::vector<float> y) {
     this->label = label;
     
     if (x.size() != y.size()) {
@@ -37,7 +37,7 @@ LineGroup::LineGroup(std::string label, std::vector<float> x, std::vector<float>
     displayAsArea = false;
 }
 
-void LineGroup::setValues(std::vector<float> x, std::vector<float> y) {
+void GraphMarkerSeries::setValues(std::vector<float> x, std::vector<float> y) {
     if (x.size() != y.size()) {
         throw "should be equal number of x and y values";
     }
@@ -56,12 +56,12 @@ void LineGroup::setValues(std::vector<float> x, std::vector<float> y) {
     }
 }
 
-LineGroup::~LineGroup() {
+GraphMarkerSeries::~GraphMarkerSeries() {
     
 }
 
-void LineGroup::draw(float graphWidth, float graphHeight,
-                     float maxValueX,  float maxValueY) {
+void GraphMarkerSeries::draw(float graphWidth, float graphHeight,
+                             float maxValueX,  float maxValueY) {
     if (display) {
         recalculateMarkerLocations(graphWidth, graphHeight, maxValueX, maxValueY);
 
@@ -73,14 +73,14 @@ void LineGroup::draw(float graphWidth, float graphHeight,
     }
 }
 
-void LineGroup::drawLabels() {
+void GraphMarkerSeries::drawLabels() {
     FOREACH_MARKER(it, markers) {
         (*it)->drawLabel();
     }
 }
 
-void LineGroup::drawToPick(float graphWidth, float graphHeight,
-                           float maxValueX,  float maxValueY) {
+void GraphMarkerSeries::drawToPick(float graphWidth, float graphHeight,
+                                   float maxValueX,  float maxValueY) {
     if (display) {
         recalculateMarkerLocations(graphWidth, graphHeight, maxValueX, maxValueY);
 
@@ -90,14 +90,14 @@ void LineGroup::drawToPick(float graphWidth, float graphHeight,
     }
 }
 
-void LineGroup::recalculateMarkerLocations(float graphWidth, 
+void GraphMarkerSeries::recalculateMarkerLocations(float graphWidth, 
         float graphHeight, float maxValueX, float maxValueY) {
     FOREACH_MARKER(it, markers) {
         (*it)->calculateLocation(graphWidth, graphHeight, maxValueX, maxValueY); 
     } 
 }
 
-float LineGroup::drawInLegend(float x, float y, float lineLength, float spacing, void *font) {
+float GraphMarkerSeries::drawInLegend(float x, float y, float lineLength, float spacing, void *font) {
     float h = PrintText::printingHeight(font);
 
     glPushMatrix();
@@ -134,7 +134,7 @@ float LineGroup::drawInLegend(float x, float y, float lineLength, float spacing,
     return PrintText::printingWidth(label, font) + 3 * spacing + lineLength;
 }
 
-void LineGroup::drawAsLines() {
+void GraphMarkerSeries::drawAsLines() {
     GraphMarker *last = NULL;
    
     glPolygonMode(GL_FRONT, GL_LINE);
@@ -160,7 +160,7 @@ void LineGroup::drawAsLines() {
     }
 }
 
-void LineGroup::drawAsArea() {
+void GraphMarkerSeries::drawAsArea() {
     GraphMarker *last = NULL;
 
     glPolygonMode( GL_FRONT, GL_FILL );
@@ -180,55 +180,47 @@ void LineGroup::drawAsArea() {
     }
 }
 
-float LineGroup::getMinimumValueX() {
+float GraphMarkerSeries::getMinimumValueX() {
     return markers[0]->getValueX();
 }
 
-float LineGroup::getMaximumValueX() {
+float GraphMarkerSeries::getMaximumValueX() {
     return markers[markers.size() - 1]->getValueX();
 }
 
-float LineGroup::getMinimumValueY() {
+float GraphMarkerSeries::getMinimumValueY() {
     return min->getValueY();
 }
 
-float LineGroup::getMaximumValueY() {
+float GraphMarkerSeries::getMaximumValueY() {
     return max->getValueY();
 }
 
-void LineGroup::setMarkerShape(int shape) {
-    GraphMarkerIterator it;
-
+void GraphMarkerSeries::setMarkerShape(int shape) {
     FOREACH_MARKER(it, markers) {
         (*it)->setShape(shape);
     }
 }
 
-void LineGroup::setMarkerSize(float size) {
-    GraphMarkerIterator it;
-
+void GraphMarkerSeries::setMarkerSize(float size) {
     FOREACH_MARKER(it, markers) {
         (*it)->setSize(size);
     }
 }
 
-void LineGroup::setMarkerBorderColor(Color *color) {
-    GraphMarkerIterator it;
-
+void GraphMarkerSeries::setMarkerBorderColor(Color *color) {
     FOREACH_MARKER(it, markers) {
         (*it)->setBorderColor(color);
     }
 }
 
-void LineGroup::setMarkerFillColor(Color *color) {
-    GraphMarkerIterator it;
-
+void GraphMarkerSeries::setMarkerFillColor(Color *color) {
     FOREACH_MARKER(it, markers) {
         (*it)->setFillColor(color);
     }
 }
 
-void LineGroup::setColor(Color *c) {
+void GraphMarkerSeries::setColor(Color *c) {
     setLineColor(c);
     setMarkerBorderColor(c);
     setMarkerFillColor(c);

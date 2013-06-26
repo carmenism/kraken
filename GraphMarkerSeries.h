@@ -1,5 +1,5 @@
-#ifndef LINEGROUP_H_
-#define LINEGROUP_H_
+#ifndef GRAPHMARKERSERIES_H_
+#define GRAPHMARKERSERIES_H_
 
 #include <vector>
 //#include "Shape.h"
@@ -16,11 +16,11 @@ typedef std::vector<GraphMarker *>::const_iterator GraphMarkerIterator;
 #define FOREACH_MARKERP(it, graphMarkerList) \
     for(GraphMarkerIterator it = graphMarkerList->begin(); it != graphMarkerList->end(); ++it)
 
-class LineGroup
+class GraphMarkerSeries
 {
 public:
-    LineGroup(std::string label, std::vector<float> x, std::vector<float> y);
-    virtual ~LineGroup();
+    GraphMarkerSeries(std::string label, std::vector<float> x, std::vector<float> y);
+    virtual ~GraphMarkerSeries();
     
     void setValues(std::vector<float> x, std::vector<float> y);
 
@@ -82,4 +82,4 @@ private:
     void drawAsArea();
 };
 
-#endif /*LINEGROUP_H_*/
+#endif /*GRAPHMARKERSERIES_H_*/

@@ -23,11 +23,11 @@ LineGraph *LineGraph::createGraph(QList<QList<double>> matrix, QStringList label
             y.push_back(matrix.at(i).at(j));
         }
 
-        LineGroup *lg = new LineGroup(labels.at(i).toStdString(), x, y);
+        GraphMarkerSeries *series = new GraphMarkerSeries(labels.at(i).toStdString(), x, y);
         Color *c = Color::getEvenlyDistributedColor(matrix.size(), i);
-        lg->setColor(c);
+        series->setColor(c);
 
-        graph->addLine(lg);
+        graph->addMarkerSeries(series);
     }
 
     graph->setHeight(480);
@@ -60,11 +60,11 @@ LineGraph::LineGraph(QList<QList<double>> matrix, QStringList labels) {
             y.push_back(matrix.at(i).at(j));
         }
 
-        LineGroup *lg = new LineGroup(labels.at(i).toStdString(), x, y);
+        GraphMarkerSeries *series = new GraphMarkerSeries(labels.at(i).toStdString(), x, y);
         Color *c = Color::getEvenlyDistributedColor(matrix.size(), i);
-        lg->setColor(c);
+        series->setColor(c);
 
-        addLine(lg);
+        addMarkerSeries(series);
     }
     
     axisX = new GraphAxis(AXIS_BOTTOM);
@@ -94,7 +94,7 @@ void LineGraph::setValues(QList<QList<double>> matrix) {
             y.push_back(matrix.at(i).at(j));
         }
 
-        lines[i]->setValues(x, y);
+        seriesList[i]->setValues(x, y);
     }
 }
 
@@ -156,7 +156,7 @@ void LineGraph::calculateGlobalBounds() {
     globalMinY = (std::numeric_limits<float>::max)();
     globalMaxY = -1 * (std::numeric_limits<float>::max)();
 
-    FOREACH_LINEGROUP(it, lines) {
+    FOREACH_MARKERSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
             float minX = (*it)->getMinimumValueX();
             float maxX = (*it)->getMaximumValueX();
@@ -199,7 +199,7 @@ void LineGraph::drawBoundary() {
 }
 
 void LineGraph::drawLines() {
-    FOREACH_LINEGROUP(it, lines) {
+    FOREACH_MARKERSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
             (*it)->draw(width, height, globalMaxX, globalMaxY);
         }
@@ -207,7 +207,7 @@ void LineGraph::drawLines() {
 }
 
 void LineGraph::drawLabels() {
-    FOREACH_LINEGROUP(it, lines) {
+    FOREACH_MARKERSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
             (*it)->drawLabels();
         }
@@ -215,7 +215,7 @@ void LineGraph::drawLabels() {
 }   
 
 void LineGraph::drawToPickLines() {
-    FOREACH_LINEGROUP(it, lines) {
+    FOREACH_MARKERSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
             (*it)->drawToPick(width, height, globalMaxX, globalMaxY);
         }
@@ -229,8 +229,8 @@ float LineGraph::round(float number) {
     return up - down;
 }
 
-void LineGraph::addLine(LineGroup *line) {
-    lines.push_back(line);
+void LineGraph::addMarkerSeries(GraphMarkerSeries *series) {
+    seriesList.push_back(series);
     //line.setColor(Color::getUnassignedColor());
 }
 
@@ -258,7 +258,7 @@ float LineGraph::roundUp(float num) {
 GraphMarkerList *LineGraph::getMarkers() {
     GraphMarkerList *newList = new GraphMarkerList();
 
-    FOREACH_LINEGROUP(it, lines) {
+    FOREACH_MARKERSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
             FOREACH_MARKERP(it2, (*it)->getMarkers()) {
                 newList->push_back((*it2));
@@ -270,43 +270,43 @@ GraphMarkerList *LineGraph::getMarkers() {
 }
 
 void LineGraph::setLineWidths(float w) {
-    FOREACH_LINEGROUP(it, lines) {       
+    FOREACH_MARKERSERIES(it, seriesList) {       
         (*it)->setLineWidth(w);
     }
 }
 
 void LineGraph::setDisplayMarkers(bool d) {
-    FOREACH_LINEGROUP(it, lines) {       
+    FOREACH_MARKERSERIES(it, seriesList) {       
         (*it)->setDisplayMarkers(d);
     }
 }
 
 void LineGraph::displayMarkersOn() {
-    FOREACH_LINEGROUP(it, lines) {       
+    FOREACH_MARKERSERIES(it, seriesList) {       
         (*it)->displayMarkersOn();
     }
 }
 
 void LineGraph::displayMarkersOff() {
-    FOREACH_LINEGROUP(it, lines) {       
+    FOREACH_MARKERSERIES(it, seriesList) {       
         (*it)->displayMarkersOff();
     }
 }
 
 void LineGraph::setMarkersSize(float s) {
-    FOREACH_LINEGROUP(it, lines) {       
+    FOREACH_MARKERSERIES(it, seriesList) {       
         (*it)->setMarkerSize(s);
     }
 }
 
 void LineGraph::displayAsAreas() {
-    FOREACH_LINEGROUP(it, lines) {       
+    FOREACH_MARKERSERIES(it, seriesList) {       
         (*it)->displayAsAreaOn();
     }
 }
 
 void LineGraph::displayAsLines() {  
-    FOREACH_LINEGROUP(it, lines) {       
+    FOREACH_MARKERSERIES(it, seriesList) {       
         (*it)->displayAsAreaOff();
     }
 }

@@ -3,19 +3,19 @@
 
 #include <vector>
 #include <QList>
-#include "LineGroup.h"
+#include "GraphMarkerSeries.h"
 
 class GraphAxis;
 class GraphLegend;
 class QStringList;
 
-typedef std::vector<LineGroup *> LineGroupList;
-typedef std::vector<LineGroup *>::const_iterator LineGroupIterator;
+typedef std::vector<GraphMarkerSeries *> GraphMarkerSeriesList;
+typedef std::vector<GraphMarkerSeries *>::const_iterator GraphMarkerSeriesIterator;
 
-#define FOREACH_LINEGROUP(it, lineGroupList) \
-    for(LineGroupIterator it = lineGroupList.begin(); it != lineGroupList.end(); ++it)
-#define FOREACH_LINEGROUPP(it, lineGroupList) \
-    for(LineGroupIterator it = lineGroupList->begin(); it != lineGroupList->end(); ++it)
+#define FOREACH_MARKERSERIES(it, graphMarkerSeriesList) \
+    for(GraphMarkerSeriesIterator it = graphMarkerSeriesList.begin(); it != graphMarkerSeriesList.end(); ++it)
+#define FOREACH_MARKERSERIESP(it, graphMarkerSeriesList) \
+    for(GraphMarkerSeriesIterator it = graphMarkerSeriesList->begin(); it != graphMarkerSeriesList->end(); ++it)
 
 class LineGraph {
 public:
@@ -36,9 +36,9 @@ public:
     float getHeight() { return height; }
     void setHeight(float h) { height = h; }
     
-    void addLine(LineGroup *line);
-    void clearLines() { lines.clear(); }
-    LineGroupList getLines() { return lines; }
+    void addMarkerSeries(GraphMarkerSeries *s);
+    void clearMarkerSeriesList() { seriesList.clear(); }
+    GraphMarkerSeriesList getMarkerSeriesList() { return seriesList; }
 
     void setLineWidths(float w);
 
@@ -65,7 +65,7 @@ private:
     GraphLegend *legend;
 
     float width, height;
-    LineGroupList lines;
+    GraphMarkerSeriesList seriesList;
 
     bool displayLegend;
     
