@@ -46,6 +46,11 @@ public:
     float getMaximumValue() { return maxValue; }
     void setMaximumValue(float m) { maxValue = m; }
 
+    bool getDisplay() { return display; }
+    void setDisplay(bool d) { display = d; }
+    void displayOn() { display = true; }
+    void displayOff() { display = false; }
+
     bool getDisplayMinorTicks() { return displayMinorTicks; }
     void setDisplayMinorTicks(bool d) { displayMinorTicks = d; }
     void displayMinorTicksOn() { displayMinorTicks = true; }
@@ -56,10 +61,15 @@ public:
     void displayMajorTicksOn() { displayMajorTicks = true; }
     void displayMajorTicksOff() { displayMajorTicks = false; }
 
+    bool getDisplayLabels() { return displayLabels; }
+    void setDisplayLabels(bool d) { displayLabels = d; }
+    void displayLabelsOn() { displayLabels = true; }
+    void displayLabelsOff() { displayLabels = false; }
 private:
     //float length;
     int axisType;
 
+    bool display;
     bool displayLabels;
 
     std::string getLabel(float value);

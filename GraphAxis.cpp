@@ -9,8 +9,10 @@ GraphAxis::GraphAxis(int type) {
     minorTickLength = 5.0;
     majorTickLength = 10.0;
 
+    display = true;
     displayMinorTicks = true;
     displayMajorTicks = true;
+    displayLabels = true;
 
     switch (axisType) {
         case AXIS_LEFT:      
