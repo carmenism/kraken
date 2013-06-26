@@ -43,8 +43,8 @@ LineGraph::LineGraph() {
     width = 400;
     height = 300;
 
-    axisX = new GraphAxis(AXIS_BOTTOM);
-    axisY = new GraphAxis(AXIS_LEFT);   
+    setUpAxes();
+
     legend = new GraphLegend(this);
 
     displayLegend = true;
@@ -65,11 +65,11 @@ LineGraph::LineGraph(QList<QList<double>> matrix, QStringList labels) {
         series->setColor(c);
 
         addMarkerSeries(series);
-    }
-    
-    axisX = new GraphAxis(AXIS_BOTTOM);
-    axisY = new GraphAxis(AXIS_LEFT);   
+    } 
+
     legend = new GraphLegend(this);
+
+    setUpAxes();
 
     setHeight(480);
     setWidth(600);
@@ -83,6 +83,14 @@ LineGraph::~LineGraph() {
 
 }
 
+void LineGraph::setUpAxes() {
+    axes.push_back(new GraphAxis(AXIS_BOTTOM));
+    axes.push_back(new GraphAxis(AXIS_TOP));
+    axes.push_back(new GraphAxis(AXIS_LEFT));
+    axes.push_back(new GraphAxis(AXIS_RIGHT));
+    axes[AXIS_TOP]->displayOff();
+    axes[AXIS_RIGHT]->displayOff();
+}
 
 void LineGraph::setValues(QList<QList<double>> matrix) {
     for (int i = 0; i < matrix.size(); i++) {
@@ -114,21 +122,37 @@ void LineGraph::draw() {
 }
 
 void LineGraph::drawAxes() {
-    float xInterval = calculateIntervalSize(globalMinX, globalMaxX);
-    float yInterval = calculateIntervalSize(globalMinY, globalMaxY);
+    drawXAxis(axes[AXIS_BOTTOM]);
+    drawXAxis(axes[AXIS_TOP]);
+    
+    drawYAxis(axes[AXIS_LEFT]);
+    drawYAxis(axes[AXIS_RIGHT]);
+}
 
-    axisX->setMinimumValue(globalMinX);
-    axisX->setMaximumValue(globalMaxX);
-    axisX->setMajorTickSpacing(xInterval);
-    axisX->setMinorTickSpacing(xInterval / 5);
+void LineGraph::drawXAxis(GraphAxis *axisX) {
+    if (axisX->getDisplay()) {
+        float xInterval = calculateIntervalSize(globalMinX, globalMaxX);
+        
+        axisX->setMinimumValue(globalMinX);
+        axisX->setMaximumValue(globalMaxX);
+        axisX->setMajorTickSpacing(xInterval);
+        axisX->setMinorTickSpacing(xInterval / 5);
 
-    axisY->setMinimumValue(0);
-    axisY->setMaximumValue(globalMaxY);
-    axisY->setMajorTickSpacing(yInterval);
-    axisY->setMinorTickSpacing(yInterval / 5);
+        axisX->draw(width, height);
+    }
+}
 
-    axisX->draw(width, height);
-    axisY->draw(width, height);
+void LineGraph::drawYAxis(GraphAxis *axisY) {
+    if (axisY->getDisplay()) {
+        float yInterval = calculateIntervalSize(globalMinY, globalMaxY);
+
+        axisY->setMinimumValue(0);
+        axisY->setMaximumValue(globalMaxY);
+        axisY->setMajorTickSpacing(yInterval);
+        axisY->setMinorTickSpacing(yInterval / 5);
+
+        axisY->draw(width, height);
+    }
 }
 
 float LineGraph::calculateIntervalSize(float min, float max) {
@@ -309,4 +333,52 @@ void LineGraph::displayAsLines() {
     FOREACH_MARKERSERIES(it, seriesList) {       
         (*it)->displayAsAreaOff();
     }
+}
+
+GraphAxis *LineGraph::getBottomAxis() {
+    return axes[AXIS_BOTTOM];
+}
+
+GraphAxis *LineGraph::getTopAxis() {
+    return axes[AXIS_TOP];
+}
+
+GraphAxis *LineGraph::getLeftAxis() {
+    return axes[AXIS_LEFT];
+}
+
+GraphAxis *LineGraph::getRightAxis() {
+    return axes[AXIS_RIGHT];
+}
+
+bool LineGraph::getBottomAxisDisplay() {
+    return axes[AXIS_BOTTOM]->getDisplay();
+}
+
+bool LineGraph::getTopAxisDisplay() {
+    return axes[AXIS_TOP]->getDisplay();
+}
+
+bool LineGraph::getLeftAxisDisplay() {
+    return axes[AXIS_LEFT]->getDisplay();
+}
+
+bool LineGraph::getRightAxisDisplay() {
+    return axes[AXIS_RIGHT]->getDisplay();
+}
+
+void LineGraph::setBottomAxisDisplay(bool d) {
+    axes[AXIS_BOTTOM]->setDisplay(d);
+}
+
+void LineGraph::setTopAxisDisplay(bool d) {
+    axes[AXIS_TOP]->setDisplay(d);
+}
+
+void LineGraph::setLeftAxisDisplay(bool d) {
+    axes[AXIS_LEFT]->setDisplay(d);
+}
+
+void LineGraph::setRightAxisDisplay(bool d) {
+    axes[AXIS_RIGHT]->setDisplay(d);
 }
