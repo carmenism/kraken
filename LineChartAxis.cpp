@@ -106,11 +106,11 @@ void LineChartAxis::drawRightLabels(float chartWidth, float chartHeight, float h
     }
 }
 
-void LineChartAxis::drawLeftLabels(float graphHeight, float horizOffset) {
+void LineChartAxis::drawLeftLabels(float chartHeight, float horizOffset) {
     float value = minValue;
 
     while (value <= maxValue) {
-        float pos = valueToPosition(graphHeight, value);
+        float pos = valueToPosition(chartHeight, value);
 
         PrintText::printAlignedRightCenteredAt(horizOffset, pos, getLabel(value), false, false, GLUT_BITMAP_HELVETICA_10);
 

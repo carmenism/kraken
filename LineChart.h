@@ -23,7 +23,7 @@ typedef std::vector<ChartPointSeries *>::const_iterator ChartPointSeriesIterator
 
 #define FOREACH_POINTSERIES(it, chartPointSeriesList) \
     for(ChartPointSeriesIterator it = chartPointSeriesList.begin(); it != chartPointSeriesList.end(); ++it)
-#define FOREACH_POINTSERIESP(it, graphMarkerSeriesList) \
+#define FOREACH_POINTSERIESP(it, chartPointSeriesList) \
     for(ChartPointSeriesIterator it = chartPointSeriesList->begin(); it != chartPointSeriesList->end(); ++it)
 
 class LineChart : public Chart {
