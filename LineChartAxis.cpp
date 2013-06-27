@@ -1,9 +1,9 @@
-#include "GraphAxis.h"
+#include "LineChartAxis.h"
 #include "PrintText.h"
 #include <QtOpenGL>
 #include <iostream>
 
-GraphAxis::GraphAxis(int type) {
+LineChartAxis::LineChartAxis(int type) {
     axisType = type;    
 
     minorTickLength = 5.0;
@@ -29,11 +29,11 @@ GraphAxis::GraphAxis(int type) {
     }
 }
 
-GraphAxis::~GraphAxis() {
+LineChartAxis::~LineChartAxis() {
 
 }
 
-void GraphAxis::draw(float chartWidth, float chartHeight) {
+void LineChartAxis::draw(float chartWidth, float chartHeight) {
     glPushMatrix();
         float axisLength;
 
@@ -74,7 +74,7 @@ void GraphAxis::draw(float chartWidth, float chartHeight) {
 }
 
 
-void GraphAxis::drawLabels(float chartWidth, float chartHeight) {
+void LineChartAxis::drawLabels(float chartWidth, float chartHeight) {
     glColor4f(0.0, 0.0, 0.0, 1.0);
 
     switch (axisType) {
@@ -94,7 +94,7 @@ void GraphAxis::drawLabels(float chartWidth, float chartHeight) {
     } 
 }    
 
-void GraphAxis::drawRightLabels(float chartWidth, float chartHeight, float horizOffset) {
+void LineChartAxis::drawRightLabels(float chartWidth, float chartHeight, float horizOffset) {
     float value = minValue;
 
     while (value <= maxValue) {
@@ -106,7 +106,7 @@ void GraphAxis::drawRightLabels(float chartWidth, float chartHeight, float horiz
     }
 }
 
-void GraphAxis::drawLeftLabels(float graphHeight, float horizOffset) {
+void LineChartAxis::drawLeftLabels(float graphHeight, float horizOffset) {
     float value = minValue;
 
     while (value <= maxValue) {
@@ -118,7 +118,7 @@ void GraphAxis::drawLeftLabels(float graphHeight, float horizOffset) {
     }
 }
 
-void GraphAxis::drawHorizontalLabels(float chartWidth, float vertOffset) {
+void LineChartAxis::drawHorizontalLabels(float chartWidth, float vertOffset) {
     float value = minValue;
 
     while (value <= maxValue) {
@@ -130,7 +130,7 @@ void GraphAxis::drawHorizontalLabels(float chartWidth, float vertOffset) {
     }
 }
 
-void GraphAxis::drawTicks(float axisLength, float tickSpacing, float tickLength) {
+void LineChartAxis::drawTicks(float axisLength, float tickSpacing, float tickLength) {
     float value = minValue;
     
     glLineWidth(1.0);
@@ -148,21 +148,21 @@ void GraphAxis::drawTicks(float axisLength, float tickSpacing, float tickLength)
     }
 }
 
-float GraphAxis::valueToPosition(float axisLength, float value) {
+float LineChartAxis::valueToPosition(float axisLength, float value) {
     float range = maxValue - minValue;
     float distFromMin = value - minValue;
 
     return distFromMin * axisLength / range;
 }
 
-float GraphAxis::positionToValue(float axisLength, float position) {
+float LineChartAxis::positionToValue(float axisLength, float position) {
     float range = maxValue - minValue;
     float distFromMin = position * range / axisLength;
 
     return minValue + distFromMin;
 }
 
-std::string GraphAxis::getLabel(float value) {
+std::string LineChartAxis::getLabel(float value) {
     int intValue = (int) value;
 
     if (intValue != 0 && intValue == value) {

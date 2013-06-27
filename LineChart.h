@@ -6,17 +6,17 @@
 #include "GraphMarkerSeries.h"
 #include "Chart.h"
 
-class GraphAxis;
+class LineChartAxis;
 class LineChartLegend;
 class QStringList;
 
-typedef std::vector<GraphAxis *> GraphAxisList;
-typedef std::vector<GraphAxis *>::const_iterator GraphAxesIterator;
+typedef std::vector<LineChartAxis *> LineChartAxisList;
+typedef std::vector<LineChartAxis *>::const_iterator LineChartAxisIterator;
 
-#define FOREACH_GRAPHAXIS(it, graphAxisList) \
-    for(GraphAxesIterator it = graphAxisList.begin(); it != graphAxisList.end(); ++it)
-#define FOREACH_GRAPHAXISP(it, graphAxisList) \
-    for(GraphAxesIterator it = graphAxisList->begin(); it != graphAxisList->end(); ++it)
+#define FOREACH_LINECHARTAXIS(it, lineChartAxisList) \
+    for(LineChartAxisIterator it = lineChartAxisList.begin(); it != lineChartAxisList.end(); ++it)
+#define FOREACH_LINECHARTAXISP(it, lineChartAxisList) \
+    for(LineChartAxisIterator it = lineChartAxisList->begin(); it != lineChartAxisList->end(); ++it)
 
 typedef std::vector<GraphMarkerSeries *> GraphMarkerSeriesList;
 typedef std::vector<GraphMarkerSeries *>::const_iterator GraphMarkerSeriesIterator;
@@ -59,10 +59,10 @@ public:
     void displayLegendOn() { displayLegend = true; }
     void displayLegendOff() { displayLegend = false; }
 
-    GraphAxis *getBottomAxis();
-    GraphAxis *getTopAxis();
-    GraphAxis *getLeftAxis();
-    GraphAxis *getRightAxis();
+    LineChartAxis *getBottomAxis();
+    LineChartAxis *getTopAxis();
+    LineChartAxis *getLeftAxis();
+    LineChartAxis *getRightAxis();
 
     bool getBottomAxisDisplay();
     bool getTopAxisDisplay();
@@ -78,7 +78,7 @@ public:
 
     static LineChart *createGraph(QList<QList<double>> matrix, QStringList labels);
 private:
-    GraphAxisList axes;
+    LineChartAxisList axes;
     LineChartLegend *legend;
 
     GraphMarkerSeriesList seriesList;
@@ -93,8 +93,8 @@ private:
     void drawLines();
     void drawLabels();
     void drawAxes();
-    void drawXAxis(GraphAxis *axisX);
-    void drawYAxis(GraphAxis *axisY);
+    void drawXAxis(LineChartAxis *axisX);
+    void drawYAxis(LineChartAxis *axisY);
 
     float calculateIntervalSize(float min, float max);
 

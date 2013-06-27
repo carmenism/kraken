@@ -238,7 +238,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GraphAxis.cpp"
+				RelativePath=".\LineChartAxis.cpp"
 				>
 			</File>
 			<File
@@ -384,7 +384,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GraphAxis.h"
+				RelativePath=".\LineChartAxis.h"
 				>
 			</File>
 			<File

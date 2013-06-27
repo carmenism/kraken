@@ -1,7 +1,7 @@
 #include "LineChart.h"
 #include "ChartPoint.h"
 #include "Color.h"
-#include "GraphAxis.h"
+#include "LineChartAxis.h"
 #include "LineChartLegend.h"
 #include <QList>
 #include <QStringList>
@@ -84,10 +84,10 @@ LineChart::~LineChart() {
 }
 
 void LineChart::setUpAxes() {
-    axes.push_back(new GraphAxis(AXIS_BOTTOM));
-    axes.push_back(new GraphAxis(AXIS_TOP));
-    axes.push_back(new GraphAxis(AXIS_LEFT));
-    axes.push_back(new GraphAxis(AXIS_RIGHT));
+    axes.push_back(new LineChartAxis(AXIS_BOTTOM));
+    axes.push_back(new LineChartAxis(AXIS_TOP));
+    axes.push_back(new LineChartAxis(AXIS_LEFT));
+    axes.push_back(new LineChartAxis(AXIS_RIGHT));
     axes[AXIS_TOP]->displayOff();
     axes[AXIS_RIGHT]->displayOff();
 }
@@ -129,7 +129,7 @@ void LineChart::drawAxes() {
     drawYAxis(axes[AXIS_RIGHT]);
 }
 
-void LineChart::drawXAxis(GraphAxis *axisX) {
+void LineChart::drawXAxis(LineChartAxis *axisX) {
     if (axisX->getDisplay()) {
         float xInterval = calculateIntervalSize(globalMinX, globalMaxX);
         
@@ -142,7 +142,7 @@ void LineChart::drawXAxis(GraphAxis *axisX) {
     }
 }
 
-void LineChart::drawYAxis(GraphAxis *axisY) {
+void LineChart::drawYAxis(LineChartAxis *axisY) {
     if (axisY->getDisplay()) {
         float yInterval = calculateIntervalSize(globalMinY, globalMaxY);
 
@@ -306,19 +306,19 @@ void LineChart::displayAsLines() {
     }
 }
 
-GraphAxis *LineChart::getBottomAxis() {
+LineChartAxis *LineChart::getBottomAxis() {
     return axes[AXIS_BOTTOM];
 }
 
-GraphAxis *LineChart::getTopAxis() {
+LineChartAxis *LineChart::getTopAxis() {
     return axes[AXIS_TOP];
 }
 
-GraphAxis *LineChart::getLeftAxis() {
+LineChartAxis *LineChart::getLeftAxis() {
     return axes[AXIS_LEFT];
 }
 
-GraphAxis *LineChart::getRightAxis() {
+LineChartAxis *LineChart::getRightAxis() {
     return axes[AXIS_RIGHT];
 }
 
