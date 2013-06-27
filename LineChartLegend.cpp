@@ -10,7 +10,7 @@ void LineChartLegend::draw(float x, float y, float lineLength, float spacing, vo
     glPushMatrix();
         glTranslatef(x, y, 0);
 
-        GraphMarkerSeriesList seriesList = chart->getMarkerSeriesList();
+        ChartPointSeriesList seriesList = chart->getPointSeriesList();
         float h = PrintText::printingHeight(font);
         int num = seriesList.size();
         float maxWidth = -1;

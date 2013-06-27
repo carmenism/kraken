@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <QList>
-#include "GraphMarkerSeries.h"
+#include "ChartPointSeries.h"
 #include "Chart.h"
 
 class LineChartAxis;
@@ -18,13 +18,13 @@ typedef std::vector<LineChartAxis *>::const_iterator LineChartAxisIterator;
 #define FOREACH_LINECHARTAXISP(it, lineChartAxisList) \
     for(LineChartAxisIterator it = lineChartAxisList->begin(); it != lineChartAxisList->end(); ++it)
 
-typedef std::vector<GraphMarkerSeries *> GraphMarkerSeriesList;
-typedef std::vector<GraphMarkerSeries *>::const_iterator GraphMarkerSeriesIterator;
+typedef std::vector<ChartPointSeries *> ChartPointSeriesList;
+typedef std::vector<ChartPointSeries *>::const_iterator ChartPointSeriesIterator;
 
-#define FOREACH_MARKERSERIES(it, graphMarkerSeriesList) \
-    for(GraphMarkerSeriesIterator it = graphMarkerSeriesList.begin(); it != graphMarkerSeriesList.end(); ++it)
-#define FOREACH_MARKERSERIESP(it, graphMarkerSeriesList) \
-    for(GraphMarkerSeriesIterator it = graphMarkerSeriesList->begin(); it != graphMarkerSeriesList->end(); ++it)
+#define FOREACH_POINTSERIES(it, chartPointSeriesList) \
+    for(ChartPointSeriesIterator it = chartPointSeriesList.begin(); it != chartPointSeriesList.end(); ++it)
+#define FOREACH_POINTSERIESP(it, graphMarkerSeriesList) \
+    for(ChartPointSeriesIterator it = chartPointSeriesList->begin(); it != chartPointSeriesList->end(); ++it)
 
 class LineChart : public Chart {
 public:
@@ -39,9 +39,9 @@ public:
     void drawToPick();
     void drawToPickLines();
     
-    void addMarkerSeries(GraphMarkerSeries *s);
-    void clearMarkerSeriesList() { seriesList.clear(); }
-    GraphMarkerSeriesList getMarkerSeriesList() { return seriesList; }
+    void addPointSeries(ChartPointSeries *s);
+    void clearPointSeriesList() { seriesList.clear(); }
+    ChartPointSeriesList getPointSeriesList() { return seriesList; }
 
     void setLineWidths(float w);
 
@@ -81,7 +81,7 @@ private:
     LineChartAxisList axes;
     LineChartLegend *legend;
 
-    GraphMarkerSeriesList seriesList;
+    ChartPointSeriesList seriesList;
 
     bool displayLegend;
     

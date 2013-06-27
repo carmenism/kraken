@@ -1,8 +1,7 @@
-#ifndef GRAPHMARKERSERIES_H_
-#define GRAPHMARKERSERIES_H_
+#ifndef CHARTPOINTSERIES_H_
+#define CHARTPOINTSERIES_H_
 
 #include <vector>
-//#include "Shape.h"
 
 class ChartPoint;
 class Color;
@@ -16,11 +15,11 @@ typedef std::vector<ChartPoint *>::const_iterator ChartPointIterator;
 #define FOREACH_POINTP(it, chartPointList) \
     for(ChartPointIterator it = chartPointList->begin(); it != chartPointList->end(); ++it)
 
-class GraphMarkerSeries
+class ChartPointSeries
 {
 public:
-    GraphMarkerSeries(std::string label, std::vector<float> x, std::vector<float> y);
-    virtual ~GraphMarkerSeries();
+    ChartPointSeries(std::string label, std::vector<float> x, std::vector<float> y);
+    virtual ~ChartPointSeries();
     
     void setValues(std::vector<float> x, std::vector<float> y);
 
@@ -82,4 +81,4 @@ private:
     void drawAsArea();
 };
 
-#endif /*GRAPHMARKERSERIES_H_*/
+#endif /*CHARTPOINTSERIES_H_*/

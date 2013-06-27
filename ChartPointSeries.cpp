@@ -1,11 +1,11 @@
-#include "GraphMarkerSeries.h"
+#include "ChartPointSeries.h"
 #include "ChartPoint.h"
 #include "Color.h"
 #include "PrintText.h"
 #include <QtOpenGL>
 
 
-GraphMarkerSeries::GraphMarkerSeries(std::string label, std::vector<float> x, std::vector<float> y) {
+ChartPointSeries::ChartPointSeries(std::string label, std::vector<float> x, std::vector<float> y) {
     this->label = label;
     
     if (x.size() != y.size()) {
@@ -37,7 +37,7 @@ GraphMarkerSeries::GraphMarkerSeries(std::string label, std::vector<float> x, st
     displayAsArea = false;
 }
 
-void GraphMarkerSeries::setValues(std::vector<float> x, std::vector<float> y) {
+void ChartPointSeries::setValues(std::vector<float> x, std::vector<float> y) {
     if (x.size() != y.size()) {
         throw "should be equal number of x and y values";
     }
@@ -56,11 +56,11 @@ void GraphMarkerSeries::setValues(std::vector<float> x, std::vector<float> y) {
     }
 }
 
-GraphMarkerSeries::~GraphMarkerSeries() {
+ChartPointSeries::~ChartPointSeries() {
     
 }
 
-void GraphMarkerSeries::draw(float chartWidth, float chartHeight,
+void ChartPointSeries::draw(float chartWidth, float chartHeight,
                              float maxValueX,  float maxValueY) {
     if (display) {
         calculatePointLocations(chartWidth, chartHeight, maxValueX, maxValueY);
@@ -73,13 +73,13 @@ void GraphMarkerSeries::draw(float chartWidth, float chartHeight,
     }
 }
 
-void GraphMarkerSeries::drawLabels() {
+void ChartPointSeries::drawLabels() {
     FOREACH_POINT(it, points) {
         (*it)->drawLabel();
     }
 }
 
-void GraphMarkerSeries::drawToPick(float chartWidth, float chartHeight,
+void ChartPointSeries::drawToPick(float chartWidth, float chartHeight,
                                    float maxValueX,  float maxValueY) {
     if (display) {
         calculatePointLocations(chartWidth, chartHeight, maxValueX, maxValueY);
@@ -90,14 +90,14 @@ void GraphMarkerSeries::drawToPick(float chartWidth, float chartHeight,
     }
 }
 
-void GraphMarkerSeries::calculatePointLocations(float chartWidth, 
+void ChartPointSeries::calculatePointLocations(float chartWidth, 
         float chartHeight, float maxValueX, float maxValueY) {
     FOREACH_POINT(it, points) {
         (*it)->calculateLocation(chartWidth, chartHeight, maxValueX, maxValueY); 
     } 
 }
 
-float GraphMarkerSeries::drawInLegend(float x, float y, float lineLength, float spacing, void *font) {
+float ChartPointSeries::drawInLegend(float x, float y, float lineLength, float spacing, void *font) {
     float h = PrintText::printingHeight(font);
 
     glPushMatrix();
@@ -134,7 +134,7 @@ float GraphMarkerSeries::drawInLegend(float x, float y, float lineLength, float 
     return PrintText::printingWidth(label, font) + 3 * spacing + lineLength;
 }
 
-void GraphMarkerSeries::drawAsLines() {
+void ChartPointSeries::drawAsLines() {
     ChartPoint *last = NULL;
    
     glPolygonMode(GL_FRONT, GL_LINE);
@@ -160,7 +160,7 @@ void GraphMarkerSeries::drawAsLines() {
     }
 }
 
-void GraphMarkerSeries::drawAsArea() {
+void ChartPointSeries::drawAsArea() {
     ChartPoint *last = NULL;
 
     glPolygonMode( GL_FRONT, GL_FILL );
@@ -180,47 +180,47 @@ void GraphMarkerSeries::drawAsArea() {
     }
 }
 
-float GraphMarkerSeries::getMinimumValueX() {
+float ChartPointSeries::getMinimumValueX() {
     return points[0]->getValueX();
 }
 
-float GraphMarkerSeries::getMaximumValueX() {
+float ChartPointSeries::getMaximumValueX() {
     return points[points.size() - 1]->getValueX();
 }
 
-float GraphMarkerSeries::getMinimumValueY() {
+float ChartPointSeries::getMinimumValueY() {
     return min->getValueY();
 }
 
-float GraphMarkerSeries::getMaximumValueY() {
+float ChartPointSeries::getMaximumValueY() {
     return max->getValueY();
 }
 
-void GraphMarkerSeries::setMarkerShape(int shape) {
+void ChartPointSeries::setMarkerShape(int shape) {
     FOREACH_POINT(it, points) {
         (*it)->setShape(shape);
     }
 }
 
-void GraphMarkerSeries::setMarkerSize(float size) {
+void ChartPointSeries::setMarkerSize(float size) {
     FOREACH_POINT(it, points) {
         (*it)->setSize(size);
     }
 }
 
-void GraphMarkerSeries::setMarkerBorderColor(Color *color) {
+void ChartPointSeries::setMarkerBorderColor(Color *color) {
     FOREACH_POINT(it, points) {
         (*it)->setBorderColor(color);
     }
 }
 
-void GraphMarkerSeries::setMarkerFillColor(Color *color) {
+void ChartPointSeries::setMarkerFillColor(Color *color) {
     FOREACH_POINT(it, points) {
         (*it)->setFillColor(color);
     }
 }
 
-void GraphMarkerSeries::setColor(Color *c) {
+void ChartPointSeries::setColor(Color *c) {
     setLineColor(c);
     setMarkerBorderColor(c);
     setMarkerFillColor(c);

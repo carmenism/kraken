@@ -250,7 +250,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GraphMarkerSeries.cpp"
+				RelativePath=".\ChartPointSeries.cpp"
 				>
 			</File>
 			<File
@@ -396,7 +396,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GraphMarkerSeries.h"
+				RelativePath=".\ChartPointSeries.h"
 				>
 			</File>
 			<File

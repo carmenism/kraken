@@ -12,30 +12,7 @@
 #include <GL/glut.h>
 
 LineChart *LineChart::createGraph(QList<QList<double>> matrix, QStringList labels) {
-    LineChart *chart = new LineChart();
-
-    for (int i = 0; i < matrix.size(); i++) {
-        std::vector<float> x;
-        std::vector<float> y;
-        
-        for (int j = 0; j < matrix.at(i).size(); j++) {
-            x.push_back(j);
-            y.push_back(matrix.at(i).at(j));
-        }
-
-        GraphMarkerSeries *series = new GraphMarkerSeries(labels.at(i).toStdString(), x, y);
-        Color *c = Color::getEvenlyDistributedColor(matrix.size(), i);
-        series->setColor(c);
-
-        chart->addMarkerSeries(series);
-    }
-
-    chart->setHeight(480);
-    chart->setWidth(600);
-    chart->setLineWidths(2);
-    chart->setMarkersSize(4);
-    chart->displayMarkersOn();
-
+    LineChart *chart = new LineChart(matrix, labels);
     return chart;
 }
 
@@ -60,11 +37,11 @@ LineChart::LineChart(QList<QList<double>> matrix, QStringList labels) {
             y.push_back(matrix.at(i).at(j));
         }
 
-        GraphMarkerSeries *series = new GraphMarkerSeries(labels.at(i).toStdString(), x, y);
+        ChartPointSeries *series = new ChartPointSeries(labels.at(i).toStdString(), x, y);
         Color *c = Color::getEvenlyDistributedColor(matrix.size(), i);
         series->setColor(c);
 
-        addMarkerSeries(series);
+        addPointSeries(series);
     } 
 
     legend = new LineChartLegend(this);
@@ -180,7 +157,7 @@ void LineChart::calculateGlobalBounds() {
     globalMinY = (std::numeric_limits<float>::max)();
     globalMaxY = -1 * (std::numeric_limits<float>::max)();
 
-    FOREACH_MARKERSERIES(it, seriesList) {
+    FOREACH_POINTSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
             float minX = (*it)->getMinimumValueX();
             float maxX = (*it)->getMaximumValueX();
@@ -223,7 +200,7 @@ void LineChart::drawBoundary() {
 }
 
 void LineChart::drawLines() {
-    FOREACH_MARKERSERIES(it, seriesList) {
+    FOREACH_POINTSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
             (*it)->draw(width, height, globalMaxX, globalMaxY);
         }
@@ -231,7 +208,7 @@ void LineChart::drawLines() {
 }
 
 void LineChart::drawLabels() {
-    FOREACH_MARKERSERIES(it, seriesList) {
+    FOREACH_POINTSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
             (*it)->drawLabels();
         }
@@ -239,21 +216,21 @@ void LineChart::drawLabels() {
 }   
 
 void LineChart::drawToPickLines() {
-    FOREACH_MARKERSERIES(it, seriesList) {
+    FOREACH_POINTSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
             (*it)->drawToPick(width, height, globalMaxX, globalMaxY);
         }
     }
 }
 
-void LineChart::addMarkerSeries(GraphMarkerSeries *series) {
+void LineChart::addPointSeries(ChartPointSeries *series) {
     seriesList.push_back(series);
 }
 
 ChartPointList *LineChart::getPoints() {
     ChartPointList *newList = new ChartPointList();
 
-    FOREACH_MARKERSERIES(it, seriesList) {
+    FOREACH_POINTSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
             FOREACH_POINTP(it2, (*it)->getPoints()) {
                 newList->push_back((*it2));
@@ -265,43 +242,43 @@ ChartPointList *LineChart::getPoints() {
 }
 
 void LineChart::setLineWidths(float w) {
-    FOREACH_MARKERSERIES(it, seriesList) {       
+    FOREACH_POINTSERIES(it, seriesList) {       
         (*it)->setLineWidth(w);
     }
 }
 
 void LineChart::setDisplayMarkers(bool d) {
-    FOREACH_MARKERSERIES(it, seriesList) {       
+    FOREACH_POINTSERIES(it, seriesList) {       
         (*it)->setDisplayMarkers(d);
     }
 }
 
 void LineChart::displayMarkersOn() {
-    FOREACH_MARKERSERIES(it, seriesList) {       
+    FOREACH_POINTSERIES(it, seriesList) {       
         (*it)->displayMarkersOn();
     }
 }
 
 void LineChart::displayMarkersOff() {
-    FOREACH_MARKERSERIES(it, seriesList) {       
+    FOREACH_POINTSERIES(it, seriesList) {       
         (*it)->displayMarkersOff();
     }
 }
 
 void LineChart::setMarkersSize(float s) {
-    FOREACH_MARKERSERIES(it, seriesList) {       
+    FOREACH_POINTSERIES(it, seriesList) {       
         (*it)->setMarkerSize(s);
     }
 }
 
 void LineChart::displayAsAreas() {
-    FOREACH_MARKERSERIES(it, seriesList) {       
+    FOREACH_POINTSERIES(it, seriesList) {       
         (*it)->displayAsAreaOn();
     }
 }
 
 void LineChart::displayAsLines() {  
-    FOREACH_MARKERSERIES(it, seriesList) {       
+    FOREACH_POINTSERIES(it, seriesList) {       
         (*it)->displayAsAreaOff();
     }
 }
