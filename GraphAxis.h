@@ -80,6 +80,8 @@ private:
     bool displayMinorTicks, displayMajorTicks;
 
     float valueToPosition(float axisLength, float value);
+    float positionToValue(float axisLength, float position);
+
     void drawTicks(float axisLength, float tickSpacing, float tickLength);
     
     void drawLabels(float graphWidth, float graphHeight);

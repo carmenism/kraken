@@ -155,6 +155,12 @@ float GraphAxis::valueToPosition(float axisLength, float value) {
     return distFromMin * axisLength / range;
 }
 
+float GraphAxis::positionToValue(float axisLength, float position) {
+    float range = maxValue - minValue;
+    float distFromMin = position * range / axisLength;
+
+    return minValue + distFromMin;
+}
 
 std::string GraphAxis::getLabel(float value) {
     int intValue = (int) value;
