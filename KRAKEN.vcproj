@@ -206,6 +206,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\Chart.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Circle.cpp"
 				>
 			</File>
@@ -246,6 +250,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GraphMarkerSeries.cpp"
+				>
+			</File>
+			<File
 				RelativePath="GrowthModuleLinear.cpp"
 				>
 			</File>
@@ -271,10 +279,6 @@
 			</File>
 			<File
 				RelativePath=".\LineGraph.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\GraphMarkerSeries.cpp"
 				>
 			</File>
 			<File
@@ -348,6 +352,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\Chart.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Circle.h"
 				>
 			</File>
@@ -388,6 +396,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GraphMarkerSeries.h"
+				>
+			</File>
+			<File
 				RelativePath="GrowthModuleLinear.h"
 				>
 			</File>
@@ -413,10 +425,6 @@
 			</File>
 			<File
 				RelativePath=".\LineGraph.h"
-				>
-			</File>
-			<File
-				RelativePath=".\GraphMarkerSeries.h"
 				>
 			</File>
 			<File
@@ -493,6 +501,10 @@
 			</File>
 			<File
 				RelativePath="Parameters.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Pickable.h"
 				>
 			</File>
 			<File

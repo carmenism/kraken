@@ -4,6 +4,7 @@
 #include <vector>
 #include <QList>
 #include "GraphMarkerSeries.h"
+#include "Chart.h"
 
 class GraphAxis;
 class GraphLegend;
@@ -25,7 +26,7 @@ typedef std::vector<GraphMarkerSeries *>::const_iterator GraphMarkerSeriesIterat
 #define FOREACH_MARKERSERIESP(it, graphMarkerSeriesList) \
     for(GraphMarkerSeriesIterator it = graphMarkerSeriesList->begin(); it != graphMarkerSeriesList->end(); ++it)
 
-class LineGraph {
+class LineGraph : public Chart {
 public:
     LineGraph();
     LineGraph(QList<QList<double>> matrix, QStringList labels);
@@ -37,12 +38,6 @@ public:
     void draw();
     void drawToPick();
     void drawToPickLines();
-
-    float getWidth() { return width; }
-    void setWidth(float w) { width = w; }
-
-    float getHeight() { return height; }
-    void setHeight(float h) { height = h; }
     
     void addMarkerSeries(GraphMarkerSeries *s);
     void clearMarkerSeriesList() { seriesList.clear(); }
@@ -86,7 +81,7 @@ private:
     GraphAxisList axes;
     GraphLegend *legend;
 
-    float width, height;
+//    float width, height;
     GraphMarkerSeriesList seriesList;
 
     bool displayLegend;
@@ -101,12 +96,6 @@ private:
     void drawAxes();
     void drawXAxis(GraphAxis *axisX);
     void drawYAxis(GraphAxis *axisY);
-
-    float round(float num);
-    float f(float num, float c);
-    float roundDown(float num);
-    float g(float num, float c);
-    float roundUp(float num);
 
     float calculateIntervalSize(float min, float max);
 

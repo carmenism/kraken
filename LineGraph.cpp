@@ -246,36 +246,8 @@ void LineGraph::drawToPickLines() {
     }
 }
 
-float LineGraph::round(float number) {
-    float up = roundUp(number);
-    float down = roundDown(up - number);
-
-    return up - down;
-}
-
 void LineGraph::addMarkerSeries(GraphMarkerSeries *series) {
     seriesList.push_back(series);
-}
-
-//http://stackoverflow.com/questions/6364908/
-float LineGraph::f(float num, float c) {
-    return c * pow(10, floor(log10(num / c)));
-}
-
-float LineGraph::roundDown(float num) { 
-    float max = max(f(num, 1), f(num, 2));
-
-    return max(max, f(num, 5));
-}
-
-float LineGraph::g(float num, float c) { 
-    return c * pow(10, ceil(log10(num / c)));
-}
-
-float LineGraph::roundUp(float num) { 
-    float min = min(g(num, 1), g(num, 2));
-    
-    return min(min, g(num, 5));
 }
 
 GraphMarkerList *LineGraph::getMarkers() {
