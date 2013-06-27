@@ -2,7 +2,7 @@
 #include "ChartPoint.h"
 #include "Color.h"
 #include "GraphAxis.h"
-#include "GraphLegend.h"
+#include "LineChartLegend.h"
 #include <QList>
 #include <QStringList>
 #include <QString>
@@ -45,7 +45,7 @@ LineChart::LineChart() {
 
     setUpAxes();
 
-    legend = new GraphLegend(this);
+    legend = new LineChartLegend(this);
 
     displayLegend = true;
 }
@@ -67,7 +67,7 @@ LineChart::LineChart(QList<QList<double>> matrix, QStringList labels) {
         addMarkerSeries(series);
     } 
 
-    legend = new GraphLegend(this);
+    legend = new LineChartLegend(this);
 
     setUpAxes();
 

@@ -7,7 +7,7 @@
 #include "Chart.h"
 
 class GraphAxis;
-class GraphLegend;
+class LineChartLegend;
 class QStringList;
 
 typedef std::vector<GraphAxis *> GraphAxisList;
@@ -79,7 +79,7 @@ public:
     static LineChart *createGraph(QList<QList<double>> matrix, QStringList labels);
 private:
     GraphAxisList axes;
-    GraphLegend *legend;
+    LineChartLegend *legend;
 
     GraphMarkerSeriesList seriesList;
 

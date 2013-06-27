@@ -1,12 +1,12 @@
-#ifndef GRAPHLEGEND_H
-#define GRAPHLEGEND_H
+#ifndef LINECHARTLEGEND_H_
+#define LINECHARTLEGEND_H_
 
 class LineChart;
 
-class GraphLegend {
+class LineChartLegend {
 public:
-    GraphLegend(LineChart *c);
-    ~GraphLegend();
+    LineChartLegend(LineChart *c);
+    ~LineChartLegend();
 
     void draw(float x, float y, float lineLength, float spacing, void *font);
 private:
@@ -15,4 +15,4 @@ private:
     void drawBoundary(float width, float height);
 };
 
-#endif /* GRAPHLEGEND_H */
+#endif /* LINECHARTLEGEND_H_ */

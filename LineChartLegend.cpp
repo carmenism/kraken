@@ -1,12 +1,12 @@
-#include "GraphLegend.h"
+#include "LineChartLegend.h"
 #include "LineChart.h"
 #include "PrintText.h"
 
-GraphLegend::GraphLegend(LineChart *c) {
+LineChartLegend::LineChartLegend(LineChart *c) {
     chart = c;
 }
 
-void GraphLegend::draw(float x, float y, float lineLength, float spacing, void *font) {
+void LineChartLegend::draw(float x, float y, float lineLength, float spacing, void *font) {
     glPushMatrix();
         glTranslatef(x, y, 0);
 
@@ -29,7 +29,7 @@ void GraphLegend::draw(float x, float y, float lineLength, float spacing, void *
     glPopMatrix();
 }
 
-void GraphLegend::drawBoundary(float width, float height) {  
+void LineChartLegend::drawBoundary(float width, float height) {  
     glPolygonMode(GL_FRONT, GL_LINE);  
     glLineWidth(1.0);
     glColor4f(0.5, 0.5, 0.5, 1);

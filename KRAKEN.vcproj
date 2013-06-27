@@ -242,7 +242,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GraphLegend.cpp"
+				RelativePath=".\LineChartLegend.cpp"
 				>
 			</File>
 			<File
@@ -388,7 +388,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GraphLegend.h"
+				RelativePath=".\LineChartLegend.h"
 				>
 			</File>
 			<File
