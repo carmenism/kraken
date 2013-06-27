@@ -1,4 +1,5 @@
 #include "ChartPoint.h"
+#include "LineChart.h"
 #include "Shape.h"
 #include "Circle.h"
 #include "Square.h"
@@ -6,10 +7,11 @@
 #include "Color.h"
 #include "PrintText.h"
 
-ChartPoint::ChartPoint(std::string label, float vX, float vY, int shape) {
-    valueX = vX;
-    valueY = vY;
-    this->label = label + ": " + toStr(vY);
+ChartPoint::ChartPoint(LineChart *chart, std::string label, float valueX, float valueY, int shape) {
+    this->valueX = valueX;
+    this->valueY = valueY;
+    this->chart = chart;
+    this->label = label + ": " + toStr(valueY);
 
     switch (shape) {
         case SHAPE_SQUARE:
@@ -33,15 +35,15 @@ ChartPoint::~ChartPoint() {
     delete marker;
 }
 
-void ChartPoint::calculateLocation(float chartWidth, float chartHeight,
-                                   float maxValueX,  float maxValueY) {
-    float posX = valueX * chartWidth /  maxValueX;
-    float posY = valueY * chartHeight / maxValueY;
+void ChartPoint::calculateLocation() {
+    float posX = valueX * chart->getWidth() / chart->getGlobalMaxX();
+    float posY = valueY * chart->getHeight() / chart->getGlobalMaxY();
 
     marker->setLocation(posX, posY);
 }
 
 void ChartPoint::draw() {
+    calculateLocation();
     marker->draw();
 }
 
@@ -71,6 +73,7 @@ void ChartPoint::drawLabel() {
 }
 
 void ChartPoint::drawToPick() {
+    calculateLocation();
     marker->drawToPick();
 }
 

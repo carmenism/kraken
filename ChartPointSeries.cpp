@@ -1,11 +1,13 @@
 #include "ChartPointSeries.h"
 #include "ChartPoint.h"
 #include "Color.h"
+#include "LineChart.h"
 #include "PrintText.h"
 #include <QtOpenGL>
 
 
-ChartPointSeries::ChartPointSeries(std::string label, std::vector<float> x, std::vector<float> y) {
+ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vector<float> x, std::vector<float> y) {
+    this->chart = chart;
     this->label = label;
     
     if (x.size() != y.size()) {
@@ -20,7 +22,7 @@ ChartPointSeries::ChartPointSeries(std::string label, std::vector<float> x, std:
     min = NULL;
 
     for (int i = 0; i < x.size(); i++) {
-        ChartPoint *point = new ChartPoint(label, x[i], y[i]);
+        ChartPoint *point = new ChartPoint(chart, label, x[i], y[i]);
         points.push_back(point);
 
         if (max == NULL || max->getValueY() < point->getValueY()) {
@@ -60,10 +62,9 @@ ChartPointSeries::~ChartPointSeries() {
     
 }
 
-void ChartPointSeries::draw(float chartWidth, float chartHeight,
-                             float maxValueX,  float maxValueY) {
+void ChartPointSeries::draw() {
     if (display) {
-        calculatePointLocations(chartWidth, chartHeight, maxValueX, maxValueY);
+        calculatePointLocations();
 
         if (displayAsArea) {
             drawAsArea();
@@ -79,10 +80,9 @@ void ChartPointSeries::drawLabels() {
     }
 }
 
-void ChartPointSeries::drawToPick(float chartWidth, float chartHeight,
-                                   float maxValueX,  float maxValueY) {
+void ChartPointSeries::drawToPick() {
     if (display) {
-        calculatePointLocations(chartWidth, chartHeight, maxValueX, maxValueY);
+        calculatePointLocations();
 
         FOREACH_POINT(it, points) {
             (*it)->drawToPick();
@@ -90,10 +90,9 @@ void ChartPointSeries::drawToPick(float chartWidth, float chartHeight,
     }
 }
 
-void ChartPointSeries::calculatePointLocations(float chartWidth, 
-        float chartHeight, float maxValueX, float maxValueY) {
+void ChartPointSeries::calculatePointLocations() {
     FOREACH_POINT(it, points) {
-        (*it)->calculateLocation(chartWidth, chartHeight, maxValueX, maxValueY); 
+        (*it)->calculateLocation(); 
     } 
 }
 

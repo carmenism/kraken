@@ -3,6 +3,7 @@
 
 #include <vector>
 
+class LineChart;
 class ChartPoint;
 class Color;
 class Shape;
@@ -18,19 +19,17 @@ typedef std::vector<ChartPoint *>::const_iterator ChartPointIterator;
 class ChartPointSeries
 {
 public:
-    ChartPointSeries(std::string label, std::vector<float> x, std::vector<float> y);
+    ChartPointSeries(LineChart *chart, std::string label, std::vector<float> x, std::vector<float> y);
     virtual ~ChartPointSeries();
     
     void setValues(std::vector<float> x, std::vector<float> y);
 
-    void draw(float chartWidth, float chartHeight,
-              float maxValueX,  float maxValueY);
+    void draw();
     void drawLabels();
 
     float drawInLegend(float x, float y, float lineLength, float spacing, void *font);
 
-    void drawToPick(float chartWidth, float chartHeight,
-                    float maxValueX,  float maxValueY);
+    void drawToPick();
 
     float getMaximumValueX();
     float getMaximumValueY();  
@@ -66,8 +65,10 @@ public:
 
     void setColor(Color *c);
 
-    ChartPointList *getPoints() { return &points; }// { return markers; }
+    ChartPointList *getPoints() { return &points; }
 private:
+    LineChart *chart;
+
     std::string label;
     ChartPointList points;
     ChartPoint *min, *max;
@@ -75,8 +76,7 @@ private:
     Color *lineColor;
     bool display, displayMarkers, displayAsArea;
 
-    void calculatePointLocations(float chartWidth, float chartHeight,
-                                 float maxValueX,  float maxValueY);
+    void calculatePointLocations();
     void drawAsLines();
     void drawAsArea();
 };
