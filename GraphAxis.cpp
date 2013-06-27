@@ -33,29 +33,29 @@ GraphAxis::~GraphAxis() {
 
 }
 
-void GraphAxis::draw(float graphWidth, float graphHeight) {
+void GraphAxis::draw(float chartWidth, float chartHeight) {
     glPushMatrix();
         float axisLength;
 
         switch (axisType) {
             case AXIS_TOP:
-                axisLength = graphWidth;
-                glTranslatef(0, graphHeight, 0);
+                axisLength = chartWidth;
+                glTranslatef(0, chartHeight, 0);
                 glScalef(1.0, -1.0, 1.0);
                 break;
             case AXIS_LEFT:            
-                axisLength = graphHeight;
+                axisLength = chartHeight;
                 glRotatef(90, 0, 0, 1);
                 glScalef(1.0, -1.0, 1.0);
                 break;
             case AXIS_RIGHT:
-                axisLength = graphHeight;
-                glTranslatef(graphWidth, 0, 0);
+                axisLength = chartHeight;
+                glTranslatef(chartWidth, 0, 0);
                 glRotatef(90, 0, 0, 1);
                 break;
             case AXIS_BOTTOM:
             default:
-                axisLength = graphWidth;
+                axisLength = chartWidth;
                 break;
         }
 
@@ -69,38 +69,38 @@ void GraphAxis::draw(float graphWidth, float graphHeight) {
     glPopMatrix();
 
     if (displayLabels) {
-       drawLabels(graphWidth, graphHeight);
+       drawLabels(chartWidth, chartHeight);
     }
 }
 
 
-void GraphAxis::drawLabels(float graphWidth, float graphHeight) {
+void GraphAxis::drawLabels(float chartWidth, float chartHeight) {
     glColor4f(0.0, 0.0, 0.0, 1.0);
 
     switch (axisType) {
         case AXIS_TOP:
-            drawHorizontalLabels(graphWidth, graphHeight + 5);
+            drawHorizontalLabels(chartWidth, chartHeight + 5);
             break;
         case AXIS_LEFT:            
-            drawLeftLabels(graphHeight, -5);
+            drawLeftLabels(chartHeight, -5);
             break;
         case AXIS_RIGHT:
-            drawRightLabels(graphWidth, graphHeight, 5);
+            drawRightLabels(chartWidth, chartHeight, 5);
             break;
         case AXIS_BOTTOM:
         default:
-            drawHorizontalLabels(graphWidth, -10);
+            drawHorizontalLabels(chartWidth, -10);
             break;
     } 
 }    
 
-void GraphAxis::drawRightLabels(float graphWidth, float graphHeight, float horizOffset) {
+void GraphAxis::drawRightLabels(float chartWidth, float chartHeight, float horizOffset) {
     float value = minValue;
 
     while (value <= maxValue) {
-        float pos = valueToPosition(graphHeight, value);
+        float pos = valueToPosition(chartHeight, value);
 
-        PrintText::printVerticallyCenteredAt(graphWidth + horizOffset, pos, getLabel(value), false, false, GLUT_BITMAP_HELVETICA_10);
+        PrintText::printVerticallyCenteredAt(chartWidth + horizOffset, pos, getLabel(value), false, false, GLUT_BITMAP_HELVETICA_10);
 
         value = value + majorTickSpacing;
     }
@@ -118,11 +118,11 @@ void GraphAxis::drawLeftLabels(float graphHeight, float horizOffset) {
     }
 }
 
-void GraphAxis::drawHorizontalLabels(float graphWidth, float vertOffset) {
+void GraphAxis::drawHorizontalLabels(float chartWidth, float vertOffset) {
     float value = minValue;
 
     while (value <= maxValue) {
-        float pos = valueToPosition(graphWidth, value);
+        float pos = valueToPosition(chartWidth, value);
 
         PrintText::printCenteredAt(pos, vertOffset, getLabel(value), false, false, GLUT_BITMAP_HELVETICA_10);
 

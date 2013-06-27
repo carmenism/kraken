@@ -1,5 +1,5 @@
 #include "LineChart.h"
-#include "GraphMarker.h"
+#include "ChartPoint.h"
 #include "Color.h"
 #include "GraphAxis.h"
 #include "GraphLegend.h"
@@ -250,12 +250,12 @@ void LineChart::addMarkerSeries(GraphMarkerSeries *series) {
     seriesList.push_back(series);
 }
 
-GraphMarkerList *LineChart::getMarkers() {
-    GraphMarkerList *newList = new GraphMarkerList();
+ChartPointList *LineChart::getPoints() {
+    ChartPointList *newList = new ChartPointList();
 
     FOREACH_MARKERSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
-            FOREACH_MARKERP(it2, (*it)->getMarkers()) {
+            FOREACH_POINTP(it2, (*it)->getPoints()) {
                 newList->push_back((*it2));
             }
         }

@@ -5,7 +5,7 @@
 #include "Circle.h"
 #include "Triangle.h"
 #include "LineChart.h"
-#include "GraphMarker.h"
+#include "ChartPoint.h"
 
 MyQGLWidget::MyQGLWidget(QWidget *parent) : QGLWidget(parent) {
     hovered = NULL;
@@ -53,10 +53,10 @@ void MyQGLWidget::selectItem(int x, int y) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(color[0], color[1], color[2], color[3]);
 
-        GraphMarkerList *markers = chart->getMarkers();
+        ChartPointList *points = chart->getPoints();
         
-        for (i = 0; i < markers->size(); i++) {
-            (*markers)[i]->setPickColor(i & 0xFF, (i >> 8) & 0xFF, 0);
+        for (i = 0; i < points->size(); i++) {
+            (*points)[i]->setPickColor(i & 0xFF, (i >> 8) & 0xFF, 0);
         }
 
         chart->drawToPick();
@@ -66,8 +66,8 @@ void MyQGLWidget::selectItem(int x, int y) {
         
         i = (val[1] << 8) + val[0];
 
-        if (i >=0 && i < markers->size()) {
-            setHovered((*markers)[i]);
+        if (i >=0 && i < points->size()) {
+            setHovered((*points)[i]);
         } else if (hovered != NULL) {
             hovered->displayLabelOff();
         }
@@ -76,15 +76,15 @@ void MyQGLWidget::selectItem(int x, int y) {
     }
 }
 
-void MyQGLWidget::setHovered(GraphMarker *marker) {
-    marker->displayLabelOn();
+void MyQGLWidget::setHovered(ChartPoint *point) {
+    point->displayLabelOn();
     
-    if (hovered != marker) {
+    if (hovered != point) {
         if (hovered != NULL) {
             hovered->displayLabelOff();
         }
         
-        hovered = marker;
+        hovered = point;
     }
 }
 

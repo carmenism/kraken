@@ -1,5 +1,5 @@
 #include "GraphMarkerSeries.h"
-#include "GraphMarker.h"
+#include "ChartPoint.h"
 #include "Color.h"
 #include "PrintText.h"
 #include <QtOpenGL>
@@ -20,14 +20,14 @@ GraphMarkerSeries::GraphMarkerSeries(std::string label, std::vector<float> x, st
     min = NULL;
 
     for (int i = 0; i < x.size(); i++) {
-        GraphMarker *marker = new GraphMarker(label, x[i], y[i]);
-        markers.push_back(marker);
+        ChartPoint *point = new ChartPoint(label, x[i], y[i]);
+        points.push_back(point);
 
-        if (max == NULL || max->getValueY() < marker->getValueY()) {
-            max = marker;
+        if (max == NULL || max->getValueY() < point->getValueY()) {
+            max = point;
         }
-        if (min == NULL || min->getValueY() > marker->getValueY()) {
-            min = marker;
+        if (min == NULL || min->getValueY() > point->getValueY()) {
+            min = point;
         }
     }
 
@@ -46,13 +46,13 @@ void GraphMarkerSeries::setValues(std::vector<float> x, std::vector<float> y) {
         throw "should not be empty values for x or y";
     }   
 
-    if (markers.size() != y.size()) {
+    if (points.size() != y.size()) {
         throw "to change marker values you must specify one values for each marker";
     }
 
-    for (int i = 0; i < markers.size(); i++) {
-        markers[i]->setValueX(x[i]);
-        markers[i]->setValueY(y[i]);
+    for (int i = 0; i < points.size(); i++) {
+        points[i]->setValueX(x[i]);
+        points[i]->setValueY(y[i]);
     }
 }
 
@@ -60,10 +60,10 @@ GraphMarkerSeries::~GraphMarkerSeries() {
     
 }
 
-void GraphMarkerSeries::draw(float graphWidth, float graphHeight,
+void GraphMarkerSeries::draw(float chartWidth, float chartHeight,
                              float maxValueX,  float maxValueY) {
     if (display) {
-        recalculateMarkerLocations(graphWidth, graphHeight, maxValueX, maxValueY);
+        calculatePointLocations(chartWidth, chartHeight, maxValueX, maxValueY);
 
         if (displayAsArea) {
             drawAsArea();
@@ -74,26 +74,26 @@ void GraphMarkerSeries::draw(float graphWidth, float graphHeight,
 }
 
 void GraphMarkerSeries::drawLabels() {
-    FOREACH_MARKER(it, markers) {
+    FOREACH_POINT(it, points) {
         (*it)->drawLabel();
     }
 }
 
-void GraphMarkerSeries::drawToPick(float graphWidth, float graphHeight,
+void GraphMarkerSeries::drawToPick(float chartWidth, float chartHeight,
                                    float maxValueX,  float maxValueY) {
     if (display) {
-        recalculateMarkerLocations(graphWidth, graphHeight, maxValueX, maxValueY);
+        calculatePointLocations(chartWidth, chartHeight, maxValueX, maxValueY);
 
-        FOREACH_MARKER(it, markers) {
+        FOREACH_POINT(it, points) {
             (*it)->drawToPick();
         } 
     }
 }
 
-void GraphMarkerSeries::recalculateMarkerLocations(float graphWidth, 
-        float graphHeight, float maxValueX, float maxValueY) {
-    FOREACH_MARKER(it, markers) {
-        (*it)->calculateLocation(graphWidth, graphHeight, maxValueX, maxValueY); 
+void GraphMarkerSeries::calculatePointLocations(float chartWidth, 
+        float chartHeight, float maxValueX, float maxValueY) {
+    FOREACH_POINT(it, points) {
+        (*it)->calculateLocation(chartWidth, chartHeight, maxValueX, maxValueY); 
     } 
 }
 
@@ -112,16 +112,16 @@ float GraphMarkerSeries::drawInLegend(float x, float y, float lineLength, float 
         glEnd();
 
         if (displayMarkers) {
-            float origX = markers[0]->getPositionX();
-            float origY = markers[0]->getPositionY();
+            float origX = points[0]->getPositionX();
+            float origY = points[0]->getPositionY();
 
-            markers[0]->setPositionX(0);
-            markers[0]->setPositionY(0);
+            points[0]->setPositionX(0);
+            points[0]->setPositionY(0);
 
-            markers[0]->draw();
+            points[0]->draw();
 
-            markers[0]->setPositionX(origX);
-            markers[0]->setPositionY(origY);
+            points[0]->setPositionX(origX);
+            points[0]->setPositionY(origY);
         }
 
         int posX = lineLength / 2.0 + spacing;
@@ -135,14 +135,14 @@ float GraphMarkerSeries::drawInLegend(float x, float y, float lineLength, float 
 }
 
 void GraphMarkerSeries::drawAsLines() {
-    GraphMarker *last = NULL;
+    ChartPoint *last = NULL;
    
     glPolygonMode(GL_FRONT, GL_LINE);
     glLineWidth(lineWidth);
     glColor4f(lineColor->r, lineColor->g, lineColor->b, lineColor->a);
     
     glBegin(GL_LINES);
-        FOREACH_MARKER(it, markers) {      
+        FOREACH_POINT(it, points) {      
             if (last != NULL) {
                 // draw line to last
                 glVertex2f(last->getPositionX(), last->getPositionY());
@@ -154,19 +154,19 @@ void GraphMarkerSeries::drawAsLines() {
     glEnd();
 
     if (displayMarkers) {
-        FOREACH_MARKER(it, markers) {
+        FOREACH_POINT(it, points) {
             (*it)->draw();
         }            
     }
 }
 
 void GraphMarkerSeries::drawAsArea() {
-    GraphMarker *last = NULL;
+    ChartPoint *last = NULL;
 
     glPolygonMode( GL_FRONT, GL_FILL );
     glColor4f(lineColor->r, lineColor->g, lineColor->b, lineColor->a);
     
-    FOREACH_MARKER(it, markers) {   
+    FOREACH_POINT(it, points) {   
         if (last != NULL) {
             glBegin( GL_POLYGON );
                 glVertex2f(last->getPositionX(), 0);
@@ -181,11 +181,11 @@ void GraphMarkerSeries::drawAsArea() {
 }
 
 float GraphMarkerSeries::getMinimumValueX() {
-    return markers[0]->getValueX();
+    return points[0]->getValueX();
 }
 
 float GraphMarkerSeries::getMaximumValueX() {
-    return markers[markers.size() - 1]->getValueX();
+    return points[points.size() - 1]->getValueX();
 }
 
 float GraphMarkerSeries::getMinimumValueY() {
@@ -197,25 +197,25 @@ float GraphMarkerSeries::getMaximumValueY() {
 }
 
 void GraphMarkerSeries::setMarkerShape(int shape) {
-    FOREACH_MARKER(it, markers) {
+    FOREACH_POINT(it, points) {
         (*it)->setShape(shape);
     }
 }
 
 void GraphMarkerSeries::setMarkerSize(float size) {
-    FOREACH_MARKER(it, markers) {
+    FOREACH_POINT(it, points) {
         (*it)->setSize(size);
     }
 }
 
 void GraphMarkerSeries::setMarkerBorderColor(Color *color) {
-    FOREACH_MARKER(it, markers) {
+    FOREACH_POINT(it, points) {
         (*it)->setBorderColor(color);
     }
 }
 
 void GraphMarkerSeries::setMarkerFillColor(Color *color) {
-    FOREACH_MARKER(it, markers) {
+    FOREACH_POINT(it, points) {
         (*it)->setFillColor(color);
     }
 }

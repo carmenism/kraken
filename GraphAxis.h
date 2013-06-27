@@ -26,7 +26,7 @@ public:
     GraphAxis(float minV, float maxV);
     ~GraphAxis();
 
-    void draw(float graphWidth, float graphHeight);
+    void draw(float chartWidth, float chartHeight);
 
     float getMinorTickSpacing() { return minorTickSpacing; }
     void setMinorTickSpacing(float m) { minorTickSpacing = m; }
@@ -84,10 +84,10 @@ private:
 
     void drawTicks(float axisLength, float tickSpacing, float tickLength);
     
-    void drawLabels(float graphWidth, float graphHeight);
-    void drawLeftLabels(float graphHeight, float horizOffset);
-    void drawRightLabels(float graphWidth, float graphHeight, float horizOffset);
-    void drawHorizontalLabels(float graphWidth, float vertOffset);
+    void drawLabels(float chartWidth, float chartHeight);
+    void drawLeftLabels(float chartHeight, float horizOffset);
+    void drawRightLabels(float chartWidth, float chartHeight, float horizOffset);
+    void drawHorizontalLabels(float chartWidth, float vertOffset);
 };
 
 #endif /* GRAPHAXIS_H_ */

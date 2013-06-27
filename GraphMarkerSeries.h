@@ -4,17 +4,17 @@
 #include <vector>
 //#include "Shape.h"
 
-class GraphMarker;
+class ChartPoint;
 class Color;
 class Shape;
 
-typedef std::vector<GraphMarker *> GraphMarkerList;
-typedef std::vector<GraphMarker *>::const_iterator GraphMarkerIterator;
+typedef std::vector<ChartPoint *> ChartPointList;
+typedef std::vector<ChartPoint *>::const_iterator ChartPointIterator;
 
-#define FOREACH_MARKER(it, graphMarkerList) \
-    for(GraphMarkerIterator it = graphMarkerList.begin(); it != graphMarkerList.end(); ++it)
-#define FOREACH_MARKERP(it, graphMarkerList) \
-    for(GraphMarkerIterator it = graphMarkerList->begin(); it != graphMarkerList->end(); ++it)
+#define FOREACH_POINT(it, chartPointList) \
+    for(ChartPointIterator it = chartPointList.begin(); it != chartPointList.end(); ++it)
+#define FOREACH_POINTP(it, chartPointList) \
+    for(ChartPointIterator it = chartPointList->begin(); it != chartPointList->end(); ++it)
 
 class GraphMarkerSeries
 {
@@ -24,13 +24,13 @@ public:
     
     void setValues(std::vector<float> x, std::vector<float> y);
 
-    void draw(float graphWidth, float graphHeight,
+    void draw(float chartWidth, float chartHeight,
               float maxValueX,  float maxValueY);
     void drawLabels();
 
     float drawInLegend(float x, float y, float lineLength, float spacing, void *font);
 
-    void drawToPick(float graphWidth, float graphHeight,
+    void drawToPick(float chartWidth, float chartHeight,
                     float maxValueX,  float maxValueY);
 
     float getMaximumValueX();
@@ -67,17 +67,17 @@ public:
 
     void setColor(Color *c);
 
-    GraphMarkerList *getMarkers() { return &markers; }// { return markers; }
+    ChartPointList *getPoints() { return &points; }// { return markers; }
 private:
     std::string label;
-    GraphMarkerList markers;
-    GraphMarker *min, *max;
+    ChartPointList points;
+    ChartPoint *min, *max;
     float lineWidth;
     Color *lineColor;
     bool display, displayMarkers, displayAsArea;
 
-    void recalculateMarkerLocations(float graphWidth, float graphHeight,
-                                    float maxValueX,  float maxValueY);
+    void calculatePointLocations(float chartWidth, float chartHeight,
+                                 float maxValueX,  float maxValueY);
     void drawAsLines();
     void drawAsArea();
 };

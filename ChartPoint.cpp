@@ -1,4 +1,4 @@
-#include "GraphMarker.h"
+#include "ChartPoint.h"
 #include "Shape.h"
 #include "Circle.h"
 #include "Square.h"
@@ -6,7 +6,7 @@
 #include "Color.h"
 #include "PrintText.h"
 
-GraphMarker::GraphMarker(std::string label, float vX, float vY, int shape) {
+ChartPoint::ChartPoint(std::string label, float vX, float vY, int shape) {
     valueX = vX;
     valueY = vY;
     this->label = label + ": " + toStr(vY);
@@ -29,23 +29,23 @@ GraphMarker::GraphMarker(std::string label, float vX, float vY, int shape) {
     setDisplayLabel(false);
 }
 
-GraphMarker::~GraphMarker() {
+ChartPoint::~ChartPoint() {
     delete marker;
 }
 
-void GraphMarker::calculateLocation(float graphWidth, float graphHeight,
-                                    float maxValueX,  float maxValueY) {
-    float posX = valueX * graphWidth /  maxValueX;
-    float posY = valueY * graphHeight / maxValueY;
+void ChartPoint::calculateLocation(float chartWidth, float chartHeight,
+                                   float maxValueX,  float maxValueY) {
+    float posX = valueX * chartWidth /  maxValueX;
+    float posY = valueY * chartHeight / maxValueY;
 
     marker->setLocation(posX, posY);
 }
 
-void GraphMarker::draw() {
+void ChartPoint::draw() {
     marker->draw();
 }
 
-void GraphMarker::drawLabel() {
+void ChartPoint::drawLabel() {
     void *font = GLUT_BITMAP_HELVETICA_12;
 
     if (displayLabel) {
@@ -70,11 +70,11 @@ void GraphMarker::drawLabel() {
     }
 }
 
-void GraphMarker::drawToPick() {
+void ChartPoint::drawToPick() {
     marker->drawToPick();
 }
 
-void GraphMarker::setShape(int shape) {
+void ChartPoint::setShape(int shape) {
     Shape *newMarker;
 
     switch (shape) {
@@ -103,38 +103,38 @@ void GraphMarker::setShape(int shape) {
     marker = newMarker;
 }
 
-void GraphMarker::setSize(float size) {
+void ChartPoint::setSize(float size) {
     marker->setSize(size, size);
 }
 
-void GraphMarker::setBorderColor(Color *color) {
+void ChartPoint::setBorderColor(Color *color) {
     marker->setBorderColor(color);
 }
 
-void GraphMarker::setFillColor(Color *color) {
+void ChartPoint::setFillColor(Color *color) {
     marker->setFillColor(color);
 }
 
-void GraphMarker::setBorderWidth(float width) {
+void ChartPoint::setBorderWidth(float width) {
     marker->setBorderWidth(width);
 }
 
-float GraphMarker::getPositionX() {
+float ChartPoint::getPositionX() {
     return marker->getX();
 }
 
-float GraphMarker::getPositionY() {
+float ChartPoint::getPositionY() {
     return marker->getY();
 }
 
-void GraphMarker::setPickColor(int r, int g, int b) {
+void ChartPoint::setPickColor(int r, int g, int b) {
     marker->setPickColor(r, g, b);
 }
 
-void GraphMarker::setPositionX(float x) {
+void ChartPoint::setPositionX(float x) {
     marker->setLocation(x, marker->getY());
 }
 
-void GraphMarker::setPositionY(float y) {
+void ChartPoint::setPositionY(float y) {
     marker->setLocation(marker->getX(), y);
 }

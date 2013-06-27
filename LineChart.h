@@ -74,7 +74,7 @@ public:
     void setLeftAxisDisplay(bool d);
     void setRightAxisDisplay(bool d);
 
-    GraphMarkerList *getMarkers();
+    ChartPointList *getPoints();
 
     static LineChart *createGraph(QList<QList<double>> matrix, QStringList labels);
 private:

@@ -1,5 +1,5 @@
-#ifndef GRAPHMARKER_H_
-#define GRAPHMARKER_H_
+#ifndef CHARTPOINT_H_
+#define CHARTPOINT_H_
 
 enum {SHAPE_CIRCLE, SHAPE_SQUARE, SHAPE_TRIANGLE};
 
@@ -8,17 +8,17 @@ class Color;
 
 #include <string>
 
-class GraphMarker
+class ChartPoint
 {
 public:
-    GraphMarker(std::string label, float vX, float vY, int shape = SHAPE_CIRCLE);
-    virtual ~GraphMarker();
+    ChartPoint(std::string label, float vX, float vY, int shape = SHAPE_CIRCLE);
+    virtual ~ChartPoint();
 
     void draw();
     void drawLabel();
     void drawToPick();
 
-    void calculateLocation(float graphWidth, float graphHeight,
+    void calculateLocation(float chartWidth, float chartHeight,
                            float maxValueX,  float maxValueY);
 
     void setShape(int shape);
@@ -52,4 +52,4 @@ private:
     bool displayLabel;
 };
 
-#endif /*GRAPHMARKER_H_*/
+#endif /*CHARTPOINT_H_*/
