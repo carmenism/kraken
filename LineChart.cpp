@@ -1,4 +1,4 @@
-#include "LineGraph.h"
+#include "LineChart.h"
 #include "GraphMarker.h"
 #include "Color.h"
 #include "GraphAxis.h"
@@ -11,8 +11,8 @@
 #include <QtOpenGL>
 #include <GL/glut.h>
 
-LineGraph *LineGraph::createGraph(QList<QList<double>> matrix, QStringList labels) {
-    LineGraph *graph = new LineGraph();
+LineChart *LineChart::createGraph(QList<QList<double>> matrix, QStringList labels) {
+    LineChart *chart = new LineChart();
 
     for (int i = 0; i < matrix.size(); i++) {
         std::vector<float> x;
@@ -27,19 +27,19 @@ LineGraph *LineGraph::createGraph(QList<QList<double>> matrix, QStringList label
         Color *c = Color::getEvenlyDistributedColor(matrix.size(), i);
         series->setColor(c);
 
-        graph->addMarkerSeries(series);
+        chart->addMarkerSeries(series);
     }
 
-    graph->setHeight(480);
-    graph->setWidth(600);
-    graph->setLineWidths(2);
-    graph->setMarkersSize(4);
-    graph->displayMarkersOn();
+    chart->setHeight(480);
+    chart->setWidth(600);
+    chart->setLineWidths(2);
+    chart->setMarkersSize(4);
+    chart->displayMarkersOn();
 
-    return graph;
+    return chart;
 }
 
-LineGraph::LineGraph() {
+LineChart::LineChart() {
     width = 400;
     height = 300;
 
@@ -50,7 +50,7 @@ LineGraph::LineGraph() {
     displayLegend = true;
 }
 
-LineGraph::LineGraph(QList<QList<double>> matrix, QStringList labels) {
+LineChart::LineChart(QList<QList<double>> matrix, QStringList labels) {
     for (int i = 0; i < matrix.size(); i++) {
         std::vector<float> x;
         std::vector<float> y;
@@ -79,11 +79,11 @@ LineGraph::LineGraph(QList<QList<double>> matrix, QStringList labels) {
     displayLegendOn();
 }
 
-LineGraph::~LineGraph() {
+LineChart::~LineChart() {
 
 }
 
-void LineGraph::setUpAxes() {
+void LineChart::setUpAxes() {
     axes.push_back(new GraphAxis(AXIS_BOTTOM));
     axes.push_back(new GraphAxis(AXIS_TOP));
     axes.push_back(new GraphAxis(AXIS_LEFT));
@@ -92,7 +92,7 @@ void LineGraph::setUpAxes() {
     axes[AXIS_RIGHT]->displayOff();
 }
 
-void LineGraph::setValues(QList<QList<double>> matrix) {
+void LineChart::setValues(QList<QList<double>> matrix) {
     for (int i = 0; i < matrix.size(); i++) {
         std::vector<float> x;
         std::vector<float> y;
@@ -106,7 +106,7 @@ void LineGraph::setValues(QList<QList<double>> matrix) {
     }
 }
 
-void LineGraph::draw() {
+void LineChart::draw() {
     glPushMatrix();
         glTranslatef(50, 50, 0);
         drawBoundary();    
@@ -121,7 +121,7 @@ void LineGraph::draw() {
     glPopMatrix();
 }
 
-void LineGraph::drawAxes() {
+void LineChart::drawAxes() {
     drawXAxis(axes[AXIS_BOTTOM]);
     drawXAxis(axes[AXIS_TOP]);
     
@@ -129,7 +129,7 @@ void LineGraph::drawAxes() {
     drawYAxis(axes[AXIS_RIGHT]);
 }
 
-void LineGraph::drawXAxis(GraphAxis *axisX) {
+void LineChart::drawXAxis(GraphAxis *axisX) {
     if (axisX->getDisplay()) {
         float xInterval = calculateIntervalSize(globalMinX, globalMaxX);
         
@@ -142,7 +142,7 @@ void LineGraph::drawXAxis(GraphAxis *axisX) {
     }
 }
 
-void LineGraph::drawYAxis(GraphAxis *axisY) {
+void LineChart::drawYAxis(GraphAxis *axisY) {
     if (axisY->getDisplay()) {
         float yInterval = calculateIntervalSize(globalMinY, globalMaxY);
 
@@ -155,14 +155,14 @@ void LineGraph::drawYAxis(GraphAxis *axisY) {
     }
 }
 
-float LineGraph::calculateIntervalSize(float min, float max) {
+float LineChart::calculateIntervalSize(float min, float max) {
     float range = max - min;
     float tempInterval = range / 8.0;
 
     return roundUp(tempInterval);
 }
 
-void LineGraph::drawToPick() {
+void LineChart::drawToPick() {
     glPushMatrix();
     glTranslatef(50, 50, 0);
  
@@ -173,7 +173,7 @@ void LineGraph::drawToPick() {
 }
 
 
-void LineGraph::calculateGlobalBounds() {
+void LineChart::calculateGlobalBounds() {
     globalMinX = (std::numeric_limits<float>::max)();
     globalMaxX = -1 * (std::numeric_limits<float>::max)();
 
@@ -209,7 +209,7 @@ void LineGraph::calculateGlobalBounds() {
     globalMaxY = globalMaxY + 0.05 * (globalMaxY - globalMinY);
 }
 
-void LineGraph::drawBoundary() {  
+void LineChart::drawBoundary() {  
     glPolygonMode(GL_FRONT, GL_LINE);  
     glLineWidth(1.0);
     glColor4f(0.5, 0.5, 0.5, 1);
@@ -222,7 +222,7 @@ void LineGraph::drawBoundary() {
     glEnd();
 }
 
-void LineGraph::drawLines() {
+void LineChart::drawLines() {
     FOREACH_MARKERSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
             (*it)->draw(width, height, globalMaxX, globalMaxY);
@@ -230,7 +230,7 @@ void LineGraph::drawLines() {
     }
 }
 
-void LineGraph::drawLabels() {
+void LineChart::drawLabels() {
     FOREACH_MARKERSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
             (*it)->drawLabels();
@@ -238,7 +238,7 @@ void LineGraph::drawLabels() {
     }
 }   
 
-void LineGraph::drawToPickLines() {
+void LineChart::drawToPickLines() {
     FOREACH_MARKERSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
             (*it)->drawToPick(width, height, globalMaxX, globalMaxY);
@@ -246,11 +246,11 @@ void LineGraph::drawToPickLines() {
     }
 }
 
-void LineGraph::addMarkerSeries(GraphMarkerSeries *series) {
+void LineChart::addMarkerSeries(GraphMarkerSeries *series) {
     seriesList.push_back(series);
 }
 
-GraphMarkerList *LineGraph::getMarkers() {
+GraphMarkerList *LineChart::getMarkers() {
     GraphMarkerList *newList = new GraphMarkerList();
 
     FOREACH_MARKERSERIES(it, seriesList) {
@@ -264,92 +264,92 @@ GraphMarkerList *LineGraph::getMarkers() {
     return newList;
 }
 
-void LineGraph::setLineWidths(float w) {
+void LineChart::setLineWidths(float w) {
     FOREACH_MARKERSERIES(it, seriesList) {       
         (*it)->setLineWidth(w);
     }
 }
 
-void LineGraph::setDisplayMarkers(bool d) {
+void LineChart::setDisplayMarkers(bool d) {
     FOREACH_MARKERSERIES(it, seriesList) {       
         (*it)->setDisplayMarkers(d);
     }
 }
 
-void LineGraph::displayMarkersOn() {
+void LineChart::displayMarkersOn() {
     FOREACH_MARKERSERIES(it, seriesList) {       
         (*it)->displayMarkersOn();
     }
 }
 
-void LineGraph::displayMarkersOff() {
+void LineChart::displayMarkersOff() {
     FOREACH_MARKERSERIES(it, seriesList) {       
         (*it)->displayMarkersOff();
     }
 }
 
-void LineGraph::setMarkersSize(float s) {
+void LineChart::setMarkersSize(float s) {
     FOREACH_MARKERSERIES(it, seriesList) {       
         (*it)->setMarkerSize(s);
     }
 }
 
-void LineGraph::displayAsAreas() {
+void LineChart::displayAsAreas() {
     FOREACH_MARKERSERIES(it, seriesList) {       
         (*it)->displayAsAreaOn();
     }
 }
 
-void LineGraph::displayAsLines() {  
+void LineChart::displayAsLines() {  
     FOREACH_MARKERSERIES(it, seriesList) {       
         (*it)->displayAsAreaOff();
     }
 }
 
-GraphAxis *LineGraph::getBottomAxis() {
+GraphAxis *LineChart::getBottomAxis() {
     return axes[AXIS_BOTTOM];
 }
 
-GraphAxis *LineGraph::getTopAxis() {
+GraphAxis *LineChart::getTopAxis() {
     return axes[AXIS_TOP];
 }
 
-GraphAxis *LineGraph::getLeftAxis() {
+GraphAxis *LineChart::getLeftAxis() {
     return axes[AXIS_LEFT];
 }
 
-GraphAxis *LineGraph::getRightAxis() {
+GraphAxis *LineChart::getRightAxis() {
     return axes[AXIS_RIGHT];
 }
 
-bool LineGraph::getBottomAxisDisplay() {
+bool LineChart::getBottomAxisDisplay() {
     return axes[AXIS_BOTTOM]->getDisplay();
 }
 
-bool LineGraph::getTopAxisDisplay() {
+bool LineChart::getTopAxisDisplay() {
     return axes[AXIS_TOP]->getDisplay();
 }
 
-bool LineGraph::getLeftAxisDisplay() {
+bool LineChart::getLeftAxisDisplay() {
     return axes[AXIS_LEFT]->getDisplay();
 }
 
-bool LineGraph::getRightAxisDisplay() {
+bool LineChart::getRightAxisDisplay() {
     return axes[AXIS_RIGHT]->getDisplay();
 }
 
-void LineGraph::setBottomAxisDisplay(bool d) {
+void LineChart::setBottomAxisDisplay(bool d) {
     axes[AXIS_BOTTOM]->setDisplay(d);
 }
 
-void LineGraph::setTopAxisDisplay(bool d) {
+void LineChart::setTopAxisDisplay(bool d) {
     axes[AXIS_TOP]->setDisplay(d);
 }
 
-void LineGraph::setLeftAxisDisplay(bool d) {
+void LineChart::setLeftAxisDisplay(bool d) {
     axes[AXIS_LEFT]->setDisplay(d);
 }
 
-void LineGraph::setRightAxisDisplay(bool d) {
+void LineChart::setRightAxisDisplay(bool d) {
     axes[AXIS_RIGHT]->setDisplay(d);
 }

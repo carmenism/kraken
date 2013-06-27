@@ -1,16 +1,16 @@
 #include "GraphLegend.h"
-#include "LineGraph.h"
+#include "LineChart.h"
 #include "PrintText.h"
 
-GraphLegend::GraphLegend(LineGraph *g) {
-    graph = g;
+GraphLegend::GraphLegend(LineChart *c) {
+    chart = c;
 }
 
 void GraphLegend::draw(float x, float y, float lineLength, float spacing, void *font) {
     glPushMatrix();
         glTranslatef(x, y, 0);
 
-        GraphMarkerSeriesList seriesList = graph->getMarkerSeriesList();
+        GraphMarkerSeriesList seriesList = chart->getMarkerSeriesList();
         float h = PrintText::printingHeight(font);
         int num = seriesList.size();
         float maxWidth = -1;

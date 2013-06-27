@@ -278,7 +278,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\LineGraph.cpp"
+				RelativePath=".\LineChart.cpp"
 				>
 			</File>
 			<File
@@ -424,7 +424,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\LineGraph.h"
+				RelativePath=".\LineChart.h"
 				>
 			</File>
 			<File

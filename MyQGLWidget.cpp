@@ -4,7 +4,7 @@
 #include "Square.h"
 #include "Circle.h"
 #include "Triangle.h"
-#include "LineGraph.h"
+#include "LineChart.h"
 #include "GraphMarker.h"
 
 MyQGLWidget::MyQGLWidget(QWidget *parent) : QGLWidget(parent) {
@@ -12,7 +12,7 @@ MyQGLWidget::MyQGLWidget(QWidget *parent) : QGLWidget(parent) {
 
     setMouseTracking(true);
 
-    graph = NULL;
+    chart = NULL;
 }
 
 void MyQGLWidget::initializeGL() {
@@ -37,13 +37,13 @@ void MyQGLWidget::resizeGL(int w, int h) {
 void MyQGLWidget::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    if (graph != NULL) {
-        graph->draw();
+    if (chart != NULL) {
+        chart->draw();
     }
 }
 
 void MyQGLWidget::selectItem(int x, int y) {
-    if (graph != NULL) {
+    if (chart != NULL) {
         float color[4];    
         unsigned char val[3];
         int i;
@@ -53,13 +53,13 @@ void MyQGLWidget::selectItem(int x, int y) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(color[0], color[1], color[2], color[3]);
 
-        GraphMarkerList *markers = graph->getMarkers();
+        GraphMarkerList *markers = chart->getMarkers();
         
         for (i = 0; i < markers->size(); i++) {
             (*markers)[i]->setPickColor(i & 0xFF, (i >> 8) & 0xFF, 0);
         }
 
-        graph->drawToPick();
+        chart->drawToPick();
 
         glReadBuffer(GL_BACK);
         glReadPixels(x, y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, val);

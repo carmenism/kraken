@@ -6,7 +6,7 @@
 class Square;
 class Circle;
 class Triangle;
-class LineGraph;
+class LineChart;
 class GraphMarker;
 
 class MyQGLWidget : public QGLWidget {
@@ -16,7 +16,7 @@ class MyQGLWidget : public QGLWidget {
 public:
     MyQGLWidget(QWidget *parent = NULL);
 
-    void setGraph(LineGraph *g) { graph = g; updateGL(); }
+    void setLineChart(LineChart *c) { chart = c; updateGL(); }
 protected:
     void initializeGL();
     void resizeGL(int w, int h);
@@ -28,7 +28,7 @@ private:
     void selectItem(int x, int y);
     void setHovered(GraphMarker *marker);
 
-    LineGraph *graph;
+    LineChart *chart;
     GraphMarker *hovered;
 };
 

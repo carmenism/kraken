@@ -1,5 +1,5 @@
-#ifndef LINEGRAPH_H_
-#define LINEGRAPH_H_
+#ifndef LINECHART_H_
+#define LINECHART_H_
 
 #include <vector>
 #include <QList>
@@ -26,12 +26,12 @@ typedef std::vector<GraphMarkerSeries *>::const_iterator GraphMarkerSeriesIterat
 #define FOREACH_MARKERSERIESP(it, graphMarkerSeriesList) \
     for(GraphMarkerSeriesIterator it = graphMarkerSeriesList->begin(); it != graphMarkerSeriesList->end(); ++it)
 
-class LineGraph : public Chart {
+class LineChart : public Chart {
 public:
-    LineGraph();
-    LineGraph(QList<QList<double>> matrix, QStringList labels);
+    LineChart();
+    LineChart(QList<QList<double>> matrix, QStringList labels);
 
-    ~LineGraph();
+    ~LineChart();
 
     void setValues(QList<QList<double>> matrix);
 
@@ -76,12 +76,11 @@ public:
 
     GraphMarkerList *getMarkers();
 
-    static LineGraph *createGraph(QList<QList<double>> matrix, QStringList labels);
+    static LineChart *createGraph(QList<QList<double>> matrix, QStringList labels);
 private:
     GraphAxisList axes;
     GraphLegend *legend;
 
-//    float width, height;
     GraphMarkerSeriesList seriesList;
 
     bool displayLegend;
@@ -102,4 +101,4 @@ private:
     void setUpAxes();
 };
 
-#endif /*LINEGRAPH_H_*/
+#endif /*LINECHART_H_*/
