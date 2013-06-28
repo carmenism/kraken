@@ -37,7 +37,7 @@ LineChart::LineChart(QList<QList<double>> matrix, QStringList labels) {
             y.push_back(matrix.at(i).at(j));
         }
 
-        ChartPointSeries *series = new ChartPointSeries(labels.at(i).toStdString(), x, y);
+        ChartPointSeries *series = new ChartPointSeries(this, labels.at(i).toStdString(), x, y);
         Color *c = Color::getEvenlyDistributedColor(matrix.size(), i);
         series->setColor(c);
 
@@ -202,7 +202,7 @@ void LineChart::drawBoundary() {
 void LineChart::drawLines() {
     FOREACH_POINTSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
-            (*it)->draw(width, height, globalMaxX, globalMaxY);
+            (*it)->draw();
         }
     }
 }
@@ -218,7 +218,7 @@ void LineChart::drawLabels() {
 void LineChart::drawToPickLines() {
     FOREACH_POINTSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
-            (*it)->drawToPick(width, height, globalMaxX, globalMaxY);
+            (*it)->drawToPick();
         }
     }
 }

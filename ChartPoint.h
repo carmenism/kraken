@@ -3,6 +3,7 @@
 
 enum {SHAPE_CIRCLE, SHAPE_SQUARE, SHAPE_TRIANGLE};
 
+class LineChart;
 class Shape;
 class Color;
 
@@ -11,15 +12,14 @@ class Color;
 class ChartPoint
 {
 public:
-    ChartPoint(std::string label, float vX, float vY, int shape = SHAPE_CIRCLE);
+    ChartPoint(LineChart *chart, std::string label, float vX, float vY, int shape = SHAPE_CIRCLE);
     virtual ~ChartPoint();
 
     void draw();
     void drawLabel();
     void drawToPick();
 
-    void calculateLocation(float chartWidth, float chartHeight,
-                           float maxValueX,  float maxValueY);
+    void calculateLocation();
 
     void setShape(int shape);
     void setSize(float size);
@@ -46,6 +46,7 @@ public:
     void displayLabelOn() { displayLabel = true; }
     void displayLabelOff() { displayLabel = false; }
 private:
+    LineChart *chart;
     float valueX, valueY;
     Shape *marker;
     std::string label;
