@@ -61,10 +61,10 @@ LineChart::~LineChart() {
 }
 
 void LineChart::setUpAxes() {
-    axes.push_back(new LineChartAxis(AXIS_BOTTOM));
-    axes.push_back(new LineChartAxis(AXIS_TOP));
-    axes.push_back(new LineChartAxis(AXIS_LEFT));
-    axes.push_back(new LineChartAxis(AXIS_RIGHT));
+    axes.push_back(new LineChartAxis(this, AXIS_BOTTOM));
+    axes.push_back(new LineChartAxis(this, AXIS_TOP));
+    axes.push_back(new LineChartAxis(this, AXIS_LEFT));
+    axes.push_back(new LineChartAxis(this, AXIS_RIGHT));
     axes[AXIS_TOP]->displayOff();
     axes[AXIS_RIGHT]->displayOff();
 }
@@ -115,7 +115,7 @@ void LineChart::drawXAxis(LineChartAxis *axisX) {
         axisX->setMajorTickSpacing(xInterval);
         axisX->setMinorTickSpacing(xInterval / 5);
 
-        axisX->draw(width, height);
+        axisX->draw();
     }
 }
 
@@ -128,7 +128,7 @@ void LineChart::drawYAxis(LineChartAxis *axisY) {
         axisY->setMajorTickSpacing(yInterval);
         axisY->setMinorTickSpacing(yInterval / 5);
 
-        axisY->draw(width, height);
+        axisY->draw();
     }
 }
 

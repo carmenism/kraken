@@ -1,9 +1,11 @@
 #include "LineChartAxis.h"
+#include "LineChart.h"
 #include "PrintText.h"
 #include <QtOpenGL>
 #include <iostream>
 
-LineChartAxis::LineChartAxis(int type) {
+LineChartAxis::LineChartAxis(LineChart *chart, int type) {
+    this->chart = chart;
     axisType = type;    
 
     minorTickLength = 5.0;
@@ -33,29 +35,29 @@ LineChartAxis::~LineChartAxis() {
 
 }
 
-void LineChartAxis::draw(float chartWidth, float chartHeight) {
+void LineChartAxis::draw() {
     glPushMatrix();
         float axisLength;
 
         switch (axisType) {
             case AXIS_TOP:
-                axisLength = chartWidth;
-                glTranslatef(0, chartHeight, 0);
+                axisLength = chart->getWidth();
+                glTranslatef(0, chart->getHeight(), 0);
                 glScalef(1.0, -1.0, 1.0);
                 break;
             case AXIS_LEFT:            
-                axisLength = chartHeight;
+                axisLength = chart->getHeight();
                 glRotatef(90, 0, 0, 1);
                 glScalef(1.0, -1.0, 1.0);
                 break;
             case AXIS_RIGHT:
-                axisLength = chartHeight;
-                glTranslatef(chartWidth, 0, 0);
+                axisLength = chart->getHeight();
+                glTranslatef(chart->getWidth(), 0, 0);
                 glRotatef(90, 0, 0, 1);
                 break;
             case AXIS_BOTTOM:
             default:
-                axisLength = chartWidth;
+                axisLength = chart->getWidth();
                 break;
         }
 
@@ -69,66 +71,45 @@ void LineChartAxis::draw(float chartWidth, float chartHeight) {
     glPopMatrix();
 
     if (displayLabels) {
-       drawLabels(chartWidth, chartHeight);
+       drawLabels();
     }
 }
 
-
-void LineChartAxis::drawLabels(float chartWidth, float chartHeight) {
+void LineChartAxis::drawLabels() {
     glColor4f(0.0, 0.0, 0.0, 1.0);
 
-    switch (axisType) {
-        case AXIS_TOP:
-            drawHorizontalLabels(chartWidth, chartHeight + 5);
-            break;
-        case AXIS_LEFT:            
-            drawLeftLabels(chartHeight, -5);
-            break;
-        case AXIS_RIGHT:
-            drawRightLabels(chartWidth, chartHeight, 5);
-            break;
-        case AXIS_BOTTOM:
-        default:
-            drawHorizontalLabels(chartWidth, -10);
-            break;
-    } 
-}    
-
-void LineChartAxis::drawRightLabels(float chartWidth, float chartHeight, float horizOffset) {
     float value = minValue;
+    float x, y;
 
     while (value <= maxValue) {
-        float pos = valueToPosition(chartHeight, value);
-
-        PrintText::printVerticallyCenteredAt(chartWidth + horizOffset, pos, getLabel(value), false, false, GLUT_BITMAP_HELVETICA_10);
+        std::string label = getLabel(value);
+        switch (axisType) {
+            case AXIS_TOP:
+                x = valueToPosition(chart->getWidth(), value);
+                y = chart->getHeight() + 5;
+                PrintText::printCenteredAt(x, y, label, false, false, GLUT_BITMAP_HELVETICA_10);
+                break;
+            case AXIS_LEFT:            
+                x = -5;
+                y = valueToPosition(chart->getHeight(), value);
+                PrintText::printAlignedRightCenteredAt(x, y, label, false, false, GLUT_BITMAP_HELVETICA_10);
+                break;
+            case AXIS_RIGHT:
+                x = chart->getWidth() + 5;
+                y = valueToPosition(chart->getHeight(), value);
+                PrintText::printVerticallyCenteredAt(x, y, label, false, false, GLUT_BITMAP_HELVETICA_10);
+                break;
+            case AXIS_BOTTOM:
+            default:
+                x = valueToPosition(chart->getWidth(), value);
+                y = -10;
+                PrintText::printCenteredAt(x, y, label, false, false, GLUT_BITMAP_HELVETICA_10);
+                break;
+        } 
 
         value = value + majorTickSpacing;
     }
-}
-
-void LineChartAxis::drawLeftLabels(float chartHeight, float horizOffset) {
-    float value = minValue;
-
-    while (value <= maxValue) {
-        float pos = valueToPosition(chartHeight, value);
-
-        PrintText::printAlignedRightCenteredAt(horizOffset, pos, getLabel(value), false, false, GLUT_BITMAP_HELVETICA_10);
-
-        value = value + majorTickSpacing;
-    }
-}
-
-void LineChartAxis::drawHorizontalLabels(float chartWidth, float vertOffset) {
-    float value = minValue;
-
-    while (value <= maxValue) {
-        float pos = valueToPosition(chartWidth, value);
-
-        PrintText::printCenteredAt(pos, vertOffset, getLabel(value), false, false, GLUT_BITMAP_HELVETICA_10);
-
-        value = value + majorTickSpacing;
-    }
-}
+}  
 
 void LineChartAxis::drawTicks(float axisLength, float tickSpacing, float tickLength) {
     float value = minValue;

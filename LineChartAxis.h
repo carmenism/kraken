@@ -3,16 +3,17 @@
 
 #include <string>
 
+class LineChart;
+
 enum {AXIS_BOTTOM, AXIS_TOP, AXIS_LEFT, AXIS_RIGHT};
 
 class LineChartAxis
 {
 public:
-    LineChartAxis(int type = AXIS_BOTTOM);
-    LineChartAxis(float minV, float maxV);
+    LineChartAxis(LineChart *chart, int type = AXIS_BOTTOM);
     ~LineChartAxis();
 
-    void draw(float chartWidth, float chartHeight);
+    void draw();
 
     float getMinorTickSpacing() { return minorTickSpacing; }
     void setMinorTickSpacing(float m) { minorTickSpacing = m; }
@@ -52,6 +53,8 @@ public:
     void displayLabelsOn() { displayLabels = true; }
     void displayLabelsOff() { displayLabels = false; }
 private:
+    LineChart *chart;
+
     int axisType;
 
     bool display;
@@ -69,10 +72,7 @@ private:
 
     void drawTicks(float axisLength, float tickSpacing, float tickLength);
     
-    void drawLabels(float chartWidth, float chartHeight);
-    void drawLeftLabels(float chartHeight, float horizOffset);
-    void drawRightLabels(float chartWidth, float chartHeight, float horizOffset);
-    void drawHorizontalLabels(float chartWidth, float vertOffset);
+    void drawLabels();
 };
 
 #endif /* LINECHARTAXIS_H_ */
