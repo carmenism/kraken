@@ -43,7 +43,6 @@ void ChartPoint::calculateLocation() {
 }
 
 void ChartPoint::draw() {
-    calculateLocation();
     marker->draw();
 }
 
