@@ -81,6 +81,11 @@ public:
     float getGlobalMinY() { return globalMinY; }
     float getGlobalMaxY() { return globalMaxY; }
 
+    float getGlobalMinX() { return globalMinX; }
+    float getGlobalMaxX() { return globalMaxX; }
+    float getGlobalMinY() { return globalMinY; }
+    float getGlobalMaxY() { return globalMaxY; }
+
     static LineChart *createGraph(QList<QList<double>> matrix, QStringList labels);
 private:
     LineChartAxisList axes;

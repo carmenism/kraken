@@ -3,6 +3,7 @@
 #include "Color.h"
 #include "LineChart.h"
 #include "PrintText.h"
+#include "LineChart.h"
 #include <QtOpenGL>
 
 
@@ -37,6 +38,8 @@ ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vec
     lineWidth = 1.0;
 
     displayAsArea = false;
+
+    legendPoint = new ChartPoint(chart, "", -1, -1);
 }
 
 void ChartPointSeries::setValues(std::vector<float> x, std::vector<float> y) {
@@ -111,16 +114,10 @@ float ChartPointSeries::drawInLegend(float x, float y, float lineLength, float s
         glEnd();
 
         if (displayMarkers) {
-            float origX = points[0]->getPositionX();
-            float origY = points[0]->getPositionY();
+            legendPoint->setPositionX(0);
+            legendPoint->setPositionY(0);
 
-            points[0]->setPositionX(0);
-            points[0]->setPositionY(0);
-
-            points[0]->draw();
-
-            points[0]->setPositionX(origX);
-            points[0]->setPositionY(origY);
+            legendPoint->draw();
         }
 
         int posX = lineLength / 2.0 + spacing;
@@ -199,24 +196,32 @@ void ChartPointSeries::setMarkerShape(int shape) {
     FOREACH_POINT(it, points) {
         (*it)->setShape(shape);
     }
+
+    legendPoint->setShape(shape);
 }
 
 void ChartPointSeries::setMarkerSize(float size) {
     FOREACH_POINT(it, points) {
         (*it)->setSize(size);
     }
+
+    legendPoint->setSize(size);
 }
 
 void ChartPointSeries::setMarkerBorderColor(Color *color) {
     FOREACH_POINT(it, points) {
         (*it)->setBorderColor(color);
     }
+
+    legendPoint->setBorderColor(color);
 }
 
 void ChartPointSeries::setMarkerFillColor(Color *color) {
     FOREACH_POINT(it, points) {
         (*it)->setFillColor(color);
     }
+
+    legendPoint->setFillColor(color);
 }
 
 void ChartPointSeries::setColor(Color *c) {

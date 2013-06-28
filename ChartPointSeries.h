@@ -71,6 +71,7 @@ private:
 
     std::string label;
     ChartPointList points;
+    ChartPoint *legendPoint;
     ChartPoint *min, *max;
     float lineWidth;
     Color *lineColor;
