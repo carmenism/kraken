@@ -16,7 +16,7 @@ class MyQGLWidget : public QGLWidget {
 public:
     MyQGLWidget(QWidget *parent = NULL);
 
-    void setLineChart(LineChart *c) { chart = c; updateGL(); }
+    void updateLineChart(QList<QList<double>> matrix, QStringList labels); 
 protected:
     void initializeGL();
     void resizeGL(int w, int h);

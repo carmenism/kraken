@@ -79,7 +79,11 @@ void LineChart::setValues(QList<QList<double>> matrix) {
             y.push_back(matrix.at(i).at(j));
         }
 
-        seriesList[i]->setValues(x, y);
+        //try {
+            seriesList[i]->setValues(x, y);
+        //} catch () {
+
+        //}
     }
 }
 

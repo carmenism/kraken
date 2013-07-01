@@ -95,6 +95,7 @@ void Model::initializeModel() {
 }
 
 void Model::runModel() {
+    m_paramsPtr->clearBiomassMatrix();
 
     initializeModel();
 

@@ -6,6 +6,8 @@
 #include "Triangle.h"
 #include "LineChart.h"
 #include "ChartPoint.h"
+#include <QList>
+#include <QStringList>
 
 MyQGLWidget::MyQGLWidget(QWidget *parent) : QGLWidget(parent) {
     hovered = NULL;
@@ -14,6 +16,8 @@ MyQGLWidget::MyQGLWidget(QWidget *parent) : QGLWidget(parent) {
 
     chart = NULL;
 }
+
+
 
 void MyQGLWidget::initializeGL() {
     glDisable(GL_TEXTURE_2D);
@@ -107,4 +111,14 @@ void MyQGLWidget::keyPressEvent(QKeyEvent* event) {
         event->ignore();
         break;
     }
+}
+
+void MyQGLWidget::updateLineChart(QList<QList<double>> matrix, QStringList labels) {
+    if (chart == NULL) {
+        chart = new LineChart(matrix, labels);
+    } else {
+        chart->setValues(matrix);
+    }
+
+    updateGL();
 }
