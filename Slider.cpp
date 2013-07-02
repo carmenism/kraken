@@ -23,7 +23,7 @@ Slider::Slider(float x, float y,float length, float start) {
 
 
 void Slider::draw() {
-	glDisable(GL_DEPTH_TEST);
+	/*glDisable(GL_DEPTH_TEST);
 
 
 	
@@ -46,8 +46,8 @@ void Slider::draw() {
 	glColor3f(0.8,0.8,0.8);
 	glRectf(cornerX+curX, cornerY+BORDER, cornerX+curX + CUR_WID, cornerY + HEIGHT-BORDER);
 	
-	glEnable(GL_DEPTH_TEST);
-	/*glDisable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);*/
+	glDisable(GL_DEPTH_TEST);
 
 	glColor4f(mainColor->r, mainColor->g, mainColor->b, mainColor->a);
 	glRectf(cornerX,                    cornerY,
@@ -86,7 +86,7 @@ void Slider::draw() {
     glRectf(cornerX + curX + BORDER,           cornerY + HEIGHT,
             cornerX + curX + CUR_WID - BORDER, cornerY + HEIGHT + BORDER);
 	
-	glEnable(GL_DEPTH_TEST);*/
+	glEnable(GL_DEPTH_TEST);
 }
 
 bool Slider::mousePressed(float x, float y) {    
@@ -112,11 +112,11 @@ bool Slider::mouseReleased() {
 }
 
 bool Slider::pointInCursor(float x, float y) {
-    if (x < cornerX-BORDER+curX || x > cornerX+curX+CUR_WID+BORDER) {
+    if (x < cornerX + curX || x > cornerX + curX + CUR_WID) {
         return false;
     }
 	
-    if (y < cornerY || y > cornerY + HEIGHT+BORDER) {
+    if (y < cornerY + BORDER || y > cornerY + BORDER + HEIGHT) {
         return false;
     }
 
