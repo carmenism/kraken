@@ -7,9 +7,6 @@
 #define CUR_WID	20.0f 
 #define BORDER 2.0f 
 
-#define ACTIVE	1
-#define INACTIVE 2
-
 Slider::Slider(float x, float y,float length, float start) {
 	cornerX = x;
 	cornerY = y;
@@ -27,6 +24,30 @@ Slider::Slider(float x, float y,float length, float start) {
 
 void Slider::draw() {
 	glDisable(GL_DEPTH_TEST);
+
+
+	
+	glColor3f(0.4,0.4,0.4);
+	glRectf(cornerX-BORDER, cornerY-BORDER, cornerX + Len+BORDER, cornerY +BORDER);
+	glRectf(cornerX+Len, cornerY -BORDER, cornerX + Len+BORDER, cornerY +HEIGHT +BORDER);
+	
+	glColor3f(1.0,1.0,1.0);
+	glRectf(cornerX-BORDER, cornerY + HEIGHT, cornerX + Len+BORDER, cornerY +HEIGHT +BORDER);
+	glRectf(cornerX-BORDER, cornerY -BORDER, cornerX, cornerY +HEIGHT +BORDER);
+
+	glColor3f(0.6,0.6,0.6);
+	glRectf(cornerX, cornerY, cornerX + Len, cornerY + HEIGHT);
+	// now the cursor
+	
+	glColor3f(1.0,1.0,1.0);
+	glRectf(cornerX-BORDER+curX, cornerY, cornerX+curX+CUR_WID+BORDER, cornerY + HEIGHT+BORDER);
+	glColor3f(0.4,0.4,0.4);
+	glRectf(cornerX+curX, cornerY-BORDER, cornerX+curX+CUR_WID+BORDER , cornerY + HEIGHT-BORDER);
+	glColor3f(0.8,0.8,0.8);
+	glRectf(cornerX+curX, cornerY+BORDER, cornerX+curX + CUR_WID, cornerY + HEIGHT-BORDER);
+	
+	glEnable(GL_DEPTH_TEST);
+	/*glDisable(GL_DEPTH_TEST);
 
 	glColor4f(mainColor->r, mainColor->g, mainColor->b, mainColor->a);
 	glRectf(cornerX,                    cornerY,
@@ -65,36 +86,62 @@ void Slider::draw() {
     glRectf(cornerX + curX + BORDER,           cornerY + HEIGHT,
             cornerX + curX + CUR_WID - BORDER, cornerY + HEIGHT + BORDER);
 	
-	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);*/
 }
 
-float Slider::update(float x, float y, bool b) {
-	float left;
-	float dx;
+bool Slider::mousePressed(float x, float y) {    
+    if (pointInCursor(x, y) && state == INACTIVE) {
+        state = ACTIVE;
+        startX = x;
+	    startCurX = curX;
 
-	left = curX + cornerX - 1;	
+        return true;
+    }
 
-	if (!b) {
-		state = INACTIVE;
-		return curX/(Len/CUR_WID);
-	}
+    return false;
+}
+
+bool Slider::mouseReleased() {
+    if (state == ACTIVE) {
+        state = INACTIVE;
+
+        return true;
+    }
+
+    return false;
+}
+
+bool Slider::pointInCursor(float x, float y) {
+    if (x < cornerX-BORDER+curX || x > cornerX+curX+CUR_WID+BORDER) {
+        return false;
+    }
+	
+    if (y < cornerY || y > cornerY + HEIGHT+BORDER) {
+        return false;
+    }
+
+    return true;
+}
+
+bool Slider::mouseMoved(float x, float y) {
+	float left = curX + cornerX - 1;	
 	
 	if (state == ACTIVE) {
-		dx = x-startX;
+		float dx = x-startX;
 		curX = startCurX + dx;
-		if (curX < 0) curX = 0;
-		if (curX> (Len-CUR_WID)) curX = Len - CUR_WID;
+
+        if (curX < 0) {
+            curX = 0;
+        }
+
+        if (curX > (Len - CUR_WID)) {
+            curX = Len - CUR_WID;
+        }
+
+        std::cerr << (curX / (Len - CUR_WID)) << "\n";
+
+        return true;
 	}
 
-	if ((x > left)&& (x < (left+ CUR_WID))&& (y < cornerY + HEIGHT)&&(y >cornerY)) {
-		if((state == INACTIVE)&&b) {
-			state = ACTIVE;
-			startX = x;
-			startCurX = curX;
-			
-            std::cerr << "Curson \n";
-		}
-	}
-
-	return curX/(Len-CUR_WID);
+	return false;//curX / (Len - CUR_WID);
 }

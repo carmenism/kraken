@@ -94,15 +94,25 @@ void MyQGLWidget::setHovered(ChartPoint *point) {
     }
 }
 
+void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
+    slider->mouseReleased();
+}
+
 void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
 
-    slider->update(event->x(), size().rheight() - event->y(), false);
+    if (event->button() == Qt::LeftButton) {
+        slider->mousePressed(event->x(), size().rheight() - event->y());
+    } 
+
+    updateGL();
 }
 
 void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
     //printf("%d, %d\n", event->x(), size().rheight() - event->y());
-    slider->update(event->x(), size().rheight() - event->y(), true);
-    selectItem(event->x(), size().rheight() - event->y());
+    slider->mouseMoved(event->x(), size().rheight() - event->y());
+   // selectItem(event->x(), size().rheight() - event->y());
+
+    updateGL();
 }
 
 void MyQGLWidget::keyPressEvent(QKeyEvent* event) {
