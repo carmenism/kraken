@@ -8,6 +8,7 @@ class Circle;
 class Triangle;
 class LineChart;
 class ChartPoint;
+class Slider;
 
 class MyQGLWidget : public QGLWidget {
 
@@ -29,6 +30,7 @@ private:
     void setHovered(ChartPoint *point);
 
     LineChart *chart;
+    Slider *slider;
     ChartPoint *hovered;
 };
 

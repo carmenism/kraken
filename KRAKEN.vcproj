@@ -210,6 +210,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ChartPoint.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ChartPointSeries.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Circle.cpp"
 				>
 			</File>
@@ -238,22 +246,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\LineChartAxis.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LineChartLegend.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ChartPoint.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ChartPointSeries.cpp"
-				>
-			</File>
-			<File
 				RelativePath="GrowthModuleLinear.cpp"
 				>
 			</File>
@@ -279,6 +271,14 @@
 			</File>
 			<File
 				RelativePath=".\LineChart.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\LineChartAxis.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\LineChartLegend.cpp"
 				>
 			</File>
 			<File
@@ -334,6 +334,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Slider.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Square.cpp"
 				>
 			</File>
@@ -353,6 +357,14 @@
 			>
 			<File
 				RelativePath=".\Chart.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ChartPoint.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ChartPointSeries.h"
 				>
 			</File>
 			<File
@@ -384,22 +396,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\LineChartAxis.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LineChartLegend.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ChartPoint.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ChartPointSeries.h"
-				>
-			</File>
-			<File
 				RelativePath="GrowthModuleLinear.h"
 				>
 			</File>
@@ -425,6 +421,14 @@
 			</File>
 			<File
 				RelativePath=".\LineChart.h"
+				>
+			</File>
+			<File
+				RelativePath=".\LineChartAxis.h"
+				>
+			</File>
+			<File
+				RelativePath=".\LineChartLegend.h"
 				>
 			</File>
 			<File
@@ -525,6 +529,10 @@
 			</File>
 			<File
 				RelativePath=".\Shape.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Slider.h"
 				>
 			</File>
 			<File

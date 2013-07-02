@@ -6,6 +6,7 @@
 #include "Triangle.h"
 #include "LineChart.h"
 #include "ChartPoint.h"
+#include "Slider.h"
 #include <QList>
 #include <QStringList>
 
@@ -15,9 +16,8 @@ MyQGLWidget::MyQGLWidget(QWidget *parent) : QGLWidget(parent) {
     setMouseTracking(true);
 
     chart = NULL;
+    slider = new Slider(10, 500, 200, 0.25);
 }
-
-
 
 void MyQGLWidget::initializeGL() {
     glDisable(GL_TEXTURE_2D);
@@ -44,6 +44,8 @@ void MyQGLWidget::paintGL() {
     if (chart != NULL) {
         chart->draw();
     }
+
+    slider->draw();
 }
 
 void MyQGLWidget::selectItem(int x, int y) {
@@ -94,11 +96,12 @@ void MyQGLWidget::setHovered(ChartPoint *point) {
 
 void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
 
+    slider->update(event->x(), size().rheight() - event->y(), false);
 }
 
 void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
     //printf("%d, %d\n", event->x(), size().rheight() - event->y());
-
+    slider->update(event->x(), size().rheight() - event->y(), true);
     selectItem(event->x(), size().rheight() - event->y());
 }
 
