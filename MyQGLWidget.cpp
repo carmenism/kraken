@@ -16,7 +16,7 @@ MyQGLWidget::MyQGLWidget(QWidget *parent) : QGLWidget(parent) {
     setMouseTracking(true);
 
     chart = NULL;
-    slider = new Slider(10, 500, 200, 0.25);
+    slider = new Slider(0, 0, 200, 0.25);
 }
 
 void MyQGLWidget::initializeGL() {

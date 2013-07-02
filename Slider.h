@@ -17,20 +17,46 @@ public:
     
 	void draw();
 
+    float getValue();
+    void Slider::setValue(float value);
+
 	bool mouseMoved(float x, float y);
     bool mousePressed(float x, float y);
     bool mouseReleased();
+
+    float getShadowAlpha() { return shadowAlpha; }
+    void setShadowAlpha(float a) { shadowAlpha = a; }
+    
+    float getHighlightAlpha() { return highlightAlpha; }
+    void setHighlightAlpha(float a) { highlightAlpha = a; }
+
+    Color *getMainColor() { return mainColor; }
+    void setMainColor(Color *c) { mainColor = c; }
+
+    Color *getCursorColor() { return cursorColor; }
+    void setCursorColor(Color *c) { cursorColor = c; }
+
+    float getHeight() { return height; }
+    void setHeight(float h) { height = h; }
+
+    float getWidth() { return width; }
+    void setWidth(float w) { width = w; }
+
+    float getBorder() { return border; }
+    void setBorder(float b) { border = b; }
+
+    float getCursorWidth() { return cursorWidth; }
+    void setCursorWidth(float w) { cursorWidth = w; }    
 private:
 	int state;
 	int selpos;
-	float cornerX, cornerY, Len;
+	float cornerX, cornerY;
 	float curX, startCurX;
 	float startX;
 
-    Color *mainColor;
-    Color *cursorColor;
-    float shadowAlpha;
-    float highlightAlpha;
+    Color *mainColor, *cursorColor;
+    float shadowAlpha, highlightAlpha;
+    float border, width, height, cursorWidth;
 
     bool pointInCursor(float x, float y);
 };
