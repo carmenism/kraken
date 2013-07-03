@@ -4,13 +4,12 @@
 // a slider that works in the range 0..1.0 in pixel coordinates
 class Color;
 
-#define ACTIVE	1
-#define INACTIVE 2
+#include <string>
 
 class Slider
 {
 public:
-    Slider(float xcorner, float ycorner, float length, float start);
+    Slider(std::string label, float xcorner, float ycorner, float length, float start);
 
     // specify the lower left corner, the slider length
     // and the start value between 0 and 1.0
@@ -46,9 +45,13 @@ public:
     void setBorder(float b) { border = b; }
 
     float getCursorWidth() { return cursorWidth; }
-    void setCursorWidth(float w) { cursorWidth = w; }    
+    void setCursorWidth(float w) { cursorWidth = w; }
+
+    std::string getLabel() { return label; }
 private:
-    int state;
+    std::string label;
+
+    bool active;
     float cornerX, cornerY;
     float curX, startCurX;
     float startX;

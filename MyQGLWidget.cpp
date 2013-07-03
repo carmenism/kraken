@@ -19,7 +19,7 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
 
     setMouseTracking(true);
 
-    slider = new Slider(10, 550, 200, 0.1);
+    //slider = new Slider("Groundfish", 100, 550, 200, 0.1);
 }
 
 void MyQGLWidget::initializeGL() {
@@ -48,7 +48,9 @@ void MyQGLWidget::paintGL() {
         chart->draw();
     }
 
-    slider->draw();
+    for (int i = 0; i < sliders.size(); i++) {
+        sliders[i]->draw();
+    }
 }
 
 void MyQGLWidget::selectItem(int x, int y) {
@@ -96,19 +98,25 @@ void MyQGLWidget::setHovered(ChartPoint *point) {
 }
 
 void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
-    bool sliderReleased = slider->mouseReleased();
-
-    if (sliderReleased) {
-        float value = slider->getValue() * 10;
-        mainWindow->getParameters()->setEffortForGuild(QString("Groundfish"), value);
-        mainWindow->runModel();
+    if (event->button() == Qt::LeftButton) {
+        for (int i = 0; i < sliders.size(); i++) {
+            if (sliders[i]->mouseReleased()) {
+                break;
+            }
+        }
     }
 }
 
 void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
+    float x = event->x();
+    float y = size().rheight() - event->y();
 
     if (event->button() == Qt::LeftButton) {
-        slider->mousePressed(event->x(), size().rheight() - event->y());
+        for (int i = 0; i < sliders.size(); i++) {
+            if (sliders[i]->mousePressed(x, y)) {
+                break;
+            }
+        }
     } 
 
     updateGL();
@@ -119,13 +127,21 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
     float x = event->x();
     float y = size().rheight() - event->y();
     
-    bool sliderMoved = slider->mouseMoved(x, y);
+    bool sliderMoved = false;
 
-    if (sliderMoved) {
-        //float value = slider->getValue() * 100;
-        //mainWindow->getParameters()->setEffortForGuild(QString("Flatfish"), value);
-        //mainWindow->runModel();
-    } else {
+    for (int i = 0; i < sliders.size(); i++) {
+        if (sliders[i]->mouseMoved(x, y)) {
+            sliderMoved = true;
+
+            float value = sliders[i]->getValue() * 10;
+            mainWindow->getParameters()->setEffortForGuild(sliders[i]->getLabel(), value);
+            mainWindow->runModel();
+
+            break;
+        }
+    }
+
+    if (!sliderMoved) {
         selectItem(x, y);
     }
 
@@ -151,4 +167,22 @@ void MyQGLWidget::updateLineChart(QList<QList<double>> matrix, QStringList label
     }
 
     updateGL();
+}
+
+void MyQGLWidget::initializeSliders() {
+    for (int i = 0; i < sliders.size(); i++) {
+        delete sliders[i];
+    }
+    
+    sliders.clear();
+
+    QStringList guilds = mainWindow->getParameters()->getGuildList();
+
+    float h = size().rheight() - 20;
+
+    for (int i = 0; i < guilds.size(); i++) {
+        std::string guild = guilds.at(i).toStdString();
+        Slider *slider = new Slider(guild, 100, h - i * 20, 200, 0.1);
+        sliders.push_back(slider);
+    }
 }

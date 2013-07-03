@@ -2,6 +2,7 @@
 #define _MYQGLWIDGET_H
 
 #include <QtOpenGL/QGLWidget>
+#include <vector>
 
 class Square;
 class Circle;
@@ -21,7 +22,7 @@ public:
 
     void updateLineChart(QList<QList<double>> matrix, QStringList labels); 
 
-    //void setParameters(Parameters *p) { params = p; }
+    void initializeSliders();
 protected:
     void initializeGL();
     void resizeGL(int w, int h);
@@ -30,14 +31,15 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
+
 private:
     void selectItem(int x, int y);
     void setHovered(ChartPoint *point);
-    
-    //Parameters *params;
+
     MS_PROD_MainWindow *mainWindow;
     LineChart *chart;
-    Slider *slider;
+    
+    std::vector<Slider *> sliders;
     ChartPoint *hovered;
 };
 

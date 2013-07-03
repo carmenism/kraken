@@ -2,18 +2,21 @@
 #include <iostream>
 #include "Slider.h"
 #include "Color.h"
+#include "PrintText.h"
 
-Slider::Slider(float x, float y, float w, float start) {
+Slider::Slider(std::string label, float x, float y, float w, float start) {
+    this->label = label;
+
     border = 2.0f;
     cursorWidth = 20.0f;
 
 	cornerX = x;
 	cornerY = y;
     width = w + cursorWidth;
-    height = 15.0f;
+    height = 12.0f;
 
     setValue(start);
-	state = INACTIVE;
+	active = false;
 
     mainColor = new Color(0.5, 0.5, 0.5, 1.0);
     cursorColor = new Color(0.6, 0.6, 0.6, 1.0);
@@ -21,8 +24,10 @@ Slider::Slider(float x, float y, float w, float start) {
     highlightAlpha = 0.65;
 }
 
-
 void Slider::draw() {
+    glColor4f(0.0, 0.0, 0.0, 1.0);
+    PrintText::printAlignedRightCenteredAt(cornerX - 5, cornerY + height / 2, label, false, false, GLUT_BITMAP_HELVETICA_10);
+
     float leftX = cornerX;
     float leftY = cornerY;
     float rightX = cornerX + width + 2 * border;
@@ -78,8 +83,8 @@ void Slider::draw() {
 }
 
 bool Slider::mousePressed(float x, float y) {    
-    if (pointInCursor(x, y) && state == INACTIVE) {
-        state = ACTIVE;
+    if (pointInCursor(x, y) && !active) {
+        active = true;
         startX = x;
 	    startCurX = curX;
 
@@ -90,8 +95,8 @@ bool Slider::mousePressed(float x, float y) {
 }
 
 bool Slider::mouseReleased() {
-    if (state == ACTIVE) {
-        state = INACTIVE;
+    if (active) {
+        active = false;
 
         return true;
     }
@@ -118,7 +123,7 @@ bool Slider::pointInCursor(float x, float y) {
 }
 
 bool Slider::mouseMoved(float x, float y) {
-    if (state == ACTIVE) {
+    if (active) {
 		float dx = x - startX;
 		curX = startCurX + dx;
 

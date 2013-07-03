@@ -89,7 +89,7 @@ void LineChart::setValues(QList<QList<double>> matrix) {
 
 void LineChart::draw() {
     glPushMatrix();
-        glTranslatef(50, 50, 0);
+        glTranslatef(50, 30, 0);
         drawBoundary();    
         calculateGlobalBounds();
         drawAxes();
