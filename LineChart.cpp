@@ -11,14 +11,11 @@
 #include <QtOpenGL>
 #include <GL/glut.h>
 
-LineChart *LineChart::createGraph(QList<QList<double>> matrix, QStringList labels) {
-    LineChart *chart = new LineChart(matrix, labels);
-    return chart;
-}
-
 LineChart::LineChart() {
     width = 400;
     height = 300;
+    offsetX = 40;
+    offsetY = 30;
 
     setUpAxes();
 
@@ -54,6 +51,9 @@ LineChart::LineChart(QList<QList<double>> matrix, QStringList labels) {
     setMarkersSize(4);
     displayMarkersOn();
     displayLegendOn();
+    
+    offsetX = 40;
+    offsetY = 30;
 }
 
 LineChart::~LineChart() {
@@ -89,7 +89,7 @@ void LineChart::setValues(QList<QList<double>> matrix) {
 
 void LineChart::draw() {
     glPushMatrix();
-        glTranslatef(50, 30, 0);
+        glTranslatef(offsetX, offsetY, 0);
         drawBoundary();    
         calculateGlobalBounds();
         drawAxes();
@@ -145,11 +145,10 @@ float LineChart::calculateIntervalSize(float min, float max) {
 
 void LineChart::drawToPick() {
     glPushMatrix();
-    glTranslatef(50, 50, 0);
- 
-    calculateGlobalBounds();
-    drawToPickLines();
-
+        glTranslatef(offsetX, offsetY, 0);
+     
+        calculateGlobalBounds();
+        drawToPickLines();
     glPopMatrix();
 }
 

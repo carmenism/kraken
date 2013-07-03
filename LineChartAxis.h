@@ -60,8 +60,6 @@ private:
     bool display;
     bool displayLabels;
 
-    std::string getLabel(float value);
-
     float minValue, maxValue;
     float minorTickSpacing, majorTickSpacing;
     float minorTickLength, majorTickLength;
@@ -73,6 +71,8 @@ private:
     void drawTicks(float axisLength, float tickSpacing, float tickLength);
     
     void drawLabels();
+    
+    std::string getLabel(float value);
 };
 
 #endif /* LINECHARTAXIS_H_ */

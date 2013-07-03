@@ -72,7 +72,6 @@ void ChartPoint::drawLabel() {
 }
 
 void ChartPoint::drawToPick() {
-    calculateLocation();
     marker->drawToPick();
 }
 
