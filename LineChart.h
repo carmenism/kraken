@@ -38,7 +38,9 @@ public:
     void draw();
     void drawToPick();
     void drawToPickLines();
-    
+
+    void captureLastValues();
+
     void addPointSeries(ChartPointSeries *s);
     void clearPointSeriesList() { seriesList.clear(); }
     ChartPointSeriesList getPointSeriesList() { return seriesList; }

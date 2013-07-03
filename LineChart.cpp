@@ -205,6 +205,12 @@ void LineChart::drawBoundary() {
 void LineChart::drawLines() {
     FOREACH_POINTSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
+            (*it)->drawGhost();
+        }
+    }
+
+    FOREACH_POINTSERIES(it, seriesList) {
+        if ((*it)->getDisplay()) {
             (*it)->draw();
         }
     }
@@ -332,4 +338,10 @@ void LineChart::setLeftAxisDisplay(bool d) {
 
 void LineChart::setRightAxisDisplay(bool d) {
     axes[AXIS_RIGHT]->setDisplay(d);
+}
+
+void LineChart::captureLastValues() {
+    FOREACH_POINTSERIES(it, seriesList) {
+        (*it)->captureLastValues();
+    }
 }

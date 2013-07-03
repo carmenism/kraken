@@ -10,6 +10,8 @@
 ChartPoint::ChartPoint(LineChart *chart, std::string label, float valueX, float valueY, int shape) {
     this->valueX = valueX;
     this->valueY = valueY;
+    this->lastValueX = valueX;
+    this->lastValueY = valueY;
     this->chart = chart;
     this->label = label;// + ": " + toStr(valueY);
 
@@ -40,6 +42,9 @@ void ChartPoint::calculateLocation() {
     float posY = valueY * chart->getHeight() / chart->getGlobalMaxY();
 
     marker->setLocation(posX, posY);
+
+    lastPositionX = lastValueX * chart->getWidth() / chart->getGlobalMaxX();
+    lastPositionY = lastValueY * chart->getHeight() / chart->getGlobalMaxY();
 }
 
 void ChartPoint::draw() {

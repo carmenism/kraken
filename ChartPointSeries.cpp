@@ -62,11 +62,13 @@ void ChartPointSeries::setValues(std::vector<float> x, std::vector<float> y) {
         points[i]->setValueX(x[i]);
         points[i]->setValueY(y[i]);
 
-        if (max == NULL || max->getValueY() < points[i]->getValueY()) {
+        if (max == NULL || max->getValueY() < points[i]->getValueY()) { 
+            //|| max->getLastValueY() < points[i]->getLastValueY()) {
             max = points[i];
         }
 
         if (min == NULL || min->getValueY() > points[i]->getValueY()) {
+            //|| min->getLastValueY() > points[i]->getLastValueY()) {
             min = points[i];
         }
     }
@@ -187,6 +189,29 @@ void ChartPointSeries::drawAsArea() {
     }
 }
 
+void ChartPointSeries::drawGhost() {
+    ChartPoint *last = NULL;
+
+    float alpha = lineColor->a / 2.0;
+
+    glPolygonMode( GL_FRONT, GL_FILL );
+
+    FOREACH_POINT(it, points) {   
+        if (last != NULL) {
+            glColor4f(lineColor->r, lineColor->g, lineColor->b, alpha);
+
+            glBegin( GL_POLYGON );
+                glVertex2f(last->getPositionX(), last->getPositionY());
+                glVertex2f((*it)->getPositionX(), (*it)->getPositionY());
+                glVertex2f((*it)->getLastPositionX(), (*it)->getLastPositionY());   
+                glVertex2f(last->getLastPositionX(), last->getLastPositionY());  
+            glEnd();
+        }
+        
+        last = *it;
+    }
+}
+
 float ChartPointSeries::getMinimumValueX() {
     return points[0]->getValueX();
 }
@@ -196,11 +221,11 @@ float ChartPointSeries::getMaximumValueX() {
 }
 
 float ChartPointSeries::getMinimumValueY() {
-    return min->getValueY();
+    return min->getValueY();//min(min->getValueY(), min->getLastValueY());
 }
 
 float ChartPointSeries::getMaximumValueY() {
-    return max->getValueY();
+    return max->getValueY();//max(max->getValueY(), max->getLastValueY());
 }
 
 void ChartPointSeries::setMarkerShape(int shape) {
@@ -239,5 +264,11 @@ void ChartPointSeries::setColor(Color *c) {
     setLineColor(c);
     setMarkerBorderColor(c);
     setMarkerFillColor(c);
+}
+
+void ChartPointSeries::captureLastValues() {
+    FOREACH_POINT(it, points) {
+        (*it)->captureLastValues();
+    }
 }
 

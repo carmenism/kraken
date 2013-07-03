@@ -114,6 +114,7 @@ void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         for (int i = 0; i < sliders.size(); i++) {
             if (sliders[i]->mousePressed(x, y)) {
+                chart->captureLastValues();
                 break;
             }
         }

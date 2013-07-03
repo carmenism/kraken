@@ -66,6 +66,10 @@ public:
     void setColor(Color *c);
 
     ChartPointList *getPoints() { return &points; }
+
+    void captureLastValues();
+
+    void drawGhost();
 private:
     LineChart *chart;
 

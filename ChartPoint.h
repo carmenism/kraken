@@ -35,6 +35,12 @@ public:
     void setValueY(float y) { valueY = y; }
     float getValueY() { return valueY; }
 
+    void captureLastValues() { lastValueX = valueX; lastValueY = valueY; }
+    float getLastValueX() { return lastValueX; }
+    float getLastValueY() { return lastValueY; }
+    float getLastPositionX() { return lastPositionX; }
+    float getLastPositionY() { return lastPositionY; }
+
     void setPositionX(float x);  
     float getPositionX();
 
@@ -48,6 +54,9 @@ public:
 private:
     LineChart *chart;
     float valueX, valueY;
+    float lastValueX, lastValueY;
+    float lastPositionX, lastPositionY;
+
     Shape *marker;
     std::string label;
     bool displayLabel;
