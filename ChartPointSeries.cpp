@@ -55,9 +55,20 @@ void ChartPointSeries::setValues(std::vector<float> x, std::vector<float> y) {
         throw "to change marker values you must specify one values for each marker";
     }
 
+    max = NULL;
+    min = NULL;
+
     for (int i = 0; i < points.size(); i++) {
         points[i]->setValueX(x[i]);
         points[i]->setValueY(y[i]);
+
+        if (max == NULL || max->getValueY() < points[i]->getValueY()) {
+            max = points[i];
+        }
+
+        if (min == NULL || min->getValueY() > points[i]->getValueY()) {
+            min = points[i];
+        }
     }
 }
 
