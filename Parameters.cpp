@@ -1087,6 +1087,10 @@ void Parameters::set_GA_mutationRate(double mutationRate) {
     m_GA_mutationRate = mutationRate;
 }
 
+void Parameters::setEffortForGuild(std::string guildName, float value) {
+    setEffortForGuild(QString::fromStdString(guildName), value);
+}
+
 void Parameters::setEffortForGuild(QString guildName, float value) {
     for (int i = 0; i < m_SpeciesList.size(); i++) {
         QString guild = getGuildMembership(m_SpeciesList.at(i));

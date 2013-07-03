@@ -8,6 +8,7 @@
 #include <QHash>
 #include <QFile>
 #include <QFileDialog>
+#include <string>
 #include "InteractionMatrix.h"
 
 class ModelComponent;
@@ -241,6 +242,7 @@ public:
     void printPredationLossRatesMaxMatrix();
 
     void setEffortForGuild(QString guildName, float value);
+    void setEffortForGuild(std::string guildName, float value);
 };
 
 #endif // PARAMETERS_H

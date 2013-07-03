@@ -7,16 +7,19 @@
 #include "LineChart.h"
 #include "ChartPoint.h"
 #include "Slider.h"
+#include "MS_PROD_MainWindow.h"
+#include "Parameters.h"
 #include <QList>
 #include <QStringList>
 
-MyQGLWidget::MyQGLWidget(QWidget *parent) : QGLWidget(parent) {
+MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
     hovered = NULL;
+    chart = NULL;
+    this->mainWindow = mainWindow;
 
     setMouseTracking(true);
 
-    chart = NULL;
-    slider = new Slider(0, 0, 200, 0.25);
+    slider = new Slider(10, 550, 200, 0.25);
 }
 
 void MyQGLWidget::initializeGL() {
@@ -77,8 +80,6 @@ void MyQGLWidget::selectItem(int x, int y) {
         } else if (hovered != NULL) {
             hovered->displayLabelOff();
         }
-
-        updateGL();
     }
 }
 
@@ -109,8 +110,18 @@ void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
 
 void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
     //printf("%d, %d\n", event->x(), size().rheight() - event->y());
-    slider->mouseMoved(event->x(), size().rheight() - event->y());
-   // selectItem(event->x(), size().rheight() - event->y());
+    float x = event->x();
+    float y = size().rheight() - event->y();
+    
+    bool sliderMoved = slider->mouseMoved(x, y);
+
+    if (sliderMoved) {
+        float value = slider->getValue() * 100;
+        mainWindow->getParameters()->setEffortForGuild(QString("Flatfish"), value);
+        mainWindow->runModel();
+    } else {
+        selectItem(x, y);
+    }
 
     updateGL();
 }

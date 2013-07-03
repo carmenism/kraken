@@ -9,12 +9,12 @@ int main(int argc, char *argv[])
     MS_PROD_MainWindow w;
     w.show();
 
-    MyQGLWidget *window = new MyQGLWidget();
+    MyQGLWidget *window = new MyQGLWidget(&w);
     window->resize(800,600);
     window->show();
 
     w.setGLWidget(window);
-    window->setParameters(w.getParameters());
+    //window->setParameters(w.getParameters());
 
     return a.exec();
 }

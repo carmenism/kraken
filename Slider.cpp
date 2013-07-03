@@ -28,7 +28,9 @@ void Slider::draw() {
     float rightX = cornerX + width + 2 * border;
     float rightY = cornerY + height + 2 * border;
 
-	glDisable(GL_DEPTH_TEST);
+	//glDisable(GL_DEPTH_TEST);
+
+    glPolygonMode( GL_FRONT, GL_FILL ); 
 
 	glColor4f(mainColor->r, mainColor->g, mainColor->b, mainColor->a);
 	glRectf(leftX,  leftY,
@@ -72,7 +74,7 @@ void Slider::draw() {
     glRectf(curLeftX + border,  curRightY - border,
             curRightX - border, curRightY);
 	
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 }
 
 bool Slider::mousePressed(float x, float y) {    

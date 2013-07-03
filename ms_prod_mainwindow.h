@@ -34,6 +34,8 @@ public:
 
     void setGLWidget(MyQGLWidget *w) { glWidget = w; }
     Parameters *getParameters() { return &paramObj; }
+    
+    void runModel();
 private:
     Ui::MS_PROD_MainWindow *ui;
 
@@ -77,7 +79,6 @@ private:
     void set_GA_mutationRate();
 
     void logResults();
-    void runModel();
     void testFramework();
     void testLooping();
 

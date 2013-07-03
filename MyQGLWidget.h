@@ -10,17 +10,18 @@ class LineChart;
 class ChartPoint;
 class Slider;
 class Parameters;
+class MS_PROD_MainWindow;
 
 class MyQGLWidget : public QGLWidget {
 
     Q_OBJECT // must include this if you use Qt signals/slots
 
 public:
-    MyQGLWidget(QWidget *parent = NULL);
+    MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent = NULL);
 
     void updateLineChart(QList<QList<double>> matrix, QStringList labels); 
 
-    void setParameters(Parameters *p) { params = p; }
+    //void setParameters(Parameters *p) { params = p; }
 protected:
     void initializeGL();
     void resizeGL(int w, int h);
@@ -33,7 +34,8 @@ private:
     void selectItem(int x, int y);
     void setHovered(ChartPoint *point);
     
-    Parameters *params;
+    //Parameters *params;
+    MS_PROD_MainWindow *mainWindow;
     LineChart *chart;
     Slider *slider;
     ChartPoint *hovered;
