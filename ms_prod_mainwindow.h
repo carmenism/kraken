@@ -33,6 +33,7 @@ public:
     ~MS_PROD_MainWindow();
 
     void setGLWidget(MyQGLWidget *w) { glWidget = w; }
+    Parameters *getParameters() { return &paramObj; }
 private:
     Ui::MS_PROD_MainWindow *ui;
 

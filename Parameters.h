@@ -240,6 +240,7 @@ public:
     void setPredationLossRatesMaxMatrix(Int_Matrix);
     void printPredationLossRatesMaxMatrix();
 
+    void setEffortForGuild(QString guildName, float value);
 };
 
 #endif // PARAMETERS_H

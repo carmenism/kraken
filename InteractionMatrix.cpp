@@ -41,11 +41,24 @@ double InteractionMatrix::getMatrixValue(int i, int j) {
     return m_IntMatrix.at(i).at(j);
 }
 
+void InteractionMatrix::setMatrixValue(int i, int j, double value) {
+    if (i >= 0 && i < m_IntMatrix.size() 
+        && j >= 0 && j < m_IntMatrix.at(i).size()) {
+        m_IntMatrix[i][j] = value;
+    }
+}
+
 void InteractionMatrix::addMatrixValue(int i, double value) {
 
     m_IntMatrix[i].append(value);
 }
 
+int InteractionMatrix::getNumberRows() {
+    return m_IntMatrix.size();
+}
 
+int InteractionMatrix::getNumberColumns(int rowIndex) {
+    return m_IntMatrix.at(rowIndex).size();
+}
 
 

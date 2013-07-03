@@ -19,8 +19,11 @@ public:
     void clearMatrix();
     QList<QList <double> > getMatrix();
     double getMatrixValue(int i, int j);
+    void setMatrixValue(int i, int j, double value);
     void addMatrixValue(int i, double value);
     void printMatrix(QStringList);
+    int getNumberRows();
+    int getNumberColumns(int rowIndex);
 
 };
 

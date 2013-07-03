@@ -1086,3 +1086,15 @@ void Parameters::set_GA_mutationRate(double mutationRate) {
 
     m_GA_mutationRate = mutationRate;
 }
+
+void Parameters::setEffortForGuild(QString guildName, float value) {
+    for (int i = 0; i < m_SpeciesList.size(); i++) {
+        QString guild = getGuildMembership(m_SpeciesList.at(i));
+
+        if (QString::compare(guild, guildName) == 0) {
+            for (int j = 0; j < m_EffortMatrix.getNumberColumns(i); j++) {
+                m_EffortMatrix.setMatrixValue(i, j, value);
+            }
+        }
+    }
+}

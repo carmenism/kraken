@@ -9,6 +9,7 @@ class Triangle;
 class LineChart;
 class ChartPoint;
 class Slider;
+class Parameters;
 
 class MyQGLWidget : public QGLWidget {
 
@@ -18,6 +19,8 @@ public:
     MyQGLWidget(QWidget *parent = NULL);
 
     void updateLineChart(QList<QList<double>> matrix, QStringList labels); 
+
+    void setParameters(Parameters *p) { params = p; }
 protected:
     void initializeGL();
     void resizeGL(int w, int h);
@@ -29,7 +32,8 @@ protected:
 private:
     void selectItem(int x, int y);
     void setHovered(ChartPoint *point);
-
+    
+    Parameters *params;
     LineChart *chart;
     Slider *slider;
     ChartPoint *hovered;
