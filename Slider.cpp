@@ -130,7 +130,7 @@ bool Slider::mouseMoved(float x, float y) {
             curX = border + width - cursorWidth;
         }
 
-        std::cerr << getValue() << "\n";
+        //std::cerr << getValue() << "\n";
 
         return true;
 	}

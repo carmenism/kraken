@@ -243,6 +243,7 @@ public:
 
     void setEffortForGuild(QString guildName, float value);
     void setEffortForGuild(std::string guildName, float value);
+
 };
 
 #endif // PARAMETERS_H

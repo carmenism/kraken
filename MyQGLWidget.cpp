@@ -19,7 +19,7 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
 
     setMouseTracking(true);
 
-    slider = new Slider(10, 550, 200, 0.25);
+    slider = new Slider(10, 550, 200, 0.1);
 }
 
 void MyQGLWidget::initializeGL() {
@@ -96,7 +96,13 @@ void MyQGLWidget::setHovered(ChartPoint *point) {
 }
 
 void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
-    slider->mouseReleased();
+    bool sliderReleased = slider->mouseReleased();
+
+    if (sliderReleased) {
+        float value = slider->getValue() * 10;
+        mainWindow->getParameters()->setEffortForGuild(QString("Groundfish"), value);
+        mainWindow->runModel();
+    }
 }
 
 void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
@@ -116,9 +122,9 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
     bool sliderMoved = slider->mouseMoved(x, y);
 
     if (sliderMoved) {
-        float value = slider->getValue() * 100;
-        mainWindow->getParameters()->setEffortForGuild(QString("Flatfish"), value);
-        mainWindow->runModel();
+        //float value = slider->getValue() * 100;
+        //mainWindow->getParameters()->setEffortForGuild(QString("Flatfish"), value);
+        //mainWindow->runModel();
     } else {
         selectItem(x, y);
     }

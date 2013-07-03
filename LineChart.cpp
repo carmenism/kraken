@@ -117,7 +117,7 @@ void LineChart::drawXAxis(LineChartAxis *axisX) {
         axisX->setMinimumValue(globalMinX);
         axisX->setMaximumValue(globalMaxX);
         axisX->setMajorTickSpacing(xInterval);
-        axisX->setMinorTickSpacing(xInterval / 5);
+        axisX->setMinorTickSpacing(xInterval / 5.0);
 
         axisX->draw();
     }

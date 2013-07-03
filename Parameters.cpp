@@ -1,5 +1,6 @@
 #include "Parameters.h"
 #include "ModelComponent.h"
+#include <iostream>
 
 Parameters::Parameters() {
     m_BiomassUnits = "mt";
@@ -1092,6 +1093,9 @@ void Parameters::setEffortForGuild(std::string guildName, float value) {
 }
 
 void Parameters::setEffortForGuild(QString guildName, float value) {
+    //m_EffortMatrix.printMatrix();
+    //std::cout << "***************\n";
+
     for (int i = 0; i < m_SpeciesList.size(); i++) {
         QString guild = getGuildMembership(m_SpeciesList.at(i));
 
@@ -1101,4 +1105,7 @@ void Parameters::setEffortForGuild(QString guildName, float value) {
             }
         }
     }
+
+    //m_EffortMatrix.printMatrix();
+    //std::cout << "*****************************************\n";
 }

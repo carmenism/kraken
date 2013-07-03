@@ -1,4 +1,5 @@
 #include "InteractionMatrix.h"
+#include <iostream>
 
 typedef QList<QList <double> > Int_Matrix;
 
@@ -12,6 +13,16 @@ void InteractionMatrix::setMatrix(Int_Matrix matrix) {
 
 Int_Matrix InteractionMatrix::getMatrix() {
     return m_IntMatrix;
+}
+
+void InteractionMatrix::printMatrix() {
+    for (int i = 0; i < m_IntMatrix.size(); i++) {
+        for (int j = 0; j < m_IntMatrix.at(i).size(); j++) {
+            std::cout << m_IntMatrix.at(i).at(j) << " ";
+        }
+
+        std::cout << "\n";
+    }
 }
 
 void InteractionMatrix::printMatrix(const QStringList typeList) {

@@ -616,11 +616,11 @@ void MS_PROD_MainWindow::runModel() {
     Parameters* ptr_paramObj = &paramObj;
     ModelFormParameters* ptr_modelParamObj = &modelFormParamObj;
     TimeSeriesObservations* ptr_tsObj = &tsObj;
-    QString saveFilename = QFileDialog::getSaveFileName(this, QObject::tr("Save as..."), QObject::tr(""), QObject::tr("CSV (*.csv)"));
-    ptr_paramObj->setSaveFilename(saveFilename);
+    //QString saveFilename = QFileDialog::getSaveFileName(this, QObject::tr("Save as..."), QObject::tr(""), QObject::tr("CSV (*.csv)"));
+    ptr_paramObj->setSaveFilename("out.csv");//(saveFilename);
     Model model(ptr_paramObj, ptr_modelParamObj);
     model.runModel();
-    QMessageBox::information(this, tr("Kraken 1.1"), tr("Run Completed"));
+    //QMessageBox::information(this, tr("Kraken 1.1"), tr("Run Completed"));
 
     glWidget->updateLineChart(ptr_paramObj->getBiomassMatrix(), ptr_paramObj->getSpeciesList());
 }
