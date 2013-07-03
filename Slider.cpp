@@ -12,7 +12,7 @@ Slider::Slider(float x, float y, float w, float start) {
     width = w + cursorWidth;
     height = 15.0f;
 
-	curX = border + start * width;
+    setValue(start);
 	state = INACTIVE;
 
     mainColor = new Color(0.5, 0.5, 0.5, 1.0);

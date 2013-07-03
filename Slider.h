@@ -10,17 +10,17 @@ class Color;
 class Slider
 {
 public:
-	Slider(float xcorner, float ycorner, float length, float start);
+    Slider(float xcorner, float ycorner, float length, float start);
 
-	// specify the lower left corner, the slider length
-	// and the start value between 0 and 1.0
+    // specify the lower left corner, the slider length
+    // and the start value between 0 and 1.0
     
-	void draw();
+    void draw();
 
     float getValue();
     void Slider::setValue(float value);
 
-	bool mouseMoved(float x, float y);
+    bool mouseMoved(float x, float y);
     bool mousePressed(float x, float y);
     bool mouseReleased();
 
@@ -48,11 +48,10 @@ public:
     float getCursorWidth() { return cursorWidth; }
     void setCursorWidth(float w) { cursorWidth = w; }    
 private:
-	int state;
-	int selpos;
-	float cornerX, cornerY;
-	float curX, startCurX;
-	float startX;
+    int state;
+    float cornerX, cornerY;
+    float curX, startCurX;
+    float startX;
 
     Color *mainColor, *cursorColor;
     float shadowAlpha, highlightAlpha;
