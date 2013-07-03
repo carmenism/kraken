@@ -11,7 +11,7 @@ ChartPoint::ChartPoint(LineChart *chart, std::string label, float valueX, float 
     this->valueX = valueX;
     this->valueY = valueY;
     this->chart = chart;
-    this->label = label + ": " + toStr(valueY);
+    this->label = label;// + ": " + toStr(valueY);
 
     switch (shape) {
         case SHAPE_SQUARE:
@@ -67,7 +67,9 @@ void ChartPoint::drawLabel() {
         glEnd();
 
         glColor4f(0.0, 0.0, 0.0, 1.0);
-        PrintText::printAt(x, y + 0.2 * h, label, false, false, font);
+
+        std::string newLabel = label + ": " + toStr(valueY);
+        PrintText::printAt(x, y + 0.2 * h, newLabel, false, false, font);
     }
 }
 
