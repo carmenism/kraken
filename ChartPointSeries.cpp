@@ -6,6 +6,10 @@
 #include "LineChart.h"
 #include <QtOpenGL>
 
+#define NUM_RECTS 30
+#define START_ALPHA 0.45
+#define END_ALPHA 0.0
+#define D_ALPHA (START_ALPHA - END_ALPHA) / NUM_RECTS
 
 ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vector<float> x, std::vector<float> y) {
     this->chart = chart;
@@ -192,20 +196,34 @@ void ChartPointSeries::drawAsArea() {
 void ChartPointSeries::drawGhost() {
     ChartPoint *last = NULL;
 
-    float alpha = lineColor->a / 2.0;
-
     glPolygonMode( GL_FRONT, GL_FILL );
 
     FOREACH_POINT(it, points) {   
         if (last != NULL) {
-            glColor4f(lineColor->r, lineColor->g, lineColor->b, alpha);
+            float leftX = last->getPositionX();
+            float rightX = (*it)->getPositionX();
 
-            glBegin( GL_POLYGON );
-                glVertex2f(last->getPositionX(), last->getPositionY());
-                glVertex2f((*it)->getPositionX(), (*it)->getPositionY());
-                glVertex2f((*it)->getLastPositionX(), (*it)->getLastPositionY());   
-                glVertex2f(last->getLastPositionX(), last->getLastPositionY());  
-            glEnd();
+            float startLeftY = last->getPositionY();
+            float startRightY = (*it)->getPositionY();
+            float endRightY = (*it)->getLastPositionY();
+            float endLeftY = last->getLastPositionY();
+
+            float rightDiffY = endRightY - startRightY;
+            float leftDiffY = endLeftY - startLeftY;
+
+            float rightY = rightDiffY / NUM_RECTS;
+            float leftY = leftDiffY / NUM_RECTS;
+
+            for (int i = 0; i < NUM_RECTS; i++) {
+                glColor4f(lineColor->r, lineColor->g, lineColor->b, START_ALPHA - i * D_ALPHA);
+
+                glBegin( GL_POLYGON );
+                    glVertex2f(leftX, startLeftY + i * leftY); // top
+                    glVertex2f(rightX, startRightY + i * rightY);
+                    glVertex2f(rightX, startRightY + (i+1) * rightY);//bottom   
+                    glVertex2f(leftX, startLeftY + (i+1) * leftY); 
+                glEnd();
+            }
         }
         
         last = *it;
