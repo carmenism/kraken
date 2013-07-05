@@ -5,7 +5,7 @@
 ChangeSlider::ChangeSlider(std::string label, float xcorner, float ycorner, float length, float start) 
     : Slider(label, xcorner, ycorner, length, start) {
     decreaseColor = &Color::red;
-    increaseColor = &Color::green;
+    increaseColor = &Color::blue;
 
     color = increaseColor;
     display = false;
