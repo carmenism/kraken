@@ -8,9 +8,9 @@ class Shape;
 class Color;
 
 #include <string>
+#include "Point.h"
 
-class ChartPoint
-{
+class ChartPoint : public Point {
 public:
     ChartPoint(LineChart *chart, std::string label, float vX, float vY, int shape = SHAPE_CIRCLE);
     virtual ~ChartPoint();
@@ -28,16 +28,9 @@ public:
     void setBorderWidth(float width);
 
     void setPickColor(int r, int g, int b); 
-
-    void setValueX(float x) { valueX = x; }
-    float getValueX() { return valueX; }
     
-    void setValueY(float y) { valueY = y; }
-    float getValueY() { return valueY; }
-
-    void captureLastValues() { lastValueX = valueX; lastValueY = valueY; }
-    float getLastValueX() { return lastValueX; }
-    float getLastValueY() { return lastValueY; }
+    void captureLastValues() { last->setValues(valueX, valueY); }
+    Point *getLast() { return last; }
     float getLastPositionX() { return lastPositionX; }
     float getLastPositionY() { return lastPositionY; }
 
@@ -53,9 +46,10 @@ public:
     void displayLabelOff() { displayLabel = false; }
 private:
     LineChart *chart;
-    float valueX, valueY;
-    float lastValueX, lastValueY;
+    //float valueX, valueY;
+    //float lastValueX, lastValueY;
     float lastPositionX, lastPositionY;
+    Point *last;
 
     Shape *marker;
     std::string label;

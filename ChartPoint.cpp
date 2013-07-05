@@ -7,11 +7,9 @@
 #include "Color.h"
 #include "PrintText.h"
 
-ChartPoint::ChartPoint(LineChart *chart, std::string label, float valueX, float valueY, int shape) {
-    this->valueX = valueX;
-    this->valueY = valueY;
-    this->lastValueX = valueX;
-    this->lastValueY = valueY;
+ChartPoint::ChartPoint(LineChart *chart, std::string label, float valueX, float valueY, int shape)
+ : Point(valueX, valueY) {
+    last = new Point(valueX, valueY);
     this->chart = chart;
     this->label = label;// + ": " + toStr(valueY);
 
@@ -43,8 +41,8 @@ void ChartPoint::calculateLocation() {
 
     marker->setLocation(posX, posY);
 
-    lastPositionX = lastValueX * chart->getWidth() / chart->getGlobalMaxX();
-    lastPositionY = lastValueY * chart->getHeight() / chart->getGlobalMaxY();
+    lastPositionX = last->getValueX() * chart->getWidth() / chart->getGlobalMaxX();
+    lastPositionY = last->getValueY() * chart->getHeight() / chart->getGlobalMaxY();
 }
 
 void ChartPoint::draw() {

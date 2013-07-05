@@ -250,6 +250,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GhostChartPoint.cpp"
+				>
+			</File>
+			<File
 				RelativePath="GrowthModuleLinear.cpp"
 				>
 			</File>
@@ -315,6 +319,10 @@
 			</File>
 			<File
 				RelativePath="Parameters.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Point.cpp"
 				>
 			</File>
 			<File
@@ -401,6 +409,10 @@
 			</File>
 			<File
 				RelativePath="GA_Estimator.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GhostChartPoint.h"
 				>
 			</File>
 			<File
@@ -517,6 +529,10 @@
 			</File>
 			<File
 				RelativePath=".\Pickable.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Point.h"
 				>
 			</File>
 			<File
