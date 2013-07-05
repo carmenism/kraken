@@ -9,7 +9,7 @@ class Circle;
 class Triangle;
 class LineChart;
 class ChartPoint;
-class Slider;
+class ChangeSlider;
 class Parameters;
 class MS_PROD_MainWindow;
 
@@ -39,7 +39,7 @@ private:
     MS_PROD_MainWindow *mainWindow;
     LineChart *chart;
     
-    std::vector<Slider *> sliders;
+    std::vector<ChangeSlider *> sliders;
     ChartPoint *hovered;
 };
 

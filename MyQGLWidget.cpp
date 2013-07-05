@@ -6,7 +6,7 @@
 #include "Triangle.h"
 #include "LineChart.h"
 #include "ChartPoint.h"
-#include "Slider.h"
+#include "ChangeSlider.h"
 #include "MS_PROD_MainWindow.h"
 #include "Parameters.h"
 #include <QList>
@@ -110,15 +110,27 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
 void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
     float x = event->x();
     float y = size().rheight() - event->y();
+    bool sliderPressed = false;
+    ChangeSlider *pressed = NULL;
 
     if (event->button() == Qt::LeftButton) {
         for (int i = 0; i < sliders.size(); i++) {
-            if (sliders[i]->mousePressed(x, y)) {
+            sliderPressed = sliders[i]->mousePressed(x, y);
+            if (sliderPressed) {
                 chart->captureLastValues();
+                pressed = sliders[i];
                 break;
             }
         }
     } 
+
+    if (sliderPressed) {
+        for (int i = 0; i < sliders.size(); i++) {
+            if (sliders[i] != pressed) {
+                sliders[i]->clearDisplay();
+            }
+        }
+    }
 
     updateGL();
 }
@@ -183,7 +195,7 @@ void MyQGLWidget::initializeSliders() {
 
     for (int i = 0; i < guilds.size(); i++) {
         std::string guild = guilds.at(i).toStdString();
-        Slider *slider = new Slider(guild, 100, h - i * 20, 200, 0.1);
+        ChangeSlider *slider = new ChangeSlider(guild, 100, h - i * 20, 200, 0.1);
         sliders.push_back(slider);
     }
 }

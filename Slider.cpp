@@ -22,6 +22,8 @@ Slider::Slider(std::string label, float x, float y, float w, float start) {
     cursorColor = new Color(0.6, 0.6, 0.6, 1.0);
     shadowAlpha = 0.65;
     highlightAlpha = 0.65;
+
+    //startCurX = curX;
 }
 
 void Slider::draw() {

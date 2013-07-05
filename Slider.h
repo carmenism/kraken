@@ -48,17 +48,18 @@ public:
     void setCursorWidth(float w) { cursorWidth = w; }
 
     std::string getLabel() { return label; }
+protected:
+    float cornerX, cornerY;
+    float curX, startCurX;
+    float border, width, height, cursorWidth;
 private:
     std::string label;
 
     bool active;
-    float cornerX, cornerY;
-    float curX, startCurX;
     float startX;
 
     Color *mainColor, *cursorColor;
     float shadowAlpha, highlightAlpha;
-    float border, width, height, cursorWidth;
 
     bool pointInCursor(float x, float y);
 };
