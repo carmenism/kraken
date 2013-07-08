@@ -1,10 +1,7 @@
 #include <QtGui/QMouseEvent>
 #include "MyQGLWidget.h"
 #include "stdio.h"
-#include "Square.h"
-#include "Circle.h"
-#include "Triangle.h"
-#include "LineChart.h"
+#include "MultiSpeciesLineChart.h"
 #include "ChartPoint.h"
 #include "ChangeSlider.h"
 #include "MS_PROD_MainWindow.h"
@@ -174,7 +171,7 @@ void MyQGLWidget::keyPressEvent(QKeyEvent* event) {
 
 void MyQGLWidget::updateLineChart(QList<QList<double>> matrix, QStringList labels) {
     if (chart == NULL) {
-        chart = new LineChart(matrix, labels);
+        chart = new MultiSpeciesLineChart(matrix, labels);
     } else {
         chart->setValues(matrix);
     }

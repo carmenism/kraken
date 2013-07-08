@@ -2,13 +2,11 @@
 #define LINECHART_H_
 
 #include <vector>
-#include <QList>
 #include "ChartPointSeries.h"
 #include "Chart.h"
 
 class LineChartAxis;
 class LineChartLegend;
-class QStringList;
 
 typedef std::vector<LineChartAxis *> LineChartAxisList;
 typedef std::vector<LineChartAxis *>::const_iterator LineChartAxisIterator;
@@ -29,11 +27,8 @@ typedef std::vector<ChartPointSeries *>::const_iterator ChartPointSeriesIterator
 class LineChart : public Chart {
 public:
     LineChart();
-    LineChart(QList<QList<double>> matrix, QStringList labels);
-
+    
     ~LineChart();
-
-    void setValues(QList<QList<double>> matrix);
 
     void draw();
     void drawToPick();
@@ -82,11 +77,11 @@ public:
     float getGlobalMaxX() { return globalMaxX; }
     float getGlobalMinY() { return globalMinY; }
     float getGlobalMaxY() { return globalMaxY; }
+protected:
+    ChartPointSeriesList seriesList;
 private:
     LineChartAxisList axes;
     LineChartLegend *legend;
-
-    ChartPointSeriesList seriesList;
 
     bool displayLegend;
     

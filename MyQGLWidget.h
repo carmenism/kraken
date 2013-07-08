@@ -7,7 +7,7 @@
 class Square;
 class Circle;
 class Triangle;
-class LineChart;
+class MultiSpeciesLineChart;
 class ChartPoint;
 class ChangeSlider;
 class Parameters;
@@ -37,7 +37,7 @@ private:
     void setHovered(ChartPoint *point);
 
     MS_PROD_MainWindow *mainWindow;
-    LineChart *chart;
+    MultiSpeciesLineChart *chart;
     
     std::vector<ChangeSlider *> sliders;
     ChartPoint *hovered;

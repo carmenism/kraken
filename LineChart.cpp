@@ -1,59 +1,29 @@
 #include "LineChart.h"
 #include "ChartPoint.h"
-#include "Color.h"
 #include "LineChartAxis.h"
 #include "LineChartLegend.h"
-#include <QList>
-#include <QStringList>
-#include <QString>
 #include <limits>
 #include <iostream>
 #include <QtOpenGL>
 #include <GL/glut.h>
 
 LineChart::LineChart() {
-    width = 400;
-    height = 300;
-    offsetX = 40;
-    offsetY = 30;
-
-    setUpAxes();
-
     legend = new LineChartLegend(this);
-
     displayLegend = true;
-}
-
-LineChart::LineChart(QList<QList<double>> matrix, QStringList labels) {
-    for (int i = 0; i < matrix.size(); i++) {
-        std::vector<float> x;
-        std::vector<float> y;
-        
-        for (int j = 0; j < matrix.at(i).size(); j++) {
-            x.push_back(j);
-            y.push_back(matrix.at(i).at(j));
-        }
-
-        ChartPointSeries *series = new ChartPointSeries(this, labels.at(i).toStdString(), x, y);
-        Color *c = Color::getEvenlyDistributedColor(matrix.size(), i);
-        series->setColor(c);
-
-        addPointSeries(series);
-    } 
-
-    legend = new LineChartLegend(this);
 
     setUpAxes();
 
     setHeight(480);
     setWidth(600);
-    setLineWidths(2);
-    setMarkersSize(4);
+    setLineWidths(1);
+    setMarkersSize(5);
     displayMarkersOn();
     displayLegendOn();
     
     offsetX = 40;
     offsetY = 30;
+
+    std::cout << "test\n";
 }
 
 LineChart::~LineChart() {
@@ -67,24 +37,6 @@ void LineChart::setUpAxes() {
     axes.push_back(new LineChartAxis(this, AXIS_RIGHT));
     axes[AXIS_TOP]->displayOff();
     axes[AXIS_RIGHT]->displayOff();
-}
-
-void LineChart::setValues(QList<QList<double>> matrix) {
-    for (int i = 0; i < matrix.size(); i++) {
-        std::vector<float> x;
-        std::vector<float> y;
-        
-        for (int j = 0; j < matrix.at(i).size(); j++) {
-            x.push_back(j);
-            y.push_back(matrix.at(i).at(j));
-        }
-
-        //try {
-            seriesList[i]->setValues(x, y);
-        //} catch () {
-
-        //}
-    }
 }
 
 void LineChart::draw() {

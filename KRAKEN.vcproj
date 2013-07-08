@@ -250,10 +250,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GhostChartPoint.cpp"
-				>
-			</File>
-			<File
 				RelativePath="GrowthModuleLinear.cpp"
 				>
 			</File>
@@ -311,6 +307,10 @@
 			</File>
 			<File
 				RelativePath="ms_prod_mainwindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MultiSpeciesLineChart.cpp"
 				>
 			</File>
 			<File
@@ -412,10 +412,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GhostChartPoint.h"
-				>
-			</File>
-			<File
 				RelativePath="GrowthModuleLinear.h"
 				>
 			</File>
@@ -498,6 +494,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\MultiSpeciesLineChart.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MyQGLWidget.h"
 				>
 				<FileConfiguration
@@ -572,6 +572,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
+				>
+			</File>
+			<File
 				RelativePath="ui_ms_prod_mainwindow.h"
 				>
 			</File>
@@ -600,10 +604,6 @@
 						UsePrecompiledHeader="0"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
-				>
 			</File>
 			<Filter
 				Name="Debug"
