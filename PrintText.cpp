@@ -10,6 +10,55 @@ bool PrintText::dragging = false;
 int PrintText::lastTextHeight = 0;
 int PrintText::lastTextWidth = 0;
 
+void PrintText::drawStrokeText(std::string text, float x, float y, float h, int horizAlign, int vertAlign) {
+    float scale = h / 119.05;
+
+    float horizOff = 0;
+    float vertOff = 0;
+
+    switch (horizAlign) {
+        case HORIZ_RIGHT:
+            horizOff = scale * strokeWidth(text, GLUT_STROKE_ROMAN);
+            break;
+        case HORIZ_CENTER:   
+            horizOff = scale * strokeWidth(text, GLUT_STROKE_ROMAN) / 2;
+            break;
+        case HORIZ_LEFT:
+        default:
+            break;
+    }
+
+    switch (vertAlign) {
+        case VERT_TOP:
+            vertOff = h;
+            break;
+        case VERT_CENTER:   
+            vertOff = h / 2;
+            break;
+        case VERT_BOTTOM:
+        default:
+            break;
+    }
+
+    glPushMatrix();
+        glTranslatef(x - horizOff, y - vertOff, 0);
+        glScalef(scale, scale, 1);
+        for (int i = 0; i < text.size(); i++) {
+            glutStrokeCharacter(GLUT_STROKE_ROMAN, text[i]);
+        }
+    glPopMatrix();
+}
+
+int PrintText::strokeWidth(std::string text, void *font) {
+    int length = 0;
+
+    for (std::string::size_type i = 0; i < text.size(); i++) {
+        length += glutStrokeWidth(font, text[i]);
+    }
+
+    return length;
+}
+
 void PrintText::beginRaw2D() {
     if (inRawGL++) {
         return;

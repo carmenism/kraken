@@ -7,9 +7,16 @@
 
 #define DEFAULT_FONT GLUT_BITMAP_HELVETICA_18
 
+enum {HORIZ_LEFT, HORIZ_RIGHT, HORIZ_CENTER};
+enum {VERT_BOTTOM, VERT_TOP, VERT_CENTER};
+
 class PrintText
 {
 public:
+    static void drawStrokeText(std::string text, float x, float y, float h, int horizAlign = HORIZ_LEFT, int vertAlign = VERT_BOTTOM);
+
+    static int PrintText::strokeWidth(std::string text, void *font);
+
     static bool printAt(float rx, float ry, std::string text,
         bool needRaw = true, GLboolean shadow = GL_TRUE, 
         void *font = DEFAULT_FONT, float alpha = 1.0);
