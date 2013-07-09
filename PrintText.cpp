@@ -56,7 +56,6 @@ void PrintText::drawStrokeText(std::string text, float x, float y, float h, int 
         glTranslatef(x - horizOff, y - vertOff, 0);
         glRotatef(rotate, 0, 0, 1);
         glScalef(scale, scale, 1);
-        //glTranslatef(x - horizOff, y - vertOff, 0);
         for (int i = 0; i < text.size(); i++) {
             glutStrokeCharacter(GLUT_STROKE_ROMAN, text[i]);
         }
