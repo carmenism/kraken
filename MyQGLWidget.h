@@ -13,6 +13,16 @@ class ChangeSlider;
 class Parameters;
 class MS_PROD_MainWindow;
 
+
+typedef std::vector<MultiSpeciesLineChart *> MSLineChartList;
+typedef std::vector<MultiSpeciesLineChart *>::const_iterator MSLineChartIterator;
+
+#define FOREACH_MSLINECHART(it, msLineChartList) \
+    for(MSLineChartIterator it = msLineChartList.begin(); it != msLineChartList.end(); ++it)
+#define FOREACH_MSLINECHARTP(it, msLineChartList) \
+    for(MSLineChartIterator it = msLineChartList->begin(); it != msLineChartList->end(); ++it)
+
+
 class MyQGLWidget : public QGLWidget {
 
     Q_OBJECT // must include this if you use Qt signals/slots
@@ -37,7 +47,7 @@ private:
     void setHovered(ChartPoint *point);
 
     MS_PROD_MainWindow *mainWindow;
-    MultiSpeciesLineChart *chart;
+    std::vector<MultiSpeciesLineChart *> charts;
     
     std::vector<ChangeSlider *> sliders;
     ChartPoint *hovered;

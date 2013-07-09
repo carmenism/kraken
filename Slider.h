@@ -51,6 +51,8 @@ public:
 
     float getFontHeight() { return fontHeight; }
     void setFontHeight(float h) { fontHeight = h; }
+
+    void setLocation(float x, float y) { cornerX = x; cornerY = y; }
 protected:
     float cornerX, cornerY;
     float curX, startCurX;

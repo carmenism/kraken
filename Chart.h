@@ -4,8 +4,10 @@ class Chart {
     public:
         Chart();
         void draw();
+        void drawToPick();
      
         virtual void drawAtOrigin() = 0;
+        virtual void drawToPickAtOrigin() = 0;
      
         float getXLocation() { return xPos; }
         void setXLocation(float x) { xPos = x; }
@@ -27,14 +29,14 @@ class Chart {
         std::string getTitle() { return title; }
         void setTitle(std::string t) { title = t; }
     protected:
+        std::string title;
+        float fontHeight;
         float width, height;
+
         float round(float num);
         float roundDown(float num);
         float roundUp(float num);
     private:  
-        std::string title;
-        float fontHeight;
-
         float xPos, yPos;
 
         float f(float num, float c);

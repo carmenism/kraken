@@ -31,7 +31,7 @@ public:
     ~LineChart();
 
     void drawAtOrigin();
-    void drawToPick();
+    void drawToPickAtOrigin();
     void drawToPickLines();
 
     void captureLastValues();

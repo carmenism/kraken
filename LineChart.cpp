@@ -2,6 +2,7 @@
 #include "ChartPoint.h"
 #include "LineChartAxis.h"
 #include "LineChartLegend.h"
+#include "PrintText.h"
 #include <limits>
 #include <iostream>
 #include <QtOpenGL>
@@ -42,16 +43,16 @@ void LineChart::drawAtOrigin() {
         glTranslatef(offsetX, offsetY, 0);
         calculateGlobalBounds();
         drawBoundary(); 
-
+        drawAxes();
+        drawLines();  
+        drawLabels();
         
         if (displayLegend) {
             legend->draw(width + 5, height / 2, 15, 5);
         }
 
-        drawAxes();
-        drawLines();  
-        drawLabels();
-
+        glColor4f(0, 0, 0, 1);
+        PrintText::drawStrokeText(title, width / 2, height + 5, fontHeight, HORIZ_CENTER);
     glPopMatrix();
 }
 
@@ -101,12 +102,12 @@ void LineChart::drawYAxis(LineChartAxis *axisY) {
 
 float LineChart::calculateIntervalSize(float min, float max) {
     float range = max - min;
-    float tempInterval = range / 8.0;
+    float tempInterval = range / 6.0;
 
     return roundUp(tempInterval);
 }
 
-void LineChart::drawToPick() {
+void LineChart::drawToPickAtOrigin() {
     glPushMatrix();
         glTranslatef(offsetX, offsetY, 0);
      

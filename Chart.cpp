@@ -14,11 +14,16 @@ Chart::Chart() {
 void Chart::draw() {
     glPushMatrix();
         glTranslatef(xPos, yPos, 0); 
-        
-        glColor4f(0, 0, 0, 1);
-        PrintText::drawStrokeText(title, width / 2, height + 5, fontHeight, HORIZ_CENTER);
-        
+                
         drawAtOrigin();
+    glPopMatrix();
+}
+
+void Chart::drawToPick() {
+    glPushMatrix();
+        glTranslatef(xPos, yPos, 0); 
+        
+        drawToPickAtOrigin();
     glPopMatrix();
 }
 

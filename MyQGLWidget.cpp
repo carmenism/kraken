@@ -11,12 +11,11 @@
 
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
     hovered = NULL;
-    chart = NULL;
     this->mainWindow = mainWindow;
 
     setMouseTracking(true);
-    setFixedWidth(1024);
-    setFixedHeight(768);
+    setFixedWidth(1200);
+    setFixedHeight(800);
 }
 
 void MyQGLWidget::initializeGL() {
@@ -46,8 +45,8 @@ void MyQGLWidget::resizeGL(int w, int h) {
 void MyQGLWidget::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    if (chart != NULL) {
-        chart->draw();
+    for (int i = 0; i < charts.size(); i++) {
+        charts[i]->draw();
     }
 
     for (int i = 0; i < sliders.size(); i++) {
@@ -56,7 +55,7 @@ void MyQGLWidget::paintGL() {
 }
 
 void MyQGLWidget::selectItem(int x, int y) {
-    if (chart != NULL) {
+    if (!charts.empty()) {
         float color[4];    
         unsigned char val[3];
         int i;
@@ -66,21 +65,31 @@ void MyQGLWidget::selectItem(int x, int y) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(color[0], color[1], color[2], color[3]);
 
-        ChartPointList *points = chart->getPoints();
+        ChartPointList allPoints;
         
-        for (i = 0; i < points->size(); i++) {
-            (*points)[i]->setPickColor(i & 0xFF, (i >> 8) & 0xFF, 0);
+        for (int i = 0; i < charts.size(); i++) {
+            ChartPointList *points = charts[i]->getPoints();
+
+            for (int j = 0; j < points->size(); j++) {
+                allPoints.push_back((*points)[j]);
+            }
         }
 
-        chart->drawToPick();
+        for (i = 0; i < allPoints.size(); i++) {
+            allPoints[i]->setPickColor(i & 0xFF, (i >> 8) & 0xFF, 0);
+        }
+
+        for (int i = 0; i < charts.size(); i++) {
+            charts[i]->drawToPick();
+        }
 
         glReadBuffer(GL_BACK);
         glReadPixels(x, y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, val);
         
         i = (val[1] << 8) + val[0];
 
-        if (i >=0 && i < points->size()) {
-            setHovered((*points)[i]);
+        if (i >=0 && i < allPoints.size()) {
+            setHovered(allPoints[i]);
         } else if (hovered != NULL) {
             hovered->displayLabelOff();
         }
@@ -118,8 +127,11 @@ void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         for (int i = 0; i < sliders.size(); i++) {
             sliderPressed = sliders[i]->mousePressed(x, y);
-            if (sliderPressed) {
-                chart->captureLastValues();
+            if (sliderPressed) {                
+                for (int j = 0; j < charts.size(); j++) {
+                    charts[j]->captureLastValues();
+                }
+
                 pressed = sliders[i];
                 break;
             }
@@ -175,10 +187,49 @@ void MyQGLWidget::keyPressEvent(QKeyEvent* event) {
 }
 
 void MyQGLWidget::updateLineChart(QList<QList<double>> matrix, QStringList labels) {
-    if (chart == NULL) {
-        chart = new MultiSpeciesLineChart(matrix, labels);
+    QStringList guilds = mainWindow->getParameters()->getGuildList();
+    
+    if (charts.empty()) {
+        for (int i = 0; i < guilds.size(); i++) {
+            QList<QList<double>> matrixForGuild;
+            QStringList labelsForGuild;
+
+            for (int j = 0; j < labels.size(); j++) {
+                QString g = mainWindow->getParameters()->getGuildMembership(labels.at(j));
+                
+                if (QString::compare(g, guilds.at(i)) == 0) {
+                    matrixForGuild.append(matrix.at(j));
+                    labelsForGuild.append(labels.at(j));
+                }
+            }
+
+            MultiSpeciesLineChart *chart = new MultiSpeciesLineChart(matrixForGuild, labelsForGuild);
+            chart->setTitle(guilds.at(i).toStdString());
+            chart->setWidth(400);
+            chart->setHeight(300);
+            chart->setAxesFontHeight(10);
+            chart->setLegendFontHeight(10);
+            charts.push_back(chart);
+        }
+
+        charts[0]->setLocation(0, 30);
+        charts[1]->setLocation(600, 30);
+        charts[2]->setLocation(0, 430);
+        charts[3]->setLocation(600, 430);
     } else {
-        chart->setValues(matrix);
+        for (int i = 0; i < guilds.size(); i++) {
+            QList<QList<double>> matrixForGuild;
+
+            for (int j = 0; j < labels.size(); j++) {
+                QString g = mainWindow->getParameters()->getGuildMembership(labels.at(j));
+                
+                if (QString::compare(g, guilds.at(i)) == 0) {
+                    matrixForGuild.append(matrix.at(j));
+                }
+            }
+
+            charts.at(i)->setValues(matrixForGuild);
+        }
     }
 
     updateGL();
@@ -200,4 +251,9 @@ void MyQGLWidget::initializeSliders() {
         ChangeSlider *slider = new ChangeSlider(guild, 100, h - i * 20, 200, 0.1);
         sliders.push_back(slider);
     }
+
+    sliders[0]->setLocation(150, 10);
+    sliders[1]->setLocation(750, 10);
+    sliders[2]->setLocation(150, 410);
+    sliders[3]->setLocation(750, 410);
 }
