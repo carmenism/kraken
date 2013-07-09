@@ -15,6 +15,8 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     this->mainWindow = mainWindow;
 
     setMouseTracking(true);
+    setFixedWidth(1024);
+    setFixedHeight(768);
 }
 
 void MyQGLWidget::initializeGL() {

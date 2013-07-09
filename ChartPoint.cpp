@@ -29,7 +29,7 @@ ChartPoint::ChartPoint(LineChart *chart, std::string label, float valueX, float 
     setSize(8);
     setBorderWidth(0.0);
     setDisplayLabel(false);
-    setFontHeight(10);
+    setFontHeight(14);
 }
 
 ChartPoint::~ChartPoint() {
@@ -57,9 +57,8 @@ void ChartPoint::drawLabel() {
         float x = marker->getX() + 3 *(marker->getWidth() / 4);
         float y = marker->getY() + (marker->getHeight() / 2);
 
-        float font_h = 10;
-        float h = font_h;
-        float w = PrintText::strokeWidth(newLabel, font_h);
+        float h = fontHeight;
+        float w = PrintText::strokeWidth(newLabel, fontHeight);
         float padding = 2;
 
         glPolygonMode(GL_FRONT, GL_FILL);  
@@ -70,7 +69,7 @@ void ChartPoint::drawLabel() {
 
         glColor4f(0.0, 0.0, 0.0, 1.0);
 
-        PrintText::drawStrokeText(newLabel, x, y, font_h);
+        PrintText::drawStrokeText(newLabel, x, y, fontHeight);
     }
 }
 

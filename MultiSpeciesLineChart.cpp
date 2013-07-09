@@ -26,6 +26,8 @@ MultiSpeciesLineChart::MultiSpeciesLineChart(QList<QList<double>> matrix, QStrin
     
     setLineWidths(2);
     setMarkersSize(6);
+    setWidth(800);
+    setHeight(600);
 
     axes[AXIS_BOTTOM]->setLabel("Year");
     axes[AXIS_BOTTOM]->displayLabelOn();

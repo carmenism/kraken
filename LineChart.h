@@ -30,7 +30,7 @@ public:
     
     ~LineChart();
 
-    void draw();
+    void drawAtOrigin();
     void drawToPick();
     void drawToPickLines();
 
@@ -77,6 +77,9 @@ public:
     float getGlobalMaxX() { return globalMaxX; }
     float getGlobalMinY() { return globalMinY; }
     float getGlobalMaxY() { return globalMaxY; }
+
+    void setAxesFontHeight(float h);
+    void setLegendFontHeight(float h);
 protected:
     ChartPointSeriesList seriesList;
     LineChartAxisList axes;

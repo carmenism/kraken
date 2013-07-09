@@ -33,7 +33,7 @@ LineChartAxis::LineChartAxis(LineChart *chart, int type) {
 
     font = GLUT_BITMAP_HELVETICA_10;
 
-    fontHeight = 10;
+    fontHeight = 12;
 }
 
 LineChartAxis::~LineChartAxis() {

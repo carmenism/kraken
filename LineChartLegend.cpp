@@ -5,10 +5,10 @@
 LineChartLegend::LineChartLegend(LineChart *c) {
     chart = c;
 
-    fontHeight = 10;
+    fontHeight = 12;
 }
 
-void LineChartLegend::draw(float x, float y, float lineLength, float spacing, void *font) {
+void LineChartLegend::draw(float x, float y, float lineLength, float spacing) {
     glPushMatrix();
         glTranslatef(x, y, 0);
 

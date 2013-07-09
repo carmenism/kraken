@@ -23,7 +23,7 @@ Slider::Slider(std::string label, float x, float y, float w, float start) {
     shadowAlpha = 0.65;
     highlightAlpha = 0.65;
 
-    fontHeight = 10;
+    fontHeight = 12;
 }
 
 void Slider::draw() {

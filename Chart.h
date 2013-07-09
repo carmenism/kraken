@@ -1,18 +1,42 @@
+#include <string>
+
 class Chart {
     public:
-        virtual void draw() = 0;
+        Chart();
+        void draw();
      
+        virtual void drawAtOrigin() = 0;
+     
+        float getXLocation() { return xPos; }
+        void setXLocation(float x) { xPos = x; }
+     
+        float getYLocation() { return yPos; }
+        void setYLocation(float y) { yPos = y; }
+
+        void setLocation(float x, float y) { xPos = x; yPos = y; }
+        
         float getWidth() { return width; }
         void setWidth(float w) { width = w; }
 
         float getHeight() { return height; }
         void setHeight(float h) { height = h; }
+    
+        float getFontHeight() { return fontHeight; }
+        void setFontHeight(float h) { fontHeight = h; }
+
+        std::string getTitle() { return title; }
+        void setTitle(std::string t) { title = t; }
     protected:
         float width, height;
         float round(float num);
         float roundDown(float num);
         float roundUp(float num);
-    private:        
+    private:  
+        std::string title;
+        float fontHeight;
+
+        float xPos, yPos;
+
         float f(float num, float c);
         float g(float num, float c);
 };

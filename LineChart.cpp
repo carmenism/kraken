@@ -7,7 +7,7 @@
 #include <QtOpenGL>
 #include <GL/glut.h>
 
-LineChart::LineChart() {
+LineChart::LineChart() : Chart() {
     legend = new LineChartLegend(this);
     displayLegend = true;
 
@@ -37,7 +37,7 @@ void LineChart::setUpAxes() {
     axes[AXIS_RIGHT]->displayOff();
 }
 
-void LineChart::draw() {
+void LineChart::drawAtOrigin() {
     glPushMatrix();
         glTranslatef(offsetX, offsetY, 0);
         calculateGlobalBounds();
@@ -45,7 +45,7 @@ void LineChart::draw() {
 
         
         if (displayLegend) {
-            legend->draw(width + 5, height / 2, 15, 5, GLUT_BITMAP_HELVETICA_10);
+            legend->draw(width + 5, height / 2, 15, 5);
         }
 
         drawAxes();
@@ -74,6 +74,16 @@ void LineChart::drawXAxis(LineChartAxis *axisX) {
 
         axisX->draw();
     }
+}
+
+void LineChart::setLegendFontHeight(float h) {
+    legend->setFontHeight(h);
+}
+
+void LineChart::setAxesFontHeight(float h) {
+    FOREACH_LINECHARTAXIS(it, axes) {
+        (*it)->setFontHeight(h);
+    }   
 }
 
 void LineChart::drawYAxis(LineChartAxis *axisY) {

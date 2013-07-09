@@ -8,7 +8,7 @@ public:
     LineChartLegend(LineChart *c);
     ~LineChartLegend();
 
-    void draw(float x, float y, float lineLength, float spacing, void *font);
+    void draw(float x, float y, float lineLength, float spacing);
 
     float getFontHeight() { return fontHeight; }
     void setFontHeight(float h) { fontHeight = h; }
