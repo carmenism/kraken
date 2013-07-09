@@ -20,8 +20,6 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
 }
 
 void MyQGLWidget::initializeGL() {
-    //setFormat(QGLFormat(QGL::SampleBuffers));
-
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_COLOR_MATERIAL);
