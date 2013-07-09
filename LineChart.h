@@ -80,6 +80,9 @@ public:
 
     void setAxesFontHeight(float h);
     void setLegendFontHeight(float h);
+
+    float getOffsetX() { return offsetX; }
+    float getOffsetY() { return offsetY; }
 protected:
     ChartPointSeriesList seriesList;
     LineChartAxisList axes;

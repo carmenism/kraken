@@ -194,10 +194,18 @@ void ChartPointSeries::drawAsArea() {
 }
 
 void ChartPointSeries::drawGhost() {
+    glEnable(GL_SCISSOR_TEST);
+    float startX = chart->getOffsetX() + chart->getXLocation();
+    float startY = chart->getOffsetY() + chart->getYLocation();
+    float w = chart->getWidth();
+    float h = chart->getHeight();
+
+    glScissor(startX, startY, w, h);
+
     ChartPoint *last = NULL;
 
     glPolygonMode( GL_FRONT, GL_FILL );
-    glBegin( GL_POLYGON );
+    //glBegin( GL_POLYGON );
     FOREACH_POINT(it, points) {   
         if (last != NULL) {
             float leftX = last->getPositionX();
@@ -228,7 +236,9 @@ void ChartPointSeries::drawGhost() {
         
         last = *it;
     }
-    glEnd( );
+    //glEnd( );
+    
+    glDisable(GL_SCISSOR_TEST);
 }
 
 float ChartPointSeries::getMinimumValueX() {
