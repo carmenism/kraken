@@ -15,8 +15,6 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     this->mainWindow = mainWindow;
 
     setMouseTracking(true);
-
-    //slider = new Slider("Groundfish", 100, 550, 200, 0.1);
 }
 
 void MyQGLWidget::initializeGL() {

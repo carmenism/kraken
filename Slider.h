@@ -48,6 +48,9 @@ public:
     void setCursorWidth(float w) { cursorWidth = w; }
 
     std::string getLabel() { return label; }
+
+    float getFontHeight() { return fontHeight; }
+    void setFontHeight(float h) { fontHeight = h; }
 protected:
     float cornerX, cornerY;
     float curX, startCurX;
@@ -60,6 +63,8 @@ private:
 
     Color *mainColor, *cursorColor;
     float shadowAlpha, highlightAlpha;
+
+    float fontHeight;
 
     bool pointInCursor(float x, float y);
 };

@@ -44,6 +44,9 @@ public:
     bool getDisplayLabel() { return displayLabel; }
     void displayLabelOn() { displayLabel = true; }
     void displayLabelOff() { displayLabel = false; }
+    
+    float getFontHeight() { return fontHeight; }
+    void setFontHeight(float h) { fontHeight = h; }
 private:
     LineChart *chart;
     //float valueX, valueY;
@@ -54,6 +57,8 @@ private:
     Shape *marker;
     std::string label;
     bool displayLabel;
+
+    float fontHeight;
 };
 
 #endif /*CHARTPOINT_H_*/

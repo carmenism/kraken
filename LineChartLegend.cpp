@@ -4,6 +4,8 @@
 
 LineChartLegend::LineChartLegend(LineChart *c) {
     chart = c;
+
+    fontHeight = 10;
 }
 
 void LineChartLegend::draw(float x, float y, float lineLength, float spacing, void *font) {
@@ -11,21 +13,22 @@ void LineChartLegend::draw(float x, float y, float lineLength, float spacing, vo
         glTranslatef(x, y, 0);
 
         ChartPointSeriesList seriesList = chart->getPointSeriesList();
-        float h = 10;
         int num = seriesList.size();
         float maxWidth = -1;
 
         for (int i = num - 1; i >= 0; i--) {
-            float width = seriesList[i]->drawInLegend(0, (h + spacing) * (num - i - 1) + spacing, lineLength, spacing, h);
+            float xpos = 0;
+            float ypos = (fontHeight + spacing) * (num - i - 1) + spacing;
+            float width = seriesList[i]->drawInLegend(xpos, ypos, lineLength, spacing, fontHeight);
 
             if (width > maxWidth) {
                 maxWidth = width;
             }
         }
 
-        PrintText::drawStrokeText("LEGEND", spacing, (h + spacing) * num + spacing, 10, HORIZ_LEFT, VERT_BOTTOM);
+        PrintText::drawStrokeText("LEGEND", spacing, (fontHeight + spacing) * num + spacing, fontHeight, HORIZ_LEFT, VERT_BOTTOM);
 
-        drawBoundary(maxWidth, (num + 1) * (h + spacing) + spacing);
+        drawBoundary(maxWidth, (num + 1) * (fontHeight + spacing) + spacing);
     glPopMatrix();
 }
 

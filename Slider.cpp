@@ -23,12 +23,12 @@ Slider::Slider(std::string label, float x, float y, float w, float start) {
     shadowAlpha = 0.65;
     highlightAlpha = 0.65;
 
-    //startCurX = curX;
+    fontHeight = 10;
 }
 
 void Slider::draw() {
     glColor4f(0.0, 0.0, 0.0, 1.0);
-    PrintText::drawStrokeText(label, cornerX - 5, cornerY + height / 2, 10, HORIZ_RIGHT, VERT_CENTER, 0);
+    PrintText::drawStrokeText(label, cornerX - 5, cornerY + height / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER, 0);
 
     float leftX = cornerX;
     float leftY = cornerY;

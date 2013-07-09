@@ -29,6 +29,7 @@ ChartPoint::ChartPoint(LineChart *chart, std::string label, float valueX, float 
     setSize(8);
     setBorderWidth(0.0);
     setDisplayLabel(false);
+    setFontHeight(10);
 }
 
 ChartPoint::~ChartPoint() {

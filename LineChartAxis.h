@@ -62,6 +62,9 @@ public:
 
     std::string getLabel() { return label; }
     void setLabel(std::string s) { label = s; }
+    
+    float getFontHeight() { return fontHeight; }
+    void setFontHeight(float h) { fontHeight = h; }
 private:
     LineChart *chart;
 
