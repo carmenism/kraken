@@ -7,6 +7,8 @@ class LineChart;
 
 enum {AXIS_BOTTOM, AXIS_TOP, AXIS_LEFT, AXIS_RIGHT};
 
+#define OFFSET 5
+
 class LineChartAxis
 {
 public:
@@ -48,29 +50,45 @@ public:
     void displayMajorTicksOn() { displayMajorTicks = true; }
     void displayMajorTicksOff() { displayMajorTicks = false; }
 
-    bool getDisplayLabels() { return displayLabels; }
-    void setDisplayLabels(bool d) { displayLabels = d; }
-    void displayLabelsOn() { displayLabels = true; }
-    void displayLabelsOff() { displayLabels = false; }
+    bool getDisplayTickLabels() { return displayTickLabels; }
+    void setDisplayTickLabels(bool d) { displayTickLabels = d; }
+    void displayTickLabelsOn() { displayTickLabels = true; }
+    void displayTickLabelsOff() { displayTickLabels = false; }
+
+    bool getDisplayLabel() { return displayLabel; }
+    void setDisplayLabel(bool d) { displayLabel = d; }
+    void displayLabelOn() { displayLabel = true; }
+    void displayLabelOff() { displayLabel = false; }
+
+    std::string getLabel() { return label; }
+    void setLabel(std::string s) { label = s; }
 private:
     LineChart *chart;
 
     int axisType;
 
+    void *font;
+
     bool display;
-    bool displayLabels;
+    bool displayTickLabels;
+    bool displayLabel;
+
+    std::string label;
 
     float minValue, maxValue;
     float minorTickSpacing, majorTickSpacing;
     float minorTickLength, majorTickLength;
     bool displayMinorTicks, displayMajorTicks;
 
+    float fontHeight;
+
     float valueToPosition(float axisLength, float value);
     float positionToValue(float axisLength, float position);
 
     void drawTicks(float axisLength, float tickSpacing, float tickLength);
     
-    void drawLabels();
+    void drawTickLabels();
+    void drawLabel();
     
     std::string getLabel(float value);
 };

@@ -13,9 +13,9 @@ enum {VERT_BOTTOM, VERT_TOP, VERT_CENTER};
 class PrintText
 {
 public:
-    static void drawStrokeText(std::string text, float x, float y, float h, int horizAlign = HORIZ_LEFT, int vertAlign = VERT_BOTTOM);
+    static void drawStrokeText(std::string text, float x, float y, float h, int horizAlign = HORIZ_LEFT, int vertAlign = VERT_BOTTOM, float rotate = 0);
 
-    static int PrintText::strokeWidth(std::string text, void *font);
+    static float strokeWidth(std::string text, float h);
 
     static bool printAt(float rx, float ry, std::string text,
         bool needRaw = true, GLboolean shadow = GL_TRUE, 

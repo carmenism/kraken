@@ -50,30 +50,26 @@ void ChartPoint::draw() {
 }
 
 void ChartPoint::drawLabel() {
-    void *font = GLUT_BITMAP_HELVETICA_12;
-
     if (displayLabel) {
         std::string newLabel = label + ": " + toStr(valueY);
 
         float x = marker->getX() + 3 *(marker->getWidth() / 4);
         float y = marker->getY() + (marker->getHeight() / 2);
 
-        float w = PrintText::printingWidth(newLabel, font);
-        float h = PrintText::printingHeight(font);
+        float font_h = 10;
+        float h = font_h;
+        float w = PrintText::strokeWidth(newLabel, font_h);
+        float padding = 2;
 
         glPolygonMode(GL_FRONT, GL_FILL);  
         glColor4f(1.0, 1.0, 1.0, 0.75);
 
-        glBegin(GL_POLYGON);
-            glVertex2f( x, y );
-            glVertex2f( x, y + h );
-            glVertex2f( x + w, y + h );
-            glVertex2f( x + w, y );
-        glEnd();
+        glRectf(x - padding,     y - padding,
+                x + w + padding, y + h + padding);
 
         glColor4f(0.0, 0.0, 0.0, 1.0);
 
-        PrintText::printAt(x, y + 0.2 * h, newLabel, false, false, font);
+        PrintText::drawStrokeText(newLabel, x, y, font_h);
     }
 }
 

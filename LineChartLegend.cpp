@@ -11,21 +11,21 @@ void LineChartLegend::draw(float x, float y, float lineLength, float spacing, vo
         glTranslatef(x, y, 0);
 
         ChartPointSeriesList seriesList = chart->getPointSeriesList();
-        float h = PrintText::printingHeight(font);
+        float h = 10;
         int num = seriesList.size();
         float maxWidth = -1;
 
         for (int i = num - 1; i >= 0; i--) {
-            float width = seriesList[i]->drawInLegend(0, h * (num - i - 1), lineLength, spacing, font);
+            float width = seriesList[i]->drawInLegend(0, (h + spacing) * (num - i - 1) + spacing, lineLength, spacing, h);
 
             if (width > maxWidth) {
                 maxWidth = width;
             }
         }
 
-        PrintText::printVerticallyCenteredAt(spacing, h * (num + 0.5), "LEGEND", false, false, font);
+        PrintText::drawStrokeText("LEGEND", spacing, (h + spacing) * num + spacing, 10, HORIZ_LEFT, VERT_BOTTOM);
 
-        drawBoundary(maxWidth, (num + 1) * h + spacing);
+        drawBoundary(maxWidth, (num + 1) * (h + spacing) + spacing);
     glPopMatrix();
 }
 

@@ -1,6 +1,7 @@
 #include "MultiSpeciesLineChart.h"
 #include "ChartPointSeries.h"
 #include "Color.h"
+#include "LineChartAxis.h"
 #include <QList>
 #include <QStringList>
 #include <QString>
@@ -25,6 +26,12 @@ MultiSpeciesLineChart::MultiSpeciesLineChart(QList<QList<double>> matrix, QStrin
     
     setLineWidths(2);
     setMarkersSize(6);
+
+    axes[AXIS_BOTTOM]->setLabel("Year");
+    axes[AXIS_BOTTOM]->displayLabelOn();
+    
+    axes[AXIS_LEFT]->setLabel("Biomass (mt)");
+    axes[AXIS_LEFT]->displayLabelOn();
 }
 
 

@@ -27,7 +27,7 @@ public:
     void draw();
     void drawLabels();
 
-    float drawInLegend(float x, float y, float lineLength, float spacing, void *font);
+    float drawInLegend(float x, float y, float lineLength, float spacing, float h);
 
     void drawToPick();
 

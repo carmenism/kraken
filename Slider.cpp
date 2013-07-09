@@ -28,7 +28,7 @@ Slider::Slider(std::string label, float x, float y, float w, float start) {
 
 void Slider::draw() {
     glColor4f(0.0, 0.0, 0.0, 1.0);
-    PrintText::printAlignedRightCenteredAt(cornerX - 5, cornerY + height / 2, label, false, false, GLUT_BITMAP_HELVETICA_10);
+    PrintText::drawStrokeText(label, cornerX - 5, cornerY + height / 2, 10, HORIZ_RIGHT, VERT_CENTER, 0);//::printAlignedRightCenteredAt(cornerX - 5, cornerY + height / 2, label, false, false, GLUT_BITMAP_HELVETICA_10);
 
     float leftX = cornerX;
     float leftY = cornerY;

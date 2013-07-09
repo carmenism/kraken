@@ -63,6 +63,8 @@ void Shape::draw() {
             glBegin(GL_LINE_LOOP);//glBegin(GL_POLYGON);
                 drawAtOrigin();
             glEnd();
+
+            glLineWidth(1);
         }
     glPopMatrix();
 }
@@ -92,6 +94,8 @@ void Shape::drawToPick() {
             glBegin(GL_LINE_LOOP);
                 drawAtOrigin();
             glEnd();
+
+            glLineWidth(1);
         }
     glPopMatrix();
 }

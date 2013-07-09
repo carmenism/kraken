@@ -1,3 +1,6 @@
+#ifndef MULTISPECIESLINECHART_H_
+#define MULTISPECIESLINECHART_H_
+
 #include "LineChart.h"
 #include <QList>
 
@@ -9,3 +12,5 @@ public:
 
     void setValues(QList<QList<double>> matrix);
 };
+
+#endif /*MULTISPECIESLINECHART_H_*/

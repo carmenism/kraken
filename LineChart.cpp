@@ -13,7 +13,7 @@ LineChart::LineChart() {
 
     setUpAxes();
 
-    setHeight(480);
+    setHeight(460);
     setWidth(600);
     setLineWidths(1);
     setMarkersSize(5);
@@ -21,9 +21,7 @@ LineChart::LineChart() {
     displayLegendOn();
     
     offsetX = 40;
-    offsetY = 30;
-
-    std::cout << "test\n";
+    offsetY = 40;
 }
 
 LineChart::~LineChart() {
@@ -43,14 +41,17 @@ void LineChart::draw() {
     glPushMatrix();
         glTranslatef(offsetX, offsetY, 0);
         calculateGlobalBounds();
-        drawBoundary();    
+        drawBoundary(); 
+
+        
+        if (displayLegend) {
+            legend->draw(width + 5, height / 2, 15, 5, GLUT_BITMAP_HELVETICA_10);
+        }
+
         drawAxes();
         drawLines();  
         drawLabels();
 
-        if (displayLegend) {
-            legend->draw(width + 5, height / 2, 15, 5, GLUT_BITMAP_HELVETICA_10);
-        }
     glPopMatrix();
 }
 

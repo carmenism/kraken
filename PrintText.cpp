@@ -10,7 +10,7 @@ bool PrintText::dragging = false;
 int PrintText::lastTextHeight = 0;
 int PrintText::lastTextWidth = 0;
 
-void PrintText::drawStrokeText(std::string text, float x, float y, float h, int horizAlign, int vertAlign) {
+void PrintText::drawStrokeText(std::string text, float x, float y, float h, int horizAlign, int vertAlign, float rotate) {
     float scale = h / 119.05;
 
     float horizOff = 0;
@@ -18,10 +18,10 @@ void PrintText::drawStrokeText(std::string text, float x, float y, float h, int 
 
     switch (horizAlign) {
         case HORIZ_RIGHT:
-            horizOff = scale * strokeWidth(text, GLUT_STROKE_ROMAN);
+            horizOff = strokeWidth(text, h);
             break;
         case HORIZ_CENTER:   
-            horizOff = scale * strokeWidth(text, GLUT_STROKE_ROMAN) / 2;
+            horizOff = strokeWidth(text, h) / 2;
             break;
         case HORIZ_LEFT:
         default:
@@ -40,23 +40,38 @@ void PrintText::drawStrokeText(std::string text, float x, float y, float h, int 
             break;
     }
 
+    if (rotate == 90 || rotate == -270) {
+        float tmp = vertOff;
+        vertOff = horizOff;
+        horizOff = -tmp;
+    }
+
+    if (rotate == -90 || rotate == 270) {
+        float tmp = vertOff;
+        vertOff = -horizOff;
+        horizOff = tmp;
+    }
+
     glPushMatrix();
         glTranslatef(x - horizOff, y - vertOff, 0);
+        glRotatef(rotate, 0, 0, 1);
         glScalef(scale, scale, 1);
+        //glTranslatef(x - horizOff, y - vertOff, 0);
         for (int i = 0; i < text.size(); i++) {
             glutStrokeCharacter(GLUT_STROKE_ROMAN, text[i]);
         }
     glPopMatrix();
 }
 
-int PrintText::strokeWidth(std::string text, void *font) {
+float PrintText::strokeWidth(std::string text, float h) {
     int length = 0;
+    float scale = h / 119.05;
 
     for (std::string::size_type i = 0; i < text.size(); i++) {
-        length += glutStrokeWidth(font, text[i]);
+        length += glutStrokeWidth(GLUT_STROKE_ROMAN, text[i]);
     }
 
-    return length;
+    return scale * length;
 }
 
 void PrintText::beginRaw2D() {

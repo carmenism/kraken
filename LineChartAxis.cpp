@@ -14,7 +14,8 @@ LineChartAxis::LineChartAxis(LineChart *chart, int type) {
     display = true;
     displayMinorTicks = true;
     displayMajorTicks = true;
-    displayLabels = true;
+    displayTickLabels = true;
+    displayLabel = false;
 
     switch (axisType) {
         case AXIS_LEFT:      
@@ -29,6 +30,10 @@ LineChartAxis::LineChartAxis(LineChart *chart, int type) {
             majorTickSpacing = 5.0;
             break;
     }
+
+    font = GLUT_BITMAP_HELVETICA_10;
+
+    fontHeight = 10;
 }
 
 LineChartAxis::~LineChartAxis() {
@@ -70,12 +75,62 @@ void LineChartAxis::draw() {
         }        
     glPopMatrix();
 
-    if (displayLabels) {
-       drawLabels();
+    if (displayTickLabels) {
+       drawTickLabels();
+    }
+
+    if (displayLabel) {
+        drawLabel();
     }
 }
 
-void LineChartAxis::drawLabels() {
+void LineChartAxis::drawLabel() {
+    glColor4f(0.0, 0.0, 0.0, 1.0);
+
+    float x, y;
+
+    switch (axisType) {
+        case AXIS_TOP:
+            x = chart->getWidth() / 2;
+            if (displayTickLabels) {
+                y = chart->getHeight() + 2 * OFFSET + fontHeight;
+            } else {
+                y = chart->getHeight() + OFFSET;
+            }
+            PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM);
+            break;
+        case AXIS_LEFT:            
+            if (displayTickLabels) {
+                x = -2 * OFFSET - fontHeight;
+            } else {
+                x = -OFFSET;
+            }
+            y = chart->getHeight() / 2;
+            PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, 90);
+            break;
+        case AXIS_RIGHT:
+            if (displayTickLabels) {
+                x = chart->getWidth() + 2 * OFFSET + fontHeight;
+            } else {
+                x = chart->getWidth() + OFFSET;
+            }
+            y = chart->getHeight() / 2;
+            PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, -90);
+            break;
+        case AXIS_BOTTOM:
+        default:
+            x = chart->getWidth() / 2;
+            if (displayTickLabels) {
+                y = - 2 * OFFSET - fontHeight;
+            } else {
+                y = - OFFSET;
+            }
+            PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_TOP);
+            break;
+    }
+}
+
+void LineChartAxis::drawTickLabels() {
     glColor4f(0.0, 0.0, 0.0, 1.0);
 
     float value = minValue;
@@ -86,24 +141,24 @@ void LineChartAxis::drawLabels() {
         switch (axisType) {
             case AXIS_TOP:
                 x = valueToPosition(chart->getWidth(), value);
-                y = chart->getHeight() + 5;
-                PrintText::printCenteredAt(x, y, label, false, false, GLUT_BITMAP_HELVETICA_10);
+                y = chart->getHeight() + OFFSET;
+                PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM);
                 break;
             case AXIS_LEFT:            
-                x = -5;
+                x = -OFFSET;
                 y = valueToPosition(chart->getHeight(), value);
-                PrintText::printAlignedRightCenteredAt(x, y, label, false, false, GLUT_BITMAP_HELVETICA_10);
+                PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, 90);
                 break;
             case AXIS_RIGHT:
-                x = chart->getWidth() + 5;
+                x = chart->getWidth() + OFFSET;
                 y = valueToPosition(chart->getHeight(), value);
-                PrintText::printVerticallyCenteredAt(x, y, label, false, false, GLUT_BITMAP_HELVETICA_10);
+                PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, -90);
                 break;
             case AXIS_BOTTOM:
             default:
                 x = valueToPosition(chart->getWidth(), value);
-                y = -10;
-                PrintText::printCenteredAt(x, y, label, false, false, GLUT_BITMAP_HELVETICA_10);
+                y = -OFFSET;
+                PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_TOP);
                 break;
         } 
 

@@ -354,6 +354,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\StackedSpeciesLineCharts.cpp"
+				>
+			</File>
+			<File
 				RelativePath="TimeSeriesObservations.cpp"
 				>
 			</File>
@@ -528,10 +532,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Pickable.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Point.h"
 				>
 			</File>
@@ -561,6 +561,10 @@
 			</File>
 			<File
 				RelativePath=".\Square.h"
+				>
+			</File>
+			<File
+				RelativePath=".\StackedSpeciesLineCharts.h"
 				>
 			</File>
 			<File

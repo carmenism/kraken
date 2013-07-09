@@ -116,9 +116,7 @@ void ChartPointSeries::calculatePointLocations() {
     } 
 }
 
-float ChartPointSeries::drawInLegend(float x, float y, float lineLength, float spacing, void *font) {
-    float h = PrintText::printingHeight(font);
-
+float ChartPointSeries::drawInLegend(float x, float y, float lineLength, float spacing, float h) {
     glPushMatrix();
         glTranslatef(x, y, 0);
         glTranslatef(lineLength / 2.0 + spacing, h / 2, 0);
@@ -129,6 +127,7 @@ float ChartPointSeries::drawInLegend(float x, float y, float lineLength, float s
             glVertex2f(-lineLength / 2.0, 0);
             glVertex2f(lineLength / 2.0, 0);
         glEnd();
+        glLineWidth(1);
 
         if (displayMarkers) {
             legendPoint->setPositionX(0);
@@ -141,10 +140,10 @@ float ChartPointSeries::drawInLegend(float x, float y, float lineLength, float s
         int posY = 0;
 
         glColor4f(0, 0, 0, 1);
-        PrintText::printVerticallyCenteredAt(posX, posY, label, false, false, font);
+        PrintText::drawStrokeText(label, posX, posY, h, HORIZ_LEFT, VERT_CENTER);
     glPopMatrix();
 
-    return PrintText::printingWidth(label, font) + 3 * spacing + lineLength;
+    return PrintText::strokeWidth(label, h) + 3 * spacing + lineLength;
 }
 
 void ChartPointSeries::drawAsLines() {
@@ -164,7 +163,8 @@ void ChartPointSeries::drawAsLines() {
 
             last = *it;
         }
-    glEnd();
+    glEnd();    
+    glLineWidth(1);
 
     if (displayMarkers) {
         FOREACH_POINT(it, points) {
@@ -197,7 +197,7 @@ void ChartPointSeries::drawGhost() {
     ChartPoint *last = NULL;
 
     glPolygonMode( GL_FRONT, GL_FILL );
-
+    glBegin( GL_POLYGON );
     FOREACH_POINT(it, points) {   
         if (last != NULL) {
             float leftX = last->getPositionX();
@@ -228,6 +228,7 @@ void ChartPointSeries::drawGhost() {
         
         last = *it;
     }
+    glEnd( );
 }
 
 float ChartPointSeries::getMinimumValueX() {

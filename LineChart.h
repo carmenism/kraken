@@ -79,8 +79,8 @@ public:
     float getGlobalMaxY() { return globalMaxY; }
 protected:
     ChartPointSeriesList seriesList;
-private:
     LineChartAxisList axes;
+private:
     LineChartLegend *legend;
 
     bool displayLegend;
