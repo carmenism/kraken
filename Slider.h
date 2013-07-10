@@ -9,7 +9,7 @@ class Color;
 class Slider
 {
 public:
-    Slider(std::string label, float min, float max, float start);
+    Slider(std::string title, float min, float max, float start);
 
     // specify the lower left corner, the slider length
     // and the start value between 0 and 1.0
@@ -47,22 +47,33 @@ public:
     float getCursorWidth() { return cursorWidth; }
     void setCursorWidth(float w) { cursorWidth = w; }
 
-    std::string getLabel() { return label; }
+    std::string getTitle() { return title; }
 
     float getFontHeight() { return fontHeight; }
     void setFontHeight(float h) { fontHeight = h; }
 
     void setLocation(float x, float y) { cornerX = x; cornerY = y; }
+
+    float getLabelInteveral() { return labelInterval; }
+    void setLabelInterval(float i) { labelInterval = i; }
+
+    bool getDisplayLabels() { return displayLabels; }
+    void setDisplayLabels(bool d) { displayLabels = d; }
+    void displayLabelsOn() { displayLabels = true; }
+    void displayLabelsOff() { displayLabels = false; }
 protected:
     float minValue, maxValue;
     float cornerX, cornerY;
     float curX, startCurX;
     float border, width, height, cursorWidth;
 private:
-    std::string label;
+    std::string title;
 
     bool active;
     float startX;
+
+    bool displayLabels;
+    float labelInterval;
 
     Color *mainColor, *cursorColor;
     float shadowAlpha, highlightAlpha;
@@ -70,6 +81,10 @@ private:
     float fontHeight;
 
     bool pointInCursor(float x, float y);
+    void drawLabels();
+
+    float valueToPosition(float value);
+    float positionToValue(float position);
 };
 
 #endif /* SLIDER_H_ */

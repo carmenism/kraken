@@ -4,8 +4,8 @@
 #include "Color.h"
 #include "PrintText.h"
 
-Slider::Slider(std::string label, float min, float max, float start) {
-    this->label = label;
+Slider::Slider(std::string title, float min, float max, float start) {
+    this->title = title;
     this->minValue = min;
     this->maxValue = max;
     
@@ -26,11 +26,13 @@ Slider::Slider(std::string label, float min, float max, float start) {
     highlightAlpha = 0.65;
 
     fontHeight = 12;
+
+    displayLabels = false;
 }
 
 void Slider::draw() {
     glColor4f(0.0, 0.0, 0.0, 1.0);
-    PrintText::drawStrokeText(label, cornerX - 5, cornerY + height / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER, 0);
+    PrintText::drawStrokeText(title, cornerX - 5, cornerY + (height + 2 * border) / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER, 0);
 
     float leftX = cornerX;
     float leftY = cornerY;
@@ -84,6 +86,10 @@ void Slider::draw() {
             curRightX - border, curRightY);
 	
 	//glEnable(GL_DEPTH_TEST);
+
+    if (displayLabels) {
+        drawLabels();
+    }
 }
 
 bool Slider::mousePressed(float x, float y) {    
@@ -146,21 +152,44 @@ bool Slider::mouseMoved(float x, float y) {
 }
 
 float Slider::getValue() {
-    float percent = ((curX - border) / (width - cursorWidth));
-
-    return minValue + percent * (maxValue - minValue);
+    return positionToValue(curX);
 }
 
-void Slider::setValue(float value) {
-    float range = maxValue - minValue;
-    float distToStart = value - minValue;
-    float percentage = distToStart / range;
-    
-    curX = border + percentage * (width - cursorWidth);
+void Slider::setValue(float value) {    
+    curX = valueToPosition(value);
 }
 
 void Slider::setWidth(float w) {
     float value = getValue();
     width = w; 
     setValue(value);
+}
+
+void Slider::drawLabels() {
+    float value = minValue;
+
+    while (value <= maxValue) {
+        std::string label = toStr(value);
+        float x = cornerX + valueToPosition(value);
+        float y = cornerY - border;
+
+        glColor4f(0.0, 0.0, 0.0, 1.0);
+        PrintText::drawStrokeText(label, x, y, 10, HORIZ_CENTER, VERT_TOP);
+
+        value = value + labelInterval;
+    }
+}
+
+float Slider::valueToPosition(float value) {
+    float range = maxValue - minValue;
+    float distToStart = value - minValue;
+    float percentage = distToStart / range;
+    
+    return border + percentage * (width - cursorWidth);
+}
+
+float Slider::positionToValue(float position) {
+    float percent = ((position - border) / (width - cursorWidth));
+
+    return minValue + percent * (maxValue - minValue);
 }

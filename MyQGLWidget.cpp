@@ -161,7 +161,7 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
             sliderMoved = true;
 
             float value = sliders[i]->getValue();
-            mainWindow->getParameters()->setEffortForGuild(sliders[i]->getLabel(), value);
+            mainWindow->getParameters()->setEffortForGuild(sliders[i]->getTitle(), value);
             mainWindow->runModel();
 
             break;
@@ -212,10 +212,10 @@ void MyQGLWidget::updateLineChart(QList<QList<double>> matrix, QStringList label
             charts.push_back(chart);
         }
 
-        charts[0]->setLocation(0, 30);
-        charts[1]->setLocation(600, 30);
-        charts[2]->setLocation(0, 430);
-        charts[3]->setLocation(600, 430);
+        charts[0]->setLocation(0, 35);
+        charts[1]->setLocation(600, 35);
+        charts[2]->setLocation(0, 440);
+        charts[3]->setLocation(600, 440);
     } else {
         for (int i = 0; i < guilds.size(); i++) {
             QList<QList<double>> matrixForGuild;
@@ -250,11 +250,13 @@ void MyQGLWidget::initializeSliders() {
         std::string guild = guilds.at(i).toStdString();
         ChangeSlider *slider = new ChangeSlider(guild, 0, 10, 1);
         slider->setWidth(200);
+        slider->displayLabelsOn();
+        slider->setLabelInterval(1);
         sliders.push_back(slider);
     }
 
     sliders[0]->setLocation(200, 20);
     sliders[1]->setLocation(800, 20);
-    sliders[2]->setLocation(200, 420);
-    sliders[3]->setLocation(800, 420);
+    sliders[2]->setLocation(200, 425);
+    sliders[3]->setLocation(800, 425);
 }
