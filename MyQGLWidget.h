@@ -51,6 +51,8 @@ private:
     
     std::vector<ChangeSlider *> sliders;
     ChartPoint *hovered;
+
+    std::string labelSuffix;
 };
 
 #endif  /* _MYQGLWIDGET_H */

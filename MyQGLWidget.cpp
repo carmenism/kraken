@@ -16,6 +16,8 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     setMouseTracking(true);
     setFixedWidth(1200);
     setFixedHeight(800);
+
+    labelSuffix = " effort (days/year)";
 }
 
 void MyQGLWidget::initializeGL() {
@@ -161,7 +163,10 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
             sliderMoved = true;
 
             float value = sliders[i]->getValue();
-            mainWindow->getParameters()->setEffortForGuild(sliders[i]->getTitle(), value);
+            std::cout << "value " << value << "\n";
+            std::string title = sliders[i]->getTitle();
+            std::string guild = title.substr(0, title.length() - labelSuffix.length());
+            mainWindow->getParameters()->setEffortForGuild(guild, value);
             mainWindow->runModel();
 
             break;
@@ -248,15 +253,15 @@ void MyQGLWidget::initializeSliders() {
 
     for (int i = 0; i < guilds.size(); i++) {
         std::string guild = guilds.at(i).toStdString();
-        ChangeSlider *slider = new ChangeSlider(guild, 0, 10, 1);
+        ChangeSlider *slider = new ChangeSlider(guild + labelSuffix, 0, 10, 1);
         slider->setWidth(200);
         slider->displayLabelsOn();
         slider->setLabelInterval(1);
         sliders.push_back(slider);
     }
 
-    sliders[0]->setLocation(200, 20);
-    sliders[1]->setLocation(800, 20);
-    sliders[2]->setLocation(200, 425);
-    sliders[3]->setLocation(800, 425);
+    sliders[0]->setLocation(50, 20);
+    sliders[1]->setLocation(650, 20);
+    sliders[2]->setLocation(50, 425);
+    sliders[3]->setLocation(650, 425);
 }

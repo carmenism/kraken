@@ -14,7 +14,7 @@ Slider::Slider(std::string title, float min, float max, float start) {
 
 	cornerX = 0;
 	cornerY = 0;
-    width = 100 + cursorWidth;
+    width = 100;// + cursorWidth;
     height = 12.0f;
 
     setValue(start);
@@ -32,7 +32,7 @@ Slider::Slider(std::string title, float min, float max, float start) {
 
 void Slider::draw() {
     glColor4f(0.0, 0.0, 0.0, 1.0);
-    PrintText::drawStrokeText(title, cornerX - 5, cornerY + (height + 2 * border) / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER, 0);
+    PrintText::drawStrokeText(title, cornerX + width + 3 * border, cornerY + (height + 2 * border) / 2, fontHeight, HORIZ_LEFT, VERT_CENTER, 0);
 
     float leftX = cornerX;
     float leftY = cornerY;
@@ -161,7 +161,7 @@ void Slider::setValue(float value) {
 
 void Slider::setWidth(float w) {
     float value = getValue();
-    width = w; 
+    width = w + cursorWidth; 
     setValue(value);
 }
 
