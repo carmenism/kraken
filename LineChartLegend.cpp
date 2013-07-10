@@ -5,7 +5,7 @@
 LineChartLegend::LineChartLegend(LineChart *c) {
     chart = c;
 
-    fontHeight = 12;
+    fontHeight = 13;
 }
 
 void LineChartLegend::draw(float x, float y, float lineLength, float spacing) {

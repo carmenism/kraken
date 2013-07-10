@@ -17,7 +17,7 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     setFixedWidth(1200);
     setFixedHeight(800);
 
-    labelSuffix = " effort (days/year)";
+    labelSuffix = " harvest effort (days/year)";
 }
 
 void MyQGLWidget::initializeGL() {
@@ -213,7 +213,7 @@ void MyQGLWidget::updateLineChart(QList<QList<double>> matrix, QStringList label
             chart->setWidth(400);
             chart->setHeight(300);
             chart->setAxesFontHeight(10);
-            chart->setLegendFontHeight(10);
+            chart->setLegendFontHeight(12);
             charts.push_back(chart);
         }
 
