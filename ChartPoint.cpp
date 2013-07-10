@@ -54,12 +54,13 @@ void ChartPoint::drawLabel() {
     if (displayLabel) {
         std::string newLabel = label + ": " + toStr(valueY);
 
-        float x = marker->getX() + 3 *(marker->getWidth() / 4);
-        float y = marker->getY() + (marker->getHeight() / 2);
+        float padding = 4;
+
+        float x = marker->getX() + 3 *(marker->getWidth() / 4) + padding;
+        float y = marker->getY() + (marker->getHeight() / 2) + padding;
 
         float h = fontHeight;
         float w = PrintText::strokeWidth(newLabel, fontHeight);
-        float padding = 2;
 
         glPolygonMode(GL_FRONT, GL_FILL);  
         glColor4f(1.0, 1.0, 1.0, 0.85);
