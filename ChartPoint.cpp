@@ -11,7 +11,7 @@ ChartPoint::ChartPoint(LineChart *chart, std::string label, float valueX, float 
  : Point(valueX, valueY) {
     last = new Point(valueX, valueY);
     this->chart = chart;
-    this->label = label;// + ": " + toStr(valueY);
+    this->label = label;
 
     switch (shape) {
         case SHAPE_SQUARE:
@@ -62,13 +62,14 @@ void ChartPoint::drawLabel() {
         float padding = 2;
 
         glPolygonMode(GL_FRONT, GL_FILL);  
-        glColor4f(1.0, 1.0, 1.0, 0.75);
+        glColor4f(1.0, 1.0, 1.0, 0.85);
 
         glRectf(x - padding,     y - padding,
                 x + w + padding, y + h + padding);
 
-        glColor4f(0.0, 0.0, 0.0, 1.0);
-
+        //glColor4f(0.0, 0.0, 0.0, 1.0);
+        Color *c = marker->getFillColor();
+        glColor4f(c->r, c->g, c->b, 1);
         PrintText::drawStrokeText(newLabel, x, y, fontHeight);
     }
 }

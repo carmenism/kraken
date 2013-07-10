@@ -5,9 +5,11 @@ class Chart {
         Chart();
         void draw();
         void drawToPick();
+        void drawLabels();
      
         virtual void drawAtOrigin() = 0;
         virtual void drawToPickAtOrigin() = 0;
+        virtual void drawLabelsAtOrigin() = 0;
      
         float getXLocation() { return xPos; }
         void setXLocation(float x) { xPos = x; }

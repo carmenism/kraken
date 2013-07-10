@@ -54,6 +54,10 @@ void MyQGLWidget::paintGL() {
     for (int i = 0; i < sliders.size(); i++) {
         sliders[i]->draw();
     }
+
+    for (int i = 0; i < charts.size(); i++) {
+        charts[i]->drawLabels();
+    }
 }
 
 void MyQGLWidget::selectItem(int x, int y) {

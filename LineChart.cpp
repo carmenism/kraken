@@ -45,7 +45,6 @@ void LineChart::drawAtOrigin() {
         drawBoundary(); 
         drawAxes();
         drawLines();  
-        drawLabels();
         
         if (displayLegend) {
             legend->draw(width + 5, height / 2, 15, 5);
@@ -53,8 +52,12 @@ void LineChart::drawAtOrigin() {
 
         glColor4f(0, 0, 0, 1);
         PrintText::drawStrokeText(title, width / 2, height + 5, fontHeight, HORIZ_CENTER);
+        
+        //drawLabels();
     glPopMatrix();
 }
+
+
 
 void LineChart::drawAxes() {
     drawXAxis(axes[AXIS_BOTTOM]);
@@ -180,12 +183,16 @@ void LineChart::drawLines() {
     }
 }
 
-void LineChart::drawLabels() {
-    FOREACH_POINTSERIES(it, seriesList) {
-        if ((*it)->getDisplay()) {
-            (*it)->drawLabels();
+void LineChart::drawLabelsAtOrigin() {
+    glPushMatrix();
+        glTranslatef(offsetX, offsetY, 0);
+
+        FOREACH_POINTSERIES(it, seriesList) {
+            if ((*it)->getDisplay()) {
+                (*it)->drawLabels();
+            }
         }
-    }
+    glPopMatrix();
 }   
 
 void LineChart::drawToPickLines() {

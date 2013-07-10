@@ -27,6 +27,14 @@ void Chart::drawToPick() {
     glPopMatrix();
 }
 
+void Chart::drawLabels() {
+    glPushMatrix();
+        glTranslatef(xPos, yPos, 0); 
+        
+        drawLabelsAtOrigin();
+    glPopMatrix();
+}
+
 float Chart::round(float number) {
     float up = roundUp(number);
     float down = roundDown(up - number);
