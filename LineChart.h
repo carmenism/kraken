@@ -31,7 +31,6 @@ public:
     ~LineChart();
 
     void drawAtOrigin();
-    void drawLabelsAtOrigin();
     void drawToPickAtOrigin();
     void drawToPickLines();
 
@@ -100,6 +99,7 @@ private:
     void calculateGlobalBounds();
     void drawBoundary();
     void drawLines();
+    void drawLabels();
     void drawAxes();
     void drawXAxis(LineChartAxis *axisX);
     void drawYAxis(LineChartAxis *axisY);

@@ -6,6 +6,7 @@
 #include "Triangle.h"
 #include "Color.h"
 #include "PrintText.h"
+#include <iostream>
 
 ChartPoint::ChartPoint(LineChart *chart, std::string label, float valueX, float valueY, int shape)
  : Point(valueX, valueY) {
@@ -61,6 +62,14 @@ void ChartPoint::drawLabel() {
 
         float h = fontHeight;
         float w = PrintText::strokeWidth(newLabel, fontHeight);
+
+        if (x + w + padding > chart->getWidth()) {
+            x = x - w - 4 * padding;         
+        }
+
+        if (y + h + padding > chart->getHeight()) {
+            y = y - h - 4 * padding;
+        }
 
         glPolygonMode(GL_FRONT, GL_FILL);  
         glColor4f(1.0, 1.0, 1.0, 0.85);
