@@ -5,7 +5,7 @@
 
 class ChangeSlider : public Slider {
 public:
-    ChangeSlider(std::string label, float xcorner, float ycorner, float length, float start);
+    ChangeSlider(std::string label, float min, float max, float start);
     
     void draw();
 

@@ -4,15 +4,17 @@
 #include "Color.h"
 #include "PrintText.h"
 
-Slider::Slider(std::string label, float x, float y, float w, float start) {
+Slider::Slider(std::string label, float min, float max, float start) {
     this->label = label;
-
+    this->minValue = min;
+    this->maxValue = max;
+    
     border = 2.0f;
     cursorWidth = 20.0f;
 
-	cornerX = x;
-	cornerY = y;
-    width = w + cursorWidth;
+	cornerX = 0;
+	cornerY = 0;
+    width = 100 + cursorWidth;
     height = 12.0f;
 
     setValue(start);
@@ -137,8 +139,6 @@ bool Slider::mouseMoved(float x, float y) {
             curX = border + width - cursorWidth;
         }
 
-        //std::cerr << getValue() << "\n";
-
         return true;
 	}
 
@@ -146,9 +146,21 @@ bool Slider::mouseMoved(float x, float y) {
 }
 
 float Slider::getValue() {
-    return ((curX - border) / (width - cursorWidth));
+    float percent = ((curX - border) / (width - cursorWidth));
+
+    return minValue + percent * (maxValue - minValue);
 }
 
 void Slider::setValue(float value) {
-    curX = border + value * width;
+    float range = maxValue - minValue;
+    float distToStart = value - minValue;
+    float percentage = distToStart / range;
+    
+    curX = border + percentage * (width - cursorWidth);
+}
+
+void Slider::setWidth(float w) {
+    float value = getValue();
+    width = w; 
+    setValue(value);
 }

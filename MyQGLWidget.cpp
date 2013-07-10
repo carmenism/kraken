@@ -160,7 +160,7 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
         if (sliders[i]->mouseMoved(x, y)) {
             sliderMoved = true;
 
-            float value = sliders[i]->getValue() * 10;
+            float value = sliders[i]->getValue();
             mainWindow->getParameters()->setEffortForGuild(sliders[i]->getLabel(), value);
             mainWindow->runModel();
 
@@ -248,7 +248,8 @@ void MyQGLWidget::initializeSliders() {
 
     for (int i = 0; i < guilds.size(); i++) {
         std::string guild = guilds.at(i).toStdString();
-        ChangeSlider *slider = new ChangeSlider(guild + " effort", 100, h - i * 20, 200, 0.1);
+        ChangeSlider *slider = new ChangeSlider(guild, 0, 10, 1);
+        slider->setWidth(200);
         sliders.push_back(slider);
     }
 

@@ -9,7 +9,7 @@ class Color;
 class Slider
 {
 public:
-    Slider(std::string label, float xcorner, float ycorner, float length, float start);
+    Slider(std::string label, float min, float max, float start);
 
     // specify the lower left corner, the slider length
     // and the start value between 0 and 1.0
@@ -39,7 +39,7 @@ public:
     void setHeight(float h) { height = h; }
 
     float getWidth() { return width; }
-    void setWidth(float w) { width = w; }
+    void setWidth(float w);
 
     float getBorder() { return border; }
     void setBorder(float b) { border = b; }
@@ -54,6 +54,7 @@ public:
 
     void setLocation(float x, float y) { cornerX = x; cornerY = y; }
 protected:
+    float minValue, maxValue;
     float cornerX, cornerY;
     float curX, startCurX;
     float border, width, height, cursorWidth;

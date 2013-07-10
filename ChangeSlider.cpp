@@ -2,8 +2,8 @@
 #include "Color.h"
 #include <GL/glut.h>
 
-ChangeSlider::ChangeSlider(std::string label, float xcorner, float ycorner, float length, float start) 
-    : Slider(label, xcorner, ycorner, length, start) {
+ChangeSlider::ChangeSlider(std::string label, float min, float max, float start) 
+    : Slider(label, min, max, start) {
     decreaseColor = &Color::red;
     increaseColor = &Color::blue;
 
