@@ -248,12 +248,12 @@ void MyQGLWidget::initializeSliders() {
 
     for (int i = 0; i < guilds.size(); i++) {
         std::string guild = guilds.at(i).toStdString();
-        ChangeSlider *slider = new ChangeSlider(guild, 100, h - i * 20, 200, 0.1);
+        ChangeSlider *slider = new ChangeSlider(guild + " effort", 100, h - i * 20, 200, 0.1);
         sliders.push_back(slider);
     }
 
-    sliders[0]->setLocation(150, 10);
-    sliders[1]->setLocation(750, 10);
-    sliders[2]->setLocation(150, 410);
-    sliders[3]->setLocation(750, 410);
+    sliders[0]->setLocation(200, 20);
+    sliders[1]->setLocation(800, 20);
+    sliders[2]->setLocation(200, 420);
+    sliders[3]->setLocation(800, 420);
 }
