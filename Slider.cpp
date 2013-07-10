@@ -14,7 +14,7 @@ Slider::Slider(std::string title, float min, float max, float start) {
 
 	cornerX = 0;
 	cornerY = 0;
-    width = 100;// + cursorWidth;
+    width = 100;
     height = 12.0f;
 
     setValue(start);
@@ -25,15 +25,16 @@ Slider::Slider(std::string title, float min, float max, float start) {
     shadowAlpha = 0.65;
     highlightAlpha = 0.65;
 
-    fontHeight = 12;
+    displayTitle = true;
+    titleFontHeight = 12;
+    titleRight = true;
 
     displayLabels = false;
+    labelsBelow = true;
+    labelFontHeight = 10;
 }
 
-void Slider::draw() {
-    glColor4f(0.0, 0.0, 0.0, 1.0);
-    PrintText::drawStrokeText(title, cornerX + width + 3 * border, cornerY + (height + 2 * border) / 2, fontHeight, HORIZ_LEFT, VERT_CENTER, 0);
-
+void Slider::draw() {    
     float leftX = cornerX;
     float leftY = cornerY;
     float rightX = cornerX + width + 2 * border;
@@ -86,6 +87,10 @@ void Slider::draw() {
             curRightX - border, curRightY);
 	
 	//glEnable(GL_DEPTH_TEST);
+
+    if (displayTitle) {
+        drawTitle();
+    }
 
     if (displayLabels) {
         drawLabels();
@@ -165,6 +170,20 @@ void Slider::setWidth(float w) {
     setValue(value);
 }
 
+void Slider::drawTitle() {
+    float x = cornerX + width + 3 * border;
+    float y = cornerY + (height + 2 * border) / 2;
+    int horiz = HORIZ_LEFT;
+
+    if (!titleRight) {
+        x = cornerX - border;
+        horiz = HORIZ_RIGHT;
+    }
+
+    glColor4f(0.0, 0.0, 0.0, 1.0);
+    PrintText::drawStrokeText(title, x, y, titleFontHeight, horiz, VERT_CENTER);
+}
+
 void Slider::drawLabels() {
     float value = minValue;
 
@@ -172,10 +191,16 @@ void Slider::drawLabels() {
         std::string label = toStr(value);
         float x = cornerX + valueToPosition(value);
         float y = cornerY - border;
+        int vertPos = VERT_TOP;
 
-        glColor4f(0.0, 0.0, 0.0, 1.0);
-        PrintText::drawStrokeText(label, x, y, 10, HORIZ_CENTER, VERT_TOP);
+        if (!labelsBelow) {
+            y = cornerY + height + 3 * border;
+            vertPos = VERT_BOTTOM;
+        }
 
+        glColor4f(0.0, 0.0, 0.0, 1.0);        
+        PrintText::drawStrokeText(label, x, y, labelFontHeight, HORIZ_CENTER, vertPos);
+        
         value = value + labelInterval;
     }
 }

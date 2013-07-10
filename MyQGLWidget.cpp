@@ -249,8 +249,6 @@ void MyQGLWidget::initializeSliders() {
 
     QStringList guilds = mainWindow->getParameters()->getGuildList();
 
-    float h = size().rheight() - 20;
-
     for (int i = 0; i < guilds.size(); i++) {
         std::string guild = guilds.at(i).toStdString();
         ChangeSlider *slider = new ChangeSlider(guild + labelSuffix, 0, 10, 1);

@@ -6,7 +6,7 @@
 #include "LineChart.h"
 #include <QtOpenGL>
 
-#define NUM_RECTS 30
+#define NUM_RECTS 75
 #define START_ALPHA 0.45
 #define END_ALPHA 0.05
 #define D_ALPHA (START_ALPHA - END_ALPHA) / NUM_RECTS

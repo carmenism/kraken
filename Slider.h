@@ -17,7 +17,7 @@ public:
     void draw();
 
     float getValue();
-    void Slider::setValue(float value);
+    void setValue(float value);
 
     bool mouseMoved(float x, float y);
     bool mousePressed(float x, float y);
@@ -47,42 +47,53 @@ public:
     float getCursorWidth() { return cursorWidth; }
     void setCursorWidth(float w) { cursorWidth = w; }
 
-    std::string getTitle() { return title; }
-
-    float getFontHeight() { return fontHeight; }
-    void setFontHeight(float h) { fontHeight = h; }
-
     void setLocation(float x, float y) { cornerX = x; cornerY = y; }
 
-    float getLabelInteveral() { return labelInterval; }
-    void setLabelInterval(float i) { labelInterval = i; }
+    std::string getTitle() { return title; }
+    bool getDisplayTitle() { return displayTitle; }
+    void setDisplayTitle(bool d) { displayTitle = d; }
+    void displayTitleOn() { displayTitle = true; }
+    void displayTitleOff() { displayTitle = false; }
+    float getTitleFontHeight() { return titleFontHeight; }
+    void setTitleFontHeight(float h) { titleFontHeight = h; }
+    void displayTitleOnRight() { titleRight = true; }
+    void displayTitleOnLeft() { titleRight = false; }
 
     bool getDisplayLabels() { return displayLabels; }
     void setDisplayLabels(bool d) { displayLabels = d; }
     void displayLabelsOn() { displayLabels = true; }
     void displayLabelsOff() { displayLabels = false; }
+    float getLabelInteveral() { return labelInterval; }
+    void setLabelInterval(float i) { labelInterval = i; }
+    void displayLabelsBelow() { labelsBelow = true; }
+    void displayLabelsAbove() { labelsBelow = false; }
+    float getLabelFontHeight() { return labelFontHeight; }
+    void setLabelFontHeight(float h) { labelFontHeight = h; }
 protected:
     float minValue, maxValue;
     float cornerX, cornerY;
     float curX, startCurX;
     float border, width, height, cursorWidth;
 private:
+    bool displayTitle;
     std::string title;
+    float titleFontHeight;
+    bool titleRight;
 
     bool active;
     float startX;
 
     bool displayLabels;
     float labelInterval;
+    bool labelsBelow;
+    float labelFontHeight;
 
     Color *mainColor, *cursorColor;
     float shadowAlpha, highlightAlpha;
 
-    float fontHeight;
-
     bool pointInCursor(float x, float y);
     void drawLabels();
-
+    void drawTitle();
     float valueToPosition(float value);
     float positionToValue(float position);
 };
