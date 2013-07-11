@@ -17,7 +17,7 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     setFixedWidth(1200);
     setFixedHeight(800);
 
-    labelSuffix = " harvest effort (days/year)";
+    labelSuffix = " harvest effort";
 }
 
 void MyQGLWidget::initializeGL() {
