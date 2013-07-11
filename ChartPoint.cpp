@@ -53,7 +53,12 @@ void ChartPoint::draw() {
 
 void ChartPoint::drawLabel() {
     if (displayLabel) {
-        std::string newLabel = label + ": " + toStr(valueY);
+        Color *c = marker->getFillColor();
+
+        drawHistoryLine();
+        drawLineToXAxis();
+
+        std::string newLabel = makeLabel();
 
         float padding = 4;
 
@@ -63,11 +68,14 @@ void ChartPoint::drawLabel() {
         float h = fontHeight;
         float w = PrintText::strokeWidth(newLabel, fontHeight);
 
-        if (x + w + padding > chart->getWidth()) {
+        if (x + w > chart->getWidth()) {
             x = x - w - 4 * padding;         
         }
+        if (x < 0) {
+            x = 0;
+        }
 
-        if (y + h + padding > chart->getHeight()) {
+        if (y + h > chart->getHeight()) {
             y = y - h - 4 * padding;
         }
 
@@ -78,9 +86,63 @@ void ChartPoint::drawLabel() {
                 x + w + padding, y + h + padding);
 
         //glColor4f(0.0, 0.0, 0.0, 1.0);
-        Color *c = marker->getFillColor();
         glColor4f(c->r, c->g, c->b, 1);
         PrintText::drawStrokeText(newLabel, x, y, fontHeight);
+    }
+}
+
+std::string ChartPoint::makeLabel() {
+    std::string newLabel = label + ": " + toStr(valueY);
+
+    float diff = valueY - last->getValueY();
+
+    if (diff > 0) {
+        newLabel = newLabel + " (+" + toStr(diff) + ")";
+    } else if (diff < 0) {
+        newLabel = newLabel + " (" + toStr(diff) + ")";
+    }
+
+    return newLabel;
+}
+
+void ChartPoint::drawHistoryLine() {
+    Color *c = marker->getBorderColor();
+
+    glEnable(GL_SCISSOR_TEST);
+
+    float startX = chart->getOffsetX() + chart->getXLocation();
+    float startY = chart->getOffsetY() + chart->getYLocation();
+
+    glScissor(startX - 2, startY, chart->getWidth() + 4, chart->getHeight());
+
+    glColor4f(c->r, c->g, c->b, 0.6);
+    glLineWidth(3);
+    glBegin(GL_LINES);
+        glVertex3f(marker->getX(), marker->getY(), 0);
+        glVertex3f(lastPositionX, lastPositionY, 0);
+    glEnd();
+    glLineWidth(1);
+
+    glDisable(GL_SCISSOR_TEST);
+}
+
+void ChartPoint::drawLineToXAxis() {
+    float diff = valueY - last->getValueY();
+
+    glColor4f(0, 0, 0, 0.85);    
+
+    if (diff > 0) {
+        glBegin(GL_LINES);
+            glVertex3f(lastPositionX, lastPositionY, 0);
+            glVertex3f(marker->getX(), 0, 0);
+        glEnd();
+    } else if (diff < 0) {
+        float f = marker->getHeight() / 2;
+
+        glBegin(GL_LINES);
+            glVertex3f(marker->getX(), marker->getY() - f, 0);
+            glVertex3f(lastPositionX, 0, 0);
+        glEnd();
     }
 }
 

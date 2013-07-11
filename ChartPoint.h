@@ -59,6 +59,10 @@ private:
     bool displayLabel;
 
     float fontHeight;
+
+    void drawHistoryLine();
+    void drawLineToXAxis();
+    std::string makeLabel();
 };
 
 #endif /*CHARTPOINT_H_*/
