@@ -53,6 +53,12 @@ void ChartPoint::draw() {
 
 void ChartPoint::drawLabel() {
     if (displayLabel) {
+        float oldWidth = marker->getWidth();
+        float oldHeight = marker->getHeight();
+        marker->setSize(oldWidth * 1.5, oldHeight * 1.5);
+        marker->draw();
+        marker->setSize(oldWidth, oldHeight);
+
         Color *c = marker->getFillColor();
 
         drawHistoryLine();
@@ -147,7 +153,11 @@ void ChartPoint::drawLineToXAxis() {
 }
 
 void ChartPoint::drawToPick() {
+    float oldWidth = marker->getWidth();
+    float oldHeight = marker->getHeight();
+    marker->setSize(oldWidth * 1.5, oldHeight * 1.5);
     marker->drawToPick();
+    marker->setSize(oldWidth, oldHeight);
 }
 
 void ChartPoint::setShape(int shape) {
