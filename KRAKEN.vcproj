@@ -206,10 +206,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Button.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ChangeSlider.cpp"
 				>
 			</File>
@@ -346,6 +342,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ShadowedRectangle.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Shape.cpp"
 				>
 			</File>
@@ -375,10 +375,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\Button.h"
-				>
-			</File>
 			<File
 				RelativePath=".\ChangeSlider.h"
 				>
@@ -560,6 +556,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ShadowedRectangle.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Shape.h"
 				>
 			</File>
@@ -584,11 +584,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
+				RelativePath="ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<File
-				RelativePath="ui_ms_prod_mainwindow.h"
+				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
 				>
 			</File>
 		</Filter>
