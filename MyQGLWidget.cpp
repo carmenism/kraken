@@ -6,10 +6,12 @@
 #include "ChangeSlider.h"
 #include "MS_PROD_MainWindow.h"
 #include "Parameters.h"
+#include "ShadowedRectangle.h"
 #include <QList>
 #include <QStringList>
 
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
+    rect = new ShadowedRectangle();
     hovered = NULL;
     this->mainWindow = mainWindow;
 
@@ -54,6 +56,8 @@ void MyQGLWidget::paintGL() {
     for (int i = 0; i < sliders.size(); i++) {
         sliders[i]->draw();
     }
+
+    rect->draw();
 }
 
 void MyQGLWidget::setHovered(ChartPoint *point) {
@@ -110,7 +114,7 @@ void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
-    //printf("%d, %d\n", event->x(), size().rheight() - event->y());
+    printf("%d, %d\n", event->x(), size().rheight() - event->y());
     float x = event->x();
     float y = size().rheight() - event->y();
     
@@ -267,7 +271,7 @@ void MyQGLWidget::initializeSliders() {
     for (int i = 0; i < guilds.size(); i++) {
         std::string guild = guilds.at(i).toStdString();
         ChangeSlider *slider = new ChangeSlider(guild + labelSuffix, 0, 10, 1);
-        slider->setWidth(200);
+        slider->setWidth(220);
         slider->displayLabelsOn();
         slider->setLabelInterval(1);
         sliders.push_back(slider);

@@ -8,22 +8,17 @@ Slider::Slider(std::string title, float min, float max, float start) {
     this->title = title;
     this->minValue = min;
     this->maxValue = max;
+    main = new ShadowedRectangle();
+    main->setBorder(2);
+    main->setWidth(100);
+    main->setHeight(12 + 2 * main->getBorder());
     
-    border = 2.0f;
-    cursorWidth = 20.0f;
-
-	cornerX = 0;
-	cornerY = 0;
-    width = 100;
-    height = 12.0f;
-
-    setValue(start);
+    cursor = new ShadowedRectangle();
+    cursor->setWidth(20);
+    cursor->setHeight(12);
+    cursor->setBorder(2);
+    
 	active = false;
-
-    mainColor = new Color(0.5, 0.5, 0.5, 1.0);
-    cursorColor = new Color(0.6, 0.6, 0.6, 1.0);
-    shadowAlpha = 0.65;
-    highlightAlpha = 0.65;
 
     displayTitle = true;
     titleFontHeight = 12;
@@ -32,61 +27,15 @@ Slider::Slider(std::string title, float min, float max, float start) {
     displayLabels = false;
     labelsBelow = true;
     labelFontHeight = 10;
+
+    setValue(start);
+    cursor->setLocation(main->getInnerX() + curX, main->getInnerY());
 }
 
 void Slider::draw() {    
-    float leftX = cornerX;
-    float leftY = cornerY;
-    float rightX = cornerX + width + 2 * border;
-    float rightY = cornerY + height + 2 * border;
-
-	//glDisable(GL_DEPTH_TEST);
-
-    glPolygonMode( GL_FRONT, GL_FILL ); 
-
-	glColor4f(mainColor->r, mainColor->g, mainColor->b, mainColor->a);
-	glRectf(leftX,  leftY,
-            rightX, rightY);
-
-    // Shadow
-	glColor4f(0.0, 0.0, 0.0, shadowAlpha);
-	glRectf(leftX,  leftY, 
-            rightX, leftY + border);
-	glRectf(rightX - border, leftY + border,
-            rightX,          rightY);
-	
-    // Highlight
-	glColor4f(1.0, 1.0, 1.0, highlightAlpha);
-	glRectf(leftX,          leftY + border, 
-            leftX + border, rightY);
-	glRectf(leftX + border,  rightY - border,
-            rightX - border, rightY);
-
-    float curLeftX = cornerX + curX;
-    float curLeftY = cornerY + border;
-    float curRightX = cornerX + curX + cursorWidth;
-    float curRightY = cornerY + border + height;
-
-	// Cursor
-	glColor4f(cursorColor->r, cursorColor->g, cursorColor->b, cursorColor->a);
-	glRectf(curLeftX,  curLeftY, 
-            curRightX, curRightY);
-
-    // Cursor shadow
-    glColor4f(0.0, 0.0, 0.0, shadowAlpha);
-	glRectf(curLeftX,  curLeftY,
-            curRightX, curLeftY + border);
-	glRectf(curRightX - border, curLeftY + border,
-            curRightX,          curRightY);
-	
-    // Cursor highlight
-    glColor4f(1.0, 1.0, 1.0, highlightAlpha);
-	glRectf(curLeftX,          curLeftY + border, 
-            curLeftX + border, curLeftY + height);
-    glRectf(curLeftX + border,  curRightY - border,
-            curRightX - border, curRightY);
-	
-	//glEnable(GL_DEPTH_TEST);
+    main->draw();
+    cursor->setLocation(main->getInnerX() + curX, main->getInnerY());
+    cursor->draw();
 
     if (displayTitle) {
         drawTitle();
@@ -120,21 +69,8 @@ bool Slider::mouseReleased() {
 }
 
 bool Slider::pointInCursor(float x, float y) {
-    float curLeftX = cornerX + curX;
-    float curRightX = cornerX + curX + cursorWidth;
-
-    if (x < curLeftX || x > curRightX) {
-        return false;
-    }
-	
-    float curLeftY = cornerY + border;
-    float curRightY = cornerY + border + height;
-
-    if (y < curLeftY || y > curRightY) {
-        return false;
-    }
-
-    return true;
+    cursor->setLocation(main->getInnerX() + curX, main->getInnerY());
+    return cursor->containsPoint(x, y);
 }
 
 bool Slider::mouseMoved(float x, float y) {
@@ -142,12 +78,12 @@ bool Slider::mouseMoved(float x, float y) {
 		float dx = x - startX;
 		curX = startCurX + dx;
 
-        if (curX < border) {
-            curX = border;
+        if (curX < 0) {
+            curX = 0;
         }
 
-        if (curX > (border + width - cursorWidth)) {
-            curX = border + width - cursorWidth;
+        if (curX > main->getInnerWidth() - cursor->getWidth()) {
+            curX = main->getInnerWidth() - cursor->getWidth();
         }
 
         return true;
@@ -166,17 +102,22 @@ void Slider::setValue(float value) {
 
 void Slider::setWidth(float w) {
     float value = getValue();
-    width = w + cursorWidth; 
+    main->setWidth(w);
     setValue(value);
 }
 
+void Slider::setHeight(float h) {
+    main->setHeight(h);
+    cursor->setHeight(main->getInnerHeight());
+}
+
 void Slider::drawTitle() {
-    float x = cornerX + width + 3 * border;
-    float y = cornerY + (height + 2 * border) / 2;
+    float x = main->getX() + main->getWidth() + 3 * main->getBorder();
+    float y = main->getY() + (main->getHeight() + 2 * main->getBorder()) / 2;
     int horiz = HORIZ_LEFT;
 
     if (!titleRight) {
-        x = cornerX - border;
+        x = main->getX() - main->getBorder();
         horiz = HORIZ_RIGHT;
     }
 
@@ -189,12 +130,12 @@ void Slider::drawLabels() {
 
     while (value <= maxValue) {
         std::string label = toStr(value);
-        float x = cornerX + valueToPosition(value);
-        float y = cornerY - border;
+        float x = main->getInnerX() + valueToPosition(value);
+        float y = main->getY() - main->getBorder();
         int vertPos = VERT_TOP;
 
         if (!labelsBelow) {
-            y = cornerY + height + 3 * border;
+            y = main->getY() + main->getHeight() + 3 * main->getBorder();
             vertPos = VERT_BOTTOM;
         }
 
@@ -210,11 +151,13 @@ float Slider::valueToPosition(float value) {
     float distToStart = value - minValue;
     float percentage = distToStart / range;
     
-    return border + percentage * (width - cursorWidth);
+    return percentage * (main->getInnerWidth() - cursor->getWidth());
 }
 
 float Slider::positionToValue(float position) {
-    float percent = ((position - border) / (width - cursorWidth));
+    float actualWidth = main->getInnerWidth() - cursor->getWidth();
+    float distToStart = cursor->getX() - main->getInnerX();
+    float percent = distToStart / actualWidth;
 
     return minValue + percent * (maxValue - minValue);
 }

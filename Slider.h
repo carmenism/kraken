@@ -3,17 +3,16 @@
 
 // a slider that works in the range 0..1.0 in pixel coordinates
 class Color;
+class ShadowedRectangle;
 
 #include <string>
+#include "ShadowedRectangle.h"
 
 class Slider
 {
 public:
     Slider(std::string title, float min, float max, float start);
 
-    // specify the lower left corner, the slider length
-    // and the start value between 0 and 1.0
-    
     void draw();
 
     float getValue();
@@ -23,31 +22,13 @@ public:
     bool mousePressed(float x, float y);
     bool mouseReleased();
 
-    float getShadowAlpha() { return shadowAlpha; }
-    void setShadowAlpha(float a) { shadowAlpha = a; }
-    
-    float getHighlightAlpha() { return highlightAlpha; }
-    void setHighlightAlpha(float a) { highlightAlpha = a; }
-
-    Color *getMainColor() { return mainColor; }
-    void setMainColor(Color *c) { mainColor = c; }
-
-    Color *getCursorColor() { return cursorColor; }
-    void setCursorColor(Color *c) { cursorColor = c; }
-
-    float getHeight() { return height; }
-    void setHeight(float h) { height = h; }
-
-    float getWidth() { return width; }
+    float getWidth() { return main->getWidth(); }
     void setWidth(float w);
 
-    float getBorder() { return border; }
-    void setBorder(float b) { border = b; }
+    float getHeight() { return main->getHeight(); }
+    void setHeight(float h);
 
-    float getCursorWidth() { return cursorWidth; }
-    void setCursorWidth(float w) { cursorWidth = w; }
-
-    void setLocation(float x, float y) { cornerX = x; cornerY = y; }
+    void setLocation(float x, float y) { main->setX(x); main->setY(y); }
 
     std::string getTitle() { return title; }
     bool getDisplayTitle() { return displayTitle; }
@@ -70,10 +51,11 @@ public:
     float getLabelFontHeight() { return labelFontHeight; }
     void setLabelFontHeight(float h) { labelFontHeight = h; }
 protected:
+    ShadowedRectangle *main, *cursor;
     float minValue, maxValue;
-    float cornerX, cornerY;
-    float curX, startCurX;
-    float border, width, height, cursorWidth;
+    //float cornerX, cornerY;
+    float startCurX, curX;
+    //float border, height;//, cursorWidth; //width
 private:
     bool displayTitle;
     std::string title;
@@ -87,9 +69,6 @@ private:
     float labelInterval;
     bool labelsBelow;
     float labelFontHeight;
-
-    Color *mainColor, *cursorColor;
-    float shadowAlpha, highlightAlpha;
 
     bool pointInCursor(float x, float y);
     void drawLabels();

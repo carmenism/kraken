@@ -9,16 +9,22 @@ public:
     void draw();
     bool containsPoint(float x, float y);
 
+    void setLocation(float x, float y) { this->x = x; this->y = y; }
+
     float getX() { return x; }
+    float getInnerX() { return x + border; }
     void setX(float x) { this->x = x; }
 
     float getY() { return y; }
+    float getInnerY() { return y + border; } 
     void setY(float y) { this->y = y; }
 
     float getWidth() { return width; }
+    float getInnerWidth() { return width - 2 * border; }
     void setWidth(float w) { width = w; }
     
     float getHeight() { return height; }
+    float getInnerHeight() { return height - 2 * border; }
     void setHeight(float h) { height = h; }
     
     float getShadowAlpha() { return shadowAlpha; }

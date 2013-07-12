@@ -11,6 +11,7 @@ class MultiSpeciesLineChart;
 class ChartPoint;
 class ChangeSlider;
 class Parameters;
+class ShadowedRectangle;
 class MS_PROD_MainWindow;
 
 
@@ -43,6 +44,7 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 private:
+    ShadowedRectangle *rect;
     void setHovered(ChartPoint *point);
 
     MS_PROD_MainWindow *mainWindow;

@@ -16,8 +16,8 @@ void ChangeSlider::draw() {
 
     if (display) {
         glColor4f(color->r, color->g, color->b, 0.5);
-        glRectf(cornerX + startCurX,  cornerY + border,
-                cornerX + curX,    cornerY + border + height);
+        glRectf(main->getInnerX() + startCurX, cursor->getY(),
+                main->getInnerX() + curX,      cursor->getY() + cursor->getHeight());
     }
 }
 

@@ -8,6 +8,9 @@ ShadowedRectangle::ShadowedRectangle() {
     width = 100;
     height = 12;  
     border = 2;
+    shadowAlpha = 0.65;
+    highlightAlpha = 0.65;
+    color = new Color(0.5, 0.5, 0.5, 1.0);
 }
 
 void ShadowedRectangle::draw() {
