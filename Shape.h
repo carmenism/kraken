@@ -40,7 +40,8 @@ public:
    bool getDrawBorder() { return drawBorder; }
    void setDrawBorder(bool db) { drawBorder = db; }
 
-   void setPickColor(int r, int g, int b) { pickR = r; pickG = g; pickB = b; }
+   void setPickColor(unsigned char r, unsigned char g, unsigned char b)
+                  { pickR = r; pickG = g; pickB = b; }
 
    void draw();   
    void drawToPick();
@@ -57,7 +58,7 @@ protected:
    Color *fillColor;             // color
    Color *borderColor;           // boundary color
    
-   int pickR, pickG, pickB;
+   unsigned char pickR, pickG, pickB;
 
    bool drawFill;               // true to draw fill color
    bool drawBorder;             // true to draw boundary

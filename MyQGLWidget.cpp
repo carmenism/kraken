@@ -147,8 +147,8 @@ bool MyQGLWidget::mouseMoveSliders(float x, float y) {
 void MyQGLWidget::mouseMoveChartPoints(int x, int y) {
     if (!charts.empty()) {
         float color[4];    
-        unsigned char val[3];
-        int i;
+        unsigned char val[3] = {'\0'};
+        unsigned int pick;
 
         glGetFloatv(GL_COLOR_CLEAR_VALUE, color);
         glClearColor(1.0, 1.0, 1.0, 1.0);
@@ -156,7 +156,6 @@ void MyQGLWidget::mouseMoveChartPoints(int x, int y) {
         glClearColor(color[0], color[1], color[2], color[3]);
 
         ChartPointList allPoints;
-        
         for (int i = 0; i < charts.size(); i++) {
             ChartPointList *points = charts[i]->getPoints();
 
@@ -165,24 +164,28 @@ void MyQGLWidget::mouseMoveChartPoints(int x, int y) {
             }
         }
 
-        for (i = 0; i < allPoints.size(); i++) {
+        for (unsigned int i = 0; i < allPoints.size(); i++) {
             allPoints[i]->setPickColor(i & 0xFF, (i >> 8) & 0xFF, 0);
         }
 
+        glDisable(GL_BLEND);
         for (int i = 0; i < charts.size(); i++) {
             charts[i]->drawToPick();
         }
+        glEnable(GL_BLEND);
 
+        glFlush();
         glReadBuffer(GL_BACK);
         glReadPixels(x, y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, val);
         
-        i = (val[1] << 8) + val[0];
+        pick = (val[1] << 8) + val[0];
 
-        if (i >=0 && i < allPoints.size()) {
-            setHovered(allPoints[i]);
-        } else if (hovered != NULL) {
-            hovered->displayLabelOff();
+        int size = allPoints.size();
+        if (pick >=0 && pick < size) {
+            setHovered(allPoints[pick]);
         }
+        else if (hovered != NULL)
+            hovered->displayLabelOff();
     }
 }
 
