@@ -129,7 +129,7 @@ void ChartPoint::drawHistoryLine() {
 void ChartPoint::drawLineToXAxis() {
     float diff = valueY - last->getValueY();
 
-    glColor4f(0, 0, 0, 0.85);    
+    glColor4f(0, 0, 0, 0.3);    
 
     if (diff > 0) {
         glBegin(GL_LINES);
