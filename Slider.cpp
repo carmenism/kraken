@@ -112,8 +112,8 @@ void Slider::setHeight(float h) {
 }
 
 void Slider::drawTitle() {
-    float x = main->getX() + main->getWidth() + 3 * main->getBorder();
-    float y = main->getY() + (main->getHeight() + 2 * main->getBorder()) / 2;
+    float x = main->getX() + main->getWidth() + main->getBorder();
+    float y = main->getY() + main->getHeight() / 2;
     int horiz = HORIZ_LEFT;
 
     if (!titleRight) {
@@ -135,7 +135,7 @@ void Slider::drawLabels() {
         int vertPos = VERT_TOP;
 
         if (!labelsBelow) {
-            y = main->getY() + main->getHeight() + 3 * main->getBorder();
+            y = main->getY() + main->getHeight() + main->getBorder();
             vertPos = VERT_BOTTOM;
         }
 
@@ -156,8 +156,7 @@ float Slider::valueToPosition(float value) {
 
 float Slider::positionToValue(float position) {
     float actualWidth = main->getInnerWidth() - cursor->getWidth();
-    float distToStart = cursor->getX() - main->getInnerX();
-    float percent = distToStart / actualWidth;
+    float percent = position / actualWidth;
 
     return minValue + percent * (maxValue - minValue);
 }

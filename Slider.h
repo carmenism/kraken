@@ -53,9 +53,7 @@ public:
 protected:
     ShadowedRectangle *main, *cursor;
     float minValue, maxValue;
-    //float cornerX, cornerY;
     float startCurX, curX;
-    //float border, height;//, cursorWidth; //width
 private:
     bool displayTitle;
     std::string title;
