@@ -56,48 +56,6 @@ void MyQGLWidget::paintGL() {
     }
 }
 
-void MyQGLWidget::selectItem(int x, int y) {
-    if (!charts.empty()) {
-        float color[4];    
-        unsigned char val[3];
-        int i;
-
-        glGetFloatv(GL_COLOR_CLEAR_VALUE, color);
-        glClearColor(1.0, 1.0, 1.0, 1.0);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(color[0], color[1], color[2], color[3]);
-
-        ChartPointList allPoints;
-        
-        for (int i = 0; i < charts.size(); i++) {
-            ChartPointList *points = charts[i]->getPoints();
-
-            for (int j = 0; j < points->size(); j++) {
-                allPoints.push_back((*points)[j]);
-            }
-        }
-
-        for (i = 0; i < allPoints.size(); i++) {
-            allPoints[i]->setPickColor(i & 0xFF, (i >> 8) & 0xFF, 0);
-        }
-
-        for (int i = 0; i < charts.size(); i++) {
-            charts[i]->drawToPick();
-        }
-
-        glReadBuffer(GL_BACK);
-        glReadPixels(x, y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, val);
-        
-        i = (val[1] << 8) + val[0];
-
-        if (i >=0 && i < allPoints.size()) {
-            setHovered(allPoints[i]);
-        } else if (hovered != NULL) {
-            hovered->displayLabelOff();
-        }
-    }
-}
-
 void MyQGLWidget::setHovered(ChartPoint *point) {
     point->displayLabelOn();
     
@@ -156,6 +114,16 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
     float x = event->x();
     float y = size().rheight() - event->y();
     
+    bool sliderMoved = mouseMoveSliders(x, y);
+
+    if (!sliderMoved) {
+        mouseMoveChartPoints(x, y);
+    }
+
+    updateGL();
+}
+
+bool MyQGLWidget::mouseMoveSliders(float x, float y) {
     bool sliderMoved = false;
 
     for (int i = 0; i < sliders.size(); i++) {
@@ -173,11 +141,49 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
         }
     }
 
-    if (!sliderMoved) {
-        selectItem(x, y);
-    }
+    return sliderMoved;
+}
 
-    updateGL();
+void MyQGLWidget::mouseMoveChartPoints(int x, int y) {
+    if (!charts.empty()) {
+        float color[4];    
+        unsigned char val[3];
+        int i;
+
+        glGetFloatv(GL_COLOR_CLEAR_VALUE, color);
+        glClearColor(1.0, 1.0, 1.0, 1.0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClearColor(color[0], color[1], color[2], color[3]);
+
+        ChartPointList allPoints;
+        
+        for (int i = 0; i < charts.size(); i++) {
+            ChartPointList *points = charts[i]->getPoints();
+
+            for (int j = 0; j < points->size(); j++) {
+                allPoints.push_back((*points)[j]);
+            }
+        }
+
+        for (i = 0; i < allPoints.size(); i++) {
+            allPoints[i]->setPickColor(i & 0xFF, (i >> 8) & 0xFF, 0);
+        }
+
+        for (int i = 0; i < charts.size(); i++) {
+            charts[i]->drawToPick();
+        }
+
+        glReadBuffer(GL_BACK);
+        glReadPixels(x, y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, val);
+        
+        i = (val[1] << 8) + val[0];
+
+        if (i >=0 && i < allPoints.size()) {
+            setHovered(allPoints[i]);
+        } else if (hovered != NULL) {
+            hovered->displayLabelOff();
+        }
+    }
 }
 
 void MyQGLWidget::keyPressEvent(QKeyEvent* event) {
@@ -191,37 +197,12 @@ void MyQGLWidget::keyPressEvent(QKeyEvent* event) {
     }
 }
 
-void MyQGLWidget::updateLineChart(QList<QList<double>> matrix, QStringList labels) {
-    QStringList guilds = mainWindow->getParameters()->getGuildList();
-    
+void MyQGLWidget::updateCharts(QList<QList<double>> matrix, QStringList labels) {
     if (charts.empty()) {
-        for (int i = 0; i < guilds.size(); i++) {
-            QList<QList<double>> matrixForGuild;
-            QStringList labelsForGuild;
-
-            for (int j = 0; j < labels.size(); j++) {
-                QString g = mainWindow->getParameters()->getGuildMembership(labels.at(j));
-                
-                if (QString::compare(g, guilds.at(i)) == 0) {
-                    matrixForGuild.append(matrix.at(j));
-                    labelsForGuild.append(labels.at(j));
-                }
-            }
-
-            MultiSpeciesLineChart *chart = new MultiSpeciesLineChart(matrixForGuild, labelsForGuild);
-            chart->setTitle(guilds.at(i).toStdString());
-            chart->setWidth(400);
-            chart->setHeight(300);
-            chart->setAxesFontHeight(10);
-            chart->setLegendFontHeight(12);
-            charts.push_back(chart);
-        }
-
-        charts[0]->setLocation(0, 35);
-        charts[1]->setLocation(600, 35);
-        charts[2]->setLocation(0, 440);
-        charts[3]->setLocation(600, 440);
+        initializeCharts(matrix, labels);
     } else {
+        QStringList guilds = mainWindow->getParameters()->getGuildList();
+    
         for (int i = 0; i < guilds.size(); i++) {
             QList<QList<double>> matrixForGuild;
 
@@ -238,6 +219,37 @@ void MyQGLWidget::updateLineChart(QList<QList<double>> matrix, QStringList label
     }
 
     updateGL();
+}
+
+void MyQGLWidget::initializeCharts(QList<QList<double>> matrix, QStringList labels) {
+    QStringList guilds = mainWindow->getParameters()->getGuildList();
+    
+    for (int i = 0; i < guilds.size(); i++) {
+        QList<QList<double>> matrixForGuild;
+        QStringList labelsForGuild;
+
+        for (int j = 0; j < labels.size(); j++) {
+            QString g = mainWindow->getParameters()->getGuildMembership(labels.at(j));
+            
+            if (QString::compare(g, guilds.at(i)) == 0) {
+                matrixForGuild.append(matrix.at(j));
+                labelsForGuild.append(labels.at(j));
+            }
+        }
+
+        MultiSpeciesLineChart *chart = new MultiSpeciesLineChart(matrixForGuild, labelsForGuild);
+        chart->setTitle(guilds.at(i).toStdString());
+        chart->setWidth(400);
+        chart->setHeight(300);
+        chart->setAxesFontHeight(10);
+        chart->setLegendFontHeight(12);
+        charts.push_back(chart);
+    }
+
+    charts[0]->setLocation(0, 35);
+    charts[1]->setLocation(600, 35);
+    charts[2]->setLocation(0, 440);
+    charts[3]->setLocation(600, 440);
 }
 
 void MyQGLWidget::initializeSliders() {

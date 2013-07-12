@@ -30,7 +30,7 @@ class MyQGLWidget : public QGLWidget {
 public:
     MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent = NULL);
 
-    void updateLineChart(QList<QList<double>> matrix, QStringList labels); 
+    void updateCharts(QList<QList<double>> matrix, QStringList labels); 
 
     void initializeSliders();
 protected:
@@ -43,7 +43,6 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 private:
-    void selectItem(int x, int y);
     void setHovered(ChartPoint *point);
 
     MS_PROD_MainWindow *mainWindow;
@@ -53,6 +52,12 @@ private:
     ChartPoint *hovered;
 
     std::string labelSuffix;
+    
+    bool mouseMoveSliders(float x, float y);
+    void mouseMoveChartPoints(int x, int y);
+
+    void initializeCharts(QList<QList<double>> matrix, QStringList labels);
+
 };
 
 #endif  /* _MYQGLWIDGET_H */
