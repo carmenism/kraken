@@ -11,8 +11,10 @@ class MultiSpeciesLineChart;
 class ChartPoint;
 class ChangeSlider;
 class Parameters;
+class Button;
 class UndoButton;
 class ResetButton;
+class SliderButton;
 class MS_PROD_MainWindow;
 
 
@@ -45,8 +47,9 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 private:
-    std::vector<UndoButton *> undoButtons;
-    std::vector<ResetButton *> resetButtons;
+    Button *resetAllButton;
+    std::vector<SliderButton *> buttons;
+    //std::vector<ResetButton *> resetButtons;
     void setHovered(ChartPoint *point);
 
     MS_PROD_MainWindow *mainWindow;

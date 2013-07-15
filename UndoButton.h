@@ -3,17 +3,15 @@
 
 class Slider;
 
-#include "Button.h"
+#include "SliderButton.h"
 
-class UndoButton: public Button
+class UndoButton: public SliderButton
 {
 public:
     UndoButton(Slider *slider);
     virtual ~UndoButton();
     
     bool mouseReleased(float x, float y);
-private:
-    Slider *slider;
 };
 
 #endif /*UNDOBUTTON_H_*/

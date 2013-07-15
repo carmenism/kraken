@@ -3,17 +3,15 @@
 
 class Slider;
 
-#include "Button.h"
+#include "SliderButton.h"
 
-class ResetButton: public Button
+class ResetButton: public SliderButton
 {
 public:
     ResetButton(Slider *slider);
     virtual ~ResetButton();
     
     bool mouseReleased(float x, float y);
-private:
-    Slider *slider;
 };
 
 #endif /*RESETBUTTON_H_*/

@@ -1,8 +1,8 @@
 #include "UndoButton.h"
 #include "Slider.h"
 
-UndoButton::UndoButton(Slider *slider) : Button("UNDO") {
-    this->slider = slider;
+UndoButton::UndoButton(Slider *slider) : SliderButton("UNDO", slider) {
+
 }
 
 UndoButton::~UndoButton() {

@@ -1,8 +1,8 @@
 #include "ResetButton.h"
 #include "Slider.h"
 
-ResetButton::ResetButton(Slider *slider) : Button("RESET") {
-    this->slider = slider;
+ResetButton::ResetButton(Slider *slider) : SliderButton("RESET", slider) {
+
 }
 
 ResetButton::~ResetButton() {

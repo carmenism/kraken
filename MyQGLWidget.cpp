@@ -6,8 +6,10 @@
 #include "ChangeSlider.h"
 #include "MS_PROD_MainWindow.h"
 #include "Parameters.h"
+#include "Button.h"
 #include "UndoButton.h"
 #include "ResetButton.h"
+#include "SliderButton.h"
 #include <QList>
 #include <QStringList>
 
@@ -53,16 +55,16 @@ void MyQGLWidget::paintGL() {
         charts[i]->draw();
     }
 
-    for (int i = 0; i < sliders.size(); i++) {
-        sliders[i]->draw();
-    }
+    if (!charts.empty()) {
+        for (int i = 0; i < sliders.size(); i++) {
+            sliders[i]->draw();
+        }
 
-    for (int i = 0; i < undoButtons.size(); i++) {
-        undoButtons[i]->draw();
-    }
+        for (int i = 0; i < buttons.size(); i++) {
+            buttons[i]->draw();
+        }
 
-    for (int i = 0; i < resetButtons.size(); i++) {
-        resetButtons[i]->draw();
+        resetAllButton->draw();
     }
 }
 
@@ -79,6 +81,10 @@ void MyQGLWidget::setHovered(ChartPoint *point) {
 }
 
 void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
+    if (charts.empty()) {
+        return;
+    }
+
     float x = event->x();
     float y = size().rheight() - event->y();
 
@@ -98,29 +104,41 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
-    int index = -1;
-
-    for (int i = 0; i < undoButtons.size(); i++) {
-        bool buttonPress = undoButtons[i]->mouseReleased(x, y);
-
-        if (buttonPress) {
-            index = i;
+    if (resetAllButton->mouseReleased(x, y)) {
+        for (int i = 0; i < sliders.size(); i++) {
+            sliders[i]->reset();
+            float value = sliders[i]->getValue();
+            std::string title = sliders[i]->getTitle();
+            std::string guild = title.substr(0, title.length() - labelSuffix.length());
+            mainWindow->getParameters()->setEffortForGuild(guild, value);  
         }
+
+        mainWindow->runModel();
+
+        for (int i = 0; i < sliders.size(); i++) {
+            sliders[i]->clearDisplay();
+        }
+        for (int j = 0; j < charts.size(); j++) {
+            charts[j]->captureLastValues();
+        }
+
+        return true;
     }
 
-    if (index == -1) {
-        for (int i = 0; i < resetButtons.size(); i++) {
-            bool buttonPress = resetButtons[i]->mouseReleased(x, y);
+    SliderButton *button = NULL;
 
-            if (buttonPress) {
-                index = i;
-            }
+    for (int i = 0; i < buttons.size(); i++) {
+        bool buttonPress = buttons[i]->mouseReleased(x, y);
+
+        if (buttonPress) {
+            button = buttons[i];
+            break;
         }
     }
     
-    if (index != -1) {
-        float value = sliders[index]->getValue();
-        std::string title = sliders[index]->getTitle();
+    if (button != NULL) {
+        float value = button->getSlider()->getValue();
+        std::string title = button->getSlider()->getTitle();
         std::string guild = title.substr(0, title.length() - labelSuffix.length());
         mainWindow->getParameters()->setEffortForGuild(guild, value);
         mainWindow->runModel();
@@ -139,6 +157,10 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
 }
 
 void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
+    if (charts.empty()) {
+        return;
+    }
+
     float x = event->x();
     float y = size().rheight() - event->y();
     
@@ -154,18 +176,14 @@ void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 bool MyQGLWidget::mousePressButtons(float x, float y) {
+    if (resetAllButton->mousePressed(x, y)) {
+        return true;
+    }
+    
     bool buttonPress = false; 
 
-    for (int i = 0; i < undoButtons.size(); i++) {
-        buttonPress = undoButtons[i]->mousePressed(x, y);
-
-        if (buttonPress) {
-            return true;
-        }
-    }
-
-    for (int i = 0; i < resetButtons.size(); i++) {
-        buttonPress = resetButtons[i]->mousePressed(x, y);
+    for (int i = 0; i < buttons.size(); i++) {
+        buttonPress = buttons[i]->mousePressed(x, y);
 
         if (buttonPress) {
             return true;
@@ -203,6 +221,10 @@ bool MyQGLWidget::mousePressSliders(float x, float y) {
 }
 
 void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
+    if (charts.empty()) {
+        return;
+    }
+
     //printf("%d, %d\n", event->x(), size().rheight() - event->y());
     float x = event->x();
     float y = size().rheight() - event->y();
@@ -221,21 +243,17 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
 }
 
 bool MyQGLWidget::mouseMoveButtons(float x, float y) {
-    Button *moved = NULL;
-
-    for (int i = 0; i < undoButtons.size(); i++) {
-        bool buttonMoved = undoButtons[i]->mouseMoved(x, y);
-
-        if (buttonMoved) {
-            moved = undoButtons[i];
-        }
+    if (resetAllButton->mouseMoved(x, y)) {
+        return true;
     }
 
-    for (int i = 0; i < resetButtons.size(); i++) {
-        bool buttonMoved = resetButtons[i]->mouseMoved(x, y);
+    Button *moved = NULL;
+
+    for (int i = 0; i < buttons.size(); i++) {
+        bool buttonMoved = buttons[i]->mouseMoved(x, y);
 
         if (buttonMoved) {
-            moved = resetButtons[i];
+            moved = buttons[i];
         }
     }
 
@@ -398,27 +416,32 @@ void MyQGLWidget::initializeSliders() {
         UndoButton *undoButton = new UndoButton(slider);
         undoButton->setHeight(18);
         undoButton->setWidth(42);
-        undoButtons.push_back(undoButton);
+        buttons.push_back(undoButton);
 
         ResetButton *resetButton = new ResetButton(slider);
         resetButton->setHeight(18);
         resetButton->setWidth(42);
-        resetButtons.push_back(resetButton);
+        buttons.push_back(resetButton);
     }
 
     sliders[0]->setLocation(100, 22);
-    undoButtons[0]->setLocation(45, 22);
-    resetButtons[0]->setLocation(45, 2);
+    buttons[0]->setLocation(45, 22);
+    buttons[1]->setLocation(45, 2);
 
     sliders[1]->setLocation(700, 22);
-    undoButtons[1]->setLocation(645, 22);
-    resetButtons[1]->setLocation(645, 2);
+    buttons[2]->setLocation(645, 22);
+    buttons[3]->setLocation(645, 2);
 
     sliders[2]->setLocation(100, 425);
-    undoButtons[2]->setLocation(45, 425);
-    resetButtons[2]->setLocation(45, 405);
+    buttons[4]->setLocation(45, 425);
+    buttons[5]->setLocation(45, 405);
 
     sliders[3]->setLocation(700, 425);
-    undoButtons[3]->setLocation(645, 425);
-    resetButtons[3]->setLocation(645, 405);
+    buttons[6]->setLocation(645, 425);
+    buttons[7]->setLocation(645, 405);
+
+    resetAllButton = new Button("RESET ALL");
+    resetAllButton->setHeight(20);
+    resetAllButton->setWidth(100);
+    resetAllButton->setLocation(475, 750);
 }

@@ -588,6 +588,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\SliderButton.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Square.h"
 				>
 			</File>
@@ -604,11 +608,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
+				RelativePath="ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<File
-				RelativePath="ui_ms_prod_mainwindow.h"
+				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<File
