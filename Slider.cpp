@@ -17,7 +17,11 @@ Slider::Slider(std::string title, float min, float max, float start) {
     cursor->setWidth(20);
     cursor->setHeight(12);
     cursor->setBorder(2);
-    
+    Color *curColor = cursor->getColor();
+    curColor->r = 0.65;
+    curColor->g = 0.65;
+    curColor->b = 0.65;
+
 	active = false;
 
     displayTitle = true;
