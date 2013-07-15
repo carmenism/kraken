@@ -98,8 +98,6 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
-    //bool buttonPress = false; 
-    //Button *pressed = NULL;
     int index = -1;
 
     for (int i = 0; i < undoButtons.size(); i++) {

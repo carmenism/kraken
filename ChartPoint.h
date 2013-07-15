@@ -29,7 +29,8 @@ public:
 
     void setPickColor(int r, int g, int b); 
     
-    void captureLastValues() { last->setValues(valueX, valueY); }
+    void captureLastValues();// { last->setValues(valueX, valueY);
+    //lastPositionX = marker->getX(); lastPositionY = marker->getY();}
     Point *getLast() { return last; }
     float getLastPositionX() { return lastPositionX; }
     float getLastPositionY() { return lastPositionY; }

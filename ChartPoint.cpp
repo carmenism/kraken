@@ -224,3 +224,9 @@ void ChartPoint::setPositionX(float x) {
 void ChartPoint::setPositionY(float y) {
     marker->setLocation(marker->getX(), y);
 }
+
+void ChartPoint::captureLastValues() {
+    last->setValues(valueX, valueY);
+    lastPositionX = marker->getX();
+    lastPositionY = marker->getY();
+}
