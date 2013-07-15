@@ -203,7 +203,7 @@ bool MyQGLWidget::mousePressSliders(float x, float y) {
 }
 
 void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
-    printf("%d, %d\n", event->x(), size().rheight() - event->y());
+    //printf("%d, %d\n", event->x(), size().rheight() - event->y());
     float x = event->x();
     float y = size().rheight() - event->y();
 
@@ -254,7 +254,6 @@ bool MyQGLWidget::mouseMoveSliders(float x, float y) {
             sliderMoved = true;
 
             float value = sliders[i]->getValue();
-            std::cout << "value " << value << "\n";
             std::string title = sliders[i]->getTitle();
             std::string guild = title.substr(0, title.length() - labelSuffix.length());
             mainWindow->getParameters()->setEffortForGuild(guild, value);
