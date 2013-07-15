@@ -38,12 +38,14 @@ public:
     
     float getBorder() { return border; }
     void setBorder(float b) { border = b; }
-private:
-    float border;
+protected:
     float x, y;
     float width, height;
-    float shadowAlpha, highlightAlpha;
+    float border;
     Color *color;   
+    bool reverseShadow;
+private:
+    float shadowAlpha, highlightAlpha;
 };
 
 #endif /* SHADOWEDRECTANGLE_H_ */

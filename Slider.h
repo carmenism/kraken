@@ -13,6 +13,9 @@ class Slider
 public:
     Slider(std::string title, float min, float max, float start);
 
+    void undo();
+    void reset();
+
     void draw();
 
     float getValue();
@@ -55,6 +58,8 @@ protected:
     float minValue, maxValue;
     float startCurX, curX;
 private:
+    float undoValue, resetValue;
+
     bool displayTitle;
     std::string title;
     float titleFontHeight;

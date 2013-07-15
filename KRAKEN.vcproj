@@ -206,6 +206,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\Button.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ChangeSlider.cpp"
 				>
 			</File>
@@ -342,6 +346,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ResetButton.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ShadowedRectangle.cpp"
 				>
 			</File>
@@ -369,12 +377,20 @@
 				RelativePath=".\Triangle.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\UndoButton.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\Button.h"
+				>
+			</File>
 			<File
 				RelativePath=".\ChangeSlider.h"
 				>
@@ -556,6 +572,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ResetButton.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ShadowedRectangle.h"
 				>
 			</File>
@@ -584,11 +604,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
+				>
+			</File>
+			<File
 				RelativePath="ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
+				RelativePath=".\UndoButton.h"
 				>
 			</File>
 		</Filter>

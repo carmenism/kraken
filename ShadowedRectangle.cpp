@@ -11,15 +11,14 @@ ShadowedRectangle::ShadowedRectangle() {
     shadowAlpha = 0.65;
     highlightAlpha = 0.65;
     color = new Color(0.5, 0.5, 0.5, 1.0);
+    reverseShadow = false;
 }
 
 void ShadowedRectangle::draw() {
     float leftX = x;
     float leftY = y;
-    float rightX = x + width;// + 2 * border;
-    float rightY = y + height;// + 2 * border;
-
-	//glDisable(GL_DEPTH_TEST);
+    float rightX = x + width;
+    float rightY = y + height;
 
     glPolygonMode( GL_FRONT, GL_FILL ); 
 
@@ -29,6 +28,11 @@ void ShadowedRectangle::draw() {
 
     // Shadow
 	glColor4f(0.0, 0.0, 0.0, shadowAlpha);
+    
+    if (reverseShadow) {
+        glColor4f(1.0, 1.0, 1.0, highlightAlpha);
+    }
+
 	glRectf(leftX,  leftY, 
             rightX, leftY + border);
 	glRectf(rightX - border, leftY + border,
@@ -36,6 +40,11 @@ void ShadowedRectangle::draw() {
 	
     // Highlight
 	glColor4f(1.0, 1.0, 1.0, highlightAlpha);
+
+    if (reverseShadow) {
+        glColor4f(0.0, 0.0, 0.0, shadowAlpha);
+    }
+
 	glRectf(leftX,          leftY + border, 
             leftX + border, rightY);
 	glRectf(leftX + border,  rightY - border,

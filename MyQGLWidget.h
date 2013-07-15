@@ -11,7 +11,8 @@ class MultiSpeciesLineChart;
 class ChartPoint;
 class ChangeSlider;
 class Parameters;
-class ShadowedRectangle;
+class UndoButton;
+class ResetButton;
 class MS_PROD_MainWindow;
 
 
@@ -44,7 +45,8 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 private:
-    ShadowedRectangle *rect;
+    std::vector<UndoButton *> undoButtons;
+    std::vector<ResetButton *> resetButtons;
     void setHovered(ChartPoint *point);
 
     MS_PROD_MainWindow *mainWindow;
@@ -54,7 +56,13 @@ private:
     ChartPoint *hovered;
 
     std::string labelSuffix;
-    
+
+    bool mouseReleaseButtons(float x, float y);
+
+    bool mousePressButtons(float x, float y);
+    bool mousePressSliders(float x, float y);
+
+    bool mouseMoveButtons(float x, float y);
     bool mouseMoveSliders(float x, float y);
     void mouseMoveChartPoints(int x, int y);
 

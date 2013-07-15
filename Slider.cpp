@@ -30,6 +30,17 @@ Slider::Slider(std::string title, float min, float max, float start) {
 
     setValue(start);
     cursor->setLocation(main->getInnerX() + curX, main->getInnerY());
+
+    resetValue = start;
+    undoValue = start;
+}
+
+void Slider::undo() {
+    setValue(undoValue);
+}
+
+void Slider::reset() {
+    setValue(resetValue);
 }
 
 void Slider::draw() {    
@@ -48,6 +59,7 @@ void Slider::draw() {
 
 bool Slider::mousePressed(float x, float y) {    
     if (pointInCursor(x, y) && !active) {
+        undoValue = getValue();
         active = true;
         startX = x;
 	    startCurX = curX;
