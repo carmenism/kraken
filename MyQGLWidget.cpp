@@ -372,8 +372,8 @@ void MyQGLWidget::initializeCharts(QList<QList<double>> matrix, QStringList labe
         charts.push_back(chart);
     }
 
-    charts[0]->setLocation(0, 35);
-    charts[1]->setLocation(600, 35);
+    charts[0]->setLocation(0, 37);
+    charts[1]->setLocation(600, 37);
     charts[2]->setLocation(0, 440);
     charts[3]->setLocation(600, 440);
 }
@@ -391,34 +391,35 @@ void MyQGLWidget::initializeSliders() {
         std::string guild = guilds.at(i).toStdString();
         ChangeSlider *slider = new ChangeSlider(guild + labelSuffix, 0, 10, 1);
         slider->setWidth(220);
+        slider->setHeight(18);
         slider->displayLabelsOn();
         slider->setLabelInterval(1);
         sliders.push_back(slider);
 
         UndoButton *undoButton = new UndoButton(slider);
-        undoButton->setHeight(16);
-        undoButton->setWidth(35);
+        undoButton->setHeight(18);
+        undoButton->setWidth(42);
         undoButtons.push_back(undoButton);
 
         ResetButton *resetButton = new ResetButton(slider);
-        resetButton->setHeight(16);
-        resetButton->setWidth(35);
+        resetButton->setHeight(18);
+        resetButton->setWidth(42);
         resetButtons.push_back(resetButton);
     }
 
-    sliders[0]->setLocation(50, 20);
-    undoButtons[0]->setLocation(5, 20);
-    resetButtons[0]->setLocation(5, 2);
+    sliders[0]->setLocation(100, 22);
+    undoButtons[0]->setLocation(45, 22);
+    resetButtons[0]->setLocation(45, 2);
 
-    sliders[1]->setLocation(650, 20);
-    undoButtons[1]->setLocation(605, 20);
-    resetButtons[1]->setLocation(605, 2);
+    sliders[1]->setLocation(700, 22);
+    undoButtons[1]->setLocation(645, 22);
+    resetButtons[1]->setLocation(645, 2);
 
-    sliders[2]->setLocation(50, 425);
-    undoButtons[2]->setLocation(5, 425);
-    resetButtons[2]->setLocation(5, 407);
+    sliders[2]->setLocation(100, 425);
+    undoButtons[2]->setLocation(45, 425);
+    resetButtons[2]->setLocation(45, 405);
 
-    sliders[3]->setLocation(650, 425);
-    undoButtons[3]->setLocation(605, 425);
-    resetButtons[3]->setLocation(605, 407);
+    sliders[3]->setLocation(700, 425);
+    undoButtons[3]->setLocation(645, 425);
+    resetButtons[3]->setLocation(645, 405);
 }
