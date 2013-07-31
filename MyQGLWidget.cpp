@@ -11,6 +11,7 @@
 #include "ResetButton.h"
 #include "SliderButton.h"
 #include "VerticalArc.h"
+#include "PlotByGroupManager.h"
 #include <QList>
 #include <QStringList>
 
@@ -25,6 +26,7 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     labelSuffix = " harvest effort";
 
     arc = new VerticalArc(100, 100, 0);
+    managerGroup = new PlotByGroupManager();
 }
 
 void MyQGLWidget::initializeGL() {
@@ -54,11 +56,9 @@ void MyQGLWidget::resizeGL(int w, int h) {
 void MyQGLWidget::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    for (int i = 0; i < charts.size(); i++) {
-        charts[i]->draw();
-    }
+    managerGroup->draw();
 
-    if (!charts.empty()) {
+    if (!managerGroup->empty()) {
         for (int i = 0; i < sliders.size(); i++) {
             sliders[i]->draw();
         }
@@ -86,7 +86,7 @@ void MyQGLWidget::setHovered(ChartPoint *point) {
 }
 
 void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
-    if (charts.empty()) {
+    if (managerGroup->empty()) {
         return;
     }
 
@@ -123,9 +123,8 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
         for (int i = 0; i < sliders.size(); i++) {
             sliders[i]->clearDisplay();
         }
-        for (int j = 0; j < charts.size(); j++) {
-            charts[j]->captureLastValues();
-        }
+
+        managerGroup->captureLastValues();
 
         return true;
     }
@@ -151,9 +150,8 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
         for (int i = 0; i < sliders.size(); i++) {
             sliders[i]->clearDisplay();
         }
-        for (int j = 0; j < charts.size(); j++) {
-            charts[j]->captureLastValues();
-        }
+
+        managerGroup->captureLastValues();
 
         return true;
     }
@@ -162,7 +160,7 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
 }
 
 void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
-    if (charts.empty()) {
+    if (managerGroup->empty()) {
         return;
     }
 
@@ -205,9 +203,7 @@ bool MyQGLWidget::mousePressSliders(float x, float y) {
     for (int i = 0; i < sliders.size(); i++) {
         sliderPressed = sliders[i]->mousePressed(x, y);
         if (sliderPressed) {                
-            for (int j = 0; j < charts.size(); j++) {
-                charts[j]->captureLastValues();
-            }
+            managerGroup->captureLastValues();
 
             pressed = sliders[i];
             break;
@@ -226,7 +222,7 @@ bool MyQGLWidget::mousePressSliders(float x, float y) {
 }
 
 void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
-    if (charts.empty()) {
+    if (managerGroup->empty()) {
         return;
     }
 
@@ -290,7 +286,7 @@ bool MyQGLWidget::mouseMoveSliders(float x, float y) {
 }
 
 void MyQGLWidget::mouseMoveChartPoints(int x, int y) {
-    if (!charts.empty()) {
+    if (!managerGroup->empty()) {
         float color[4];    
         unsigned char val[3] = {'\0'};
         unsigned int pick;
@@ -300,23 +296,14 @@ void MyQGLWidget::mouseMoveChartPoints(int x, int y) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(color[0], color[1], color[2], color[3]);
 
-        ChartPointList allPoints;
-        for (int i = 0; i < charts.size(); i++) {
-            ChartPointList *points = charts[i]->getPoints();
-
-            for (int j = 0; j < points->size(); j++) {
-                allPoints.push_back((*points)[j]);
-            }
-        }
+        ChartPointList allPoints = managerGroup->getPoints();
 
         for (unsigned int i = 0; i < allPoints.size(); i++) {
             allPoints[i]->setPickColor(i & 0xFF, (i >> 8) & 0xFF, 0);
         }
 
         glDisable(GL_BLEND);
-        for (int i = 0; i < charts.size(); i++) {
-            charts[i]->drawToPick();
-        }
+        managerGroup->drawToPick();
         glEnable(GL_BLEND);
 
         glFlush();
@@ -346,58 +333,9 @@ void MyQGLWidget::keyPressEvent(QKeyEvent* event) {
 }
 
 void MyQGLWidget::updateCharts(QList<QList<double>> matrix, QStringList labels) {
-    if (charts.empty()) {
-        initializeCharts(matrix, labels);
-    } else {
-        QStringList guilds = mainWindow->getParameters()->getGuildList();
+    managerGroup->updateCharts(matrix, labels, mainWindow);
     
-        for (int i = 0; i < guilds.size(); i++) {
-            QList<QList<double>> matrixForGuild;
-
-            for (int j = 0; j < labels.size(); j++) {
-                QString g = mainWindow->getParameters()->getGuildMembership(labels.at(j));
-                
-                if (QString::compare(g, guilds.at(i)) == 0) {
-                    matrixForGuild.append(matrix.at(j));
-                }
-            }
-
-            charts.at(i)->setValues(matrixForGuild);
-        }
-    }
-
     updateGL();
-}
-
-void MyQGLWidget::initializeCharts(QList<QList<double>> matrix, QStringList labels) {
-    QStringList guilds = mainWindow->getParameters()->getGuildList();
-    
-    for (int i = 0; i < guilds.size(); i++) {
-        QList<QList<double>> matrixForGuild;
-        QStringList labelsForGuild;
-
-        for (int j = 0; j < labels.size(); j++) {
-            QString g = mainWindow->getParameters()->getGuildMembership(labels.at(j));
-            
-            if (QString::compare(g, guilds.at(i)) == 0) {
-                matrixForGuild.append(matrix.at(j));
-                labelsForGuild.append(labels.at(j));
-            }
-        }
-
-        MultiSpeciesLineChart *chart = new MultiSpeciesLineChart(matrixForGuild, labelsForGuild);
-        chart->setTitle(guilds.at(i).toStdString());
-        chart->setWidth(400);
-        chart->setHeight(300);
-        chart->setAxesFontHeight(10);
-        chart->setLegendFontHeight(12);
-        charts.push_back(chart);
-    }
-
-    charts[0]->setLocation(0, 37);
-    charts[1]->setLocation(600, 37);
-    charts[2]->setLocation(0, 440);
-    charts[3]->setLocation(600, 440);
 }
 
 void MyQGLWidget::initializeSliders() {

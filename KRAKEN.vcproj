@@ -330,6 +330,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PlotByGroupManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Point.cpp"
 				>
 			</File>
@@ -560,6 +564,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PlotByGroupManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PlotManager.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Point.h"
 				>
 			</File>
@@ -612,11 +624,11 @@
 				>
 			</File>
 			<File
-				RelativePath="ui_ms_prod_mainwindow.h"
+				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
+				RelativePath="ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<File

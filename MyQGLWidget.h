@@ -16,6 +16,7 @@ class Button;
 class UndoButton;
 class ResetButton;
 class SliderButton;
+class PlotByGroupManager;
 class MS_PROD_MainWindow;
 
 
@@ -26,7 +27,6 @@ typedef std::vector<MultiSpeciesLineChart *>::const_iterator MSLineChartIterator
     for(MSLineChartIterator it = msLineChartList.begin(); it != msLineChartList.end(); ++it)
 #define FOREACH_MSLINECHARTP(it, msLineChartList) \
     for(MSLineChartIterator it = msLineChartList->begin(); it != msLineChartList->end(); ++it)
-
 
 class MyQGLWidget : public QGLWidget {
 
@@ -53,8 +53,8 @@ private:
     std::vector<SliderButton *> buttons;
 
     MS_PROD_MainWindow *mainWindow;
-    std::vector<MultiSpeciesLineChart *> charts;
-    
+    PlotByGroupManager *managerGroup;
+
     std::vector<ChangeSlider *> sliders;
     ChartPoint *hovered;
 
@@ -70,9 +70,6 @@ private:
     bool mouseMoveButtons(float x, float y);
     bool mouseMoveSliders(float x, float y);
     void mouseMoveChartPoints(int x, int y);
-
-    void initializeCharts(QList<QList<double>> matrix, QStringList labels);
-
 };
 
 #endif  /* _MYQGLWIDGET_H */
