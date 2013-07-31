@@ -38,13 +38,13 @@ ChartPoint::~ChartPoint() {
 }
 
 void ChartPoint::calculateLocation() {
-    float posX = valueX * chart->getWidth() / chart->getGlobalMaxX();
-    float posY = valueY * chart->getHeight() / chart->getGlobalMaxY();
+    float posX = x * chart->getWidth() / chart->getGlobalMaxX();
+    float posY = y * chart->getHeight() / chart->getGlobalMaxY();
 
     marker->setLocation(posX, posY);
 
-    lastPositionX = last->getValueX() * chart->getWidth() / chart->getGlobalMaxX();
-    lastPositionY = last->getValueY() * chart->getHeight() / chart->getGlobalMaxY();
+    lastPositionX = last->getX() * chart->getWidth() / chart->getGlobalMaxX();
+    lastPositionY = last->getY() * chart->getHeight() / chart->getGlobalMaxY();
 }
 
 void ChartPoint::draw() {
@@ -98,9 +98,9 @@ void ChartPoint::drawLabel() {
 }
 
 std::string ChartPoint::makeLabel() {
-    std::string newLabel = label + ": " + toStr(valueY);
+    std::string newLabel = label + ": " + toStr(y);
 
-    float diff = valueY - last->getValueY();
+    float diff = y - last->getY();
 
     if (diff > 0) {
         newLabel = newLabel + " (+" + toStr(diff) + ")";
@@ -133,7 +133,7 @@ void ChartPoint::drawHistoryLine() {
 }
 
 void ChartPoint::drawLineToXAxis() {
-    float diff = valueY - last->getValueY();
+    float diff = y - last->getY();
 
     glColor4f(0, 0, 0, 0.3);    
 
@@ -226,7 +226,7 @@ void ChartPoint::setPositionY(float y) {
 }
 
 void ChartPoint::captureLastValues() {
-    last->setValues(valueX, valueY);
+    last->setValues(x, y);
     lastPositionX = marker->getX();
     lastPositionY = marker->getY();
 }

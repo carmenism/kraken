@@ -318,6 +318,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MyArc.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MyQGLWidget.cpp"
 				>
 			</File>
@@ -522,6 +526,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MyArc.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MyQGLWidget.h"
 				>
 				<FileConfiguration
@@ -608,15 +616,19 @@
 				>
 			</File>
 			<File
-				RelativePath="ui_ms_prod_mainwindow.h"
-				>
-			</File>
-			<File
 				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<File
+				RelativePath="ui_ms_prod_mainwindow.h"
+				>
+			</File>
+			<File
 				RelativePath=".\UndoButton.h"
+				>
+			</File>
+			<File
+				RelativePath=".\VerticalArc.h"
 				>
 			</File>
 		</Filter>

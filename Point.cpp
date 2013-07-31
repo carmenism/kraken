@@ -1,8 +1,8 @@
 #include "Point.h"
 
 Point::Point(float x, float y) {
-    valueX = x;
-    valueY = y;
+    this->x = x;
+    this->y = y;
 }
 
 Point::~Point() {

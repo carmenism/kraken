@@ -4,6 +4,7 @@
 #include <QtOpenGL/QGLWidget>
 #include <vector>
 
+class MyArc;
 class Square;
 class Circle;
 class Triangle;
@@ -47,10 +48,9 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 private:
+    MyArc *arc;
     Button *resetAllButton;
     std::vector<SliderButton *> buttons;
-    //std::vector<ResetButton *> resetButtons;
-    void setHovered(ChartPoint *point);
 
     MS_PROD_MainWindow *mainWindow;
     std::vector<MultiSpeciesLineChart *> charts;
@@ -59,6 +59,8 @@ private:
     ChartPoint *hovered;
 
     std::string labelSuffix;
+
+    void setHovered(ChartPoint *point);
 
     bool mouseReleaseButtons(float x, float y);
 

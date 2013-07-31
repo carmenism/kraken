@@ -10,6 +10,7 @@
 #include "UndoButton.h"
 #include "ResetButton.h"
 #include "SliderButton.h"
+#include "MyArc.h"
 #include <QList>
 #include <QStringList>
 
@@ -22,6 +23,8 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     setFixedHeight(800);
 
     labelSuffix = " harvest effort";
+
+    arc = new MyArc();
 }
 
 void MyQGLWidget::initializeGL() {
@@ -66,6 +69,8 @@ void MyQGLWidget::paintGL() {
 
         resetAllButton->draw();
     }
+
+    arc->draw();
 }
 
 void MyQGLWidget::setHovered(ChartPoint *point) {

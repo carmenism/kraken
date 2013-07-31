@@ -3,8 +3,9 @@
 
 class Color;
 
-class Shape
-{
+#include "Point.h"
+
+class Shape : public Point {
 public:
    Shape();
    virtual ~Shape();
@@ -12,9 +13,7 @@ public:
    void setId(int i) { id = i; }
    int getId() { return id; }
 
-   float getX() { return xLoc; }
-   float getY() { return yLoc; }
-   void setLocation( float x, float y ) { xLoc = x; yLoc = y; }
+   void setLocation(float x, float y);
 
    float getRotation() { return rotation; }
    void setRotation(float r) { rotation = r; }
@@ -50,7 +49,6 @@ public:
    //virtual void mouseHover();
 protected: 
    int id;                       // id of the object
-   float xLoc, yLoc;             // location of the object
    float width, height;          // size of the object
    float rotation;               // rotation
    float borderWidth;            // width of the boundary

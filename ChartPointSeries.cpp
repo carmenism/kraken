@@ -30,10 +30,10 @@ ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vec
         ChartPoint *point = new ChartPoint(chart, label, x[i], y[i]);
         points.push_back(point);
 
-        if (max == NULL || max->getValueY() < point->getValueY()) {
+        if (max == NULL || max->getY() < point->getY()) {
             max = point;
         }
-        if (min == NULL || min->getValueY() > point->getValueY()) {
+        if (min == NULL || min->getY() > point->getY()) {
             min = point;
         }
     }
@@ -63,15 +63,15 @@ void ChartPointSeries::setValues(std::vector<float> x, std::vector<float> y) {
     min = NULL;
 
     for (int i = 0; i < points.size(); i++) {
-        points[i]->setValueX(x[i]);
-        points[i]->setValueY(y[i]);
+        points[i]->setX(x[i]);
+        points[i]->setY(y[i]);
 
-        if (max == NULL || max->getValueY() < points[i]->getValueY()) { 
+        if (max == NULL || max->getY() < points[i]->getY()) { 
             //|| max->getLastValueY() < points[i]->getLastValueY()) {
             max = points[i];
         }
 
-        if (min == NULL || min->getValueY() > points[i]->getValueY()) {
+        if (min == NULL || min->getY() > points[i]->getY()) {
             //|| min->getLastValueY() > points[i]->getLastValueY()) {
             min = points[i];
         }
@@ -242,19 +242,19 @@ void ChartPointSeries::drawGhost() {
 }
 
 float ChartPointSeries::getMinimumValueX() {
-    return points[0]->getValueX();
+    return points[0]->getX();
 }
 
 float ChartPointSeries::getMaximumValueX() {
-    return points[points.size() - 1]->getValueX();
+    return points[points.size() - 1]->getX();
 }
 
 float ChartPointSeries::getMinimumValueY() {
-    return min->getValueY();//min(min->getValueY(), min->getLastValueY());
+    return min->getY();//min(min->getValueY(), min->getLastValueY());
 }
 
 float ChartPointSeries::getMaximumValueY() {
-    return max->getValueY();//max(max->getValueY(), max->getLastValueY());
+    return max->getY();//max(max->getValueY(), max->getLastValueY());
 }
 
 void ChartPointSeries::setMarkerShape(int shape) {

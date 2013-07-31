@@ -9,15 +9,15 @@ public:
     Point(float x, float y);
     virtual ~Point();
 
-    void setValues(float x, float y) { valueX = x; valueY = y; }
+    void setValues(float x, float y) { this->x = x; this->y = y; }
 
-    void setValueX(float x) { valueX = x; }
-    float getValueX() { return valueX; }
+    void setX(float x) { this->x = x; }
+    float getX() { return x; }
     
-    void setValueY(float y) { valueY = y; }
-    float getValueY() { return valueY; }
+    void setY(float y) { this->y = y; }
+    float getY() { return y; }
 protected:
-    float valueX, valueY;
+    float x, y;
 };
 
 #endif /*POINT_H_*/
