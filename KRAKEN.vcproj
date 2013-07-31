@@ -210,6 +210,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CenteredArc.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ChangeSlider.cpp"
 				>
 			</File>
@@ -318,10 +322,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CenteredArc.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\MyQGLWidget.cpp"
 				>
 			</File>
@@ -370,10 +370,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\StackedSpeciesLineCharts.cpp"
-				>
-			</File>
-			<File
 				RelativePath="TimeSeriesObservations.cpp"
 				>
 			</File>
@@ -385,6 +381,10 @@
 				RelativePath=".\UndoButton.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\VerticalArc.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -393,6 +393,10 @@
 			>
 			<File
 				RelativePath=".\Button.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CenteredArc.h"
 				>
 			</File>
 			<File
@@ -526,10 +530,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CenteredArc.h"
-				>
-			</File>
-			<File
 				RelativePath=".\MyQGLWidget.h"
 				>
 				<FileConfiguration
@@ -604,10 +604,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\StackedSpeciesLineCharts.h"
-				>
-			</File>
-			<File
 				RelativePath="TimeSeriesObservations.h"
 				>
 			</File>
@@ -616,11 +612,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
+				RelativePath="ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<File
-				RelativePath="ui_ms_prod_mainwindow.h"
+				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<File

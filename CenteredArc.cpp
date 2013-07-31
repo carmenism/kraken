@@ -1,6 +1,7 @@
 #include "CenteredArc.h"
 #include "Color.h"
 #include <QtOpenGL>
+#include <math.h>
 
 CenteredArc::CenteredArc() : Point(0, 0) {
     radius = 10;

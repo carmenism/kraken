@@ -4,7 +4,6 @@
 class Color;
 
 #include "Point.h"
-#include <math.h>
 
 class CenteredArc : public Point {
 public:
@@ -28,7 +27,7 @@ public:
 
     Color *getColor() { return color; }
     void setColor(Color *c) { color = c; }
-private:
+protected:
     float startAngle, arcAngle;
     float radius;
     float thickness;
