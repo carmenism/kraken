@@ -4,7 +4,7 @@
 #include <QtOpenGL/QGLWidget>
 #include <vector>
 
-class MyArc;
+class CenteredArc;
 class Square;
 class Circle;
 class Triangle;
@@ -48,7 +48,7 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 private:
-    MyArc *arc;
+    CenteredArc *arc;
     Button *resetAllButton;
     std::vector<SliderButton *> buttons;
 

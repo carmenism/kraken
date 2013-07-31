@@ -318,7 +318,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MyArc.cpp"
+				RelativePath=".\CenteredArc.cpp"
 				>
 			</File>
 			<File
@@ -526,7 +526,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MyArc.h"
+				RelativePath=".\CenteredArc.h"
 				>
 			</File>
 			<File

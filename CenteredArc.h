@@ -1,15 +1,16 @@
-#ifndef ARC_H
-#define ARC_H
+#ifndef CENTERED_ARC_H
+#define CENTERED_ARC_H
 
 class Color;
 
 #include "Point.h"
+#include <math.h>
 
-class MyArc : public Point {
+class CenteredArc : public Point {
 public:
-    MyArc();
-    MyArc(float radius, float centerX, float centerY, float startAngle, float arcAngle);
-    ~MyArc();
+    CenteredArc();
+    CenteredArc(float radius, float centerX, float centerY, float startAngle, float arcAngle);
+    ~CenteredArc();
 
     void draw();
 
@@ -34,4 +35,4 @@ private:
     Color *color;
 };
 
-#endif /* ARC_H */
+#endif /* CENTERED_ARC_H */

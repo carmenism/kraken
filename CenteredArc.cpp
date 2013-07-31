@@ -1,10 +1,8 @@
-#include "MyArc.h"
+#include "CenteredArc.h"
 #include "Color.h"
 #include <QtOpenGL>
 
-#include <math.h>
-
-MyArc::MyArc() : Point(0, 0) {
+CenteredArc::CenteredArc() : Point(0, 0) {
     radius = 10;
     thickness = 1;
     startAngle = 3.0 * M_PI / 2.0;
@@ -12,18 +10,18 @@ MyArc::MyArc() : Point(0, 0) {
     color = new Color(0, 0, 0, 1);
 }
 
-MyArc::~MyArc() {
+CenteredArc::~CenteredArc() {
 
 }
 
-MyArc::MyArc(float radius, float centerX, float centerY, float startAngle, float arcAngle) 
+CenteredArc::CenteredArc(float radius, float centerX, float centerY, float startAngle, float arcAngle) 
 : Point(centerX, centerY) {
     this->radius = radius;
     this->startAngle = startAngle;
     this->arcAngle = arcAngle;
 }
 
-void MyArc::draw() {
+void CenteredArc::draw() {
     glPushMatrix();
         glTranslatef(x, y, 0);
 

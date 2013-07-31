@@ -10,7 +10,7 @@
 #include "UndoButton.h"
 #include "ResetButton.h"
 #include "SliderButton.h"
-#include "MyArc.h"
+#include "CenteredArc.h"
 #include <QList>
 #include <QStringList>
 
@@ -24,7 +24,7 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
 
     labelSuffix = " harvest effort";
 
-    arc = new MyArc();
+    arc = new CenteredArc();
 }
 
 void MyQGLWidget::initializeGL() {
