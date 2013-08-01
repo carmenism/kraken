@@ -27,6 +27,9 @@ ChartPoint::ChartPoint(LineChart *chart, std::string label, float valueX, float 
             break;
     }
 
+    marker->setFillColor(new Color(0, 0, 0, 1));
+    marker->setBorderColor(new Color(0, 0, 0, 1));
+
     setSize(8);
     setBorderWidth(0.0);
     setDisplayLabel(false);

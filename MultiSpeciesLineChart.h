@@ -8,6 +8,8 @@ class QStringList;
 
 class MultiSpeciesLineChart : public LineChart {
 public:
+    MultiSpeciesLineChart();
+    ~MultiSpeciesLineChart() {}
     MultiSpeciesLineChart(QList<QList<double>> matrix, QStringList labels);
 
     void setValues(QList<QList<double>> matrix);

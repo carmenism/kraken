@@ -3,6 +3,9 @@
 #include "PrintText.h"
 #include <QtOpenGL>
 #include <iostream>
+#include <algorithm>
+#include <cmath>
+#include <GL/glut.h>
 
 LineChartAxis::LineChartAxis(LineChart *chart, int type) {
     this->chart = chart;
@@ -65,6 +68,10 @@ void LineChartAxis::draw() {
                 axisLength = chart->getWidth();
                 break;
         }
+
+        float interval = calculateIntervalSize(axisLength);       
+        setMajorTickSpacing(interval);
+        setMinorTickSpacing(interval / 5.0);
 
         if (displayMinorTicks) {
             drawTicks(axisLength, minorTickSpacing, minorTickLength);
@@ -215,3 +222,53 @@ std::string LineChartAxis::getLabel(float value) {
 
     return toStr(value);
 }   
+
+float LineChartAxis::calculateIntervalSize(float axisLength) {
+    int numIntervals = 8;
+    float range = maxValue - minValue;
+    float tempInterval;
+
+    while (numIntervals > 0) {
+        tempInterval = range / numIntervals;
+        tempInterval = roundUp(tempInterval);
+        float posA = valueToPosition(axisLength, minValue);
+        float posB = valueToPosition(axisLength, minValue + tempInterval);
+
+        if (posB - posA > 25) {
+            return tempInterval;
+        }
+
+        numIntervals--;
+    }
+
+    return range;
+}
+
+
+float LineChartAxis::round(float number) {
+    float up = roundUp(number);
+    float down = roundDown(up - number);
+
+    return up - down;
+}
+
+//http://stackoverflow.com/questions/6364908/
+float LineChartAxis::f(float num, float c) {
+    return c * pow(10, floor(log10(num / c)));
+}
+
+float LineChartAxis::roundDown(float num) { 
+    float m = max(f(num, 1), f(num, 2));
+
+    return max(m, f(num, 5));
+}
+
+float LineChartAxis::g(float num, float c) { 
+    return c * pow(10, ceil(log10(num / c)));
+}
+
+float LineChartAxis::roundUp(float num) { 
+    float m = min(g(num, 1), g(num, 2));
+    
+    return min(m, g(num, 5));
+}

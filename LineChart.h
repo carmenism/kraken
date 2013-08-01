@@ -104,7 +104,7 @@ private:
     void drawXAxis(LineChartAxis *axisX);
     void drawYAxis(LineChartAxis *axisY);
 
-    float calculateIntervalSize(float min, float max);
+  //  float calculateIntervalSize(float min, float max);
 
     void setUpAxes();
 };

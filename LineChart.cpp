@@ -69,13 +69,9 @@ void LineChart::drawAxes() {
 
 void LineChart::drawXAxis(LineChartAxis *axisX) {
     if (axisX->getDisplay()) {
-        float xInterval = calculateIntervalSize(globalMinX, globalMaxX);
-        
         axisX->setMinimumValue(globalMinX);
         axisX->setMaximumValue(globalMaxX);
-        axisX->setMajorTickSpacing(xInterval);
-        axisX->setMinorTickSpacing(xInterval / 5.0);
-
+        
         axisX->draw();
     }
 }
@@ -92,22 +88,11 @@ void LineChart::setAxesFontHeight(float h) {
 
 void LineChart::drawYAxis(LineChartAxis *axisY) {
     if (axisY->getDisplay()) {
-        float yInterval = calculateIntervalSize(globalMinY, globalMaxY);
-
         axisY->setMinimumValue(0);
         axisY->setMaximumValue(globalMaxY);
-        axisY->setMajorTickSpacing(yInterval);
-        axisY->setMinorTickSpacing(yInterval / 5);
 
         axisY->draw();
     }
-}
-
-float LineChart::calculateIntervalSize(float min, float max) {
-    float range = max - min;
-    float tempInterval = range / 6.0;
-
-    return roundUp(tempInterval);
 }
 
 void LineChart::drawToPickAtOrigin() {

@@ -94,6 +94,13 @@ private:
     void drawLabel();
     
     std::string getLabel(float value);
+
+    float round(float num);
+    float roundDown(float num);
+    float roundUp(float num);
+    float f(float num, float c);
+    float g(float num, float c);
+    float calculateIntervalSize(float axisLength);
 };
 
 #endif /* LINECHARTAXIS_H_ */

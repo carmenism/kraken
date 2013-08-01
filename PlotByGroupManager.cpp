@@ -2,12 +2,6 @@
 #include "MultiSpeciesLineChart.h"
 #include "MS_PROD_MainWindow.h"
 
-void PlotByGroupManager::draw() {
-    for (int i = 0; i < charts.size(); i++) {
-        charts[i]->draw();
-    }
-}
-
 void PlotByGroupManager::updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) {
     if (charts.empty()) {
         initializeCharts(matrix, labels, mainWindow);
@@ -61,28 +55,12 @@ void PlotByGroupManager::initializeCharts(QList<QList<double>> matrix, QStringLi
     charts[3]->setLocation(600, 440);
 }
 
-void PlotByGroupManager::captureLastValues() {
-    for (int j = 0; j < charts.size(); j++) {
-        charts[j]->captureLastValues();
-    }
-}
-
-ChartPointList PlotByGroupManager::getPoints() {
-    ChartPointList allPoints;
+std::vector<LineChart *> PlotByGroupManager::getCharts() {
+    std::vector<LineChart *> lineCharts;
 
     for (int i = 0; i < charts.size(); i++) {
-        ChartPointList *points = charts[i]->getPoints();
-
-        for (int j = 0; j < points->size(); j++) {
-            allPoints.push_back((*points)[j]);
-        }
+        lineCharts.push_back(charts[i]);
     }
 
-    return allPoints;
-}
-
-void PlotByGroupManager::drawToPick() {
-    for (int i = 0; i < charts.size(); i++) {
-        charts[i]->drawToPick();
-    }
+    return lineCharts;
 }

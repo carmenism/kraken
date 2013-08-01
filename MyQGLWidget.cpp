@@ -12,6 +12,8 @@
 #include "SliderButton.h"
 #include "VerticalArc.h"
 #include "PlotByGroupManager.h"
+#include "PlotBySpeciesManager.h"
+#include "PlotManager.h"
 #include <QList>
 #include <QStringList>
 
@@ -26,7 +28,12 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     labelSuffix = " harvest effort";
 
     arc = new VerticalArc(100, 100, 0);
+    
     managerGroup = new PlotByGroupManager();
+    managerSpecies = new PlotBySpeciesManager();
+
+    plotManagers.push_back(managerGroup);
+    plotManagers.push_back(managerSpecies);
 }
 
 void MyQGLWidget::initializeGL() {
@@ -56,14 +63,16 @@ void MyQGLWidget::resizeGL(int w, int h) {
 void MyQGLWidget::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    managerGroup->draw();
+    for (unsigned int i = 0; i < plotManagers.size(); i++) {
+        plotManagers[i]->draw();
+    }
 
     if (!managerGroup->empty()) {
-        for (int i = 0; i < sliders.size(); i++) {
+        for (unsigned int i = 0; i < sliders.size(); i++) {
             sliders[i]->draw();
         }
 
-        for (int i = 0; i < buttons.size(); i++) {
+        for (unsigned int i = 0; i < buttons.size(); i++) {
             buttons[i]->draw();
         }
 
@@ -97,7 +106,7 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
         bool buttonReleased = mouseReleaseButtons(x, y);
 
         if (!buttonReleased) {
-            for (int i = 0; i < sliders.size(); i++) {
+            for (unsigned int i = 0; i < sliders.size(); i++) {
                 if (sliders[i]->mouseReleased()) {
                     break;
                 }
@@ -110,7 +119,7 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
 
 bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
     if (resetAllButton->mouseReleased(x, y)) {
-        for (int i = 0; i < sliders.size(); i++) {
+        for (unsigned int i = 0; i < sliders.size(); i++) {
             sliders[i]->reset();
             float value = sliders[i]->getValue();
             std::string title = sliders[i]->getTitle();
@@ -120,7 +129,7 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
 
         mainWindow->runModel();
 
-        for (int i = 0; i < sliders.size(); i++) {
+        for (unsigned int i = 0; i < sliders.size(); i++) {
             sliders[i]->clearDisplay();
         }
 
@@ -131,7 +140,7 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
 
     SliderButton *button = NULL;
 
-    for (int i = 0; i < buttons.size(); i++) {
+    for (unsigned int i = 0; i < buttons.size(); i++) {
         bool buttonPress = buttons[i]->mouseReleased(x, y);
 
         if (buttonPress) {
@@ -147,7 +156,7 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
         mainWindow->getParameters()->setEffortForGuild(guild, value);
         mainWindow->runModel();
 
-        for (int i = 0; i < sliders.size(); i++) {
+        for (unsigned int i = 0; i < sliders.size(); i++) {
             sliders[i]->clearDisplay();
         }
 
@@ -185,7 +194,7 @@ bool MyQGLWidget::mousePressButtons(float x, float y) {
     
     bool buttonPress = false; 
 
-    for (int i = 0; i < buttons.size(); i++) {
+    for (unsigned int i = 0; i < buttons.size(); i++) {
         buttonPress = buttons[i]->mousePressed(x, y);
 
         if (buttonPress) {
@@ -200,10 +209,11 @@ bool MyQGLWidget::mousePressSliders(float x, float y) {
     bool sliderPressed = false;
     ChangeSlider *pressed = NULL;
     
-    for (int i = 0; i < sliders.size(); i++) {
+    for (unsigned int i = 0; i < sliders.size(); i++) {
         sliderPressed = sliders[i]->mousePressed(x, y);
         if (sliderPressed) {                
             managerGroup->captureLastValues();
+            managerSpecies->captureLastValues();
 
             pressed = sliders[i];
             break;
@@ -211,7 +221,7 @@ bool MyQGLWidget::mousePressSliders(float x, float y) {
     }
 
     if (sliderPressed) {
-        for (int i = 0; i < sliders.size(); i++) {
+        for (unsigned int i = 0; i < sliders.size(); i++) {
             if (sliders[i] != pressed) {
                 sliders[i]->clearDisplay();
             }
@@ -250,7 +260,7 @@ bool MyQGLWidget::mouseMoveButtons(float x, float y) {
 
     Button *moved = NULL;
 
-    for (int i = 0; i < buttons.size(); i++) {
+    for (unsigned int i = 0; i < buttons.size(); i++) {
         bool buttonMoved = buttons[i]->mouseMoved(x, y);
 
         if (buttonMoved) {
@@ -268,7 +278,7 @@ bool MyQGLWidget::mouseMoveButtons(float x, float y) {
 bool MyQGLWidget::mouseMoveSliders(float x, float y) {
     bool sliderMoved = false;
 
-    for (int i = 0; i < sliders.size(); i++) {
+    for (unsigned int i = 0; i < sliders.size(); i++) {
         if (sliders[i]->mouseMoved(x, y)) {
             sliderMoved = true;
 
@@ -304,6 +314,7 @@ void MyQGLWidget::mouseMoveChartPoints(int x, int y) {
 
         glDisable(GL_BLEND);
         managerGroup->drawToPick();
+        managerSpecies->drawToPick();
         glEnable(GL_BLEND);
 
         glFlush();
@@ -334,12 +345,13 @@ void MyQGLWidget::keyPressEvent(QKeyEvent* event) {
 
 void MyQGLWidget::updateCharts(QList<QList<double>> matrix, QStringList labels) {
     managerGroup->updateCharts(matrix, labels, mainWindow);
-    
+    managerSpecies->updateCharts(matrix, labels);
+
     updateGL();
 }
 
 void MyQGLWidget::initializeSliders() {
-    for (int i = 0; i < sliders.size(); i++) {
+    for (unsigned int i = 0; i < sliders.size(); i++) {
         delete sliders[i];
     }
     

@@ -16,7 +16,9 @@ class Button;
 class UndoButton;
 class ResetButton;
 class SliderButton;
+class PlotManager;
 class PlotByGroupManager;
+class PlotBySpeciesManager;
 class MS_PROD_MainWindow;
 
 
@@ -53,7 +55,11 @@ private:
     std::vector<SliderButton *> buttons;
 
     MS_PROD_MainWindow *mainWindow;
+    
     PlotByGroupManager *managerGroup;
+    PlotBySpeciesManager *managerSpecies;
+
+    std::vector<PlotManager *> plotManagers;
 
     std::vector<ChangeSlider *> sliders;
     ChartPoint *hovered;

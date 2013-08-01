@@ -33,12 +33,6 @@ class Chart {
         float fontHeight;
         float width, height;
 
-        float round(float num);
-        float roundDown(float num);
-        float roundUp(float num);
     private:  
         float xPos, yPos;
-
-        float f(float num, float c);
-        float g(float num, float c);
 };
