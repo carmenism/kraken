@@ -37,6 +37,7 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double>> matrix, QString
         }
 
         SingleSpeciesLineChart *chart = new SingleSpeciesLineChart(x, y, labels.at(i).toStdString());
+        chart->setTitle(labels.at(i).toStdString());
         chart->setLocation(300, i * 85);
         chart->setAxesFontHeight(9);
         chart->setLegendFontHeight(12);

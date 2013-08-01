@@ -305,7 +305,11 @@ void MyQGLWidget::mouseMoveChartPoints(int x, int y) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(color[0], color[1], color[2], color[3]);
 
-        ChartPointList allPoints = managerGroup->getPoints();
+        ChartPointList allPoints;
+        for (unsigned int i = 0; i < plotManagers.size(); i++) {
+            ChartPointList p = plotManagers[i]->getPoints();
+            allPoints.insert(allPoints.end(), p.begin(), p.end());
+        }
 
         for (unsigned int i = 0; i < allPoints.size(); i++) {
             allPoints[i]->setPickColor(i & 0xFF, (i >> 8) & 0xFF, 0);
