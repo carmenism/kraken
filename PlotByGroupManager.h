@@ -3,8 +3,6 @@
 
 #include <QtOpenGL/QGLWidget>
 #include <vector>
-#include <QList>
-#include <QStringList>
 #include "PlotManager.h"
 
 class MS_PROD_MainWindow;

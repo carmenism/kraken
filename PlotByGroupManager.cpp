@@ -1,6 +1,8 @@
 #include "PlotByGroupManager.h"
 #include "MultiSpeciesLineChart.h"
 #include "MS_PROD_MainWindow.h"
+#include <QList>
+#include <QStringList>
 
 void PlotByGroupManager::updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) {
     if (charts.empty()) {

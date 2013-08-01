@@ -2,8 +2,12 @@
 #define _PLOTMANAGER_H
 
 #include "LineChart.h"
-#include <vector>
 #include "ChartPoint.h"
+#include <vector>
+#include <QList>
+
+class MS_PROD_MainWindow;
+class QStringList;
 
 class PlotManager {
     public:
@@ -22,6 +26,7 @@ class PlotManager {
         bool empty() { return getCharts().empty(); }
 
         virtual std::vector<LineChart *> getCharts() = 0;
+        virtual void updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) = 0;
     protected:
 
     private: 

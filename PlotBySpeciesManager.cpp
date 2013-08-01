@@ -1,17 +1,14 @@
 #include "PlotBySpeciesManager.h"
 #include "SingleSpeciesLineChart.h"
+#include "MS_PROD_MainWindow.h"
+#include <QList>
+#include <QStringList>
 
 PlotBySpeciesManager::PlotBySpeciesManager() : charts() {
 
 }
 
-void PlotBySpeciesManager::draw() {
-    for (int i = 0; i < charts.size(); i++) {
-        charts[i]->draw();
-    }
-}
-
-void PlotBySpeciesManager::updateCharts(QList<QList<double>> matrix, QStringList labels) {
+void PlotBySpeciesManager::updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) {
     if (charts.empty()) {
         initializeCharts(matrix, labels);
     } else {
@@ -44,32 +41,6 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double>> matrix, QString
         chart->setAxesFontHeight(9);
         chart->setLegendFontHeight(12);
         charts.push_back(chart);
-    }
-}
-
-void PlotBySpeciesManager::captureLastValues() {
-    for (int j = 0; j < charts.size(); j++) {
-        charts[j]->captureLastValues();
-    }
-}
-
-ChartPointList PlotBySpeciesManager::getPoints() {
-    ChartPointList allPoints;
-
-    for (int i = 0; i < charts.size(); i++) {
-        ChartPointList *points = charts[i]->getPoints();
-
-        for (int j = 0; j < points->size(); j++) {
-            allPoints.push_back((*points)[j]);
-        }
-    }
-
-    return allPoints;
-}
-
-void PlotBySpeciesManager::drawToPick() {
-    for (int i = 0; i < charts.size(); i++) {
-        charts[i]->drawToPick();
     }
 }
 

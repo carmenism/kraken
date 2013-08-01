@@ -20,12 +20,11 @@ public:
 
     bool empty() { return charts.empty(); }
 
-    void updateCharts(QList<QList<double>> matrix, QStringList labels);
-
     void captureLastValues();
     ChartPointList getPoints();
     
     std::vector<LineChart *> getCharts();
+    void updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);
 protected:
 
 private:

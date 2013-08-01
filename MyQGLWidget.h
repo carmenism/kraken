@@ -76,6 +76,8 @@ private:
     bool mouseMoveButtons(float x, float y);
     bool mouseMoveSliders(float x, float y);
     void mouseMoveChartPoints(int x, int y);
+
+    void captureLastValues();
 };
 
 #endif  /* _MYQGLWIDGET_H */

@@ -133,7 +133,7 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
             sliders[i]->clearDisplay();
         }
 
-        managerGroup->captureLastValues();
+        captureLastValues();
 
         return true;
     }
@@ -160,7 +160,7 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
             sliders[i]->clearDisplay();
         }
 
-        managerGroup->captureLastValues();
+        captureLastValues();
 
         return true;
     }
@@ -212,8 +212,7 @@ bool MyQGLWidget::mousePressSliders(float x, float y) {
     for (unsigned int i = 0; i < sliders.size(); i++) {
         sliderPressed = sliders[i]->mousePressed(x, y);
         if (sliderPressed) {                
-            managerGroup->captureLastValues();
-            managerSpecies->captureLastValues();
+            captureLastValues();
 
             pressed = sliders[i];
             break;
@@ -313,8 +312,9 @@ void MyQGLWidget::mouseMoveChartPoints(int x, int y) {
         }
 
         glDisable(GL_BLEND);
-        managerGroup->drawToPick();
-        managerSpecies->drawToPick();
+        for (unsigned int i = 0; i < plotManagers.size(); i++) {
+            plotManagers[i]->drawToPick();
+        }
         glEnable(GL_BLEND);
 
         glFlush();
@@ -344,10 +344,18 @@ void MyQGLWidget::keyPressEvent(QKeyEvent* event) {
 }
 
 void MyQGLWidget::updateCharts(QList<QList<double>> matrix, QStringList labels) {
-    managerGroup->updateCharts(matrix, labels, mainWindow);
-    managerSpecies->updateCharts(matrix, labels);
+    for (unsigned int i = 0; i < plotManagers.size(); i++) {
+        plotManagers[i]->updateCharts(matrix, labels, mainWindow);
+    }
 
     updateGL();
+}
+
+
+void MyQGLWidget::captureLastValues() {
+    for (unsigned int i = 0; i < plotManagers.size(); i++) {
+        plotManagers[i]->captureLastValues();
+    }
 }
 
 void MyQGLWidget::initializeSliders() {
