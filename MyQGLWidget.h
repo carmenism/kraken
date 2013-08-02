@@ -4,7 +4,6 @@
 #include <QtOpenGL/QGLWidget>
 #include <vector>
 
-class VerticalArc;
 class Square;
 class Circle;
 class Triangle;
@@ -20,7 +19,6 @@ class PlotManager;
 class PlotByGroupManager;
 class PlotBySpeciesManager;
 class MS_PROD_MainWindow;
-
 
 typedef std::vector<MultiSpeciesLineChart *> MSLineChartList;
 typedef std::vector<MultiSpeciesLineChart *>::const_iterator MSLineChartIterator;
@@ -50,7 +48,6 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 private:
-    VerticalArc *arc;
     Button *resetAllButton;
     Button *displayGroupButton, *displaySpeciesButton;
     std::vector<SliderButton *> buttons;

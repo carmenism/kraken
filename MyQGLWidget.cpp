@@ -10,7 +10,6 @@
 #include "UndoButton.h"
 #include "ResetButton.h"
 #include "SliderButton.h"
-#include "VerticalArc.h"
 #include "PlotByGroupManager.h"
 #include "PlotBySpeciesManager.h"
 #include "PlotManager.h"
@@ -26,8 +25,6 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     setFixedHeight(800);
 
     labelSuffix = " harvest effort";
-
-    arc = new VerticalArc(100, 100, 0);
     
     managerGroup = new PlotByGroupManager();
     managerGroup->displayOff();
@@ -83,8 +80,6 @@ void MyQGLWidget::paintGL() {
         displayGroupButton->draw();
         displaySpeciesButton->draw();
     }
-
-    arc->draw();
 }
 
 void MyQGLWidget::setHovered(ChartPoint *point) {
