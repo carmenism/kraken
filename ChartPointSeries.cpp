@@ -295,6 +295,10 @@ void ChartPointSeries::setColor(Color *c) {
     setMarkerFillColor(c);
 }
 
+Color *ChartPointSeries::getColor() {
+    return lineColor;
+}
+
 void ChartPointSeries::captureLastValues() {
     FOREACH_POINT(it, points) {
         (*it)->captureLastValues();

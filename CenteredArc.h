@@ -35,6 +35,8 @@ protected:
     float thickness;
     Color *color;
 private:
+    float startAlpha;
+    float finalAlpha;
     GLUquadricObj *quadratic;
     void drawAsLineStrips();
     void drawAsPolygons();

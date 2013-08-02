@@ -64,6 +64,7 @@ public:
     void setLineWidth(float w) { lineWidth = w; }
 
     void setColor(Color *c);
+    Color *getColor();
 
     ChartPointList *getPoints() { return &points; }
 

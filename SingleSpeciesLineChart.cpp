@@ -47,3 +47,7 @@ void SingleSpeciesLineChart::drawAtOrigin() {
         PrintText::drawStrokeText(sideLabel, -10, actualHeight / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER);
     glPopMatrix();
 }
+
+Color *SingleSpeciesLineChart::getColor() {
+    return seriesList[0]->getColor();
+}

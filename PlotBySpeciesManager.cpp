@@ -72,6 +72,7 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double>> matrix, QString
 
             if (compCoeff != 0) {
                 InteractionArc *arc = new InteractionArc(compCoeff, charts[i], charts[j]);
+                arc->setColor(charts[i]->getColor());
 
                 if (j < i) {
                     arc->setArcToLeft();
@@ -94,9 +95,9 @@ std::vector<LineChart *> PlotBySpeciesManager::getCharts() {
 }
 
 void PlotBySpeciesManager::draw() {
-    PlotManager::draw();
-
     for (int i = 0; i < arcs.size(); i++) {
         arcs[i]->draw();
     }
+
+    PlotManager::draw();
 }
