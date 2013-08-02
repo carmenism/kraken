@@ -8,7 +8,7 @@ CenteredArc::CenteredArc() : Point(0, 0) {
     thickness = 1;
     startAngle = 3.0 * M_PI / 2.0;
     arcAngle = M_PI;
-    color = new Color(0, 0, 0, 1);
+    color = new Color(0, 0, 0, 0.25);
 }
 
 CenteredArc::~CenteredArc() {
@@ -26,7 +26,7 @@ void CenteredArc::draw() {
     glPushMatrix();
         glTranslatef(x, y, 0);
 
-        float num_segments = 72.0;
+        float num_segments = 360.0;
 
 	    float theta = arcAngle / num_segments; 
 	    float tangetial_factor = tanf(theta);//calculate the tangential factor 
@@ -63,5 +63,7 @@ void CenteredArc::draw() {
 		        yy *= radial_factor; 
 	        }
         glEnd();
+
+        glLineWidth(1);
     glPopMatrix();
 }

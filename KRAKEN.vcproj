@@ -278,6 +278,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\InteractionArc.cpp"
+				>
+			</File>
+			<File
 				RelativePath="InteractionMatrix.cpp"
 				>
 			</File>
@@ -477,6 +481,10 @@
 			</File>
 			<File
 				RelativePath="HarvestModuleExploitRate.h"
+				>
+			</File>
+			<File
+				RelativePath=".\InteractionArc.h"
 				>
 			</File>
 			<File

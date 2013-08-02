@@ -9,16 +9,14 @@
 #include "ChartPointSeries.h"
 
 class SingleSpeciesLineChart;
+class InteractionArc;
 
 class PlotBySpeciesManager : public PlotManager {
 public:
     PlotBySpeciesManager(); //: PlotManager() {}
     ~PlotBySpeciesManager() {}
 
-    void draw();
-    void drawToPick();
-
-    bool empty() { return charts.empty(); }
+    virtual void draw();
 
     void captureLastValues();
     ChartPointList getPoints();
@@ -28,6 +26,7 @@ public:
 protected:
 
 private:
+    std::vector<InteractionArc *> arcs;
     std::vector<SingleSpeciesLineChart *> charts;
 
     void initializeCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);

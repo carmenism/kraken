@@ -43,6 +43,7 @@ void SingleSpeciesLineChart::drawAtOrigin() {
     glPushMatrix();
         glTranslatef(0, offsetY, 0);
         
+        glColor4f(0, 0, 0, 1);
         PrintText::drawStrokeText(sideLabel, -10, actualHeight / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER);
     glPopMatrix();
 }

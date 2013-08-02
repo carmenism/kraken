@@ -18,7 +18,7 @@ class PlotManager {
         void displayOn() { display = true; }
         void displayOff() { display = false; }
 
-        void draw();
+        virtual void draw();
         void drawToPick();
         void captureLastValues();
         ChartPointList getPoints();

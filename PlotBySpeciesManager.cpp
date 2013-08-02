@@ -1,6 +1,7 @@
 #include "PlotBySpeciesManager.h"
 #include "SingleSpeciesLineChart.h"
 #include "MS_PROD_MainWindow.h"
+#include "InteractionArc.h"
 #include <QList>
 #include <QStringList>
 
@@ -62,6 +63,25 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double>> matrix, QString
 
         displayXAxis = false;
     }
+
+    QList<QList<double>> comp = mainWindow->getParameters()->getWithinGuildCompMatrix();
+    
+    for (int i = 0; i < comp.size(); i++) {
+        for (int j = 0; j < comp.at(i).size(); j++) {
+            double compCoeff = comp.at(i).at(j);
+
+            if (compCoeff != 0) {
+                InteractionArc *arc = new InteractionArc(compCoeff, charts[i], charts[j]);
+
+                if (j < i) {
+                    arc->setArcToLeft();
+                }
+
+                arcs.push_back(arc);
+                std::cout << "adding arc: " << compCoeff << "\n";
+            }
+        }        
+    }
 }
 
 std::vector<LineChart *> PlotBySpeciesManager::getCharts() {
@@ -72,4 +92,13 @@ std::vector<LineChart *> PlotBySpeciesManager::getCharts() {
     }
 
     return lineCharts;
+}
+
+void PlotBySpeciesManager::draw() {
+    PlotManager::draw();
+
+    for (int i = 0; i < arcs.size(); i++) {
+        arcs[i]->draw();
+        std::cout << "drawing arc: " << arcs[i]->getCoefficient() << "\n";
+    }
 }

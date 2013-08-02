@@ -68,8 +68,8 @@ void LineChart::drawAtOrigin() {
         if (axes[AXIS_TOP]->getDisplay()) {
             titlePos = titlePos + axes[AXIS_TOP]->getSize();
         }
-        glColor4f(0, 0, 0, 1);
         if (displayTitle) {
+            glColor4f(0, 0, 0, 1);
             PrintText::drawStrokeText(title, actualWidth / 2, titlePos, fontHeight, HORIZ_CENTER);
         }
         drawLabels();
