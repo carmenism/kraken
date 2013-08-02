@@ -78,7 +78,6 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double>> matrix, QString
                 }
 
                 arcs.push_back(arc);
-                std::cout << "adding arc: " << compCoeff << "\n";
             }
         }        
     }
@@ -99,6 +98,5 @@ void PlotBySpeciesManager::draw() {
 
     for (int i = 0; i < arcs.size(); i++) {
         arcs[i]->draw();
-        std::cout << "drawing arc: " << arcs[i]->getCoefficient() << "\n";
     }
 }

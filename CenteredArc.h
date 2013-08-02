@@ -32,6 +32,9 @@ protected:
     float radius;
     float thickness;
     Color *color;
+private:
+    void drawAsLineStrips();
+    void drawAsPolygons();
 };
 
 #endif /* CENTERED_ARC_H */
