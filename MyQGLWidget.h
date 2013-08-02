@@ -52,6 +52,7 @@ protected:
 private:
     VerticalArc *arc;
     Button *resetAllButton;
+    Button *displayGroupButton, *displaySpeciesButton;
     std::vector<SliderButton *> buttons;
 
     MS_PROD_MainWindow *mainWindow;

@@ -7,6 +7,7 @@ Chart::Chart() {
     yPos = 0;
     fontHeight = 14;
     title = "";
+    displayTitle = true;
 }
 
 void Chart::draw() {

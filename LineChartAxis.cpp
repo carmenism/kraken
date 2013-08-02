@@ -49,23 +49,23 @@ void LineChartAxis::draw() {
 
         switch (axisType) {
             case AXIS_TOP:
-                axisLength = chart->getWidth();
-                glTranslatef(0, chart->getHeight(), 0);
+                axisLength = chart->getActualWidth();
+                glTranslatef(0, chart->getActualHeight(), 0);
                 glScalef(1.0, -1.0, 1.0);
                 break;
             case AXIS_LEFT:            
-                axisLength = chart->getHeight();
+                axisLength = chart->getActualHeight();
                 glRotatef(90, 0, 0, 1);
                 glScalef(1.0, -1.0, 1.0);
                 break;
             case AXIS_RIGHT:
-                axisLength = chart->getHeight();
-                glTranslatef(chart->getWidth(), 0, 0);
+                axisLength = chart->getActualHeight();
+                glTranslatef(chart->getActualWidth(), 0, 0);
                 glRotatef(90, 0, 0, 1);
                 break;
             case AXIS_BOTTOM:
             default:
-                axisLength = chart->getWidth();
+                axisLength = chart->getActualWidth();
                 break;
         }
 
@@ -98,39 +98,39 @@ void LineChartAxis::drawLabel() {
 
     switch (axisType) {
         case AXIS_TOP:
-            x = chart->getWidth() / 2;
+            x = chart->getActualWidth() / 2;
             if (displayTickLabels) {
-                y = chart->getHeight() + 2 * OFFSET + fontHeight;
+                y = chart->getActualHeight() + 2 * fontHeight / 3 + fontHeight;
             } else {
-                y = chart->getHeight() + OFFSET;
+                y = chart->getActualHeight() + fontHeight / 3;
             }
             PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM);
             break;
         case AXIS_LEFT:            
             if (displayTickLabels) {
-                x = -2 * OFFSET - fontHeight;
+                x = -2 * fontHeight / 3 - fontHeight;
             } else {
-                x = -OFFSET;
+                x = -fontHeight / 3;
             }
-            y = chart->getHeight() / 2;
+            y = chart->getActualHeight() / 2;
             PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, 90);
             break;
         case AXIS_RIGHT:
             if (displayTickLabels) {
-                x = chart->getWidth() + 2 * OFFSET + fontHeight;
+                x = chart->getActualWidth() + 2 * fontHeight / 3 + fontHeight;
             } else {
-                x = chart->getWidth() + OFFSET;
+                x = chart->getActualWidth() + fontHeight / 3;
             }
-            y = chart->getHeight() / 2;
+            y = chart->getActualHeight() / 2;
             PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, -90);
             break;
         case AXIS_BOTTOM:
         default:
-            x = chart->getWidth() / 2;
+            x = chart->getActualWidth() / 2;
             if (displayTickLabels) {
-                y = - 2 * OFFSET - fontHeight;
+                y = - 2 * fontHeight / 3 - fontHeight;
             } else {
-                y = - OFFSET;
+                y = - fontHeight / 3;
             }
             PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_TOP);
             break;
@@ -147,24 +147,24 @@ void LineChartAxis::drawTickLabels() {
         std::string label = getLabel(value);
         switch (axisType) {
             case AXIS_TOP:
-                x = valueToPosition(chart->getWidth(), value);
-                y = chart->getHeight() + OFFSET;
+                x = valueToPosition(chart->getActualWidth(), value);
+                y = chart->getActualHeight() + fontHeight / 3;
                 PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM);
                 break;
             case AXIS_LEFT:            
-                x = -OFFSET;
-                y = valueToPosition(chart->getHeight(), value);
+                x = -fontHeight / 3;
+                y = valueToPosition(chart->getActualHeight(), value);
                 PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, 90);
                 break;
             case AXIS_RIGHT:
-                x = chart->getWidth() + OFFSET;
-                y = valueToPosition(chart->getHeight(), value);
+                x = chart->getActualWidth() + fontHeight / 3;
+                y = valueToPosition(chart->getActualHeight(), value);
                 PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, -90);
                 break;
             case AXIS_BOTTOM:
             default:
-                x = valueToPosition(chart->getWidth(), value);
-                y = -OFFSET;
+                x = valueToPosition(chart->getActualWidth(), value);
+                y = -fontHeight / 3;
                 PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_TOP);
                 break;
         } 
@@ -224,17 +224,34 @@ std::string LineChartAxis::getLabel(float value) {
 }   
 
 float LineChartAxis::calculateIntervalSize(float axisLength) {
-    int numIntervals = 8;
+    int numIntervals = 6;
     float range = maxValue - minValue;
     float tempInterval;
 
+    float threshold;
+    /*if (axisLength > 500) {
+        threshold = 100;
+    } else */if (axisLength > 250) {
+        threshold = 50;
+    } else {
+        threshold = 20;
+    }
+
     while (numIntervals > 0) {
         tempInterval = range / numIntervals;
-        tempInterval = roundUp(tempInterval);
+        float down = roundDown(tempInterval);
+        
+        if (tempInterval - down > tempInterval / 3) {
+            float up = roundDown(tempInterval - down);
+            tempInterval = down + up;
+        } else {
+            tempInterval = down;
+        }
+
         float posA = valueToPosition(axisLength, minValue);
         float posB = valueToPosition(axisLength, minValue + tempInterval);
 
-        if (posB - posA > 25) {
+        if (posB - posA > threshold) {
             return tempInterval;
         }
 
@@ -271,4 +288,16 @@ float LineChartAxis::roundUp(float num) {
     float m = min(g(num, 1), g(num, 2));
     
     return min(m, g(num, 5));
+}
+
+float LineChartAxis::getSize() {
+    if (!display) {
+        return 0;
+    }
+
+    if (displayTickLabels && displayLabel) {
+        return 3 * fontHeight;
+    }
+
+    return fontHeight + 2 * fontHeight / 3;
 }

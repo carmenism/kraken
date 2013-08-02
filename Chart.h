@@ -9,6 +9,11 @@ class Chart {
         virtual void drawAtOrigin() = 0;
         virtual void drawToPickAtOrigin() = 0;
      
+        bool getDisplayTitle() { return displayTitle; }
+        void setDisplayTitle(bool d) { displayTitle = d; }
+        void displayTitleOn() { displayTitle = true; }
+        void displayTitleOff() { displayTitle = false; }
+
         float getXLocation() { return xPos; }
         void setXLocation(float x) { xPos = x; }
      
@@ -32,6 +37,7 @@ class Chart {
         std::string title;
         float fontHeight;
         float width, height;
+        bool displayTitle;
 
     private:  
         float xPos, yPos;

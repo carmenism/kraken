@@ -39,7 +39,21 @@ void LineChart::setUpAxes() {
 }
 
 void LineChart::drawAtOrigin() {
+    actualWidth = width;
+    actualHeight = height;
+
+    actualWidth = actualWidth - axes[AXIS_RIGHT]->getSize();
+    actualWidth = actualWidth - axes[AXIS_LEFT]->getSize();
+    actualHeight = actualHeight - axes[AXIS_TOP]->getSize();
+    actualHeight = actualHeight - axes[AXIS_BOTTOM]->getSize();
+
+    if (displayTitle) {
+        actualHeight = actualHeight - fontHeight - fontHeight / 3;
+    }
+
     glPushMatrix();
+        offsetX = axes[AXIS_LEFT]->getSize();
+        offsetY = axes[AXIS_BOTTOM]->getSize();
         glTranslatef(offsetX, offsetY, 0);
         calculateGlobalBounds();
         drawBoundary(); 
@@ -50,8 +64,12 @@ void LineChart::drawAtOrigin() {
             legend->draw(width + 5, height / 2, 15, 5);
         }
 
+        float titlePos = actualHeight + fontHeight / 3;
+        if (axes[AXIS_TOP]->getDisplay()) {
+            titlePos = titlePos + axes[AXIS_TOP]->getSize();
+        }
         glColor4f(0, 0, 0, 1);
-        PrintText::drawStrokeText(title, width / 2, height + 5, fontHeight, HORIZ_CENTER);
+        PrintText::drawStrokeText(title, actualWidth / 2, titlePos, fontHeight, HORIZ_CENTER);
         
         drawLabels();
     glPopMatrix();
@@ -148,9 +166,9 @@ void LineChart::drawBoundary() {
 
     glBegin(GL_LINE_LOOP);
         glVertex2f( 0, 0 );
-        glVertex2f( 0, height );
-        glVertex2f( width, height );
-        glVertex2f( width, 0 );
+        glVertex2f( 0, actualHeight );
+        glVertex2f( actualWidth, actualHeight );
+        glVertex2f( actualWidth, 0 );
     glEnd();
 }
 

@@ -17,6 +17,8 @@ public:
 
     void draw();
 
+    float getSize();// { return 3 * fontHeight; }
+
     float getMinorTickSpacing() { return minorTickSpacing; }
     void setMinorTickSpacing(float m) { minorTickSpacing = m; }
 

@@ -83,10 +83,15 @@ public:
 
     float getOffsetX() { return offsetX; }
     float getOffsetY() { return offsetY; }
+
+    float getActualWidth() { return actualWidth; }
+    float getActualHeight() { return actualHeight; }
 protected:
     ChartPointSeriesList seriesList;
     LineChartAxisList axes;
 private:
+    float actualWidth, actualHeight;
+
     LineChartLegend *legend;
 
     bool displayLegend;
@@ -103,8 +108,6 @@ private:
     void drawAxes();
     void drawXAxis(LineChartAxis *axisX);
     void drawYAxis(LineChartAxis *axisY);
-
-  //  float calculateIntervalSize(float min, float max);
 
     void setUpAxes();
 };

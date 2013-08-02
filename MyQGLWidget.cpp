@@ -30,6 +30,7 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     arc = new VerticalArc(100, 100, 0);
     
     managerGroup = new PlotByGroupManager();
+    managerGroup->displayOff();
     managerSpecies = new PlotBySpeciesManager();
 
     plotManagers.push_back(managerGroup);
@@ -64,7 +65,9 @@ void MyQGLWidget::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     for (unsigned int i = 0; i < plotManagers.size(); i++) {
-        plotManagers[i]->draw();
+        if (plotManagers[i]->getDisplay()) {
+            plotManagers[i]->draw();
+        }
     }
 
     if (!managerGroup->empty()) {
@@ -77,6 +80,8 @@ void MyQGLWidget::paintGL() {
         }
 
         resetAllButton->draw();
+        displayGroupButton->draw();
+        displaySpeciesButton->draw();
     }
 
     arc->draw();
@@ -307,8 +312,10 @@ void MyQGLWidget::mouseMoveChartPoints(int x, int y) {
 
         ChartPointList allPoints;
         for (unsigned int i = 0; i < plotManagers.size(); i++) {
-            ChartPointList p = plotManagers[i]->getPoints();
-            allPoints.insert(allPoints.end(), p.begin(), p.end());
+            if (plotManagers[i]->getDisplay()) {
+                ChartPointList p = plotManagers[i]->getPoints();
+                allPoints.insert(allPoints.end(), p.begin(), p.end());
+            }
         }
 
         for (unsigned int i = 0; i < allPoints.size(); i++) {
@@ -317,7 +324,9 @@ void MyQGLWidget::mouseMoveChartPoints(int x, int y) {
 
         glDisable(GL_BLEND);
         for (unsigned int i = 0; i < plotManagers.size(); i++) {
-            plotManagers[i]->drawToPick();
+            if (plotManagers[i]->getDisplay()) {
+                plotManagers[i]->drawToPick();
+            }
         }
         glEnable(GL_BLEND);
 
@@ -411,4 +420,13 @@ void MyQGLWidget::initializeSliders() {
     resetAllButton->setHeight(20);
     resetAllButton->setWidth(100);
     resetAllButton->setLocation(475, 750);
+
+    displayGroupButton = new Button("Display by Group");
+    displayGroupButton->setHeight(20);
+    displayGroupButton->setWidth(120);
+    displayGroupButton->setLocation(25, 775);
+    displaySpeciesButton = new Button("Display by Species");
+    displaySpeciesButton->setHeight(20);
+    displaySpeciesButton->setWidth(120);
+    displaySpeciesButton->setLocation(190, 775);
 }
