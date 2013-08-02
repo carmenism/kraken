@@ -4,6 +4,8 @@
 class Color;
 
 #include "Point.h"
+#include <QtOpenGL>
+#include <GL/glut.h>
 
 class CenteredArc : public Point {
 public:
@@ -33,6 +35,7 @@ protected:
     float thickness;
     Color *color;
 private:
+    GLUquadricObj *quadratic;
     void drawAsLineStrips();
     void drawAsPolygons();
 };
