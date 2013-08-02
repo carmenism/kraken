@@ -89,14 +89,12 @@ public:
 protected:
     ChartPointSeriesList seriesList;
     LineChartAxisList axes;
-private:
+    float offsetX, offsetY;
     float actualWidth, actualHeight;
-
+private:
     LineChartLegend *legend;
 
-    bool displayLegend;
-    
-    float offsetX, offsetY;
+    bool displayLegend;    
 
     float globalMinX, globalMaxX;
     float globalMinY, globalMaxY;

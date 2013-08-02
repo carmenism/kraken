@@ -30,7 +30,7 @@ protected:
 private:
     std::vector<SingleSpeciesLineChart *> charts;
 
-    void initializeCharts(QList<QList<double>> matrix, QStringList labels);
+    void initializeCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);
 };
 
 #endif  /* _PLOTBYSPECIESMANAGER_H */

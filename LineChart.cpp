@@ -69,8 +69,9 @@ void LineChart::drawAtOrigin() {
             titlePos = titlePos + axes[AXIS_TOP]->getSize();
         }
         glColor4f(0, 0, 0, 1);
-        PrintText::drawStrokeText(title, actualWidth / 2, titlePos, fontHeight, HORIZ_CENTER);
-        
+        if (displayTitle) {
+            PrintText::drawStrokeText(title, actualWidth / 2, titlePos, fontHeight, HORIZ_CENTER);
+        }
         drawLabels();
     glPopMatrix();
 }

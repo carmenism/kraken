@@ -229,12 +229,10 @@ float LineChartAxis::calculateIntervalSize(float axisLength) {
     float tempInterval;
 
     float threshold;
-    /*if (axisLength > 500) {
-        threshold = 100;
-    } else */if (axisLength > 250) {
-        threshold = 50;
+    if (axisLength > 250) {
+        threshold = 10;
     } else {
-        threshold = 20;
+        threshold = 5;
     }
 
     while (numIntervals > 0) {
@@ -249,7 +247,7 @@ float LineChartAxis::calculateIntervalSize(float axisLength) {
         }
 
         float posA = valueToPosition(axisLength, minValue);
-        float posB = valueToPosition(axisLength, minValue + tempInterval);
+        float posB = valueToPosition(axisLength, minValue + tempInterval  / 5);
 
         if (posB - posA > threshold) {
             return tempInterval;
@@ -297,6 +295,10 @@ float LineChartAxis::getSize() {
 
     if (displayTickLabels && displayLabel) {
         return 3 * fontHeight;
+    }
+
+    if (!displayTickLabels && !displayLabel) {
+        return 3 * fontHeight / 2;
     }
 
     return fontHeight + 2 * fontHeight / 3;
