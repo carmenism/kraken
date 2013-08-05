@@ -72,7 +72,7 @@ void LineChart::drawAtOrigin() {
             glColor4f(0, 0, 0, 1);
             PrintText::drawStrokeText(title, actualWidth / 2, titlePos, fontHeight, HORIZ_CENTER);
         }
-        drawLabels();
+        drawSelected();
     glPopMatrix();
 }
 
@@ -187,10 +187,10 @@ void LineChart::drawLines() {
     }
 }
 
-void LineChart::drawLabels() {
+void LineChart::drawSelected() {
     FOREACH_POINTSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
-            (*it)->drawLabels();
+            (*it)->drawSelected();
         }
     }
 }   

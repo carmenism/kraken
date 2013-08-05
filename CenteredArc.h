@@ -6,14 +6,17 @@ class Color;
 #include "Point.h"
 #include <QtOpenGL>
 #include <GL/glut.h>
+#include "Pickable.h"
 
-class CenteredArc : public Point {
+class CenteredArc : public Point, public Pickable {
 public:
     CenteredArc();
     CenteredArc(float radius, float centerX, float centerY, float startAngle, float arcAngle);
     ~CenteredArc();
 
     void draw();
+    virtual void drawToPick();
+    virtual void drawSelected();
 
     float getStartAngle() { return startAngle; }
     void setStartAngle(float a) { startAngle = a; }
@@ -29,17 +32,24 @@ public:
 
     Color *getColor() { return color; }
     void setColor(Color *c) { color = c; }
+
+    bool getFadingAlpha() { return fadingAlpha; }
+    void setFadingAlpha(bool f) { fadingAlpha = f; }
+    void fadingAlphaOn() { fadingAlpha = true; }
+    void fadingAlphaOff() { fadingAlpha = false; }
 protected:
     float startAngle, arcAngle;
     float radius;
     float thickness;
     Color *color;
+    bool fadingAlpha;
+    float startAlpha, finalAlpha;
 private:
-    float startAlpha;
-    float finalAlpha;
     GLUquadricObj *quadratic;
     void drawAsLineStrips();
     void drawAsPolygons();
+    void drawToPickAsLineStrips();
+    void drawToPickAsPolygons();
 };
 
 #endif /* CENTERED_ARC_H */

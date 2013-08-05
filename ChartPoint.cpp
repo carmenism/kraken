@@ -9,7 +9,7 @@
 #include <iostream>
 
 ChartPoint::ChartPoint(LineChart *chart, std::string label, float valueX, float valueY, int shape)
- : Point(valueX, valueY) {
+ : Point(valueX, valueY), Pickable() {
     last = new Point(valueX, valueY);
     this->chart = chart;
     this->label = label;
@@ -32,7 +32,7 @@ ChartPoint::ChartPoint(LineChart *chart, std::string label, float valueX, float 
 
     setSize(8);
     setBorderWidth(0.0);
-    setDisplayLabel(false);
+    //setDisplayLabel(false);
     setFontHeight(14);
 }
 
@@ -54,8 +54,8 @@ void ChartPoint::draw() {
     marker->draw();
 }
 
-void ChartPoint::drawLabel() {
-    if (displayLabel) {
+void ChartPoint::drawSelected() {
+    if (selected) {
         float oldWidth = marker->getWidth();
         float oldHeight = marker->getHeight();
         marker->setSize(oldWidth * 1.5, oldHeight * 1.5);
@@ -156,6 +156,7 @@ void ChartPoint::drawLineToXAxis() {
 }
 
 void ChartPoint::drawToPick() {
+    marker->setPickColor(pickR, pickG, pickB);
     float oldWidth = marker->getWidth();
     float oldHeight = marker->getHeight();
     marker->setSize(oldWidth * 1.5, oldHeight * 1.5);
@@ -215,10 +216,10 @@ float ChartPoint::getPositionX() {
 float ChartPoint::getPositionY() {
     return marker->getY();
 }
-
+/*
 void ChartPoint::setPickColor(int r, int g, int b) {
     marker->setPickColor(r, g, b);
-}
+}*/
 
 void ChartPoint::setPositionX(float x) {
     marker->setLocation(x, marker->getY());

@@ -4,8 +4,9 @@
 class Color;
 
 #include "Point.h"
+#include "Pickable.h"
 
-class Shape : public Point {
+class Shape : public Point {//, public Pickable {
 public:
    Shape();
    virtual ~Shape();
@@ -55,7 +56,7 @@ protected:
 
    Color *fillColor;             // color
    Color *borderColor;           // boundary color
-   
+ 
    unsigned char pickR, pickG, pickB;
 
    bool drawFill;               // true to draw fill color

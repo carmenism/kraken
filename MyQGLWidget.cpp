@@ -13,8 +13,11 @@
 #include "PlotByGroupManager.h"
 #include "PlotBySpeciesManager.h"
 #include "PlotManager.h"
+#include "Pickable.h"
+#include "InteractionArc.h"
 #include <QList>
 #include <QStringList>
+//#include <GL/glut.h>
 
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
     hovered = NULL;
@@ -35,17 +38,18 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
 }
 
 void MyQGLWidget::initializeGL() {
+    //glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_MULTISAMPLE);
+    glDepthMask(FALSE);
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_COLOR_MATERIAL);
     glEnable(GL_BLEND);
-    glEnable(GL_POLYGON_SMOOTH);
-    glEnable(GL_BLEND);
+    //glEnable(GL_MULTISAMPLE_ARB);
     glEnable(GL_LINE_SMOOTH);
+    glEnable(GL_POLYGON_SMOOTH);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glHint( GL_LINE_SMOOTH_HINT, GL_NICEST );
     glHint( GL_POLYGON_SMOOTH_HINT, GL_NICEST );
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(1.0, 1.0, 1.0, 0);
 }
 
@@ -82,15 +86,15 @@ void MyQGLWidget::paintGL() {
     }
 }
 
-void MyQGLWidget::setHovered(ChartPoint *point) {
-    point->displayLabelOn();
+void MyQGLWidget::setHovered(Pickable *pickable) {
+    pickable->selectedOn();//->displayLabelOn();
     
-    if (hovered != point) {
+    if (hovered != pickable) {
         if (hovered != NULL) {
-            hovered->displayLabelOff();
+            hovered->selectedOff();//->displayLabelOff();
         }
         
-        hovered = point;
+        hovered = pickable;
     }
 }
 
@@ -245,7 +249,7 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
         bool sliderMoved = mouseMoveSliders(x, y);
 
         if (!sliderMoved) {
-            mouseMoveChartPoints(x, y);
+            mouseMovePickables(x, y);
         }
     }
 
@@ -294,7 +298,7 @@ bool MyQGLWidget::mouseMoveSliders(float x, float y) {
     return sliderMoved;
 }
 
-void MyQGLWidget::mouseMoveChartPoints(int x, int y) {
+void MyQGLWidget::mouseMovePickables(int x, int y) {
     if (!managerGroup->empty()) {
         float color[4];    
         unsigned char val[3] = {'\0'};
@@ -305,16 +309,21 @@ void MyQGLWidget::mouseMoveChartPoints(int x, int y) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(color[0], color[1], color[2], color[3]);
 
-        ChartPointList allPoints;
+        std::vector<Pickable *> allPickables;// = new std::vector<Pickable *>();
         for (unsigned int i = 0; i < plotManagers.size(); i++) {
             if (plotManagers[i]->getDisplay()) {
                 ChartPointList p = plotManagers[i]->getPoints();
-                allPoints.insert(allPoints.end(), p.begin(), p.end());
+                allPickables.insert(allPickables.end(), p.begin(), p.end());
             }
         }
+        InteractionArcList allArcs = managerSpecies->getArcs();
+        allPickables.insert(allPickables.end(), allArcs.begin(), allArcs.end());
+        //for (unsigned int i = 0; i < allArcs.size(); i++) {
+        ///    InteractionArc
+        //}
 
-        for (unsigned int i = 0; i < allPoints.size(); i++) {
-            allPoints[i]->setPickColor(i & 0xFF, (i >> 8) & 0xFF, 0);
+        for (unsigned int i = 0; i < allPickables.size(); i++) {
+            allPickables[i]->setPickColor(i & 0xFF, (i >> 8) & 0xFF, 0);
         }
 
         glDisable(GL_BLEND);
@@ -331,12 +340,12 @@ void MyQGLWidget::mouseMoveChartPoints(int x, int y) {
         
         pick = (val[1] << 8) + val[0];
 
-        int size = allPoints.size();
+        int size = allPickables.size();
         if (pick >=0 && pick < size) {
-            setHovered(allPoints[pick]);
+            setHovered(allPickables[pick]);
         }
         else if (hovered != NULL)
-            hovered->displayLabelOff();
+            hovered->selectedOff();//displayLabelOff();
     }
 }
 

@@ -11,22 +11,31 @@
 class SingleSpeciesLineChart;
 class InteractionArc;
 
+typedef std::vector<InteractionArc *> InteractionArcList;
+typedef std::vector<InteractionArc *>::const_iterator InteractionArcIterator;
+
+#define FOREACH_INTERACTIONARC(it, arcList) \
+    for(InteractionArcIterator it = arcList.begin(); it != arcList.end(); ++it)
+#define FOREACH_INTERACTIONARCP(it, arcList) \
+    for(InteractionArcIterator it = arcList->begin(); it != arcList->end(); ++it)
+
 class PlotBySpeciesManager : public PlotManager {
 public:
     PlotBySpeciesManager(); //: PlotManager() {}
     ~PlotBySpeciesManager() {}
 
-    virtual void draw();
+    void draw();
+    virtual void drawToPick();
 
     void captureLastValues();
     ChartPointList getPoints();
-    
+    InteractionArcList getArcs();    
     std::vector<LineChart *> getCharts();
     void updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);
 protected:
 
 private:
-    std::vector<InteractionArc *> arcs;
+    InteractionArcList arcs;
     std::vector<SingleSpeciesLineChart *> charts;
 
     void initializeCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);

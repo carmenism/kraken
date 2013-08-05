@@ -19,7 +19,7 @@ class PlotManager {
         void displayOff() { display = false; }
 
         virtual void draw();
-        void drawToPick();
+        virtual void drawToPick();
         void captureLastValues();
         ChartPointList getPoints();
         

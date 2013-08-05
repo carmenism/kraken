@@ -25,7 +25,7 @@ public:
     void setValues(std::vector<float> x, std::vector<float> y);
 
     void draw();
-    void drawLabels();
+    void drawSelected();
 
     float drawInLegend(float x, float y, float lineLength, float spacing, float h);
 

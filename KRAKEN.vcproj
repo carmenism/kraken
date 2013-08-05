@@ -584,6 +584,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Pickable.h"
+				>
+			</File>
+			<File
 				RelativePath=".\PlotByGroupManager.h"
 				>
 			</File>

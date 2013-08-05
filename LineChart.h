@@ -102,7 +102,7 @@ private:
     void calculateGlobalBounds();
     void drawBoundary();
     void drawLines();
-    void drawLabels();
+    void drawSelected();
     void drawAxes();
     void drawXAxis(LineChartAxis *axisX);
     void drawYAxis(LineChartAxis *axisY);

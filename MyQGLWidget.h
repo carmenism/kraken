@@ -4,9 +4,7 @@
 #include <QtOpenGL/QGLWidget>
 #include <vector>
 
-class Square;
-class Circle;
-class Triangle;
+class Pickable;
 class MultiSpeciesLineChart;
 class ChartPoint;
 class ChangeSlider;
@@ -60,11 +58,11 @@ private:
     std::vector<PlotManager *> plotManagers;
 
     std::vector<ChangeSlider *> sliders;
-    ChartPoint *hovered;
+    Pickable *hovered;
 
     std::string labelSuffix;
 
-    void setHovered(ChartPoint *point);
+    void setHovered(Pickable *pickable);
 
     bool mouseReleaseButtons(float x, float y);
 
@@ -73,7 +71,7 @@ private:
 
     bool mouseMoveButtons(float x, float y);
     bool mouseMoveSliders(float x, float y);
-    void mouseMoveChartPoints(int x, int y);
+    void mouseMovePickables(int x, int y);
 
     void captureLastValues();
 };

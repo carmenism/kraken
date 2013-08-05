@@ -2,7 +2,7 @@
 #include <math.h>
 #include <QtOpenGL>
 
-VerticalArc::VerticalArc(float x, float yA, float yB) {// : CenteredArc() {
+VerticalArc::VerticalArc(float x, float yA, float yB) : CenteredArc() {
     this->x = x;
     this->yA = yA;
     this->yB = yB;

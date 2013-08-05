@@ -94,9 +94,9 @@ void ChartPointSeries::draw() {
     }
 }
 
-void ChartPointSeries::drawLabels() {
+void ChartPointSeries::drawSelected() {
     FOREACH_POINT(it, points) {
-        (*it)->drawLabel();
+        (*it)->drawSelected();
     }
 }
 

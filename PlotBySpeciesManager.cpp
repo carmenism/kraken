@@ -100,4 +100,26 @@ void PlotBySpeciesManager::draw() {
     }
 
     PlotManager::draw();
+
+    for (int i = 0; i < arcs.size(); i++) {
+        arcs[i]->drawSelected();
+    }
+}
+
+void PlotBySpeciesManager::drawToPick() {
+    PlotManager::drawToPick();
+
+    for (int i = 0; i < arcs.size(); i++) {
+        arcs[i]->drawToPick();
+    }
+}
+
+InteractionArcList PlotBySpeciesManager::getArcs() {
+    /*std::vector<InteractionArc *> newList;// = new std::vector<InteractionArc *>();
+
+    for (int i = 0; i < arcs.size(); i++) {
+        newList->push_back(arcs[i]); 
+    }*/
+
+    return arcs;//newList;
 }
