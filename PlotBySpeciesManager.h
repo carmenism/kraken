@@ -35,6 +35,13 @@ public:
 protected:
 
 private:
+    QList<int> oldIndices;
+    QStringList newLabels;
+    QStringList getNewLabels(QStringList labels, QList<int> oldIndices);
+    QList<int> getNewOrder(QStringList labels, MS_PROD_MainWindow *mainWindow);
+    QList<QList<double>> getNewTimeSeriesMatrix(QList<QList<double>> matrix, QList<int> oldIndices);
+    QList<QList<double>> getNewSquareMatrix(QList<QList<double>> matrix, QList<int> oldIndices);
+   
     InteractionArcList arcs;
     std::vector<SingleSpeciesLineChart *> charts;
 

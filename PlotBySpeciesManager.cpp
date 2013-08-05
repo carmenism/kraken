@@ -10,21 +10,92 @@ PlotBySpeciesManager::PlotBySpeciesManager() : charts() {
 }
 
 void PlotBySpeciesManager::updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) {
+    if (oldIndices.empty()) {
+        oldIndices = getNewOrder(labels, mainWindow);
+        newLabels = getNewLabels(labels, oldIndices);
+    }
+    
+    QList<QList<double>> newMatrix = getNewTimeSeriesMatrix(matrix, oldIndices);
+
     if (charts.empty()) {
-        initializeCharts(matrix, labels, mainWindow);
+        initializeCharts(newMatrix, newLabels, mainWindow);
     } else {
-        for (int i = 0; i < matrix.size(); i++) {
+        for (int i = 0; i < newMatrix.size(); i++) {
             std::vector<float> x;
             std::vector<float> y;
             
-            for (int j = 0; j < matrix.at(i).size(); j++) {
+            for (int j = 0; j < newMatrix.at(i).size(); j++) {
                 x.push_back(j);
-                y.push_back(matrix.at(i).at(j));
+                y.push_back(newMatrix.at(i).at(j));
             }
 
             charts.at(i)->setValues(x, y);
         }
     }
+}
+
+QList<QList<double>> PlotBySpeciesManager::getNewTimeSeriesMatrix(QList<QList<double>> matrix, QList<int> oldIndices) {
+    QList<QList<double>> newMatrix;
+
+    for (int i = 0; i < oldIndices.size(); i++) {
+        QList<double> newRow;
+
+        for (int j = 0; j < matrix.at(oldIndices.at(i)).size(); j++) {
+            newRow.append( matrix.at(oldIndices.at(i)).at(j) );
+        }
+
+        newMatrix.append(newRow);
+    }
+
+    return newMatrix;
+}
+
+QList<QList<double>> PlotBySpeciesManager::getNewSquareMatrix(QList<QList<double>> matrix, QList<int> oldIndices) {
+    QList<QList<double>> newMatrix;
+
+    for (int i = 0; i < oldIndices.size(); i++) {
+        QList<double> newRow;
+
+        for (int j = 0; j < matrix.at(oldIndices.at(i)).size(); j++) {
+            newRow.append( matrix.at(oldIndices.at(i)).at(oldIndices.at(j)) );
+        }
+
+        newMatrix.append(newRow);
+    }
+
+    return newMatrix;
+}
+
+QStringList PlotBySpeciesManager::getNewLabels(QStringList labels, QList<int> oldIndices) {
+    QStringList newList;
+    
+    for (int i = 0; i < oldIndices.size(); i++) {
+        newList.append(labels.at(oldIndices.at(i)));
+
+        std::cout<<labels.at(oldIndices.at(i)).toStdString()<<"\n";
+    }
+
+    return newList;
+}
+
+QList<int> PlotBySpeciesManager::getNewOrder(QStringList labels, MS_PROD_MainWindow *mainWindow) {
+    QList<int> oldIndices;
+
+    QStringList guilds = mainWindow->getParameters()->getGuildList();
+
+    for (int g = 0; g < guilds.size(); g++) {
+        for (int s = 0; s < labels.size(); s++) {
+            QString guild = mainWindow->getParameters()->getGuildMembership(labels.at(s));
+
+            if (QString::compare(guilds.at(g), guild) == 0) {
+                oldIndices.append(s);
+
+                std::cout<<s<<"\n";
+            }
+        }
+    }
+
+    return oldIndices;
 }
 
 void PlotBySpeciesManager::initializeCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) {
@@ -64,8 +135,9 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double>> matrix, QString
         displayXAxis = false;
     }
 
-    QList<QList<double>> comp = mainWindow->getParameters()->getWithinGuildCompMatrix();
-    
+    QList<QList<double>> compOrig = mainWindow->getParameters()->getWithinGuildCompMatrix();
+    QList<QList<double>> comp = getNewSquareMatrix(compOrig, oldIndices);
+
     for (int i = 0; i < comp.size(); i++) {
         for (int j = 0; j < comp.at(i).size(); j++) {
             double compCoeff = comp.at(i).at(j);

@@ -192,7 +192,7 @@ void CenteredArc::drawSelected() {
         float oldStart = startAlpha;
         float oldFinal = finalAlpha;
         startAlpha = 0.4;
-        finalAlpha = 0.1;
+        finalAlpha = 0.0;
         draw();
         startAlpha = oldStart;
         finalAlpha = oldFinal;
