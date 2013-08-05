@@ -9,12 +9,22 @@ InteractionArc::InteractionArc(float coefficient, SingleSpeciesLineChart *specie
     this->speciesA = speciesA;
     this->speciesB = speciesB;
     this->coefficient = coefficient;
-    this->fontHeight = 10;
+    this->fontHeight = 12;
     fadingAlpha = true;
 }
 
 InteractionArc::~InteractionArc() {
 
+}
+
+void InteractionArc::drawFaded() {
+    float oldStart = startAlpha;
+    float oldFinal = finalAlpha;
+    startAlpha = 0.3;
+    finalAlpha = 0.05;
+    draw();
+    startAlpha = oldStart;
+    finalAlpha = oldFinal;
 }
 
 void InteractionArc::draw() {

@@ -14,6 +14,7 @@ public:
     void setCoefficient(float c) { coefficient = c; }
 
     void draw();
+    void drawFaded();
     virtual void drawSelected();
 
 private:

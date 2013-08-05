@@ -55,7 +55,7 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double>> matrix, QString
         if (displayXAxis) {
             yLoc = 0;
         }
-        chart->setLocation(300, yLoc);
+        chart->setLocation(450, yLoc);
         chart->setAxesFontHeight(9);
         chart->setLegendFontHeight(12);
         chart->setFontHeight(11);
@@ -95,14 +95,27 @@ std::vector<LineChart *> PlotBySpeciesManager::getCharts() {
 }
 
 void PlotBySpeciesManager::draw() {
+    bool selected = false;
+    
     for (int i = 0; i < arcs.size(); i++) {
-        if (!arcs[i]->getSelected()){
-            arcs[i]->draw();
+        if (arcs[i]->getSelected()){
+            selected = true;
         }
     }
 
-    for (int i = 0; i < arcs.size(); i++) {
-        if (arcs[i]->getSelected()){
+    if (selected) {
+        for (int i = 0; i < arcs.size(); i++) {
+            if (!arcs[i]->getSelected()){
+                arcs[i]->drawFaded();
+            }
+        }
+        for (int i = 0; i < arcs.size(); i++) {
+            if (arcs[i]->getSelected()){
+                arcs[i]->draw();
+            }
+        }
+    } else {
+        for (int i = 0; i < arcs.size(); i++) {
             arcs[i]->draw();
         }
     }
@@ -123,11 +136,5 @@ void PlotBySpeciesManager::drawToPick() {
 }
 
 InteractionArcList PlotBySpeciesManager::getArcs() {
-    /*std::vector<InteractionArc *> newList;// = new std::vector<InteractionArc *>();
-
-    for (int i = 0; i < arcs.size(); i++) {
-        newList->push_back(arcs[i]); 
-    }*/
-
-    return arcs;//newList;
+    return arcs;
 }
