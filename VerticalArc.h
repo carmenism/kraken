@@ -11,9 +11,6 @@ public:
     bool arcToRight();
 
     void draw();
-
-    //void setYA(float yA) { this->yA = yA; }
-    //void setYB(float yB) { this->yB = yB; }
 protected:
     float yA, yB;
 private:

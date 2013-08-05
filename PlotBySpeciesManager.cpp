@@ -96,7 +96,15 @@ std::vector<LineChart *> PlotBySpeciesManager::getCharts() {
 
 void PlotBySpeciesManager::draw() {
     for (int i = 0; i < arcs.size(); i++) {
-        arcs[i]->draw();
+        if (!arcs[i]->getSelected()){
+            arcs[i]->draw();
+        }
+    }
+
+    for (int i = 0; i < arcs.size(); i++) {
+        if (arcs[i]->getSelected()){
+            arcs[i]->draw();
+        }
     }
 
     PlotManager::draw();

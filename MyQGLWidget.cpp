@@ -87,11 +87,11 @@ void MyQGLWidget::paintGL() {
 }
 
 void MyQGLWidget::setHovered(Pickable *pickable) {
-    pickable->selectedOn();//->displayLabelOn();
+    pickable->selectedOn();
     
     if (hovered != pickable) {
         if (hovered != NULL) {
-            hovered->selectedOff();//->displayLabelOff();
+            hovered->selectedOff();
         }
         
         hovered = pickable;

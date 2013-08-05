@@ -11,6 +11,12 @@ public:
     void selectedOn() { selected = true; }
     void selectedOff() { selected = false; }
     
+    float getMouseX() { return mouseX; }
+    void setMouseX(float x) { mouseX = x; }
+
+    float getMouseY() { return mouseY; }
+    void setMouseY(float y) { mouseY = y; }
+
     void setPickColor(unsigned char r, unsigned char g, unsigned char b)
         { pickR = r; pickG = g; pickB = b; }
 
@@ -19,6 +25,7 @@ public:
 protected:
     bool selected;
     unsigned char pickR, pickG, pickB;
+    float mouseX, mouseY;
 };
 
 #endif /* _PICKABLE_H */

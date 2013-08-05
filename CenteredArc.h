@@ -44,10 +44,16 @@ protected:
     Color *color;
     bool fadingAlpha;
     float startAlpha, finalAlpha;
+
+    static void drawPolygonArc(float x, float y, float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
+    static void drawLineArc(float x, float y, float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
+
+    static void drawPolygonArc(float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
+    static void drawLineArc(float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
 private:
     GLUquadricObj *quadratic;
-    void drawAsLineStrips();
-    void drawAsPolygons();
+    //void drawAsLineStrips();
+    //void drawAsPolygons();
     void drawToPickAsLineStrips();
     void drawToPickAsPolygons();
 };
