@@ -8,7 +8,6 @@ class ShadowedRectangle;
 #include <string>
 #include "ShadowedRectangle.h"
 
-
 enum {POS_ABOVE, POS_BELOW, POS_LEFT, POS_RIGHT};
 
 class Slider

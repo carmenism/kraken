@@ -16,6 +16,9 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> x, std::vector
     setLineWidths(2);
     setMarkersSize(6);
     setWidth(400);
+    setAxesFontHeight(9);
+    setLegendFontHeight(12);
+    setFontHeight(11);
 
     if (displayXAxisLabels) {
         setHeight(75 + 8 * 2);

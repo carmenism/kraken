@@ -127,9 +127,6 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double>> matrix, QString
             yLoc = 0;
         }
         chart->setLocation(450, yLoc);
-        chart->setAxesFontHeight(9);
-        chart->setLegendFontHeight(12);
-        chart->setFontHeight(11);
         charts.push_back(chart);
 
         displayXAxis = false;
