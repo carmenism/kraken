@@ -34,6 +34,8 @@ public:
     void setHeight(float h);
 
     void setLocation(float x, float y) { main->setX(x); main->setY(y); }
+    float getX() { return main->getX(); }
+    float getY() { return main->getY(); }
 
     std::string getTitle() { return title; }
     bool getDisplayTitle() { return displayTitle; }

@@ -309,18 +309,16 @@ void MyQGLWidget::mouseMovePickables(int x, int y) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(color[0], color[1], color[2], color[3]);
 
-        std::vector<Pickable *> allPickables;// = new std::vector<Pickable *>();
+        std::vector<Pickable *> allPickables;
         for (unsigned int i = 0; i < plotManagers.size(); i++) {
             if (plotManagers[i]->getDisplay()) {
                 ChartPointList p = plotManagers[i]->getPoints();
                 allPickables.insert(allPickables.end(), p.begin(), p.end());
             }
         }
+
         InteractionArcList allArcs = managerSpecies->getArcs();
         allPickables.insert(allPickables.end(), allArcs.begin(), allArcs.end());
-        //for (unsigned int i = 0; i < allArcs.size(); i++) {
-        ///    InteractionArc
-        //}
 
         for (unsigned int i = 0; i < allPickables.size(); i++) {
             allPickables[i]->setPickColor(i & 0xFF, (i >> 8) & 0xFF, 0);
@@ -345,7 +343,7 @@ void MyQGLWidget::mouseMovePickables(int x, int y) {
             setHovered(allPickables[pick]);
         }
         else if (hovered != NULL)
-            hovered->selectedOff();//displayLabelOff();
+            hovered->selectedOff();
     }
 }
 
@@ -404,21 +402,7 @@ void MyQGLWidget::initializeSliders() {
         buttons.push_back(resetButton);
     }
 
-    sliders[0]->setLocation(100, 22);
-    buttons[0]->setLocation(45, 22);
-    buttons[1]->setLocation(45, 2);
-
-    sliders[1]->setLocation(700, 22);
-    buttons[2]->setLocation(645, 22);
-    buttons[3]->setLocation(645, 2);
-
-    sliders[2]->setLocation(100, 425);
-    buttons[4]->setLocation(45, 425);
-    buttons[5]->setLocation(45, 405);
-
-    sliders[3]->setLocation(700, 425);
-    buttons[6]->setLocation(645, 425);
-    buttons[7]->setLocation(645, 405);
+    positionSlidersForSpecies();
 
     resetAllButton = new Button("RESET ALL");
     resetAllButton->setHeight(20);
@@ -433,4 +417,37 @@ void MyQGLWidget::initializeSliders() {
     displaySpeciesButton->setHeight(20);
     displaySpeciesButton->setWidth(120);
     displaySpeciesButton->setLocation(190, 775);
+}
+
+void MyQGLWidget::positionSlidersForSpecies() {
+    sliders[0]->setLocation(65, 150); // flatfish
+    sliders[1]->setLocation(65, 350); // groundfish
+    sliders[2]->setLocation(65, 550); // pelagics
+    sliders[3]->setLocation(65, 705); // elasmobranchs
+
+    for (unsigned int i = 0; i < sliders.size(); i++) {
+        sliders[i]->titlePositionAbove();
+    }
+
+    positionSliderButtons();
+}
+
+void MyQGLWidget::positionSlidersForGroups() {    
+    sliders[0]->setLocation(100, 22);  // flatfish
+    sliders[1]->setLocation(700, 22);  // groundfish
+    sliders[2]->setLocation(100, 425); // pelagics
+    sliders[3]->setLocation(700, 425); // elasmobranchs
+
+    for (unsigned int i = 0; i < sliders.size(); i++) {
+        sliders[i]->titlePositionRight();
+    }
+
+    positionSliderButtons();
+}
+
+void MyQGLWidget::positionSliderButtons() {
+    for (unsigned int i = 0; i < buttons.size() / 2; i++) {
+        buttons[i * 2]->setLocation(sliders[i]->getX() - 55, sliders[i]->getY());
+        buttons[i * 2 + 1]->setLocation(sliders[i]->getX() - 55, sliders[i]->getY() - 20);
+    }
 }

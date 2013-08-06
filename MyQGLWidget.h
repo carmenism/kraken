@@ -74,6 +74,10 @@ private:
     void mouseMovePickables(int x, int y);
 
     void captureLastValues();
+
+    void positionSlidersForSpecies();
+    void positionSlidersForGroups();
+    void positionSliderButtons();
 };
 
 #endif  /* _MYQGLWIDGET_H */
