@@ -23,6 +23,9 @@ MultiSpeciesLineChart::MultiSpeciesLineChart(QList<QList<double>> matrix, QStrin
 
         addPointSeries(series);
     }     
+
+    axes[AXIS_BOTTOM]->setLabel("Year");
+    axes[AXIS_LEFT]->setLabel("Biomass (mt)");
 }
 
 

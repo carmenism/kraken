@@ -78,7 +78,7 @@ void LineChart::drawAtOrigin() {
         drawLines();  
         
         if (displayLegend) {
-            legend->draw(width + 5, height / 2, 15, 5);
+            legend->draw(actualWidth + 5, height / 2, 15, 5);
         }
 
         float titlePos = actualHeight + fontHeight / 3;

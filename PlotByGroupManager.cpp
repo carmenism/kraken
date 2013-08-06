@@ -44,17 +44,17 @@ void PlotByGroupManager::initializeCharts(QList<QList<double>> matrix, QStringLi
 
         MultiSpeciesLineChart *chart = new MultiSpeciesLineChart(matrixForGuild, labelsForGuild);
         chart->setTitle(guilds.at(i).toStdString());
-        chart->setWidth(400);
-        chart->setHeight(300);
+        chart->setWidth(420);
+        chart->setHeight(330);
         chart->setAxesFontHeight(10);
         chart->setLegendFontHeight(12);
         charts.push_back(chart);
     }
 
-    charts[0]->setLocation(0, 37);
-    charts[1]->setLocation(600, 37);
-    charts[2]->setLocation(0, 440);
-    charts[3]->setLocation(600, 440);
+    charts[0]->setLocation(5, 47);
+    charts[1]->setLocation(620, 47);
+    charts[2]->setLocation(5, 440);
+    charts[3]->setLocation(620, 440);
 }
 
 std::vector<LineChart *> PlotByGroupManager::getCharts() {

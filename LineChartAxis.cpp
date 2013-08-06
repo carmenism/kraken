@@ -18,7 +18,7 @@ LineChartAxis::LineChartAxis(LineChart *chart, int type) {
     displayMinorTicks = true;
     displayMajorTicks = true;
     displayTickLabels = true;
-    displayLabel = false;
+    displayLabel = true;
 
     switch (axisType) {
         case AXIS_LEFT:      

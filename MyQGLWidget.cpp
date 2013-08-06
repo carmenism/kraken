@@ -430,8 +430,6 @@ void MyQGLWidget::initializeSliders() {
         buttons.push_back(resetButton);
     }
 
-    //positionSlidersForSpecies();
-
     resetAllButton = new Button("RESET ALL");
     resetAllButton->setHeight(20);
     resetAllButton->setWidth(100);
@@ -483,8 +481,8 @@ void MyQGLWidget::positionSlidersForSpecies() {
 void MyQGLWidget::positionSlidersForGroups() {    
     sliders[0]->setLocation(100, 22);  // flatfish
     sliders[1]->setLocation(700, 22);  // groundfish
-    sliders[2]->setLocation(100, 425); // pelagics
-    sliders[3]->setLocation(700, 425); // elasmobranchs
+    sliders[2]->setLocation(100, 410); // pelagics
+    sliders[3]->setLocation(700, 410); // elasmobranchs
 
     for (unsigned int i = 0; i < sliders.size(); i++) {
         sliders[i]->titlePositionRight();
