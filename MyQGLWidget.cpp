@@ -122,6 +122,18 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
+    if (displayGroupButton->mouseReleased(x, y)) {
+        displayByGroup();
+
+        return true;
+    }
+
+    if (displaySpeciesButton->mouseReleased(x, y)) {
+        displayBySpecies();
+
+        return true;
+    }
+
     if (resetAllButton->mouseReleased(x, y)) {
         for (unsigned int i = 0; i < sliders.size(); i++) {
             sliders[i]->reset();
@@ -192,6 +204,14 @@ void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 bool MyQGLWidget::mousePressButtons(float x, float y) {
+    if (displayGroupButton->mousePressed(x, y)) {
+        return true;
+    }
+    
+    if (displaySpeciesButton->mousePressed(x, y)) {
+        return true;
+    }
+
     if (resetAllButton->mousePressed(x, y)) {
         return true;
     }
@@ -257,6 +277,14 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
 }
 
 bool MyQGLWidget::mouseMoveButtons(float x, float y) {
+    if (displayGroupButton->mouseMoved(x, y)) {
+        return true;
+    }
+
+    if (displaySpeciesButton->mouseMoved(x, y)) {
+        return true;
+    }
+
     if (resetAllButton->mouseMoved(x, y)) {
         return true;
     }
@@ -407,16 +435,30 @@ void MyQGLWidget::initializeSliders() {
     resetAllButton = new Button("RESET ALL");
     resetAllButton->setHeight(20);
     resetAllButton->setWidth(100);
-    resetAllButton->setLocation(475, 750);
+    resetAllButton->setLocation(300, 775);
 
     displayGroupButton = new Button("Display by Group");
     displayGroupButton->setHeight(20);
-    displayGroupButton->setWidth(120);
-    displayGroupButton->setLocation(25, 775);
+    displayGroupButton->setWidth(130);
+    displayGroupButton->setLocation(10, 775);
     displaySpeciesButton = new Button("Display by Species");
     displaySpeciesButton->setHeight(20);
-    displaySpeciesButton->setWidth(120);
-    displaySpeciesButton->setLocation(190, 775);
+    displaySpeciesButton->setWidth(130);
+    displaySpeciesButton->setLocation(150, 775);
+}
+
+void MyQGLWidget::displayByGroup() {
+    managerGroup->displayOn();
+    managerSpecies->displayOff();
+    positionSlidersForGroups();
+    updateGL();
+}
+
+void MyQGLWidget::displayBySpecies() {
+    managerSpecies->displayOn();
+    managerGroup->displayOff();
+    positionSlidersForSpecies();
+    updateGL();
 }
 
 void MyQGLWidget::positionSlidersForSpecies() {

@@ -75,6 +75,9 @@ private:
 
     void captureLastValues();
 
+    void displayByGroup();
+    void displayBySpecies();
+
     void positionSlidersForSpecies();
     void positionSlidersForGroups();
     void positionSliderButtons();
