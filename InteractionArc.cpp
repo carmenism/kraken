@@ -34,8 +34,9 @@ void InteractionArc::draw() {
         this->x = speciesA->getXLocation();
     }
 
-    this->yA = speciesA->getYLocation() + speciesA->getHeight() / 2;
-    this->yB = speciesB->getYLocation() + speciesB->getHeight() / 2;
+    this->yA = speciesA->getYLocation() + speciesA->getOffsetY() + speciesA->getActualHeight() / 2;
+    this->yB = speciesB->getYLocation() + speciesB->getOffsetY() + speciesB->getActualHeight() / 2;
+
     this->setThickness(coefficient * 30);
 
     VerticalArc::draw();

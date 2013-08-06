@@ -6,7 +6,7 @@
 #include <QStringList>
 
 PlotBySpeciesManager::PlotBySpeciesManager() : charts() {
-
+    firstRendering = true;
 }
 
 void PlotBySpeciesManager::updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) {
@@ -167,6 +167,11 @@ std::vector<LineChart *> PlotBySpeciesManager::getCharts() {
 }
 
 void PlotBySpeciesManager::draw() {
+    if (firstRendering) {
+        PlotManager::draw();
+        firstRendering = false;
+    }
+
     bool selected = false;
     
     for (int i = 0; i < arcs.size(); i++) {

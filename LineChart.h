@@ -86,11 +86,15 @@ public:
 
     float getActualWidth() { return actualWidth; }
     float getActualHeight() { return actualHeight; }
+    
+    virtual void setWidth(float w);
+    virtual void setHeight(float h);
 protected:
     ChartPointSeriesList seriesList;
     LineChartAxisList axes;
     float offsetX, offsetY;
     float actualWidth, actualHeight;
+    void updateActualSize();
 private:
     LineChartLegend *legend;
 

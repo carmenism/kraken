@@ -23,10 +23,10 @@ class Chart {
         void setLocation(float x, float y) { xPos = x; yPos = y; }
         
         float getWidth() { return width; }
-        void setWidth(float w) { width = w; }
+        virtual void setWidth(float w) { width = w; }
 
         float getHeight() { return height; }
-        void setHeight(float h) { height = h; }
+        virtual void setHeight(float h) { height = h; }
     
         float getFontHeight() { return fontHeight; }
         void setFontHeight(float h) { fontHeight = h; }

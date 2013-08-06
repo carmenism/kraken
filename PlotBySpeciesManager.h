@@ -35,6 +35,7 @@ public:
 protected:
 
 private:
+    bool firstRendering;
     QList<int> oldIndices;
     QStringList newLabels;
     QStringList getNewLabels(QStringList labels, QList<int> oldIndices);

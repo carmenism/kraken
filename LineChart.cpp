@@ -23,6 +23,8 @@ LineChart::LineChart() : Chart() {
     
     offsetX = 40;
     offsetY = 40;
+
+    updateActualSize();
 }
 
 LineChart::~LineChart() {
@@ -38,7 +40,7 @@ void LineChart::setUpAxes() {
     axes[AXIS_RIGHT]->displayOff();
 }
 
-void LineChart::drawAtOrigin() {
+void LineChart::updateActualSize() {
     actualWidth = width;
     actualHeight = height;
 
@@ -51,9 +53,24 @@ void LineChart::drawAtOrigin() {
         actualHeight = actualHeight - fontHeight - fontHeight / 3;
     }
 
+    offsetX = axes[AXIS_LEFT]->getSize();
+    offsetY = axes[AXIS_BOTTOM]->getSize();
+}
+
+void LineChart::setWidth(float w) {
+    width = w;
+    updateActualSize();
+}
+
+void LineChart::setHeight(float h){
+    height = h;
+    updateActualSize();
+}
+
+void LineChart::drawAtOrigin() {
+    updateActualSize();
+
     glPushMatrix();
-        offsetX = axes[AXIS_LEFT]->getSize();
-        offsetY = axes[AXIS_BOTTOM]->getSize();
         glTranslatef(offsetX, offsetY, 0);
         calculateGlobalBounds();
         drawBoundary(); 

@@ -31,6 +31,8 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> x, std::vector
 
     axes[AXIS_LEFT]->setLabel("Biomass (mt)");
     axes[AXIS_LEFT]->displayLabelOn();
+
+    updateActualSize();
 }
 
 void SingleSpeciesLineChart::setValues(std::vector<float> x, std::vector<float> y) {
