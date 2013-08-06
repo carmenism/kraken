@@ -26,7 +26,7 @@ Slider::Slider(std::string title, float min, float max, float start) {
 
     displayTitle = true;
     titleFontHeight = 12;
-    titleRight = true;
+    titlePosition = POS_RIGHT;
 
     displayLabels = false;
     labelsBelow = true;
@@ -128,17 +128,35 @@ void Slider::setHeight(float h) {
 }
 
 void Slider::drawTitle() {
-    float x = main->getX() + main->getWidth() + main->getBorder();
-    float y = main->getY() + main->getHeight() / 2;
-    int horiz = HORIZ_LEFT;
+    float x;
+    float y;
+    int horiz;
+    int vert;
 
-    if (!titleRight) {
-        x = main->getX() - main->getBorder();
+    if (titlePosition == POS_RIGHT) {
+        x = main->getX() + main->getWidth() + main->getBorder();
+        y = main->getY() + main->getHeight() / 2;
+        horiz = HORIZ_LEFT;
+        vert = VERT_CENTER;
+    } else if (titlePosition == POS_LEFT) {
+        x = main->getX() - 2 * main->getBorder();
+        y = main->getY() + main->getHeight() / 2;
         horiz = HORIZ_RIGHT;
+        vert = VERT_CENTER;
+    } else if (titlePosition == POS_ABOVE) {
+        x = main->getX();
+        y = main->getY() + main->getHeight() + 2 * main->getBorder();
+        horiz = HORIZ_LEFT;
+        vert = VERT_BOTTOM;
+    } else {
+        x = main->getX();
+        y = main->getY() - main->getBorder();
+        horiz = HORIZ_LEFT;
+        vert = VERT_TOP;
     }
 
     glColor4f(0.0, 0.0, 0.0, 1.0);
-    PrintText::drawStrokeText(title, x, y, titleFontHeight, horiz, VERT_CENTER);
+    PrintText::drawStrokeText(title, x, y, titleFontHeight, horiz, vert);
 }
 
 void Slider::drawLabels() {

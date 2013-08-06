@@ -8,6 +8,9 @@ class ShadowedRectangle;
 #include <string>
 #include "ShadowedRectangle.h"
 
+
+enum {POS_ABOVE, POS_BELOW, POS_LEFT, POS_RIGHT};
+
 class Slider
 {
 public:
@@ -40,8 +43,13 @@ public:
     void displayTitleOff() { displayTitle = false; }
     float getTitleFontHeight() { return titleFontHeight; }
     void setTitleFontHeight(float h) { titleFontHeight = h; }
-    void displayTitleOnRight() { titleRight = true; }
-    void displayTitleOnLeft() { titleRight = false; }
+    
+    int getTitlePosition() { return titlePosition; }
+    void setTitlePosition(int p) { titlePosition = p; }
+    void titlePositionRight() { titlePosition = POS_RIGHT; }
+    void titlePositionLeft() { titlePosition = POS_LEFT; }
+    void titlePositionAbove() { titlePosition = POS_ABOVE; }
+    void titlePositionBelow() { titlePosition = POS_BELOW; }
 
     bool getDisplayLabels() { return displayLabels; }
     void setDisplayLabels(bool d) { displayLabels = d; }
@@ -63,7 +71,7 @@ private:
     bool displayTitle;
     std::string title;
     float titleFontHeight;
-    bool titleRight;
+    int titlePosition;
 
     bool active;
     float startX;
