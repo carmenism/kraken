@@ -1,6 +1,7 @@
 #include "Button.h"
 #include "PrintText.h"
 #include "Color.h"
+#include <GL/glut.h>
 
 Button::Button(std::string label) : ShadowedRectangle() {
     this->label = label;
@@ -8,8 +9,9 @@ Button::Button(std::string label) : ShadowedRectangle() {
     labelHoveredColor = new Color(1, 1, 1, 1);
     labelActiveColor = new Color(1, 0, 0, 1);
 
-    hovered = false;
-    active = false;
+    mouseIsHovering = false;
+    mouseIsPressing = false;
+    active = true;
 
     color->r = 0.65;
     color->g = 0.65;
@@ -21,7 +23,7 @@ Button::~Button() {
 }
 
 void Button::draw() {
-    if (active) {
+    if (mouseIsPressing) {
         reverseShadow = true;
     } else {
         reverseShadow = false;
@@ -42,40 +44,60 @@ void Button::draw() {
 
     Color *c = labelColor;
 
-    if (hovered) {
-        c = labelHoveredColor;
-    }
     if (active) {
-        c = labelActiveColor;
+        if (mouseIsHovering) {
+            c = labelHoveredColor;
+        }
+        if (mouseIsPressing) {
+            c = labelActiveColor;
+        }
     }
     
 	glColor4f(c->r, c->g, c->b, c->a);
     PrintText::drawStrokeText(label, cenX, cenY, h, HORIZ_CENTER, VERT_CENTER);
+
+    if (!active) {
+        glColor4f(1, 1, 1, 0.3);
+        glRectf(x,     y, 
+                x + width, y + height);
+    }
 }
 
 bool Button::mouseMoved(float x, float y) {
-    if (ShadowedRectangle::containsPoint(x, y)) {
-        hovered = true;
-    } else {
-        hovered = false;
+    if (!active) {
+        return false;
     }
 
-    return hovered;
+    if (ShadowedRectangle::containsPoint(x, y)) {
+        mouseIsHovering = true;
+    } else {
+        mouseIsHovering = false;
+    }
+
+    return mouseIsHovering;
 }
 
 bool Button::mousePressed(float x, float y) {
-    if (ShadowedRectangle::containsPoint(x, y)) {
-        active = true;
-    } else {
-        active = false;
+    if (!active) {
+        return false;
     }
 
-    return active;
+    if (ShadowedRectangle::containsPoint(x, y)) {
+        mouseIsPressing = true;
+    } else {
+        mouseIsPressing = false;
+    }
+
+    return mouseIsPressing;
 }
 
 bool Button::mouseReleased(float x, float y) {
-    if (active) {
-        active = false;
+    if (!active) {
+        return false;
+    }
+
+    if (mouseIsPressing) {
+        mouseIsPressing = false;
 
         if (ShadowedRectangle::containsPoint(x, y)) {
             return true;
@@ -85,4 +107,19 @@ bool Button::mouseReleased(float x, float y) {
     }
 
     return false;
+}
+
+void Button::setActive(bool a) {
+    active = a;
+
+    if (!active) {
+        mouseIsHovering = false;
+        mouseIsPressing = false;
+    }
+}
+
+void Button::activeOff() {
+    active = false;
+    mouseIsHovering = false;
+    mouseIsPressing = false;
 }

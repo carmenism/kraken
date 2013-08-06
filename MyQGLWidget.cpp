@@ -430,7 +430,7 @@ void MyQGLWidget::initializeSliders() {
         buttons.push_back(resetButton);
     }
 
-    positionSlidersForSpecies();
+    //positionSlidersForSpecies();
 
     resetAllButton = new Button("RESET ALL");
     resetAllButton->setHeight(20);
@@ -445,9 +445,13 @@ void MyQGLWidget::initializeSliders() {
     displaySpeciesButton->setHeight(20);
     displaySpeciesButton->setWidth(130);
     displaySpeciesButton->setLocation(150, 775);
+
+    displayByGroup();
 }
 
 void MyQGLWidget::displayByGroup() {
+    displayGroupButton->activeOff();
+    displaySpeciesButton->activeOn();
     managerGroup->displayOn();
     managerSpecies->displayOff();
     positionSlidersForGroups();
@@ -455,6 +459,8 @@ void MyQGLWidget::displayByGroup() {
 }
 
 void MyQGLWidget::displayBySpecies() {
+    displaySpeciesButton->activeOff();
+    displayGroupButton->activeOn();
     managerSpecies->displayOn();
     managerGroup->displayOff();
     positionSlidersForSpecies();
