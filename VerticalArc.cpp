@@ -7,7 +7,7 @@ VerticalArc::VerticalArc(float x, float yA, float yB) : CenteredArc() {
     this->yA = yA;
     this->yB = yB;
 
-    arcAngle = M_PI;
+    arcAngle = -M_PI;
     setArcToRight();
 }
 
@@ -26,13 +26,13 @@ void VerticalArc::setCenterLocation() {
 }
 
 void VerticalArc::setArcToLeft() {
-    startAngle = M_PI / 2.0;
+    startAngle = 3 * M_PI / 2.0;
 }
 
 void VerticalArc::setArcToRight() {
-    startAngle = 3.0 * M_PI / 2.0;
+    startAngle = M_PI / 2.0;
 }
 
 bool VerticalArc::arcToRight() {
-    return (startAngle > M_PI);
+    return (startAngle < M_PI);
 }

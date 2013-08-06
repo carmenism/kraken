@@ -140,8 +140,8 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double>> matrix, QString
             double compCoeff = comp.at(i).at(j);
 
             if (compCoeff != 0) {
-                InteractionArc *arc = new InteractionArc(compCoeff, charts[i], charts[j]);
-                arc->setColor(charts[i]->getColor());
+                InteractionArc *arc = new InteractionArc(compCoeff, charts[j], charts[i]);
+                arc->setColor(charts[j]->getColor());
 
                 if (j < i) {
                     arc->setArcToLeft();
