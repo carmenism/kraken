@@ -206,6 +206,14 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\AbsoluteSizeIndicator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\AbsoluteSizesChart.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Button.cpp"
 				>
 			</File>
@@ -412,6 +420,14 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\AbsoluteSizeIndicator.h"
+				>
+			</File>
+			<File
+				RelativePath=".\AbsoluteSizesChart.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Button.h"
 				>
 			</File>
@@ -425,6 +441,10 @@
 			</File>
 			<File
 				RelativePath=".\Chart.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Chart2D.h"
 				>
 			</File>
 			<File

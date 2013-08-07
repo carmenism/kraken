@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "ChartPointSeries.h"
-#include "Chart.h"
+#include "Chart2D.h"
 
 class LineChartAxis;
 class LineChartLegend;
@@ -24,7 +24,7 @@ typedef std::vector<ChartPointSeries *>::const_iterator ChartPointSeriesIterator
 #define FOREACH_POINTSERIESP(it, chartPointSeriesList) \
     for(ChartPointSeriesIterator it = chartPointSeriesList->begin(); it != chartPointSeriesList->end(); ++it)
 
-class LineChart : public Chart {
+class LineChart : public Chart2D {
 public:
     LineChart();
     
@@ -73,11 +73,6 @@ public:
 
     ChartPointList *getPoints();
     
-    float getGlobalMinX() { return globalMinX; }
-    float getGlobalMaxX() { return globalMaxX; }
-    float getGlobalMinY() { return globalMinY; }
-    float getGlobalMaxY() { return globalMaxY; }
-
     void setAxesFontHeight(float h);
     void setLegendFontHeight(float h);
 
@@ -89,6 +84,9 @@ public:
     
     virtual void setWidth(float w);
     virtual void setHeight(float h);
+
+    bool getAdjustYAxisToData() { return adjustYAxisToData; }
+    void setAdjustYAxisToData(bool a) { adjustYAxisToData = a; }
 protected:
     ChartPointSeriesList seriesList;
     LineChartAxisList axes;
@@ -100,8 +98,9 @@ private:
 
     bool displayLegend;    
 
-    float globalMinX, globalMaxX;
-    float globalMinY, globalMaxY;
+    //float globalMinX, globalMaxX;
+    //float globalMinY, globalMaxY;
+    bool adjustYAxisToData;
 
     void calculateGlobalBounds();
     void drawBoundary();

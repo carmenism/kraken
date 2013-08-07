@@ -2,6 +2,7 @@
 #include "LineChartAxis.h"
 #include "PrintText.h"
 #include "Color.h"
+#include "AbsoluteSizesChart.h"
 #include <GL/glut.h>
 
 SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> x, std::vector<float> y, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex) 
@@ -36,21 +37,25 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> x, std::vector
     axes[AXIS_LEFT]->displayLabelOn();
 
     updateActualSize();
+
+    absChart = new AbsoluteSizesChart(this);
 }
 
 void SingleSpeciesLineChart::setValues(std::vector<float> x, std::vector<float> y) {
     seriesList[0]->setValues(x, y);
 }
 
+void SingleSpeciesLineChart::draw() {
+    absChart->draw();
+
+    LineChart::draw();
+}
+
 void SingleSpeciesLineChart::drawAtOrigin() {
     LineChart::drawAtOrigin();
-
-    glPushMatrix();
-        glTranslatef(0, offsetY, 0);
-        
-        glColor4f(0, 0, 0, 1);
-        PrintText::drawStrokeText(sideLabel, -10, actualHeight / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER);
-    glPopMatrix();
+       
+    glColor4f(0, 0, 0, 1);
+    PrintText::drawStrokeText(sideLabel, -10, offsetY + actualHeight / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER);
 }
 
 Color *SingleSpeciesLineChart::getColor() {

@@ -156,7 +156,7 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double>> matrix, QString
 std::vector<LineChart *> PlotBySpeciesManager::getCharts() {
     std::vector<LineChart *> lineCharts;
 
-    for (int i = 0; i < charts.size(); i++) {
+    for (unsigned int i = 0; i < charts.size(); i++) {
         lineCharts.push_back(charts[i]);
     }
 
@@ -171,32 +171,32 @@ void PlotBySpeciesManager::draw() {
 
     bool selected = false;
     
-    for (int i = 0; i < arcs.size(); i++) {
+    for (unsigned int i = 0; i < arcs.size(); i++) {
         if (arcs[i]->getSelected()){
             selected = true;
         }
     }
 
     if (selected) {
-        for (int i = 0; i < arcs.size(); i++) {
+        for (unsigned int i = 0; i < arcs.size(); i++) {
             if (!arcs[i]->getSelected()){
                 arcs[i]->drawFaded();
             }
         }
-        for (int i = 0; i < arcs.size(); i++) {
+        for (unsigned int i = 0; i < arcs.size(); i++) {
             if (arcs[i]->getSelected()){
                 arcs[i]->draw();
             }
         }
     } else {
-        for (int i = 0; i < arcs.size(); i++) {
+        for (unsigned int i = 0; i < arcs.size(); i++) {
             arcs[i]->draw();
         }
     }
 
     PlotManager::draw();
 
-    for (int i = 0; i < arcs.size(); i++) {
+    for (unsigned int i = 0; i < arcs.size(); i++) {
         arcs[i]->drawSelected();
     }
 }
@@ -204,7 +204,7 @@ void PlotBySpeciesManager::draw() {
 void PlotBySpeciesManager::drawToPick() {
     PlotManager::drawToPick();
 
-    for (int i = 0; i < arcs.size(); i++) {
+    for (unsigned int i = 0; i < arcs.size(); i++) {
         arcs[i]->drawToPick();
     }
 }

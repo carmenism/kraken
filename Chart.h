@@ -1,9 +1,12 @@
+#ifndef CHART_H_
+#define CHART_H_
+
 #include <string>
 
 class Chart {
     public:
         Chart();
-        void draw();
+        virtual void draw();
         void drawToPick();
      
         virtual void drawAtOrigin() = 0;
@@ -42,3 +45,5 @@ class Chart {
     private:  
         float xPos, yPos;
 };
+
+#endif

@@ -8,7 +8,9 @@
 #include <QtOpenGL>
 #include <GL/glut.h>
 
-LineChart::LineChart() : Chart() {
+LineChart::LineChart() : Chart2D() {
+    adjustYAxisToData = true;
+
     legend = new LineChartLegend(this);
     displayLegend = true;
 
@@ -145,8 +147,10 @@ void LineChart::calculateGlobalBounds() {
     globalMinX = (std::numeric_limits<float>::max)();
     globalMaxX = -1 * (std::numeric_limits<float>::max)();
 
-    globalMinY = (std::numeric_limits<float>::max)();
-    globalMaxY = -1 * (std::numeric_limits<float>::max)();
+    if (adjustYAxisToData) {
+        globalMinY = (std::numeric_limits<float>::max)();
+        globalMaxY = -1 * (std::numeric_limits<float>::max)();
+    }
 
     FOREACH_POINTSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
@@ -164,17 +168,21 @@ void LineChart::calculateGlobalBounds() {
                 globalMaxX = maxX;
             }
 
-            if (globalMinY > minY) {
-                globalMinY = minY;
-            }
+            if (adjustYAxisToData) {
+                if (globalMinY > minY) {
+                    globalMinY = minY;
+                }
 
-            if (globalMaxY < maxY) {
-                globalMaxY = maxY;
+                if (globalMaxY < maxY) {
+                    globalMaxY = maxY;
+                }
             }
         }
     }
 
-    globalMaxY = globalMaxY + 0.05 * (globalMaxY - globalMinY);
+    if (adjustYAxisToData) {
+        globalMaxY = globalMaxY + 0.05 * (globalMaxY - globalMinY);
+    }
 }
 
 void LineChart::drawBoundary() {  
