@@ -76,13 +76,18 @@ void MyQGLWidget::paintGL() {
             sliders[i]->draw();
         }
 
-        for (unsigned int i = 0; i < buttons.size(); i++) {
-            buttons[i]->draw();
+        for (unsigned int i = 0; i < sliderButtons.size(); i++) {
+            sliderButtons[i]->draw();
         }
 
         resetAllButton->draw();
         displayGroupButton->draw();
         displaySpeciesButton->draw();
+
+        if (managerSpecies->getDisplay()) {
+            toggleAbsButton->draw();
+            toggleChartsButton->draw();
+        }
     }
 }
 
@@ -122,6 +127,18 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
+    if (toggleChartsButton->mouseReleased(x, y)) {
+        toggleCharts();
+
+        return true;
+    }
+        
+    if (toggleAbsButton->mouseReleased(x, y)) {
+        toggleAbsoluteSizes();
+
+        return true;
+    }
+
     if (displayGroupButton->mouseReleased(x, y)) {
         displayByGroup();
 
@@ -156,11 +173,11 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
 
     SliderButton *button = NULL;
 
-    for (unsigned int i = 0; i < buttons.size(); i++) {
-        bool buttonPress = buttons[i]->mouseReleased(x, y);
+    for (unsigned int i = 0; i < sliderButtons.size(); i++) {
+        bool buttonPress = sliderButtons[i]->mouseReleased(x, y);
 
         if (buttonPress) {
-            button = buttons[i];
+            button = sliderButtons[i];
             break;
         }
     }
@@ -204,18 +221,6 @@ void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 bool MyQGLWidget::mousePressButtons(float x, float y) {
-    if (displayGroupButton->mousePressed(x, y)) {
-        return true;
-    }
-    
-    if (displaySpeciesButton->mousePressed(x, y)) {
-        return true;
-    }
-
-    if (resetAllButton->mousePressed(x, y)) {
-        return true;
-    }
-    
     bool buttonPress = false; 
 
     for (unsigned int i = 0; i < buttons.size(); i++) {
@@ -277,18 +282,6 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
 }
 
 bool MyQGLWidget::mouseMoveButtons(float x, float y) {
-    if (displayGroupButton->mouseMoved(x, y)) {
-        return true;
-    }
-
-    if (displaySpeciesButton->mouseMoved(x, y)) {
-        return true;
-    }
-
-    if (resetAllButton->mouseMoved(x, y)) {
-        return true;
-    }
-
     Button *moved = NULL;
 
     for (unsigned int i = 0; i < buttons.size(); i++) {
@@ -422,11 +415,13 @@ void MyQGLWidget::initializeSliders() {
         UndoButton *undoButton = new UndoButton(slider);
         undoButton->setHeight(18);
         undoButton->setWidth(42);
+        sliderButtons.push_back(undoButton);
         buttons.push_back(undoButton);
 
         ResetButton *resetButton = new ResetButton(slider);
         resetButton->setHeight(18);
         resetButton->setWidth(42);
+        sliderButtons.push_back(resetButton);
         buttons.push_back(resetButton);
     }
 
@@ -434,15 +429,31 @@ void MyQGLWidget::initializeSliders() {
     resetAllButton->setHeight(20);
     resetAllButton->setWidth(100);
     resetAllButton->setLocation(300, 775);
+    buttons.push_back(resetAllButton);
 
     displayGroupButton = new Button("Display by Group");
     displayGroupButton->setHeight(20);
     displayGroupButton->setWidth(130);
     displayGroupButton->setLocation(10, 775);
+    buttons.push_back(displayGroupButton);
+
     displaySpeciesButton = new Button("Display by Species");
     displaySpeciesButton->setHeight(20);
     displaySpeciesButton->setWidth(130);
     displaySpeciesButton->setLocation(150, 775);
+    buttons.push_back(displaySpeciesButton);
+
+    toggleAbsButton = new Button("Toggle Abs. Sizes");
+    toggleAbsButton->setHeight(20);
+    toggleAbsButton->setWidth(130);
+    toggleAbsButton->setLocation(5, 5);
+    buttons.push_back(toggleAbsButton);
+
+    toggleChartsButton = new Button("Toggle Charts");
+    toggleChartsButton->setHeight(20);
+    toggleChartsButton->setWidth(130);
+    toggleChartsButton->setLocation(5, 30);
+    buttons.push_back(toggleChartsButton);
 
     displayByGroup();
 }
@@ -492,8 +503,32 @@ void MyQGLWidget::positionSlidersForGroups() {
 }
 
 void MyQGLWidget::positionSliderButtons() {
-    for (unsigned int i = 0; i < buttons.size() / 2; i++) {
-        buttons[i * 2]->setLocation(sliders[i]->getX() - 55, sliders[i]->getY());
-        buttons[i * 2 + 1]->setLocation(sliders[i]->getX() - 55, sliders[i]->getY() - 20);
+    for (unsigned int i = 0; i < sliderButtons.size() / 2; i++) {
+        sliderButtons[i * 2]->setLocation(sliders[i]->getX() - 55, sliders[i]->getY());
+        sliderButtons[i * 2 + 1]->setLocation(sliders[i]->getX() - 55, sliders[i]->getY() - 20);
+    }
+}
+
+void MyQGLWidget::toggleAbsoluteSizes() {
+    if (managerSpecies->getDisplay()) {
+        if (managerSpecies->getDisplayAbsoluteSizes()) {
+            managerSpecies->displayAbsoluteSizesOff();
+        } else {
+            managerSpecies->displayAbsoluteSizesOn();
+        }
+
+        updateGL();
+    }
+}
+
+void MyQGLWidget::toggleCharts() {
+    if (managerSpecies->getDisplay()) {
+        if (managerSpecies->getDisplayCharts()) {
+            managerSpecies->displayChartsOff();
+        } else {
+            managerSpecies->displayChartsOn();
+        }
+
+        updateGL();
     }
 }

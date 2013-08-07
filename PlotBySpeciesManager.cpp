@@ -6,7 +6,7 @@
 #include <QStringList>
 
 PlotBySpeciesManager::PlotBySpeciesManager() : charts() {
-    firstRendering = true;
+
 }
 
 void PlotBySpeciesManager::updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) {
@@ -164,11 +164,6 @@ std::vector<LineChart *> PlotBySpeciesManager::getCharts() {
 }
 
 void PlotBySpeciesManager::draw() {
-    if (firstRendering) {
-        PlotManager::draw();
-        firstRendering = false;
-    }
-
     bool selected = false;
     
     for (unsigned int i = 0; i < arcs.size(); i++) {
@@ -211,4 +206,40 @@ void PlotBySpeciesManager::drawToPick() {
 
 InteractionArcList PlotBySpeciesManager::getArcs() {
     return arcs;
+}
+
+bool PlotBySpeciesManager::getDisplayAbsoluteSizes() {
+    return charts[0]->getDisplayAbsoluteSizes();
+}
+
+void PlotBySpeciesManager::setDisplayAbsoluteSizes(bool d) {
+    for (unsigned int i = 0; i < charts.size(); i++) {
+        charts[i]->setDisplayAbsoluteSizes(d);
+    }
+}
+
+void PlotBySpeciesManager::displayAbsoluteSizesOn() {
+    setDisplayAbsoluteSizes(true);
+}
+
+void PlotBySpeciesManager::displayAbsoluteSizesOff() {
+    setDisplayAbsoluteSizes(false);
+}
+
+bool PlotBySpeciesManager::getDisplayCharts() {
+    return charts[0]->getDisplayChart();
+}
+
+void PlotBySpeciesManager::setDisplayCharts(bool d) {
+    for (unsigned int i = 0; i < charts.size(); i++) {
+        charts[i]->setDisplayChart(d);
+    }
+}
+
+void PlotBySpeciesManager::displayChartsOn() {
+    setDisplayCharts(true);
+}
+
+void PlotBySpeciesManager::displayChartsOff() {
+    setDisplayCharts(false);
 }

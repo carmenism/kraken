@@ -21,7 +21,7 @@ typedef std::vector<InteractionArc *>::const_iterator InteractionArcIterator;
 
 class PlotBySpeciesManager : public PlotManager {
 public:
-    PlotBySpeciesManager(); //: PlotManager() {}
+    PlotBySpeciesManager(); 
     ~PlotBySpeciesManager() {}
 
     void draw();
@@ -32,10 +32,19 @@ public:
     InteractionArcList getArcs();    
     std::vector<LineChart *> getCharts();
     void updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);
+
+    bool getDisplayCharts();
+    void setDisplayCharts(bool d);
+    void displayChartsOn();
+    void displayChartsOff();
+
+    bool getDisplayAbsoluteSizes();
+    void setDisplayAbsoluteSizes(bool d);
+    void displayAbsoluteSizesOn();
+    void displayAbsoluteSizesOff();
 protected:
 
 private:
-    bool firstRendering;
     QList<int> oldIndices;
     QStringList newLabels;
     QStringList getNewLabels(QStringList labels, QList<int> oldIndices);

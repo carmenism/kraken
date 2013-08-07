@@ -16,7 +16,19 @@ public:
     void drawAtOrigin();
     virtual void draw();
     Color *getColor();
+    
+    bool getDisplayChart() { return displayChart; }
+    void setDisplayChart(bool d) { displayChart = d; }
+    void displayChartOn() { displayChart = true; }
+    void displayChartOff() { displayChart = false; }
+
+    bool getDisplayAbsoluteSizes() { return displayAbsoluteSizes; }
+    void setDisplayAbsoluteSizes(bool d) { displayAbsoluteSizes = d; }
+    void displayAbsoluteSizesOn() { displayAbsoluteSizes = true; }
+    void displayAbsoluteSizesOff() { displayAbsoluteSizes = false; }
 private:
+    bool displayAbsoluteSizes;
+    bool displayChart;
     std::string sideLabel;
     AbsoluteSizesChart *absChart;
 };

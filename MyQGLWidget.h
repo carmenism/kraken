@@ -48,7 +48,9 @@ protected:
 private:
     Button *resetAllButton;
     Button *displayGroupButton, *displaySpeciesButton;
-    std::vector<SliderButton *> buttons;
+    Button *toggleAbsButton, *toggleChartsButton;
+    std::vector<SliderButton *> sliderButtons;
+    std::vector<Button *> buttons;
 
     MS_PROD_MainWindow *mainWindow;
     
@@ -74,6 +76,9 @@ private:
     void mouseMovePickables(int x, int y);
 
     void captureLastValues();
+
+    void toggleAbsoluteSizes();
+    void toggleCharts();
 
     void displayByGroup();
     void displayBySpecies();

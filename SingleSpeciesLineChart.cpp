@@ -39,6 +39,8 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> x, std::vector
     updateActualSize();
 
     absChart = new AbsoluteSizesChart(this);
+
+    displayAbsoluteSizes = false;
 }
 
 void SingleSpeciesLineChart::setValues(std::vector<float> x, std::vector<float> y) {
@@ -46,14 +48,18 @@ void SingleSpeciesLineChart::setValues(std::vector<float> x, std::vector<float> 
 }
 
 void SingleSpeciesLineChart::draw() {
-    absChart->draw();
+    if (displayAbsoluteSizes) {
+        absChart->draw();
+    }
 
     LineChart::draw();
 }
 
 void SingleSpeciesLineChart::drawAtOrigin() {
-    LineChart::drawAtOrigin();
-       
+    if (displayChart) {
+        LineChart::drawAtOrigin();
+    }
+
     glColor4f(0, 0, 0, 1);
     PrintText::drawStrokeText(sideLabel, -10, offsetY + actualHeight / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER);
 }
