@@ -4,18 +4,19 @@
 #include <QtOpenGL/QGLWidget>
 #include <vector>
 
-class Picker;
-class MultiSpeciesLineChart;
-class ChangeSlider;
-class Parameters;
 class Button;
-class UndoButton;
-class ResetButton;
-class SliderButton;
+class ChangeSlider;
+class MS_PROD_MainWindow;
+class MultiSpeciesLineChart;
+class Parameters;
+class Picker;
 class PlotManager;
 class PlotByGroupManager;
 class PlotBySpeciesManager;
-class MS_PROD_MainWindow;
+class ResetButton;
+class Slider;
+class SliderButton;
+class UndoButton;
 
 typedef std::vector<MultiSpeciesLineChart *> MSLineChartList;
 typedef std::vector<MultiSpeciesLineChart *>::const_iterator MSLineChartIterator;
@@ -36,6 +37,8 @@ public:
 
     void initializeSliders();
     void drawToPick();
+
+    void runModel();
 protected:
     void initializeGL();
     void resizeGL(int w, int h);
@@ -44,7 +47,6 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
-
 private:
     Picker *picker;
     Button *resetAllButton;
@@ -84,6 +86,10 @@ private:
     void positionSlidersForSpecies();
     void positionSlidersForGroups();
     void positionSliderButtons();
+
+    void resetAllSliders();
+    void updateEffortToSlider(Slider *slider);
+    void setEffort(float value, std::string guildName);
 };
 
 #endif  /* _MYQGLWIDGET_H */

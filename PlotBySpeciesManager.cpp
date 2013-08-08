@@ -11,8 +11,6 @@ PlotBySpeciesManager::PlotBySpeciesManager() : charts() {
 }
 
 void PlotBySpeciesManager::updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) {
-
-
     if (oldIndices.empty()) {
         oldIndices = getNewOrder(labels, mainWindow);
         newLabels = getNewLabels(labels, oldIndices);

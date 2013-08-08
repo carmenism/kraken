@@ -149,21 +149,7 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
     }
 
     if (resetAllButton->mouseReleased(x, y)) {
-        for (unsigned int i = 0; i < sliders.size(); i++) {
-            sliders[i]->reset();
-            float value = sliders[i]->getValue();
-            std::string title = sliders[i]->getTitle();
-            std::string guild = title.substr(0, title.length() - labelSuffix.length());
-            mainWindow->getParameters()->setEffortForGuild(guild, value);  
-        }
-
-        mainWindow->runModel();
-
-        for (unsigned int i = 0; i < sliders.size(); i++) {
-            sliders[i]->clearDisplay();
-        }
-
-        captureLastValues();
+        resetAllSliders();
 
         return true;
     }
@@ -180,11 +166,8 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
     }
     
     if (button != NULL) {
-        float value = button->getSlider()->getValue();
-        std::string title = button->getSlider()->getTitle();
-        std::string guild = title.substr(0, title.length() - labelSuffix.length());
-        mainWindow->getParameters()->setEffortForGuild(guild, value);
-        mainWindow->runModel();
+        updateEffortToSlider(button->getSlider());
+        runModel();
 
         for (unsigned int i = 0; i < sliders.size(); i++) {
             sliders[i]->clearDisplay();
@@ -196,6 +179,36 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
     }
 
     return false;
+}
+
+void MyQGLWidget::resetAllSliders() {
+    for (unsigned int i = 0; i < sliders.size(); i++) {
+        sliders[i]->reset();            
+        updateEffortToSlider(sliders[i]);
+    }
+
+    runModel();
+
+    for (unsigned int i = 0; i < sliders.size(); i++) {
+        sliders[i]->clearDisplay();
+    }
+
+    captureLastValues();
+}
+
+void MyQGLWidget::updateEffortToSlider(Slider *slider) {
+    float value = slider->getValue();
+    std::string title = slider->getTitle();
+    std::string guild = title.substr(0, title.length() - labelSuffix.length());
+    setEffort(value, guild);
+}
+
+void MyQGLWidget::setEffort(float value, std::string guildName) {
+    mainWindow->getParameters()->setEffortForGuild(guildName, value);
+}
+
+void MyQGLWidget::runModel() {
+    mainWindow->runModel();
 }
 
 void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
@@ -306,8 +319,8 @@ bool MyQGLWidget::mouseMoveSliders(float x, float y) {
             float value = sliders[i]->getValue();
             std::string title = sliders[i]->getTitle();
             std::string guild = title.substr(0, title.length() - labelSuffix.length());
-            mainWindow->getParameters()->setEffortForGuild(guild, value);
-            mainWindow->runModel();
+            setEffort(value, guild);
+            runModel();
 
             break;
         }
