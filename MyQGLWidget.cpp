@@ -14,13 +14,12 @@
 #include "PlotBySpeciesManager.h"
 #include "PlotManager.h"
 #include "Pickable.h"
+#include "Picker.h"
 #include "BetweenSpeciesArc.h"
 #include <QList>
 #include <QStringList>
-//#include <GL/glut.h>
 
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
-    hovered = NULL;
     this->mainWindow = mainWindow;
 
     setMouseTracking(true);
@@ -35,6 +34,8 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
 
     plotManagers.push_back(managerGroup);
     plotManagers.push_back(managerSpecies);
+
+    picker = new Picker(this);
 }
 
 void MyQGLWidget::initializeGL() {
@@ -91,15 +92,11 @@ void MyQGLWidget::paintGL() {
     }
 }
 
-void MyQGLWidget::setHovered(Pickable *pickable) {
-    pickable->selectedOn();
-    
-    if (hovered != pickable) {
-        if (hovered != NULL) {
-            hovered->selectedOff();
+void MyQGLWidget::drawToPick() {
+    for (unsigned int i = 0; i < plotManagers.size(); i++) {
+        if (plotManagers[i]->getDisplay()) {
+            plotManagers[i]->drawToPick();
         }
-        
-        hovered = pickable;
     }
 }
 
@@ -321,15 +318,6 @@ bool MyQGLWidget::mouseMoveSliders(float x, float y) {
 
 void MyQGLWidget::mouseMovePickables(int x, int y) {
     if (!managerGroup->empty()) {
-        float color[4];    
-        unsigned char val[3] = {'\0'};
-        unsigned int pick;
-
-        glGetFloatv(GL_COLOR_CLEAR_VALUE, color);
-        glClearColor(1.0, 1.0, 1.0, 1.0);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(color[0], color[1], color[2], color[3]);
-
         std::vector<Pickable *> allPickables;
         for (unsigned int i = 0; i < plotManagers.size(); i++) {
             if (plotManagers[i]->getDisplay()) {
@@ -343,30 +331,7 @@ void MyQGLWidget::mouseMovePickables(int x, int y) {
             allPickables.insert(allPickables.end(), allArcs->begin(), allArcs->end());
         }
 
-        for (unsigned int i = 0; i < allPickables.size(); i++) {
-            allPickables[i]->setPickColor(i & 0xFF, (i >> 8) & 0xFF, 0);
-        }
-
-        glDisable(GL_BLEND);
-        for (unsigned int i = 0; i < plotManagers.size(); i++) {
-            if (plotManagers[i]->getDisplay()) {
-                plotManagers[i]->drawToPick();
-            }
-        }
-        glEnable(GL_BLEND);
-
-        glFlush();
-        glReadBuffer(GL_BACK);
-        glReadPixels(x, y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, val);
-        
-        pick = (val[1] << 8) + val[0];
-
-        int size = allPickables.size();
-        if (pick >=0 && pick < size) {
-            setHovered(allPickables[pick]);
-        }
-        else if (hovered != NULL)
-            hovered->selectedOff();
+        picker->pick(allPickables, x, y);        
     }
 }
 

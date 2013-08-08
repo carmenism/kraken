@@ -4,9 +4,8 @@
 #include <QtOpenGL/QGLWidget>
 #include <vector>
 
-class Pickable;
+class Picker;
 class MultiSpeciesLineChart;
-class ChartPoint;
 class ChangeSlider;
 class Parameters;
 class Button;
@@ -36,6 +35,7 @@ public:
     void updateCharts(QList<QList<double>> matrix, QStringList labels); 
 
     void initializeSliders();
+    void drawToPick();
 protected:
     void initializeGL();
     void resizeGL(int w, int h);
@@ -46,6 +46,7 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 private:
+    Picker *picker;
     Button *resetAllButton;
     Button *displayGroupButton, *displaySpeciesButton;
     Button *toggleAbsButton, *toggleChartsButton;
@@ -60,11 +61,8 @@ private:
     std::vector<PlotManager *> plotManagers;
 
     std::vector<ChangeSlider *> sliders;
-    Pickable *hovered;
 
     std::string labelSuffix;
-
-    void setHovered(Pickable *pickable);
 
     bool mouseReleaseButtons(float x, float y);
 

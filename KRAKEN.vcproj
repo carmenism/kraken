@@ -206,50 +206,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\AbsoluteSizeIndicator.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\AbsoluteSizesChart.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\BetweenSpeciesArc.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Button.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CenteredArc.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ChangeSlider.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Chart.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ChartPoint.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ChartPointSeries.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Circle.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Color.cpp"
-				>
-			</File>
-			<File
 				RelativePath="CompetitionBetweenSpeciesNoK.cpp"
 				>
 			</File>
@@ -290,23 +246,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\InteractionArc.cpp"
-				>
-			</File>
-			<File
 				RelativePath="InteractionMatrix.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LineChart.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LineChartAxis.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\LineChartLegend.cpp"
 				>
 			</File>
 			<File
@@ -334,35 +274,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MultiSpeciesLineChart.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MyQGLWidget.cpp"
-				>
-			</File>
-			<File
 				RelativePath="Parameters.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PlotByGroupManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PlotBySpeciesManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PlotManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Point.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PredationArc.cpp"
 				>
 			</File>
 			<File
@@ -378,91 +290,179 @@
 				>
 			</File>
 			<File
-				RelativePath=".\PrintText.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ResetButton.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ShadowedRectangle.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Shape.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SingleSpeciesLineChart.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Slider.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Square.cpp"
-				>
-			</File>
-			<File
 				RelativePath="TimeSeriesObservations.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\Triangle.cpp"
+			<Filter
+				Name="GUI"
 				>
-			</File>
-			<File
-				RelativePath=".\UndoButton.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\VerticalArc.cpp"
-				>
-			</File>
+				<File
+					RelativePath=".\Color.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MyQGLWidget.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Picker.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PrintText.cpp"
+					>
+				</File>
+				<Filter
+					Name="Buttons"
+					>
+					<File
+						RelativePath=".\Button.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ResetButton.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\UndoButton.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Charts"
+					>
+					<File
+						RelativePath=".\AbsoluteSizeIndicator.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\AbsoluteSizesChart.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Chart.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ChartPoint.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ChartPointSeries.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\LineChart.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\LineChartAxis.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\LineChartLegend.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\MultiSpeciesLineChart.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\SingleSpeciesLineChart.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Managers"
+					>
+					<File
+						RelativePath=".\PlotByGroupManager.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\PlotBySpeciesManager.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\PlotManager.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Geometry"
+					>
+					<File
+						RelativePath=".\Point.cpp"
+						>
+					</File>
+					<Filter
+						Name="Arcs"
+						>
+						<File
+							RelativePath=".\BetweenSpeciesArc.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\CenteredArc.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\InteractionArc.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\PredationArc.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\VerticalArc.cpp"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="Shapes"
+						>
+						<File
+							RelativePath=".\Circle.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\ShadowedRectangle.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\Shape.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\Square.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\Triangle.cpp"
+							>
+						</File>
+					</Filter>
+				</Filter>
+				<Filter
+					Name="Sliders"
+					>
+					<File
+						RelativePath=".\ChangeSlider.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Slider.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\AbsoluteSizeIndicator.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Button.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ChangeSlider.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Chart.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Chart2D.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ChartPoint.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ChartPointSeries.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Circle.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Color.h"
-				>
-			</File>
 			<File
 				RelativePath="CompetitionModuleBetweenGroup.h"
 				>
@@ -505,18 +505,6 @@
 			</File>
 			<File
 				RelativePath="InteractionMatrix.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LineChart.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LineChartAxis.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LineChartLegend.h"
 				>
 			</File>
 			<File
@@ -566,57 +554,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\MultiSpeciesLineChart.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MyQGLWidget.h"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing MyQGLWidget.h..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_OPENGL_LIB  &quot;-IC:\Carmen\thesis\include&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\ActiveQt&quot; &quot;-I.\debug&quot; &quot;-I.&quot; &quot;-I.\..\..\..\Qt\4.8.4\mkspecs\default&quot; &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing MyQGLWidget.h..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG -DQT_OPENGL_LIB &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\ActiveQt&quot; &quot;-I.\release&quot; &quot;-I.&quot; &quot;-I.\..\..\..\Qt\4.8.4\mkspecs\default&quot; &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="Parameters.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Pickable.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PlotByGroupManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PlotBySpeciesManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PlotManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Point.h"
 				>
 			</File>
 			<File
@@ -632,43 +570,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\PrintText.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ResetButton.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ShadowedRectangle.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Shape.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SingleSpeciesLineChart.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Slider.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SliderButton.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Square.h"
-				>
-			</File>
-			<File
 				RelativePath="TimeSeriesObservations.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Triangle.h"
 				>
 			</File>
 			<File
@@ -679,37 +581,203 @@
 				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
 				>
 			</File>
-			<File
-				RelativePath=".\UndoButton.h"
-				>
-			</File>
 			<Filter
-				Name="Arcs"
+				Name="GUI"
 				>
 				<File
-					RelativePath=".\AbsoluteSizesChart.h"
+					RelativePath=".\Color.h"
 					>
 				</File>
 				<File
-					RelativePath=".\BetweenSpeciesArc.h"
+					RelativePath=".\MyQGLWidget.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing MyQGLWidget.h..."
+							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DQT_OPENGL_LIB  &quot;-IC:\Carmen\thesis\include&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\ActiveQt&quot; &quot;-I.\debug&quot; &quot;-I.&quot; &quot;-I.\..\..\..\Qt\4.8.4\mkspecs\default&quot; &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot;&#x0D;&#x0A;"
+							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Moc&apos;ing MyQGLWidget.h..."
+							CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;  -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -DNDEBUG -DQT_OPENGL_LIB &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\ActiveQt&quot; &quot;-I.\release&quot; &quot;-I.&quot; &quot;-I.\..\..\..\Qt\4.8.4\mkspecs\default&quot; &quot;-I.\GeneratedFiles&quot; &quot;-I$(QTDIR)\include\QtOpenGL&quot;&#x0D;&#x0A;"
+							AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
+							Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\Pickable.h"
 					>
 				</File>
 				<File
-					RelativePath=".\CenteredArc.h"
+					RelativePath=".\Picker.h"
 					>
 				</File>
 				<File
-					RelativePath=".\InteractionArc.h"
+					RelativePath=".\PrintText.h"
 					>
 				</File>
-				<File
-					RelativePath=".\PredationArc.h"
+				<Filter
+					Name="Sliders"
 					>
-				</File>
-				<File
-					RelativePath=".\VerticalArc.h"
+					<File
+						RelativePath=".\ChangeSlider.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Slider.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Geometry"
 					>
-				</File>
+					<File
+						RelativePath=".\Point.h"
+						>
+					</File>
+					<Filter
+						Name="Arcs"
+						>
+						<File
+							RelativePath=".\BetweenSpeciesArc.h"
+							>
+						</File>
+						<File
+							RelativePath=".\CenteredArc.h"
+							>
+						</File>
+						<File
+							RelativePath=".\InteractionArc.h"
+							>
+						</File>
+						<File
+							RelativePath=".\PredationArc.h"
+							>
+						</File>
+						<File
+							RelativePath=".\VerticalArc.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="Shapes"
+						>
+						<File
+							RelativePath=".\Circle.h"
+							>
+						</File>
+						<File
+							RelativePath=".\ShadowedRectangle.h"
+							>
+						</File>
+						<File
+							RelativePath=".\Shape.h"
+							>
+						</File>
+						<File
+							RelativePath=".\Square.h"
+							>
+						</File>
+						<File
+							RelativePath=".\Triangle.h"
+							>
+						</File>
+					</Filter>
+				</Filter>
+				<Filter
+					Name="Managers"
+					>
+					<File
+						RelativePath=".\PlotByGroupManager.h"
+						>
+					</File>
+					<File
+						RelativePath=".\PlotBySpeciesManager.h"
+						>
+					</File>
+					<File
+						RelativePath=".\PlotManager.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Charts"
+					>
+					<File
+						RelativePath=".\AbsoluteSizeIndicator.h"
+						>
+					</File>
+					<File
+						RelativePath=".\AbsoluteSizesChart.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Chart.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Chart2D.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ChartPoint.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ChartPointSeries.h"
+						>
+					</File>
+					<File
+						RelativePath=".\LineChart.h"
+						>
+					</File>
+					<File
+						RelativePath=".\LineChartAxis.h"
+						>
+					</File>
+					<File
+						RelativePath=".\LineChartLegend.h"
+						>
+					</File>
+					<File
+						RelativePath=".\MultiSpeciesLineChart.h"
+						>
+					</File>
+					<File
+						RelativePath=".\SingleSpeciesLineChart.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Buttons"
+					>
+					<File
+						RelativePath=".\Button.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ResetButton.h"
+						>
+					</File>
+					<File
+						RelativePath=".\SliderButton.h"
+						>
+					</File>
+					<File
+						RelativePath=".\UndoButton.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
