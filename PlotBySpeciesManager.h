@@ -61,6 +61,10 @@ private:
     std::vector<SingleSpeciesLineChart *> charts;
 
     void initializeCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);
+    void initializeInteractionArcs(MS_PROD_MainWindow *mainWindow);
+    void initializePredationArcs(MS_PROD_MainWindow *mainWindow);
+
+    BetweenSpeciesArc *drawArcs();
 };
 
 #endif  /* _PLOTBYSPECIESMANAGER_H */
