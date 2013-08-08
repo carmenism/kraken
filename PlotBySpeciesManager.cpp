@@ -2,14 +2,17 @@
 #include "SingleSpeciesLineChart.h"
 #include "MS_PROD_MainWindow.h"
 #include "InteractionArc.h"
+#include "PredationArc.h"
 #include <QList>
 #include <QStringList>
 
 PlotBySpeciesManager::PlotBySpeciesManager() : charts() {
-
+    currentArcs = NULL;
 }
 
 void PlotBySpeciesManager::updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) {
+
+
     if (oldIndices.empty()) {
         oldIndices = getNewOrder(labels, mainWindow);
         newLabels = getNewLabels(labels, oldIndices);
@@ -147,10 +150,32 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double>> matrix, QString
                     arc->setArcToLeft();
                 }
 
-                arcs.push_back(arc);
+                arcsInter.push_back(arc);
             }
         }        
     }
+
+    QList<QList<double>> predOrig = mainWindow->getParameters()->getPredationMatrix();
+    QList<QList<double>> pred = getNewSquareMatrix(predOrig, oldIndices);
+
+    for (int i = 0; i < pred.size(); i++) {
+        for (int j = 0; j < pred.at(i).size(); j++) {
+            double predCoeff = pred.at(i).at(j);
+
+            if (predCoeff != 0) {
+                PredationArc *arc = new PredationArc(predCoeff, charts[j], charts[i]);
+                arc->setColor(charts[j]->getColor());
+
+                if (j < i) {
+                    arc->setArcToLeft();
+                }
+
+                arcsPred.push_back(arc);
+            }
+        }        
+    }
+
+    currentArcs = &arcsPred;
 }
 
 std::vector<LineChart *> PlotBySpeciesManager::getCharts() {
@@ -165,47 +190,51 @@ std::vector<LineChart *> PlotBySpeciesManager::getCharts() {
 
 void PlotBySpeciesManager::draw() {
     bool selected = false;
-    
-    for (unsigned int i = 0; i < arcs.size(); i++) {
-        if (arcs[i]->getSelected()){
-            selected = true;
-        }
-    }
 
-    if (selected) {
-        for (unsigned int i = 0; i < arcs.size(); i++) {
-            if (!arcs[i]->getSelected()){
-                arcs[i]->drawFaded();
+    if (currentArcs != NULL) {
+        for (unsigned int i = 0; i < currentArcs->size(); i++) {
+            if (currentArcs->at(i)->getSelected()){
+                selected = true;
             }
         }
-        for (unsigned int i = 0; i < arcs.size(); i++) {
-            if (arcs[i]->getSelected()){
-                arcs[i]->draw();
+
+        if (selected) {
+            for (unsigned int i = 0; i < currentArcs->size(); i++) {
+                if (!currentArcs->at(i)->getSelected()){
+                    currentArcs->at(i)->drawFaded();
+                }
             }
-        }
-    } else {
-        for (unsigned int i = 0; i < arcs.size(); i++) {
-            arcs[i]->draw();
+            for (unsigned int i = 0; i < currentArcs->size(); i++) {
+                if (currentArcs->at(i)->getSelected()){
+                    currentArcs->at(i)->draw();
+                }
+            }
+        } else {
+            for (unsigned int i = 0; i < currentArcs->size(); i++) {
+                currentArcs->at(i)->draw();
+            }
         }
     }
 
     PlotManager::draw();
 
-    for (unsigned int i = 0; i < arcs.size(); i++) {
-        arcs[i]->drawSelected();
+    if (currentArcs != NULL) {
+        for (unsigned int i = 0; i < currentArcs->size(); i++) {
+            currentArcs->at(i)->drawSelected();
+        }
     }
 }
 
 void PlotBySpeciesManager::drawToPick() {
     PlotManager::drawToPick();
 
-    for (unsigned int i = 0; i < arcs.size(); i++) {
-        arcs[i]->drawToPick();
+    for (unsigned int i = 0; i < currentArcs->size(); i++) {
+        currentArcs->at(i)->drawToPick();
     }
 }
 
-InteractionArcList PlotBySpeciesManager::getArcs() {
-    return arcs;
+BetweenSpeciesArcList *PlotBySpeciesManager::getArcs() {
+    return currentArcs;
 }
 
 bool PlotBySpeciesManager::getDisplayAbsoluteSizes() {

@@ -214,6 +214,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BetweenSpeciesArc.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Button.cpp"
 				>
 			</File>
@@ -358,6 +362,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PredationArc.cpp"
+				>
+			</File>
+			<File
 				RelativePath="PredationModuleTypeI.cpp"
 				>
 			</File>
@@ -425,6 +433,10 @@
 			</File>
 			<File
 				RelativePath=".\AbsoluteSizesChart.h"
+				>
+			</File>
+			<File
+				RelativePath=".\BetweenSpeciesArc.h"
 				>
 			</File>
 			<File
@@ -621,6 +633,10 @@
 			</File>
 			<File
 				RelativePath=".\Point.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PredationArc.h"
 				>
 			</File>
 			<File

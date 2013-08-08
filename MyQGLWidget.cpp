@@ -14,7 +14,7 @@
 #include "PlotBySpeciesManager.h"
 #include "PlotManager.h"
 #include "Pickable.h"
-#include "InteractionArc.h"
+#include "BetweenSpeciesArc.h"
 #include <QList>
 #include <QStringList>
 //#include <GL/glut.h>
@@ -338,8 +338,10 @@ void MyQGLWidget::mouseMovePickables(int x, int y) {
             }
         }
 
-        InteractionArcList allArcs = managerSpecies->getArcs();
-        allPickables.insert(allPickables.end(), allArcs.begin(), allArcs.end());
+        BetweenSpeciesArcList *allArcs = managerSpecies->getArcs();
+        if (allArcs != NULL) {
+            allPickables.insert(allPickables.end(), allArcs->begin(), allArcs->end());
+        }
 
         for (unsigned int i = 0; i < allPickables.size(); i++) {
             allPickables[i]->setPickColor(i & 0xFF, (i >> 8) & 0xFF, 0);

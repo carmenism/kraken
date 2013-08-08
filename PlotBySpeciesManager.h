@@ -9,15 +9,17 @@
 #include "ChartPointSeries.h"
 
 class SingleSpeciesLineChart;
+class BetweenSpeciesArc;
 class InteractionArc;
+class PredationArc;
 
-typedef std::vector<InteractionArc *> InteractionArcList;
-typedef std::vector<InteractionArc *>::const_iterator InteractionArcIterator;
+typedef std::vector<BetweenSpeciesArc *> BetweenSpeciesArcList;
+typedef std::vector<BetweenSpeciesArc *>::const_iterator BetweenSpeciesArcIterator;
 
-#define FOREACH_INTERACTIONARC(it, arcList) \
-    for(InteractionArcIterator it = arcList.begin(); it != arcList.end(); ++it)
-#define FOREACH_INTERACTIONARCP(it, arcList) \
-    for(InteractionArcIterator it = arcList->begin(); it != arcList->end(); ++it)
+#define FOREACH_BETWEENSPECIESARC(it, arcList) \
+    for(BetweenSpeciesArcIterator it = arcList.begin(); it != arcList.end(); ++it)
+#define FOREACH_BETWEENSPECIESARCP(it, arcList) \
+    for(BetweenSpeciesArcIterator it = arcList->begin(); it != arcList->end(); ++it)
 
 class PlotBySpeciesManager : public PlotManager {
 public:
@@ -29,7 +31,7 @@ public:
 
     void captureLastValues();
     ChartPointList getPoints();
-    InteractionArcList getArcs();    
+    BetweenSpeciesArcList *getArcs();    
     std::vector<LineChart *> getCharts();
     void updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);
 
@@ -52,7 +54,10 @@ private:
     QList<QList<double>> getNewTimeSeriesMatrix(QList<QList<double>> matrix, QList<int> oldIndices);
     QList<QList<double>> getNewSquareMatrix(QList<QList<double>> matrix, QList<int> oldIndices);
    
-    InteractionArcList arcs;
+    BetweenSpeciesArcList arcsInter;
+    BetweenSpeciesArcList arcsPred;
+    BetweenSpeciesArcList *currentArcs;
+
     std::vector<SingleSpeciesLineChart *> charts;
 
     void initializeCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);
