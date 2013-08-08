@@ -75,8 +75,6 @@ QStringList PlotBySpeciesManager::getNewLabels(QStringList labels, QList<int> ol
     
     for (int i = 0; i < oldIndices.size(); i++) {
         newList.append(labels.at(oldIndices.at(i)));
-
-        std::cout<<labels.at(oldIndices.at(i)).toStdString()<<"\n";
     }
 
     return newList;
@@ -93,8 +91,6 @@ QList<int> PlotBySpeciesManager::getNewOrder(QStringList labels, MS_PROD_MainWin
 
             if (QString::compare(guilds.at(g), guild) == 0) {
                 oldIndices.append(s);
-
-                std::cout<<s<<"\n";
             }
         }
     }

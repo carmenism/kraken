@@ -35,15 +35,22 @@ Slider::Slider(std::string title, float min, float max, float start) {
     setValue(start);
     cursor->setLocation(main->getInnerX() + curX, main->getInnerY());
 
-    resetValue = start;
-    undoValue = start;
+    valueHistory.push_back(start);
 }
 
 void Slider::undo() {
-    setValue(undoValue);
+    if (valueHistory.size() > 1) {
+        valueHistory.pop_back();
+        float undoValue = valueHistory.back();
+
+        setValue(undoValue);
+    }
 }
 
 void Slider::reset() {
+    float resetValue = valueHistory.front();
+    valueHistory.clear();
+    valueHistory.push_back(resetValue);
     setValue(resetValue);
 }
 
@@ -63,7 +70,6 @@ void Slider::draw() {
 
 bool Slider::mousePressed(float x, float y) {    
     if (pointInCursor(x, y) && !active) {
-        undoValue = getValue();
         active = true;
         startX = x;
 	    startCurX = curX;
@@ -77,6 +83,8 @@ bool Slider::mousePressed(float x, float y) {
 bool Slider::mouseReleased() {
     if (active) {
         active = false;
+
+        valueHistory.push_back(getValue());
 
         return true;
     }

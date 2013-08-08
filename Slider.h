@@ -10,6 +10,8 @@ class ShadowedRectangle;
 
 enum {POS_ABOVE, POS_BELOW, POS_LEFT, POS_RIGHT};
 
+#include <vector>
+
 class Slider
 {
 public:
@@ -67,7 +69,7 @@ protected:
     float minValue, maxValue;
     float startCurX, curX;
 private:
-    float undoValue, resetValue;
+    std::vector<float> valueHistory;
 
     bool displayTitle;
     std::string title;
