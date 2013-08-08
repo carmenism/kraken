@@ -432,19 +432,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\AbsoluteSizesChart.h"
-				>
-			</File>
-			<File
-				RelativePath=".\BetweenSpeciesArc.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Button.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CenteredArc.h"
 				>
 			</File>
 			<File
@@ -513,10 +501,6 @@
 			</File>
 			<File
 				RelativePath="HarvestModuleExploitRate.h"
-				>
-			</File>
-			<File
-				RelativePath=".\InteractionArc.h"
 				>
 			</File>
 			<File
@@ -636,10 +620,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\PredationArc.h"
-				>
-			</File>
-			<File
 				RelativePath="PredationModuleTypeI.h"
 				>
 			</File>
@@ -703,10 +683,34 @@
 				RelativePath=".\UndoButton.h"
 				>
 			</File>
-			<File
-				RelativePath=".\VerticalArc.h"
+			<Filter
+				Name="Arcs"
 				>
-			</File>
+				<File
+					RelativePath=".\AbsoluteSizesChart.h"
+					>
+				</File>
+				<File
+					RelativePath=".\BetweenSpeciesArc.h"
+					>
+				</File>
+				<File
+					RelativePath=".\CenteredArc.h"
+					>
+				</File>
+				<File
+					RelativePath=".\InteractionArc.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PredationArc.h"
+					>
+				</File>
+				<File
+					RelativePath=".\VerticalArc.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Generated Files"
