@@ -87,6 +87,7 @@ private:
     void positionSlidersForGroups();
     void positionSliderButtons();
 
+    void clearDisplayOfSliders();
     void resetAllSliders();
     void updateEffortToSlider(Slider *slider);
     void setEffort(float value, std::string guildName);

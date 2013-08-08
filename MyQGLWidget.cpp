@@ -109,9 +109,7 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
     float y = size().rheight() - event->y();
 
     if (event->button() == Qt::LeftButton) {
-        bool buttonReleased = mouseReleaseButtons(x, y);
-
-        if (!buttonReleased) {
+        if (!mouseReleaseButtons(x, y)) {
             for (unsigned int i = 0; i < sliders.size(); i++) {
                 if (sliders[i]->mouseReleased()) {
                     break;
@@ -126,40 +124,33 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
 bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
     if (toggleChartsButton->mouseReleased(x, y)) {
         toggleCharts();
-
         return true;
     }
         
     if (toggleAbsButton->mouseReleased(x, y)) {
         toggleAbsoluteSizes();
-
         return true;
     }
 
     if (displayGroupButton->mouseReleased(x, y)) {
         displayByGroup();
-
         return true;
     }
 
     if (displaySpeciesButton->mouseReleased(x, y)) {
         displayBySpecies();
-
         return true;
     }
 
     if (resetAllButton->mouseReleased(x, y)) {
         resetAllSliders();
-
         return true;
     }
 
     SliderButton *button = NULL;
 
     for (unsigned int i = 0; i < sliderButtons.size(); i++) {
-        bool buttonPress = sliderButtons[i]->mouseReleased(x, y);
-
-        if (buttonPress) {
+        if (sliderButtons[i]->mouseReleased(x, y)) {
             button = sliderButtons[i];
             break;
         }
@@ -167,12 +158,9 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
     
     if (button != NULL) {
         updateEffortToSlider(button->getSlider());
+
         runModel();
-
-        for (unsigned int i = 0; i < sliders.size(); i++) {
-            sliders[i]->clearDisplay();
-        }
-
+        clearDisplayOfSliders();
         captureLastValues();
 
         return true;
@@ -188,12 +176,14 @@ void MyQGLWidget::resetAllSliders() {
     }
 
     runModel();
+    clearDisplayOfSliders();
+    captureLastValues();
+}
 
+void MyQGLWidget::clearDisplayOfSliders() {
     for (unsigned int i = 0; i < sliders.size(); i++) {
         sliders[i]->clearDisplay();
     }
-
-    captureLastValues();
 }
 
 void MyQGLWidget::updateEffortToSlider(Slider *slider) {
