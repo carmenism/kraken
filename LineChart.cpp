@@ -9,6 +9,8 @@
 #include <GL/glut.h>
 
 LineChart::LineChart() : Chart2D() {
+    seriesList = new ChartPointSeriesList();
+    axes = new LineChartAxisList();
     adjustYAxisToData = true;
 
     legend = new LineChartLegend(this);
@@ -30,33 +32,47 @@ LineChart::LineChart() : Chart2D() {
 }
 
 LineChart::~LineChart() {
+    while (!seriesList->empty()) {
+        ChartPointSeries *s = seriesList->back();
+        seriesList->pop_back();
+        delete s;
+    }
 
+    while (!axes->empty()) {
+        LineChartAxis *a = axes->back();
+        axes->pop_back();
+        delete a;
+    }
+
+    delete axes;
+    delete seriesList;
+    delete legend;
 }
 
 void LineChart::setUpAxes() {
-    axes.push_back(new LineChartAxis(this, AXIS_BOTTOM));
-    axes.push_back(new LineChartAxis(this, AXIS_TOP));
-    axes.push_back(new LineChartAxis(this, AXIS_LEFT));
-    axes.push_back(new LineChartAxis(this, AXIS_RIGHT));
-    axes[AXIS_TOP]->displayOff();
-    axes[AXIS_RIGHT]->displayOff();
+    axes->push_back(new LineChartAxis(this, AXIS_BOTTOM));
+    axes->push_back(new LineChartAxis(this, AXIS_TOP));
+    axes->push_back(new LineChartAxis(this, AXIS_LEFT));
+    axes->push_back(new LineChartAxis(this, AXIS_RIGHT));
+    axes->at(AXIS_TOP)->displayOff();
+    axes->at(AXIS_RIGHT)->displayOff();
 }
 
 void LineChart::updateActualSize() {
     actualWidth = width;
     actualHeight = height;
 
-    actualWidth = actualWidth - axes[AXIS_RIGHT]->getSize();
-    actualWidth = actualWidth - axes[AXIS_LEFT]->getSize();
-    actualHeight = actualHeight - axes[AXIS_TOP]->getSize();
-    actualHeight = actualHeight - axes[AXIS_BOTTOM]->getSize();
+    actualWidth = actualWidth - axes->at(AXIS_RIGHT)->getSize();
+    actualWidth = actualWidth - axes->at(AXIS_LEFT)->getSize();
+    actualHeight = actualHeight - axes->at(AXIS_TOP)->getSize();
+    actualHeight = actualHeight - axes->at(AXIS_BOTTOM)->getSize();
 
     if (displayTitle) {
         actualHeight = actualHeight - fontHeight - fontHeight / 3;
     }
 
-    offsetX = axes[AXIS_LEFT]->getSize();
-    offsetY = axes[AXIS_BOTTOM]->getSize();
+    offsetX = axes->at(AXIS_LEFT)->getSize();
+    offsetY = axes->at(AXIS_BOTTOM)->getSize();
 }
 
 void LineChart::setWidth(float w) {
@@ -84,8 +100,8 @@ void LineChart::drawAtOrigin() {
         }
 
         float titlePos = actualHeight + fontHeight / 3;
-        if (axes[AXIS_TOP]->getDisplay()) {
-            titlePos = titlePos + axes[AXIS_TOP]->getSize();
+        if (axes->at(AXIS_TOP)->getDisplay()) {
+            titlePos = titlePos + axes->at(AXIS_TOP)->getSize();
         }
         if (displayTitle) {
             glColor4f(0, 0, 0, 1);
@@ -98,11 +114,11 @@ void LineChart::drawAtOrigin() {
 
 
 void LineChart::drawAxes() {
-    drawXAxis(axes[AXIS_BOTTOM]);
-    drawXAxis(axes[AXIS_TOP]);
+    drawXAxis(axes->at(AXIS_BOTTOM));
+    drawXAxis(axes->at(AXIS_TOP));
     
-    drawYAxis(axes[AXIS_LEFT]);
-    drawYAxis(axes[AXIS_RIGHT]);
+    drawYAxis(axes->at(AXIS_LEFT));
+    drawYAxis(axes->at(AXIS_RIGHT));
 }
 
 void LineChart::drawXAxis(LineChartAxis *axisX) {
@@ -119,7 +135,7 @@ void LineChart::setLegendFontHeight(float h) {
 }
 
 void LineChart::setAxesFontHeight(float h) {
-    FOREACH_LINECHARTAXIS(it, axes) {
+    FOREACH_LINECHARTAXISP(it, axes) {
         (*it)->setFontHeight(h);
     }   
 }
@@ -152,7 +168,7 @@ void LineChart::calculateGlobalBounds() {
         globalMaxY = -1 * (std::numeric_limits<float>::max)();
     }
 
-    FOREACH_POINTSERIES(it, seriesList) {
+    FOREACH_POINTSERIESP(it, seriesList) {
         if ((*it)->getDisplay()) {
             float minX = (*it)->getMinimumValueX();
             float maxX = (*it)->getMaximumValueX();
@@ -199,13 +215,13 @@ void LineChart::drawBoundary() {
 }
 
 void LineChart::drawLines() {
-    FOREACH_POINTSERIES(it, seriesList) {
+    FOREACH_POINTSERIESP(it, seriesList) {
         if ((*it)->getDisplay()) {
             (*it)->drawGhost();
         }
     }
 
-    FOREACH_POINTSERIES(it, seriesList) {
+    FOREACH_POINTSERIESP(it, seriesList) {
         if ((*it)->getDisplay()) {
             (*it)->draw();
         }
@@ -213,7 +229,7 @@ void LineChart::drawLines() {
 }
 
 void LineChart::drawSelected() {
-    FOREACH_POINTSERIES(it, seriesList) {
+    FOREACH_POINTSERIESP(it, seriesList) {
         if ((*it)->getDisplay()) {
             (*it)->drawSelected();
         }
@@ -221,7 +237,7 @@ void LineChart::drawSelected() {
 }   
 
 void LineChart::drawToPickLines() {
-    FOREACH_POINTSERIES(it, seriesList) {
+    FOREACH_POINTSERIESP(it, seriesList) {
         if ((*it)->getDisplay()) {
             (*it)->drawToPick();
         }
@@ -229,13 +245,13 @@ void LineChart::drawToPickLines() {
 }
 
 void LineChart::addPointSeries(ChartPointSeries *series) {
-    seriesList.push_back(series);
+    seriesList->push_back(series);
 }
 
 ChartPointList *LineChart::getPoints() {
     ChartPointList *newList = new ChartPointList();
 
-    FOREACH_POINTSERIES(it, seriesList) {
+    FOREACH_POINTSERIESP(it, seriesList) {
         if ((*it)->getDisplay()) {
             newList->insert(newList->end(), (*it)->getPoints()->begin(), (*it)->getPoints()->end());
         }
@@ -245,97 +261,97 @@ ChartPointList *LineChart::getPoints() {
 }
 
 void LineChart::setLineWidths(float w) {
-    FOREACH_POINTSERIES(it, seriesList) {       
+    FOREACH_POINTSERIESP(it, seriesList) {       
         (*it)->setLineWidth(w);
     }
 }
 
 void LineChart::setDisplayMarkers(bool d) {
-    FOREACH_POINTSERIES(it, seriesList) {       
+    FOREACH_POINTSERIESP(it, seriesList) {       
         (*it)->setDisplayMarkers(d);
     }
 }
 
 void LineChart::displayMarkersOn() {
-    FOREACH_POINTSERIES(it, seriesList) {       
+    FOREACH_POINTSERIESP(it, seriesList) {       
         (*it)->displayMarkersOn();
     }
 }
 
 void LineChart::displayMarkersOff() {
-    FOREACH_POINTSERIES(it, seriesList) {       
+    FOREACH_POINTSERIESP(it, seriesList) {       
         (*it)->displayMarkersOff();
     }
 }
 
 void LineChart::setMarkersSize(float s) {
-    FOREACH_POINTSERIES(it, seriesList) {       
+    FOREACH_POINTSERIESP(it, seriesList) {       
         (*it)->setMarkerSize(s);
     }
 }
 
 void LineChart::displayAsAreas() {
-    FOREACH_POINTSERIES(it, seriesList) {       
+    FOREACH_POINTSERIESP(it, seriesList) {       
         (*it)->displayAsAreaOn();
     }
 }
 
 void LineChart::displayAsLines() {  
-    FOREACH_POINTSERIES(it, seriesList) {       
+    FOREACH_POINTSERIESP(it, seriesList) {       
         (*it)->displayAsAreaOff();
     }
 }
 
 LineChartAxis *LineChart::getBottomAxis() {
-    return axes[AXIS_BOTTOM];
+    return axes->at(AXIS_BOTTOM);
 }
 
 LineChartAxis *LineChart::getTopAxis() {
-    return axes[AXIS_TOP];
+    return axes->at(AXIS_TOP);
 }
 
 LineChartAxis *LineChart::getLeftAxis() {
-    return axes[AXIS_LEFT];
+    return axes->at(AXIS_LEFT);
 }
 
 LineChartAxis *LineChart::getRightAxis() {
-    return axes[AXIS_RIGHT];
+    return axes->at(AXIS_RIGHT);
 }
 
 bool LineChart::getBottomAxisDisplay() {
-    return axes[AXIS_BOTTOM]->getDisplay();
+    return axes->at(AXIS_BOTTOM)->getDisplay();
 }
 
 bool LineChart::getTopAxisDisplay() {
-    return axes[AXIS_TOP]->getDisplay();
+    return axes->at(AXIS_TOP)->getDisplay();
 }
 
 bool LineChart::getLeftAxisDisplay() {
-    return axes[AXIS_LEFT]->getDisplay();
+    return axes->at(AXIS_LEFT)->getDisplay();
 }
 
 bool LineChart::getRightAxisDisplay() {
-    return axes[AXIS_RIGHT]->getDisplay();
+    return axes->at(AXIS_RIGHT)->getDisplay();
 }
 
 void LineChart::setBottomAxisDisplay(bool d) {
-    axes[AXIS_BOTTOM]->setDisplay(d);
+    axes->at(AXIS_BOTTOM)->setDisplay(d);
 }
 
 void LineChart::setTopAxisDisplay(bool d) {
-    axes[AXIS_TOP]->setDisplay(d);
+    axes->at(AXIS_TOP)->setDisplay(d);
 }
 
 void LineChart::setLeftAxisDisplay(bool d) {
-    axes[AXIS_LEFT]->setDisplay(d);
+    axes->at(AXIS_LEFT)->setDisplay(d);
 }
 
 void LineChart::setRightAxisDisplay(bool d) {
-    axes[AXIS_RIGHT]->setDisplay(d);
+    axes->at(AXIS_RIGHT)->setDisplay(d);
 }
 
 void LineChart::captureLastValues() {
-    FOREACH_POINTSERIES(it, seriesList) {
+    FOREACH_POINTSERIESP(it, seriesList) {
         (*it)->captureLastValues();
     }
 }

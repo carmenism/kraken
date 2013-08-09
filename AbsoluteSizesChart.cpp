@@ -13,8 +13,8 @@ AbsoluteSizesChart::AbsoluteSizesChart(LineChart *lineChart) {//, std::vector<fl
 
     points = new std::vector<AbsoluteSizeIndicator *>();
 
-    ChartPointSeriesList list = lineChart->getPointSeriesList();
-    ChartPointList *lineChartPoints = list.at(0)->getPoints();
+    ChartPointSeriesList *list = lineChart->getPointSeriesList();
+    ChartPointList *lineChartPoints = list->front()->getPoints();
 
     globalMinX = (std::numeric_limits<float>::max)();
     globalMaxX = -1 * (std::numeric_limits<float>::max)();
@@ -55,8 +55,8 @@ void AbsoluteSizesChart::drawToPickAtOrigin() {
 
 void AbsoluteSizesChart::drawAtOrigin() {
     unsigned int i = startIndex;
-    ChartPointSeriesList list = lineChart->getPointSeriesList();
-    ChartPointList *lineChartPoints = list.at(0)->getPoints();
+    ChartPointSeriesList *list = lineChart->getPointSeriesList();
+    ChartPointList *lineChartPoints = list->front()->getPoints();
 
     while (i < points->size()) {
         points->at(i)->setValueY(lineChartPoints->at(i)->getY());

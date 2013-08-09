@@ -8,18 +8,22 @@ LineChartLegend::LineChartLegend(LineChart *c) {
     fontHeight = 13;
 }
 
+LineChartLegend::~LineChartLegend() {
+
+}
+
 void LineChartLegend::draw(float x, float y, float lineLength, float spacing) {
     glPushMatrix();
         glTranslatef(x, y, 0);
 
-        ChartPointSeriesList seriesList = chart->getPointSeriesList();
-        int num = seriesList.size();
+        ChartPointSeriesList *seriesList = chart->getPointSeriesList();
+        int num = seriesList->size();
         float maxWidth = -1;
 
         for (int i = num - 1; i >= 0; i--) {
             float xpos = 0;
             float ypos = (fontHeight + spacing) * (num - i - 1) + spacing;
-            float width = seriesList[i]->drawInLegend(xpos, ypos, lineLength, spacing, fontHeight);
+            float width = seriesList->at(i)->drawInLegend(xpos, ypos, lineLength, spacing, fontHeight);
 
             if (width > maxWidth) {
                 maxWidth = width;

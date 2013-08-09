@@ -38,6 +38,7 @@ ChartPoint::ChartPoint(LineChart *chart, std::string label, float valueX, float 
 
 ChartPoint::~ChartPoint() {
     delete marker;
+    delete last;
 }
 
 void ChartPoint::calculateLocation() {

@@ -27,7 +27,6 @@ typedef std::vector<ChartPointSeries *>::const_iterator ChartPointSeriesIterator
 class LineChart : public Chart2D {
 public:
     LineChart();
-    
     ~LineChart();
 
     void drawAtOrigin();
@@ -37,8 +36,7 @@ public:
     void captureLastValues();
 
     void addPointSeries(ChartPointSeries *s);
-    void clearPointSeriesList() { seriesList.clear(); }
-    ChartPointSeriesList getPointSeriesList() { return seriesList; }
+    ChartPointSeriesList *getPointSeriesList() { return seriesList; }
 
     void setLineWidths(float w);
 
@@ -88,8 +86,8 @@ public:
     bool getAdjustYAxisToData() { return adjustYAxisToData; }
     void setAdjustYAxisToData(bool a) { adjustYAxisToData = a; }
 protected:
-    ChartPointSeriesList seriesList;
-    LineChartAxisList axes;
+    ChartPointSeriesList *seriesList;
+    LineChartAxisList *axes;
     float offsetX, offsetY;
     float actualWidth, actualHeight;
     void updateActualSize();
@@ -98,8 +96,6 @@ private:
 
     bool displayLegend;    
 
-    //float globalMinX, globalMaxX;
-    //float globalMinY, globalMaxY;
     bool adjustYAxisToData;
 
     void calculateGlobalBounds();

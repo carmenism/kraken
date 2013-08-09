@@ -45,7 +45,6 @@ void MyQGLWidget::initializeGL() {
     glDisable(GL_COLOR_MATERIAL);
     glEnable(GL_BLEND);
     glEnable(GL_LINE_SMOOTH);
- //   glEnable(GL_POLYGON_SMOOTH);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glHint( GL_LINE_SMOOTH_HINT, GL_NICEST );
     glHint( GL_POLYGON_SMOOTH_HINT, GL_NICEST );
@@ -332,7 +331,9 @@ void MyQGLWidget::mouseMovePickables(int x, int y) {
             allPickables->insert(allPickables->end(), allArcs->begin(), allArcs->end());
         }
 
-        picker->pick(allPickables, x, y);        
+        picker->pick(allPickables, x, y);   
+
+        delete allPickables;
     }
 }
 

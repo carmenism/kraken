@@ -24,8 +24,8 @@ MultiSpeciesLineChart::MultiSpeciesLineChart(QList<QList<double>> matrix, QStrin
         addPointSeries(series);
     }     
 
-    axes[AXIS_BOTTOM]->setLabel("Year");
-    axes[AXIS_LEFT]->setLabel("Biomass (mt)");
+    axes->at(AXIS_BOTTOM)->setLabel("Year");
+    axes->at(AXIS_LEFT)->setLabel("Biomass (mt)");
 }
 
 
@@ -39,10 +39,6 @@ void MultiSpeciesLineChart::setValues(QList<QList<double>> matrix) {
             y.push_back(matrix.at(i).at(j));
         }
 
-        //try {
-            seriesList[i]->setValues(x, y);
-        //} catch () {
-
-        //}
+        seriesList->at(i)->setValues(x, y);
     }
 }

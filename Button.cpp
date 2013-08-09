@@ -19,7 +19,8 @@ Button::Button(std::string label) : ShadowedRectangle() {
 }
 
 Button::~Button() {
-
+    delete labelColor;
+    delete labelHoveredColor;
 }
 
 void Button::draw() {

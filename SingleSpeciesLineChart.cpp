@@ -29,12 +29,12 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> x, std::vector
     displayLegendOff();
     displayTitleOff();
 
-    axes[AXIS_BOTTOM]->setLabel("Year");
-    axes[AXIS_BOTTOM]->setDisplayLabel(displayXAxisLabels);
-    axes[AXIS_BOTTOM]->setDisplayTickLabels(displayXAxisLabels);
+    axes->at(AXIS_BOTTOM)->setLabel("Year");
+    axes->at(AXIS_BOTTOM)->setDisplayLabel(displayXAxisLabels);
+    axes->at(AXIS_BOTTOM)->setDisplayTickLabels(displayXAxisLabels);
 
-    axes[AXIS_LEFT]->setLabel("Biomass (mt)");
-    axes[AXIS_LEFT]->displayLabelOn();
+    axes->at(AXIS_LEFT)->setLabel("Biomass (mt)");
+    axes->at(AXIS_LEFT)->displayLabelOn();
 
     updateActualSize();
 
@@ -44,7 +44,7 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> x, std::vector
 }
 
 void SingleSpeciesLineChart::setValues(std::vector<float> x, std::vector<float> y) {
-    seriesList[0]->setValues(x, y);
+    seriesList->front()->setValues(x, y);
 }
 
 void SingleSpeciesLineChart::draw() {
@@ -65,5 +65,5 @@ void SingleSpeciesLineChart::drawAtOrigin() {
 }
 
 Color *SingleSpeciesLineChart::getColor() {
-    return seriesList[0]->getColor();
+    return seriesList->front()->getColor();
 }

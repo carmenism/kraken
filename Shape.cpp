@@ -33,6 +33,8 @@ Shape::Shape() : Point(0, 0) {
 
 //------------------ Destructor ------------------------------------
 Shape::~Shape() {
+    delete fillColor;
+    delete borderColor;
 }
 
 //------------------ public methods -------------------------------

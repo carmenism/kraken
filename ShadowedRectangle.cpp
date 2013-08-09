@@ -14,6 +14,10 @@ ShadowedRectangle::ShadowedRectangle() {
     reverseShadow = false;
 }
 
+ShadowedRectangle::~ShadowedRectangle() {
+    delete color;
+}
+
 void ShadowedRectangle::draw() {
     float leftX = x;
     float leftY = y;

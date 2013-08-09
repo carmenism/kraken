@@ -48,6 +48,18 @@ ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vec
     legendPoint = new ChartPoint(chart, "", -1, -1);
 }
 
+ChartPointSeries::~ChartPointSeries() {
+    while (!points->empty()) {
+        ChartPoint *p = points->back();
+        points->pop_back();
+        delete p;
+    }
+
+    delete points;
+    delete legendPoint;
+    delete lineColor;
+}
+
 void ChartPointSeries::setValues(std::vector<float> x, std::vector<float> y) {
     if (x.size() != y.size()) {
         throw "should be equal number of x and y values";
@@ -69,19 +81,13 @@ void ChartPointSeries::setValues(std::vector<float> x, std::vector<float> y) {
         points->at(i)->setY(y[i]);
 
         if (max == NULL || max->getY() < points->at(i)->getY()) { 
-            //|| max->getLastValueY() < points[i]->getLastValueY()) {
             max = points->at(i);
         }
 
         if (min == NULL || min->getY() > points->at(i)->getY()) {
-            //|| min->getLastValueY() > points[i]->getLastValueY()) {
             min = points->at(i);
         }
     }
-}
-
-ChartPointSeries::~ChartPointSeries() {
-    
 }
 
 void ChartPointSeries::draw() {

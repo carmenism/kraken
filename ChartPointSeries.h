@@ -20,7 +20,7 @@ class ChartPointSeries
 {
 public:
     ChartPointSeries(LineChart *chart, std::string label, std::vector<float> x, std::vector<float> y);
-    virtual ~ChartPointSeries();
+    ~ChartPointSeries();
     
     void setValues(std::vector<float> x, std::vector<float> y);
 

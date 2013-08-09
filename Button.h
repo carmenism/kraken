@@ -10,7 +10,7 @@ class Button: public ShadowedRectangle
 {
 public:
     Button(std::string label);
-    virtual ~Button();
+    ~Button();
     void draw();
     
     bool mouseMoved(float x, float y);
