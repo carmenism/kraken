@@ -8,6 +8,16 @@ PlotByGroupManager::PlotByGroupManager() {
     charts = new std::vector<MultiSpeciesLineChart *>();
 }
 
+PlotByGroupManager::~PlotByGroupManager() {
+    while (!charts->empty()) {
+        MultiSpeciesLineChart *c = charts->back();
+        charts->pop_back();
+        delete c;
+    }
+
+    delete charts;
+}
+
 void PlotByGroupManager::updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) {
     if (charts->empty()) {
         initializeCharts(matrix, labels, mainWindow);

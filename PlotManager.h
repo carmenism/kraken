@@ -12,6 +12,7 @@ class QStringList;
 class PlotManager {
     public:
         PlotManager() { display = true; }
+        ~PlotManager();
      
         bool getDisplay() { return display; }
         void setDisplay(bool d) { display = d; }

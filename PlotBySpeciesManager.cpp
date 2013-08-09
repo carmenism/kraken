@@ -12,6 +12,30 @@ PlotBySpeciesManager::PlotBySpeciesManager() : charts() {
     charts = new std::vector<SingleSpeciesLineChart *>();
 }
 
+PlotBySpeciesManager::~PlotBySpeciesManager() {
+    while (!charts->empty()) {
+        SingleSpeciesLineChart *c = charts->back();
+        charts->pop_back();
+        delete c;
+    }
+
+    while (!arcsPred->empty()) {
+        BetweenSpeciesArc *a = arcsPred->back();
+        arcsPred->pop_back();
+        delete a;
+    }
+
+    while (!arcsInter->empty()) {
+        BetweenSpeciesArc *a = arcsInter->back();
+        arcsInter->pop_back();
+        delete a;
+    }
+
+    delete arcsInter;
+    delete arcsPred;
+    delete charts;
+}
+
 void PlotBySpeciesManager::updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) {
     if (oldIndices.empty()) {
         oldIndices = getNewOrder(labels, mainWindow);
@@ -24,7 +48,7 @@ void PlotBySpeciesManager::updateCharts(QList<QList<double>> matrix, QStringList
         initializeCharts(newMatrix, newLabels, mainWindow);
         initializePredationArcs(mainWindow);
         initializeInteractionArcs(mainWindow);
-        currentArcs = &arcsPred;
+        currentArcs = arcsPred;
     } else {
         for (int i = 0; i < newMatrix.size(); i++) {
             std::vector<float> x;
@@ -136,6 +160,7 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double>> matrix, QString
 }
 
 void PlotBySpeciesManager::initializeInteractionArcs(MS_PROD_MainWindow *mainWindow) {
+    arcsInter = new BetweenSpeciesArcList();
     QList<QList<double>> compOrig = mainWindow->getParameters()->getWithinGuildCompMatrix();
     QList<QList<double>> comp = getNewSquareMatrix(compOrig, oldIndices);
 
@@ -151,13 +176,14 @@ void PlotBySpeciesManager::initializeInteractionArcs(MS_PROD_MainWindow *mainWin
                     arc->setArcToLeft();
                 }
 
-                arcsInter.push_back(arc);
+                arcsInter->push_back(arc);
             }
         }        
     }
 }
 
 void PlotBySpeciesManager::initializePredationArcs(MS_PROD_MainWindow *mainWindow) {
+    arcsPred = new BetweenSpeciesArcList();
     QList<QList<double>> predOrig = mainWindow->getParameters()->getPredationMatrix();
     QList<QList<double>> pred = getNewSquareMatrix(predOrig, oldIndices);
 
@@ -173,7 +199,7 @@ void PlotBySpeciesManager::initializePredationArcs(MS_PROD_MainWindow *mainWindo
                     arc->setArcToLeft();
                 }
 
-                arcsPred.push_back(arc);
+                arcsPred->push_back(arc);
             }
         }        
     }

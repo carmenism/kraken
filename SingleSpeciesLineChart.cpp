@@ -43,6 +43,11 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> x, std::vector
     displayAbsoluteSizes = false;
 }
 
+
+SingleSpeciesLineChart::~SingleSpeciesLineChart() {
+    delete absChart;
+}
+
 void SingleSpeciesLineChart::setValues(std::vector<float> x, std::vector<float> y) {
     seriesList->front()->setValues(x, y);
 }

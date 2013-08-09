@@ -24,7 +24,7 @@ typedef std::vector<BetweenSpeciesArc *>::const_iterator BetweenSpeciesArcIterat
 class PlotBySpeciesManager : public PlotManager {
 public:
     PlotBySpeciesManager(); 
-    ~PlotBySpeciesManager() {}
+    ~PlotBySpeciesManager();
 
     void draw();
     virtual void drawToPick();
@@ -54,8 +54,8 @@ private:
     QList<QList<double>> getNewTimeSeriesMatrix(QList<QList<double>> matrix, QList<int> oldIndices);
     QList<QList<double>> getNewSquareMatrix(QList<QList<double>> matrix, QList<int> oldIndices);
    
-    BetweenSpeciesArcList arcsInter;
-    BetweenSpeciesArcList arcsPred;
+    BetweenSpeciesArcList *arcsInter;
+    BetweenSpeciesArcList *arcsPred;
     BetweenSpeciesArcList *currentArcs;
 
     std::vector<SingleSpeciesLineChart *> *charts;

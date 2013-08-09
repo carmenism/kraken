@@ -1,5 +1,9 @@
 #include "PlotManager.h"
 
+PlotManager::~PlotManager() {
+
+}
+
 void PlotManager::draw() {
     std::vector<LineChart *> *charts = getCharts();
 
@@ -23,9 +27,6 @@ ChartPointList *PlotManager::getPoints() {
     for (int i = 0; i < charts->size(); i++) {
         ChartPointList *points = charts->at(i)->getPoints();
 
-        //for (int j = 0; j < points->size(); j++) {
-        //    allPoints.push_back((*points)[j]);
-        //}
         allPoints->insert(allPoints->end(), points->begin(), points->end());
     }
 

@@ -32,6 +32,7 @@ class MyQGLWidget : public QGLWidget {
 
 public:
     MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent = NULL);
+    ~MyQGLWidget();
 
     void updateCharts(QList<QList<double>> matrix, QStringList labels); 
 
@@ -48,21 +49,19 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
 private:
-    Picker *picker;
+    Picker *picker;    
+    PlotByGroupManager *managerGroup;
+    PlotBySpeciesManager *managerSpecies;
     Button *resetAllButton;
     Button *displayGroupButton, *displaySpeciesButton;
     Button *toggleAbsButton, *toggleChartsButton;
-    std::vector<SliderButton *> sliderButtons;
-    std::vector<Button *> buttons;
-
-    MS_PROD_MainWindow *mainWindow;
     
-    PlotByGroupManager *managerGroup;
-    PlotBySpeciesManager *managerSpecies;
+    MS_PROD_MainWindow *mainWindow;
 
-    std::vector<PlotManager *> plotManagers;
-
-    std::vector<ChangeSlider *> sliders;
+    std::vector<PlotManager *> *plotManagers;
+    std::vector<ChangeSlider *> *sliders;
+    std::vector<SliderButton *> *sliderButtons;
+    std::vector<Button *> *buttons;
 
     std::string labelSuffix;
 

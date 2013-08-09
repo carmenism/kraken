@@ -11,6 +11,7 @@ class AbsoluteSizesChart;
 class SingleSpeciesLineChart : public LineChart {
 public:
     SingleSpeciesLineChart();
+    ~SingleSpeciesLineChart();
     SingleSpeciesLineChart(std::vector<float> x, std::vector<float> y, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex);
     void setValues(std::vector<float> x, std::vector<float> y);
     void drawAtOrigin();
