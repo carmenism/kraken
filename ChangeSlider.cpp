@@ -11,6 +11,11 @@ ChangeSlider::ChangeSlider(std::string title, float min, float max, float start)
     display = false;
 }
 
+ChangeSlider::~ChangeSlider() {
+    delete increaseColor;
+    delete decreaseColor;
+}
+
 void ChangeSlider::draw() {
     Slider::draw();
 

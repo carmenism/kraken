@@ -38,6 +38,11 @@ Slider::Slider(std::string title, float min, float max, float start) {
     valueHistory.push_back(start);
 }
 
+Slider::~Slider() {
+    delete main;
+    delete cursor;
+}
+
 void Slider::undo() {
     if (valueHistory.size() > 1) {
         valueHistory.pop_back();

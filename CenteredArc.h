@@ -51,9 +51,6 @@ protected:
     static void drawPolygonArc(float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
     static void drawLineArc(float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
 private:
-    GLUquadricObj *quadratic;
-    //void drawAsLineStrips();
-    //void drawAsPolygons();
     void drawToPickAsLineStrips();
     void drawToPickAsPolygons();
 };

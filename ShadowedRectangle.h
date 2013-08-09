@@ -7,6 +7,7 @@ class ShadowedRectangle {
 public:
     ShadowedRectangle();
     ~ShadowedRectangle();
+
     void draw();
     bool containsPoint(float x, float y);
 

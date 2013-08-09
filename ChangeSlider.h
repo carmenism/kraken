@@ -6,7 +6,8 @@
 class ChangeSlider : public Slider {
 public:
     ChangeSlider(std::string label, float min, float max, float start);
-    
+    ~ChangeSlider();
+
     void draw();
 
     bool mouseMoved(float x, float y);

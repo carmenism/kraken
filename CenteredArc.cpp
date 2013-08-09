@@ -8,7 +8,6 @@ CenteredArc::CenteredArc() : Point(0, 0), Pickable() {
     startAngle = 3.0 * M_PI / 2.0;
     arcAngle = M_PI;
     color = new Color(0, 0, 0, 0.25);
-    quadratic = gluNewQuadric();
 
     fadingAlpha = false;
     startAlpha = 0.6;
@@ -16,7 +15,7 @@ CenteredArc::CenteredArc() : Point(0, 0), Pickable() {
 }
 
 CenteredArc::~CenteredArc() {
-
+    delete color;
 }
 
 CenteredArc::CenteredArc(float radius, float centerX, float centerY, float startAngle, float arcAngle) 

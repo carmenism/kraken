@@ -16,6 +16,7 @@ class Slider
 {
 public:
     Slider(std::string title, float min, float max, float start);
+    ~Slider();
 
     void undo();
     void reset();
