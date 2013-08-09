@@ -20,7 +20,7 @@ class AbsoluteSizesChart : public Chart2D {
         LineChart *lineChart;
         int startIndex, indexInterval; 
         float maxRadius;
-        std::vector<AbsoluteSizeIndicator *> points;
+        std::vector<AbsoluteSizeIndicator *> *points;
 
         void calculateMaxRadius();
         static float radiusFromArea(float area);

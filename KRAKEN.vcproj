@@ -332,45 +332,53 @@
 					Name="Charts"
 					>
 					<File
-						RelativePath=".\AbsoluteSizeIndicator.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\AbsoluteSizesChart.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\Chart.cpp"
 						>
 					</File>
-					<File
-						RelativePath=".\ChartPoint.cpp"
+					<Filter
+						Name="AbsoluteSize"
 						>
-					</File>
-					<File
-						RelativePath=".\ChartPointSeries.cpp"
+						<File
+							RelativePath=".\AbsoluteSizeIndicator.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\AbsoluteSizesChart.cpp"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="Line"
 						>
-					</File>
-					<File
-						RelativePath=".\LineChart.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\LineChartAxis.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\LineChartLegend.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\MultiSpeciesLineChart.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\SingleSpeciesLineChart.cpp"
-						>
-					</File>
+						<File
+							RelativePath=".\ChartPoint.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\ChartPointSeries.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\LineChart.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\LineChartAxis.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\LineChartLegend.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\MultiSpeciesLineChart.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\SingleSpeciesLineChart.cpp"
+							>
+						</File>
+					</Filter>
 				</Filter>
 				<Filter
 					Name="Managers"
@@ -714,14 +722,6 @@
 					Name="Charts"
 					>
 					<File
-						RelativePath=".\AbsoluteSizeIndicator.h"
-						>
-					</File>
-					<File
-						RelativePath=".\AbsoluteSizesChart.h"
-						>
-					</File>
-					<File
 						RelativePath=".\Chart.h"
 						>
 					</File>
@@ -729,34 +729,50 @@
 						RelativePath=".\Chart2D.h"
 						>
 					</File>
-					<File
-						RelativePath=".\ChartPoint.h"
+					<Filter
+						Name="AbsoluteSize"
 						>
-					</File>
-					<File
-						RelativePath=".\ChartPointSeries.h"
+						<File
+							RelativePath=".\AbsoluteSizeIndicator.h"
+							>
+						</File>
+						<File
+							RelativePath=".\AbsoluteSizesChart.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="Line"
 						>
-					</File>
-					<File
-						RelativePath=".\LineChart.h"
-						>
-					</File>
-					<File
-						RelativePath=".\LineChartAxis.h"
-						>
-					</File>
-					<File
-						RelativePath=".\LineChartLegend.h"
-						>
-					</File>
-					<File
-						RelativePath=".\MultiSpeciesLineChart.h"
-						>
-					</File>
-					<File
-						RelativePath=".\SingleSpeciesLineChart.h"
-						>
-					</File>
+						<File
+							RelativePath=".\ChartPoint.h"
+							>
+						</File>
+						<File
+							RelativePath=".\ChartPointSeries.h"
+							>
+						</File>
+						<File
+							RelativePath=".\LineChart.h"
+							>
+						</File>
+						<File
+							RelativePath=".\LineChartAxis.h"
+							>
+						</File>
+						<File
+							RelativePath=".\LineChartLegend.h"
+							>
+						</File>
+						<File
+							RelativePath=".\MultiSpeciesLineChart.h"
+							>
+						</File>
+						<File
+							RelativePath=".\SingleSpeciesLineChart.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 				<Filter
 					Name="Buttons"

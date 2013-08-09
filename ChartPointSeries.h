@@ -66,7 +66,7 @@ public:
     void setColor(Color *c);
     Color *getColor();
 
-    ChartPointList *getPoints() { return &points; }
+    ChartPointList *getPoints() { return points; }
 
     void captureLastValues();
 
@@ -75,7 +75,7 @@ private:
     LineChart *chart;
 
     std::string label;
-    ChartPointList points;
+    ChartPointList *points;
     ChartPoint *legendPoint;
     ChartPoint *min, *max;
     float lineWidth;

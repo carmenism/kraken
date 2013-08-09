@@ -11,6 +11,8 @@ AbsoluteSizesChart::AbsoluteSizesChart(LineChart *lineChart) {//, std::vector<fl
     this->startIndex = 0;
     this->indexInterval = 5;
 
+    points = new std::vector<AbsoluteSizeIndicator *>();
+
     ChartPointSeriesList list = lineChart->getPointSeriesList();
     ChartPointList *lineChartPoints = list.at(0)->getPoints();
 
@@ -30,7 +32,7 @@ AbsoluteSizesChart::AbsoluteSizesChart(LineChart *lineChart) {//, std::vector<fl
         }
 
         AbsoluteSizeIndicator *a = new AbsoluteSizeIndicator(x, y);
-        points.push_back(a);
+        points->push_back(a);
     }
 }
 
@@ -56,18 +58,18 @@ void AbsoluteSizesChart::drawAtOrigin() {
     ChartPointSeriesList list = lineChart->getPointSeriesList();
     ChartPointList *lineChartPoints = list.at(0)->getPoints();
 
-    while (i < points.size()) {
-        points[i]->setValueY(lineChartPoints->at(i)->getY());
+    while (i < points->size()) {
+        points->at(i)->setValueY(lineChartPoints->at(i)->getY());
 
-        float radius = radiusFromArea(points[i]->getValueY() / 100);
+        float radius = radiusFromArea(points->at(i)->getValueY() / 100);
         float diameter = radius * 2;
 
-        float posX = points[i]->getValueX() * width / globalMaxX;
+        float posX = points->at(i)->getValueX() * width / globalMaxX;
         float posY = height / 2;
 
-        points[i]->setSize(diameter, diameter);
-        points[i]->setLocation(posX, posY);
-        points[i]->draw();
+        points->at(i)->setSize(diameter, diameter);
+        points->at(i)->setLocation(posX, posY);
+        points->at(i)->draw();
 
         i = i + indexInterval;
     }
@@ -77,7 +79,7 @@ void AbsoluteSizesChart::calculateMaxRadius() {
     unsigned int i = startIndex;
     int number = 0;
 
-    while (i > points.size()) {
+    while (i > points->size()) {
         number++;
         i = i + indexInterval;
     }
