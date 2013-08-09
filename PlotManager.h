@@ -21,11 +21,11 @@ class PlotManager {
         virtual void draw();
         virtual void drawToPick();
         void captureLastValues();
-        ChartPointList getPoints();
+        ChartPointList *getPoints();
         
-        bool empty() { return getCharts().empty(); }
+        bool empty() { return getCharts()->empty(); }
 
-        virtual std::vector<LineChart *> getCharts() = 0;
+        virtual std::vector<LineChart *> *getCharts() = 0;
         virtual void updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) = 0;
     protected:
 

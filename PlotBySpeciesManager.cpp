@@ -8,6 +8,8 @@
 
 PlotBySpeciesManager::PlotBySpeciesManager() : charts() {
     currentArcs = NULL;
+
+    charts = new std::vector<SingleSpeciesLineChart *>();
 }
 
 void PlotBySpeciesManager::updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) {
@@ -18,7 +20,7 @@ void PlotBySpeciesManager::updateCharts(QList<QList<double>> matrix, QStringList
     
     QList<QList<double>> newMatrix = getNewTimeSeriesMatrix(matrix, oldIndices);
 
-    if (charts.empty()) {
+    if (charts->empty()) {
         initializeCharts(newMatrix, newLabels, mainWindow);
         initializePredationArcs(mainWindow);
         initializeInteractionArcs(mainWindow);
@@ -33,7 +35,7 @@ void PlotBySpeciesManager::updateCharts(QList<QList<double>> matrix, QStringList
                 y.push_back(newMatrix.at(i).at(j));
             }
 
-            charts.at(i)->setValues(x, y);
+            charts->at(i)->setValues(x, y);
         }
     }
 }
@@ -127,7 +129,7 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double>> matrix, QString
             yLoc = 0;
         }
         chart->setLocation(450, yLoc);
-        charts.push_back(chart);
+        charts->push_back(chart);
 
         displayXAxis = false;
     }
@@ -142,8 +144,8 @@ void PlotBySpeciesManager::initializeInteractionArcs(MS_PROD_MainWindow *mainWin
             double compCoeff = comp.at(i).at(j);
 
             if (compCoeff != 0) {
-                InteractionArc *arc = new InteractionArc(compCoeff, charts[j], charts[i]);
-                arc->setColor(charts[j]->getColor());
+                InteractionArc *arc = new InteractionArc(compCoeff, charts->at(j), charts->at(i));
+                arc->setColor(charts->at(j)->getColor());
 
                 if (j < i) {
                     arc->setArcToLeft();
@@ -164,8 +166,8 @@ void PlotBySpeciesManager::initializePredationArcs(MS_PROD_MainWindow *mainWindo
             double predCoeff = pred.at(i).at(j);
 
             if (predCoeff != 0) {
-                PredationArc *arc = new PredationArc(predCoeff, charts[j], charts[i]);
-                arc->setColor(charts[j]->getColor());
+                PredationArc *arc = new PredationArc(predCoeff, charts->at(j), charts->at(i));
+                arc->setColor(charts->at(j)->getColor());
 
                 if (j < i) {
                     arc->setArcToLeft();
@@ -177,11 +179,11 @@ void PlotBySpeciesManager::initializePredationArcs(MS_PROD_MainWindow *mainWindo
     }
 }
 
-std::vector<LineChart *> PlotBySpeciesManager::getCharts() {
-    std::vector<LineChart *> lineCharts;
+std::vector<LineChart *> *PlotBySpeciesManager::getCharts() {
+    std::vector<LineChart *> *lineCharts = new std::vector<LineChart *>();
 
-    for (unsigned int i = 0; i < charts.size(); i++) {
-        lineCharts.push_back(charts[i]);
+    for (unsigned int i = 0; i < charts->size(); i++) {
+        lineCharts->push_back(charts->at(i));
     }
 
     return lineCharts;
@@ -238,12 +240,12 @@ BetweenSpeciesArcList *PlotBySpeciesManager::getArcs() {
 }
 
 bool PlotBySpeciesManager::getDisplayAbsoluteSizes() {
-    return charts[0]->getDisplayAbsoluteSizes();
+    return charts->front()->getDisplayAbsoluteSizes();
 }
 
 void PlotBySpeciesManager::setDisplayAbsoluteSizes(bool d) {
-    for (unsigned int i = 0; i < charts.size(); i++) {
-        charts[i]->setDisplayAbsoluteSizes(d);
+    for (unsigned int i = 0; i < charts->size(); i++) {
+        charts->at(i)->setDisplayAbsoluteSizes(d);
     }
 }
 
@@ -256,12 +258,12 @@ void PlotBySpeciesManager::displayAbsoluteSizesOff() {
 }
 
 bool PlotBySpeciesManager::getDisplayCharts() {
-    return charts[0]->getDisplayChart();
+    return charts->front()->getDisplayChart();
 }
 
 void PlotBySpeciesManager::setDisplayCharts(bool d) {
-    for (unsigned int i = 0; i < charts.size(); i++) {
-        charts[i]->setDisplayChart(d);
+    for (unsigned int i = 0; i < charts->size(); i++) {
+        charts->at(i)->setDisplayChart(d);
     }
 }
 

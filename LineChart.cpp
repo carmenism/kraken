@@ -237,9 +237,7 @@ ChartPointList *LineChart::getPoints() {
 
     FOREACH_POINTSERIES(it, seriesList) {
         if ((*it)->getDisplay()) {
-            FOREACH_POINTP(it2, (*it)->getPoints()) {
-                newList->push_back((*it2));
-            }
+            newList->insert(newList->end(), (*it)->getPoints()->begin(), (*it)->getPoints()->end());
         }
     }
 

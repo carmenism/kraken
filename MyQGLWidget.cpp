@@ -39,15 +39,13 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
 }
 
 void MyQGLWidget::initializeGL() {
-    //glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_MULTISAMPLE);
     glDepthMask(FALSE);
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_COLOR_MATERIAL);
     glEnable(GL_BLEND);
-    //glEnable(GL_MULTISAMPLE_ARB);
     glEnable(GL_LINE_SMOOTH);
-    glEnable(GL_POLYGON_SMOOTH);
+ //   glEnable(GL_POLYGON_SMOOTH);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glHint( GL_LINE_SMOOTH_HINT, GL_NICEST );
     glHint( GL_POLYGON_SMOOTH_HINT, GL_NICEST );
@@ -321,17 +319,17 @@ bool MyQGLWidget::mouseMoveSliders(float x, float y) {
 
 void MyQGLWidget::mouseMovePickables(int x, int y) {
     if (!managerGroup->empty()) {
-        std::vector<Pickable *> allPickables;
+        std::vector<Pickable *> *allPickables = new std::vector<Pickable *>();
         for (unsigned int i = 0; i < plotManagers.size(); i++) {
             if (plotManagers[i]->getDisplay()) {
-                ChartPointList p = plotManagers[i]->getPoints();
-                allPickables.insert(allPickables.end(), p.begin(), p.end());
+                ChartPointList *p = plotManagers[i]->getPoints();
+                allPickables->insert(allPickables->end(), p->begin(), p->end());
             }
         }
 
         BetweenSpeciesArcList *allArcs = managerSpecies->getArcs();
         if (allArcs != NULL) {
-            allPickables.insert(allPickables.end(), allArcs->begin(), allArcs->end());
+            allPickables->insert(allPickables->end(), allArcs->begin(), allArcs->end());
         }
 
         picker->pick(allPickables, x, y);        

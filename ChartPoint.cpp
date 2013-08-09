@@ -145,7 +145,7 @@ void ChartPoint::drawLineToXAxis() {
             glVertex3f(lastPositionX, lastPositionY, 0);
             glVertex3f(marker->getX(), 0, 0);
         glEnd();
-    } else if (diff < 0) {
+    } else {
         float f = marker->getHeight() / 2;
 
         glBegin(GL_LINES);

@@ -76,6 +76,7 @@ void CenteredArc::drawToPick() {
 }
 
 void CenteredArc::drawToPickAsLineStrips() {
+    glEnable(GL_POLYGON_SMOOTH);
     float num_segments = 360.0;
 
     float theta = arcAngle / num_segments; 
@@ -123,6 +124,7 @@ void CenteredArc::drawToPickAsLineStrips() {
     }
 
     glLineWidth(1);
+    glDisable(GL_POLYGON_SMOOTH);
 }
 
 void CenteredArc::drawToPickAsPolygons() {
@@ -200,6 +202,7 @@ void CenteredArc::drawSelected() {
 }
 
 void CenteredArc::drawLineArc(float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha) {
+    glEnable(GL_POLYGON_SMOOTH);
     float num_segments = 360.0;
 
     float theta = arcAngle / num_segments; 
@@ -250,6 +253,7 @@ void CenteredArc::drawLineArc(float radius, float thickness, float startAngle, f
     }
 
     glLineWidth(1);
+    glDisable(GL_POLYGON_SMOOTH);
 }
 
 void CenteredArc::drawPolygonArc(float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha) {

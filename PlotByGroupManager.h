@@ -12,17 +12,16 @@ class MultiSpeciesLineChart;
 
 class PlotByGroupManager : public PlotManager {
 public:
-    PlotByGroupManager() {}
-    //PlotByGroupManager(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);
+    PlotByGroupManager();
     ~PlotByGroupManager() {}
 
     void updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);
 
-    std::vector<LineChart *> getCharts();
+    std::vector<LineChart *> *getCharts();
 protected:
 
 private:
-    std::vector<MultiSpeciesLineChart *> charts;
+    std::vector<MultiSpeciesLineChart *> *charts;
 
     void initializeCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);
 };

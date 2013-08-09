@@ -30,9 +30,9 @@ public:
     virtual void drawToPick();
 
     void captureLastValues();
-    ChartPointList getPoints();
+    ChartPointList *getPoints();
     BetweenSpeciesArcList *getArcs();    
-    std::vector<LineChart *> getCharts();
+    std::vector<LineChart *> *getCharts();
     void updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);
 
     bool getDisplayCharts();
@@ -58,7 +58,7 @@ private:
     BetweenSpeciesArcList arcsPred;
     BetweenSpeciesArcList *currentArcs;
 
-    std::vector<SingleSpeciesLineChart *> charts;
+    std::vector<SingleSpeciesLineChart *> *charts;
 
     void initializeCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);
     void initializeInteractionArcs(MS_PROD_MainWindow *mainWindow);

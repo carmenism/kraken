@@ -11,7 +11,7 @@ public:
     Picker(MyQGLWidget *widget);
     ~Picker() {}
 
-    void pick(std::vector<Pickable *> allPickables, int x, int y);
+    void pick(std::vector<Pickable *> *allPickables, int x, int y);
 private:
     MyQGLWidget *widget;
     Pickable *hovered;
