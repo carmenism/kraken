@@ -35,9 +35,14 @@ MS_PROD_MainWindow::MS_PROD_MainWindow(QWidget *parent) :
 
 MS_PROD_MainWindow::~MS_PROD_MainWindow()
 {
+    //delete glWidget;
     delete ui;
 }
 
+void MS_PROD_MainWindow::closeEvent(QCloseEvent *event) {
+    glWidget->close();
+    //delete glWidget;
+}
 
 void MS_PROD_MainWindow::pb_Load_Clicked() {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open MS-PROD Parameter File"), "/", tr("CSV files (*.csv)"));

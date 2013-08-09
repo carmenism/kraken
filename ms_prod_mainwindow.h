@@ -36,6 +36,8 @@ public:
     Parameters *getParameters() { return &paramObj; }
     
     void runModel();
+
+    virtual void closeEvent(QCloseEvent *event);
 private:
     Ui::MS_PROD_MainWindow *ui;
 
