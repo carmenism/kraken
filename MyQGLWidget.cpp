@@ -1,21 +1,24 @@
 #include <QtGui/QMouseEvent>
 #include "MyQGLWidget.h"
 #include "stdio.h"
-#include "MultiSpeciesLineChart.h"
-#include "ChartPoint.h"
-#include "ChangeSlider.h"
-#include "MS_PROD_MainWindow.h"
-#include "Parameters.h"
+
+#include "AbsoluteSizeIndicator.h"
+#include "BetweenSpeciesArc.h"
 #include "Button.h"
-#include "UndoButton.h"
-#include "ResetButton.h"
-#include "SliderButton.h"
-#include "PlotByGroupManager.h"
-#include "PlotBySpeciesManager.h"
-#include "PlotManager.h"
+#include "ChangeSlider.h"
+#include "ChartPoint.h"
+#include "MS_PROD_MainWindow.h"
+#include "MultiSpeciesLineChart.h"
+#include "Parameters.h"
 #include "Pickable.h"
 #include "Picker.h"
-#include "BetweenSpeciesArc.h"
+#include "PlotManager.h"
+#include "PlotByGroupManager.h"
+#include "PlotBySpeciesManager.h"
+#include "ResetButton.h"
+#include "SliderButton.h"
+#include "UndoButton.h"
+
 #include <QList>
 #include <QStringList>
 
@@ -360,6 +363,13 @@ void MyQGLWidget::mouseMovePickables(int x, int y) {
         BetweenSpeciesArcList *allArcs = managerSpecies->getArcs();
         if (allArcs != NULL) {
             allPickables->insert(allPickables->end(), allArcs->begin(), allArcs->end());
+        }
+
+        if (managerSpecies->getDisplay() 
+            && managerSpecies->getDisplayAbsoluteSizes() 
+            && !managerSpecies->getDisplayCharts()) {
+            std::vector<AbsoluteSizeIndicator *> *absPoints = managerSpecies->getAbsPoints();
+            allPickables->insert(allPickables->end(), absPoints->begin(), absPoints->end());
         }
 
         picker->pick(allPickables, x, y);   

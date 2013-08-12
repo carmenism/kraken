@@ -7,7 +7,7 @@ class Chart {
     public:
         Chart();
         virtual void draw();
-        void drawToPick();
+        virtual void drawToPick();
      
         virtual void drawAtOrigin() = 0;
         virtual void drawToPickAtOrigin() = 0;

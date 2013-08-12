@@ -9,12 +9,15 @@ class LineChart;
 
 class AbsoluteSizesChart : public Chart2D {
     public:
-        AbsoluteSizesChart(LineChart *lineChart);//, std::vector<float> x, std::vector<float> y);
+        AbsoluteSizesChart(LineChart *lineChart);
         ~AbsoluteSizesChart() {}
 
-        virtual void drawAtOrigin();
-        virtual void drawToPickAtOrigin();
         virtual void draw();
+        virtual void drawAtOrigin();
+        virtual void drawToPick();
+        virtual void drawToPickAtOrigin();
+
+        std::vector<AbsoluteSizeIndicator *> *getPoints() { return points; }
     protected:
     private:
         LineChart *lineChart;

@@ -11,11 +11,13 @@ public:
     Picker(MyQGLWidget *widget);
     ~Picker() {}
 
+    //void drawPicked();
+
     void pick(std::vector<Pickable *> *allPickables, int x, int y);
 private:
     MyQGLWidget *widget;
     Pickable *hovered;
-    void setHovered(Pickable *pickable);
+    void setHovered(Pickable *pickable, float x, float y);
 };
 
 #endif

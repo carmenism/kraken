@@ -3,6 +3,7 @@
 
 class Color;
 class AbsoluteSizesChart;
+class AbsoluteSizeIndicator;
 
 #include "LineChart.h"
 #include <vector>
@@ -16,8 +17,11 @@ public:
     void setValues(std::vector<float> x, std::vector<float> y);
     void drawAtOrigin();
     virtual void draw();
+    virtual void drawToPick();
     Color *getColor();
     
+    std::vector<AbsoluteSizeIndicator *> *getAbsPoints();
+
     bool getDisplayChart() { return displayChart; }
     void setDisplayChart(bool d) { displayChart = d; }
     void displayChartOn() { displayChart = true; }

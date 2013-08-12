@@ -8,6 +8,7 @@
 #include "PlotManager.h"
 #include "ChartPointSeries.h"
 
+class AbsoluteSizeIndicator;
 class SingleSpeciesLineChart;
 class BetweenSpeciesArc;
 class InteractionArc;
@@ -34,6 +35,8 @@ public:
     BetweenSpeciesArcList *getArcs();    
     std::vector<LineChart *> *getCharts();
     void updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);
+
+    std::vector<AbsoluteSizeIndicator *> *getAbsPoints();
 
     bool getDisplayCharts();
     void setDisplayCharts(bool d);

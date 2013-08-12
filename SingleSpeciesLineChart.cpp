@@ -60,6 +60,14 @@ void SingleSpeciesLineChart::draw() {
     LineChart::draw();
 }
 
+void SingleSpeciesLineChart::drawToPick() {
+    LineChart::drawToPick();
+    
+    if (displayAbsoluteSizes && !displayChart) {
+        absChart->drawToPick();
+    }    
+}
+
 void SingleSpeciesLineChart::drawAtOrigin() {
     if (displayChart) {
         LineChart::drawAtOrigin();
@@ -69,6 +77,19 @@ void SingleSpeciesLineChart::drawAtOrigin() {
     PrintText::drawStrokeText(sideLabel, -10, offsetY + actualHeight / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER);
 }
 
+/*void SingleSpeciesLineChart::drawToPickAtOrigin() {
+    LineChart::drawToPickAtOrigin();
+
+    glPushMatrix();
+        glTranslatef(offsetX, offsetY, 0);
+         
+    glPopMatrix();
+}*/
+
 Color *SingleSpeciesLineChart::getColor() {
     return seriesList->front()->getColor();
+}
+
+std::vector<AbsoluteSizeIndicator *> *SingleSpeciesLineChart::getAbsPoints() {
+    return absChart->getPoints();
 }

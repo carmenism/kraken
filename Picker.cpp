@@ -34,21 +34,30 @@ void Picker::pick(std::vector<Pickable *> *allPickables, int x, int y) {
 
     int size = allPickables->size();
     if (pick >=0 && pick < size) {
-        setHovered(allPickables->at(pick));
+        setHovered(allPickables->at(pick), x, y);
     }
     else if (hovered != NULL) {
         hovered->selectedOff();
+        hovered = NULL;
     }
 }
 
-void Picker::setHovered(Pickable *pickable) {
+void Picker::setHovered(Pickable *pickable, float x, float y) {
     pickable->selectedOn();
     
     if (hovered != pickable) {
         if (hovered != NULL) {
             hovered->selectedOff();
+            hovered = NULL;
         }
         
         hovered = pickable;
     }
+
+    hovered->setMouseX(x);
+    hovered->setMouseY(y);
 }
+
+//void Picker::drawPicked() {
+//    hovered->drawSelected();
+//}

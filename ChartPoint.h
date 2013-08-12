@@ -22,6 +22,8 @@ public:
 
     void calculateLocation();
 
+    std::string getLabel() { return label; }
+
     void setShape(int shape);
     void setSize(float size);
     void setBorderColor(Color *color);

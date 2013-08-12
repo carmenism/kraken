@@ -300,3 +300,15 @@ void PlotBySpeciesManager::displayChartsOn() {
 void PlotBySpeciesManager::displayChartsOff() {
     setDisplayCharts(false);
 }
+
+std::vector<AbsoluteSizeIndicator *> *PlotBySpeciesManager::getAbsPoints() {
+    std::vector<AbsoluteSizeIndicator *> *allPoints = new std::vector<AbsoluteSizeIndicator *>();
+
+    for (unsigned int i = 0; i < charts->size(); i++) {
+        std::vector<AbsoluteSizeIndicator *> *points = charts->at(i)->getAbsPoints();
+
+        allPoints->insert(allPoints->end(), points->begin(), points->end());
+    }
+
+    return allPoints;
+}

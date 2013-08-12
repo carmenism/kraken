@@ -104,7 +104,7 @@ void LineChartAxis::drawLabel() {
             } else {
                 y = chart->getActualHeight() + fontHeight / 3;
             }
-            PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM);
+            PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, false, 0);
             break;
         case AXIS_LEFT:            
             if (displayTickLabels) {
@@ -113,7 +113,7 @@ void LineChartAxis::drawLabel() {
                 x = -fontHeight / 3;
             }
             y = chart->getActualHeight() / 2;
-            PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, 90);
+            PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, false, 90);
             break;
         case AXIS_RIGHT:
             if (displayTickLabels) {
@@ -122,7 +122,7 @@ void LineChartAxis::drawLabel() {
                 x = chart->getActualWidth() + fontHeight / 3;
             }
             y = chart->getActualHeight() / 2;
-            PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, -90);
+            PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, false, -90);
             break;
         case AXIS_BOTTOM:
         default:
@@ -132,7 +132,7 @@ void LineChartAxis::drawLabel() {
             } else {
                 y = - fontHeight / 3;
             }
-            PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_TOP);
+            PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_TOP, false, 0);
             break;
     }
 }
@@ -149,23 +149,23 @@ void LineChartAxis::drawTickLabels() {
             case AXIS_TOP:
                 x = valueToPosition(chart->getActualWidth(), value);
                 y = chart->getActualHeight() + fontHeight / 3;
-                PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM);
+                PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, false, 0);
                 break;
             case AXIS_LEFT:            
                 x = -fontHeight / 3;
                 y = valueToPosition(chart->getActualHeight(), value);
-                PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, 90);
+                PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, false, 90);
                 break;
             case AXIS_RIGHT:
                 x = chart->getActualWidth() + fontHeight / 3;
                 y = valueToPosition(chart->getActualHeight(), value);
-                PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, -90);
+                PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_BOTTOM, false, -90);
                 break;
             case AXIS_BOTTOM:
             default:
                 x = valueToPosition(chart->getActualWidth(), value);
                 y = -fontHeight / 3;
-                PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_TOP);
+                PrintText::drawStrokeText(label, x, y, fontHeight, HORIZ_CENTER, VERT_TOP, false, 0);
                 break;
         } 
 

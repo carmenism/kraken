@@ -6,7 +6,7 @@
 #include <QtOpenGL>
 #include <limits>
 
-AbsoluteSizesChart::AbsoluteSizesChart(LineChart *lineChart) {//, std::vector<float> x, std::vector<float> y) : Chart2D() {
+AbsoluteSizesChart::AbsoluteSizesChart(LineChart *lineChart) {
     this->lineChart = lineChart;
     this->startIndex = 0;
     this->indexInterval = 5;
@@ -20,6 +20,7 @@ AbsoluteSizesChart::AbsoluteSizesChart(LineChart *lineChart) {//, std::vector<fl
     globalMaxX = -1 * (std::numeric_limits<float>::max)();
 
     for (unsigned int i = 0; i < lineChartPoints->size(); i++) {
+        std::string label = lineChartPoints->at(i)->getLabel();
         float x = lineChartPoints->at(i)->getX();
         float y = lineChartPoints->at(i)->getY();
 
@@ -31,7 +32,7 @@ AbsoluteSizesChart::AbsoluteSizesChart(LineChart *lineChart) {//, std::vector<fl
             globalMaxX = x;
         }
 
-        AbsoluteSizeIndicator *a = new AbsoluteSizeIndicator(x, y);
+        AbsoluteSizeIndicator *a = new AbsoluteSizeIndicator(label, x, y);
         points->push_back(a);
     }
 }
@@ -47,10 +48,14 @@ void AbsoluteSizesChart::draw() {
                 
         drawAtOrigin();
     glPopMatrix();
-}
 
-void AbsoluteSizesChart::drawToPickAtOrigin() {
-
+    unsigned int i = startIndex;
+    
+    while (i < points->size()) {
+        points->at(i)->drawSelected();
+    
+        i = i + indexInterval;
+    }
 }
 
 void AbsoluteSizesChart::drawAtOrigin() {
@@ -70,10 +75,59 @@ void AbsoluteSizesChart::drawAtOrigin() {
         points->at(i)->setSize(diameter, diameter);
         points->at(i)->setLocation(posX, posY);
         points->at(i)->draw();
+        //points->at(i)->drawSelected();
 
         i = i + indexInterval;
     }
 }
+
+void AbsoluteSizesChart::drawToPick() {
+    setXLocation(lineChart->getXLocation() + lineChart->getOffsetX());
+    setYLocation(lineChart->getYLocation() + lineChart->getOffsetY());
+    width = lineChart->getActualWidth();
+    height = lineChart->getActualHeight();
+
+    glPushMatrix();
+        glTranslatef(getXLocation(), getYLocation(), 0); 
+                
+        drawToPickAtOrigin();
+    glPopMatrix();
+}
+
+void AbsoluteSizesChart::drawToPickAtOrigin() {
+    unsigned int i = startIndex;
+    ChartPointSeriesList *list = lineChart->getPointSeriesList();
+    ChartPointList *lineChartPoints = list->front()->getPoints();
+  
+    while (i < points->size()) {
+        points->at(i)->setValueY(lineChartPoints->at(i)->getY());
+
+        float radius = radiusFromArea(points->at(i)->getValueY() / 100);
+        float diameter = radius * 2;
+
+        float posX = points->at(i)->getValueX() * width / globalMaxX;
+        float posY = height / 2;
+
+        points->at(i)->setSize(diameter, diameter);
+        points->at(i)->setLocation(posX, posY);
+        points->at(i)->drawToPick();
+
+        i = i + indexInterval;
+    }
+}
+/*
+std::vector<AbsoluteSizeIndicator *> *AbsoluteSizesChart::getPoints() {
+    std::vector<AbsoluteSizeIndicator *> *newList;
+    unsigned int i = startIndex;
+    
+    while (i < points->size()) {
+        newList->push_back(points->at(i));
+
+        i = i + indexInterval;
+    }
+
+    return newList;
+}*/
 
 void AbsoluteSizesChart::calculateMaxRadius() {
     unsigned int i = startIndex;
