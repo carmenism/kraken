@@ -10,17 +10,10 @@
 
 class AbsoluteSizeIndicator;
 class SingleSpeciesLineChart;
-class BetweenSpeciesArc;
 class InteractionArc;
 class PredationArc;
 
-typedef std::vector<BetweenSpeciesArc *> BetweenSpeciesArcList;
-typedef std::vector<BetweenSpeciesArc *>::const_iterator BetweenSpeciesArcIterator;
-
-#define FOREACH_BETWEENSPECIESARC(it, arcList) \
-    for(BetweenSpeciesArcIterator it = arcList.begin(); it != arcList.end(); ++it)
-#define FOREACH_BETWEENSPECIESARCP(it, arcList) \
-    for(BetweenSpeciesArcIterator it = arcList->begin(); it != arcList->end(); ++it)
+#include "BetweenSpeciesArcCollection.h"
 
 class PlotBySpeciesManager : public PlotManager {
 public:
@@ -57,17 +50,16 @@ private:
     QList<QList<double>> getNewTimeSeriesMatrix(QList<QList<double>> matrix, QList<int> oldIndices);
     QList<QList<double>> getNewSquareMatrix(QList<QList<double>> matrix, QList<int> oldIndices);
    
-    BetweenSpeciesArcList *arcsInter;
-    BetweenSpeciesArcList *arcsPred;
-    BetweenSpeciesArcList *currentArcs;
+    BetweenSpeciesArcCollection *arcsInter;
+    BetweenSpeciesArcCollection *arcsPred;
+    BetweenSpeciesArcCollection *arcsCurrent;
 
     std::vector<SingleSpeciesLineChart *> *charts;
 
     void initializeCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);
+    BetweenSpeciesArcCollection *initializeArcs(int arcType, QList<QList<double>> matix);
     void initializeInteractionArcs(MS_PROD_MainWindow *mainWindow);
     void initializePredationArcs(MS_PROD_MainWindow *mainWindow);
-
-    BetweenSpeciesArc *drawArcs();
 };
 
 #endif  /* _PLOTBYSPECIESMANAGER_H */

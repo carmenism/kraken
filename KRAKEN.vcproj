@@ -297,6 +297,10 @@
 				Name="GUI"
 				>
 				<File
+					RelativePath=".\BetweenSpeciesArcCollection.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Color.cpp"
 					>
 				</File>
@@ -582,18 +586,26 @@
 				>
 			</File>
 			<File
-				RelativePath="ui_ms_prod_mainwindow.h"
+				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
+				RelativePath="ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<Filter
 				Name="GUI"
 				>
 				<File
+					RelativePath=".\BetweenSpeciesArcCollection.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Color.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Displayable.h"
 					>
 				</File>
 				<File

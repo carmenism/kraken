@@ -1,6 +1,7 @@
 #ifndef _PLOTMANAGER_H
 #define _PLOTMANAGER_H
 
+#include "Displayable.h"
 #include "LineChart.h"
 #include "ChartPoint.h"
 #include <vector>
@@ -9,16 +10,11 @@
 class MS_PROD_MainWindow;
 class QStringList;
 
-class PlotManager {
+class PlotManager : public Displayable {
     public:
-        PlotManager() { display = true; }
+        PlotManager() {  }
         ~PlotManager();
      
-        bool getDisplay() { return display; }
-        void setDisplay(bool d) { display = d; }
-        void displayOn() { display = true; }
-        void displayOff() { display = false; }
-
         virtual void draw();
         virtual void drawToPick();
         void captureLastValues();
@@ -31,7 +27,6 @@ class PlotManager {
     protected:
 
     private: 
-        bool display;
 };
 
 #endif  /* _PLOTMANAGER_H */
