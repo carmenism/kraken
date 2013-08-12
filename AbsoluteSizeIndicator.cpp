@@ -18,7 +18,7 @@ AbsoluteSizeIndicator::~AbsoluteSizeIndicator() {
 void AbsoluteSizeIndicator::drawSelected() {
     if (selected) {
         glColor4f(0, 0, 0, 1);
-        std::string newLabel = label + ", " + toStr(valueY) + " (Year " + toStr(valueX) + ")";
+        std::string newLabel = label + ", " + toStr(valueY) + " Mt (Year " + toStr(valueX) + ")";
         PrintText::drawStrokeText(newLabel, mouseX + 10, mouseY - 10, 12, HORIZ_LEFT, VERT_TOP, true);
         getBorderColor()->a = 0.5;
         getFillColor()->a = 0.5;
