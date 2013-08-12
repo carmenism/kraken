@@ -65,18 +65,7 @@ void BetweenSpeciesArc::drawSelected() {
 
         float yPos = this->y;
 
-        float h = fontHeight;
-        float w = PrintText::strokeWidth(label, fontHeight);
-
-        float xOffset = w / 2 + padding;
-        float yOffset = h / 2 + padding;
-        
-        glPolygonMode(GL_FRONT, GL_FILL);  
-        glColor4f(1.0, 1.0, 1.0, 0.85);
-        glRectf(xPos - xOffset, yPos - yOffset,
-                xPos + xOffset, yPos + yOffset);
-
         glColor4f(color->r, color->g, color->b, 1);
-        PrintText::drawStrokeText(label, xPos, yPos, fontHeight, HORIZ_CENTER, VERT_CENTER);
+        PrintText::drawStrokeText(label, xPos, yPos, fontHeight, HORIZ_CENTER, VERT_CENTER, true);
     }
 }

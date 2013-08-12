@@ -89,15 +89,8 @@ void ChartPoint::drawSelected() {
             y = y - h - 4 * padding;
         }
 
-        glPolygonMode(GL_FRONT, GL_FILL);  
-        glColor4f(1.0, 1.0, 1.0, 0.85);
-
-        glRectf(x - padding,     y - padding,
-                x + w + padding, y + h + padding);
-
-        //glColor4f(0.0, 0.0, 0.0, 1.0);
         glColor4f(c->r, c->g, c->b, 1);
-        PrintText::drawStrokeText(newLabel, x, y, fontHeight);
+        PrintText::drawStrokeText(newLabel, x, y, fontHeight, HORIZ_LEFT, VERT_BOTTOM, true);
     }
 }
 

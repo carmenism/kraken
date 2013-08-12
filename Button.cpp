@@ -59,7 +59,7 @@ void Button::draw() {
 
     if (!active) {
         glColor4f(1, 1, 1, 0.3);
-        glRectf(x,     y, 
+        glRectf(x,         y, 
                 x + width, y + height);
     }
 }
