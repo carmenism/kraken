@@ -60,14 +60,15 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> *x, std::vecto
 
     harvest->addPointSeries(harvestSeries);
     harvest->setMarkersSize(3);
-    //harvest->setAdjustYAxisToData(false);
-    //harvest->setGlobalMinY(0);
-    //harvest->setGlobalMaxY(25000);
+    harvest->setAdjustYAxisToData(false);
+    harvest->setGlobalMinY(0);
+    harvest->setGlobalMaxY(25000);
 }
 
 
 SingleSpeciesLineChart::~SingleSpeciesLineChart() {
     delete absChart;
+    delete harvest;
 }
 
 void SingleSpeciesLineChart::setValues(std::vector<float> *x, std::vector<float> *yBiomass, std::vector<float> *yHarvest) {
