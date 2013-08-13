@@ -25,6 +25,8 @@ PlotBySpeciesManager::~PlotBySpeciesManager() {
     delete arcsInter;
     delete arcsPred;
     delete charts;
+    delete oldIndices;
+    delete newLabels;
 }
 
 void PlotBySpeciesManager::updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) {
