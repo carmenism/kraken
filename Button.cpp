@@ -9,9 +9,9 @@ Button::Button(std::string label) : ShadowedRectangle() {
     labelHoveredColor = new Color(1, 1, 1, 1);
     labelActiveColor = new Color(1, 0, 0, 1);
 
-    mouseIsHovering = false;
+    /*mouseIsHovering = false;
     mouseIsPressing = false;
-    active = true;
+    active = true;*/
 
     color->r = 0.65;
     color->g = 0.65;
@@ -109,7 +109,7 @@ bool Button::mouseReleased(float x, float y) {
 
     return false;
 }
-
+/*
 void Button::setActive(bool a) {
     active = a;
 
@@ -123,4 +123,4 @@ void Button::activeOff() {
     active = false;
     mouseIsHovering = false;
     mouseIsPressing = false;
-}
+}*/

@@ -17,6 +17,7 @@ class ResetButton;
 class Slider;
 class SliderButton;
 class UndoButton;
+class MouseEventItem;
 
 typedef std::vector<MultiSpeciesLineChart *> MSLineChartList;
 typedef std::vector<MultiSpeciesLineChart *>::const_iterator MSLineChartIterator;
@@ -55,9 +56,11 @@ private:
     Button *resetAllButton;
     Button *displayGroupButton, *displaySpeciesButton;
     Button *toggleAbsButton, *toggleChartsButton;
-    
+    //DisplayButtonGroup *displayTypeButtons;
+
     MS_PROD_MainWindow *mainWindow;
 
+    std::vector<MouseEventItem *> *mouseEventItems;
     std::vector<PlotManager *> *plotManagers;
     std::vector<ChangeSlider *> *sliders;
     std::vector<SliderButton *> *sliderButtons;

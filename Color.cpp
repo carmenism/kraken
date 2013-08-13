@@ -58,16 +58,16 @@ Color *Color::getUnassignedColor() {
 
 // http://stackoverflow.com/questions/180/function-for-creating-color-wheels
 Color *Color::getEvenlyDistributedColor(int numberColors, int offset) {
-    float hueInterval = 1.0 / numberColors;
+    float hueInterval = 1.0f / numberColors;
     float hue = hueInterval * offset;
 
     float saturation = 1.0;
     float brightness = 0.5;
 
     if (offset % 3 == 1) {
-        brightness = 0.4;
+        brightness = 0.4f;
     } else if (offset % 3 == 2) {
-        brightness = 0.6;
+        brightness = 0.6f;
     }
 
     return hslToRgb(hue, saturation, brightness);
@@ -80,11 +80,11 @@ Color *Color::hslToRgb(float h, float s, float l, float a) {
     }
 
     float q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-    float p = 2.0 * l - q;
+    float p = 2.0f * l - q;
 
-    float r = hueToRgb(p, q, h + 1.0 / 3.0);
+    float r = hueToRgb(p, q, h + 1.0f / 3.0f);
     float g = hueToRgb(p, q, h);
-    float b = hueToRgb(p, q, h - 1.0 / 3.0);
+    float b = hueToRgb(p, q, h - 1.0f / 3.0f);
 
     return new Color(r, g, b, a);
 }
@@ -107,27 +107,27 @@ float Color::hueToRgb(float p, float q, float t) {
     }
 
     if (t < (2.0 / 3.0)) {
-        return p + (q - p) * (2.0 / 3.0 - t) * 6;
+        return p + (q - p) * (2.0f / 3.0f - t) * 6.0f;
     }
 
     return p;
 }
 
-Color Color::red(0.85, 0.0, 0.0);
-Color Color::orange(0.93, 0.60, 0.0);
-Color Color::goldenrod(0.85, 0.65, 0.13);
-Color Color::yellow(0.93, 0.93, 0.0);
-Color Color::avocado(0.64, 0.74, 0.07);
-Color Color::green(0.0, 0.5, 0.0);
-Color Color::skyblue(0.53, 0.81, 0.92);
-Color Color::blue(0.0, 0.0, 0.93);
-Color Color::navy(0.0, 0.0, 0.35);
-Color Color::purple(0.33, 0.1, 0.55);
-Color Color::lavender(0.8, 0.6, 0.8);
-Color Color::magenta(0.93, 0.07, 0.54);
-Color Color::pink(0.96, 0.66, 0.71);
-Color Color::tan(0.8, 0.67, 0.49);
-Color Color::brown(0.54, 0.21, 0.06);
+Color Color::red(0.85f, 0.0f, 0.0f);
+Color Color::orange(0.93f, 0.60f, 0.0f);
+Color Color::goldenrod(0.85f, 0.65f, 0.13f);
+Color Color::yellow(0.93f, 0.93f, 0.0f);
+Color Color::avocado(0.64f, 0.74f, 0.07f);
+Color Color::green(0.0f, 0.5f, 0.0f);
+Color Color::skyblue(0.53f, 0.81f, 0.92f);
+Color Color::blue(0.0f, 0.0f, 0.93f);
+Color Color::navy(0.0f, 0.0f, 0.35f);
+Color Color::purple(0.33f, 0.1f, 0.55f);
+Color Color::lavender(0.8f, 0.6f, 0.8f);
+Color Color::magenta(0.93f, 0.07f, 0.54f);
+Color Color::pink(0.96f, 0.66f, 0.71f);
+Color Color::tan(0.8f, 0.67f, 0.49f);
+Color Color::brown(0.54f, 0.21f, 0.06f);
 
 Color Color::gray(0.5, 0.5, 0.5);
 Color Color::black(0.0, 0.0, 0.0);

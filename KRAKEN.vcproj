@@ -305,6 +305,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MouseEventItem.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\MyQGLWidget.cpp"
 					>
 				</File>
@@ -316,11 +320,23 @@
 					RelativePath=".\PrintText.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\SingleSpeciesLineChartCollection.cpp"
+					>
+				</File>
 				<Filter
 					Name="Buttons"
 					>
 					<File
 						RelativePath=".\Button.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\DisplayButton.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\DisplayButtonGroup.cpp"
 						>
 					</File>
 					<File
@@ -540,6 +556,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MouseEventItem.h"
+				>
+			</File>
+			<File
 				RelativePath="ms_prod_mainwindow.h"
 				>
 				<FileConfiguration
@@ -597,6 +617,10 @@
 				Name="GUI"
 				>
 				<File
+					RelativePath=".\AbsoluteSizesChartCollection.h"
+					>
+				</File>
+				<File
 					RelativePath=".\BetweenSpeciesArcCollection.h"
 					>
 				</File>
@@ -644,6 +668,10 @@
 				</File>
 				<File
 					RelativePath=".\PrintText.h"
+					>
+				</File>
+				<File
+					RelativePath=".\SingleSpeciesLineChartCollection.h"
 					>
 				</File>
 				<Filter
@@ -791,6 +819,14 @@
 					>
 					<File
 						RelativePath=".\Button.h"
+						>
+					</File>
+					<File
+						RelativePath=".\DisplayButton.h"
+						>
+					</File>
+					<File
+						RelativePath=".\DisplayButtonGroup.h"
 						>
 					</File>
 					<File

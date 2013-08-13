@@ -2,12 +2,11 @@
 #define _BETWEENSPECIESARCCOLLECTION_H
 
 class BetweenSpeciesArc;
+class SingleSpeciesLineChart;
+class Color;
 
 #include "Displayable.h"
 #include <vector>
-
-class SingleSpeciesLineChart;
-class Color;
 
 enum {ARC_PREDATION, ARC_INTERACTION};
 

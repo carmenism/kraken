@@ -44,6 +44,8 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     plotManagers->push_back(managerSpecies);
 
     picker = new Picker(this);
+
+    mouseEventItems = new std::vector<MouseEventItem *>();
 }
 
 MyQGLWidget::~MyQGLWidget() {
@@ -70,6 +72,7 @@ MyQGLWidget::~MyQGLWidget() {
     delete sliders;
     delete plotManagers;
     delete picker;
+    //delete displayTypeButtons;
 }
 
 void MyQGLWidget::initializeGL() {
@@ -254,8 +257,8 @@ void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
 bool MyQGLWidget::mousePressButtons(float x, float y) {
     bool buttonPress = false; 
 
-    for (unsigned int i = 0; i < buttons->size(); i++) {
-        buttonPress = buttons->at(i)->mousePressed(x, y);
+    for (unsigned int i = 0; i < mouseEventItems->size(); i++) {
+        buttonPress = mouseEventItems->at(i)->mousePressed(x, y);
 
         if (buttonPress) {
             return true;
@@ -313,13 +316,13 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
 }
 
 bool MyQGLWidget::mouseMoveButtons(float x, float y) {
-    Button *moved = NULL;
+    MouseEventItem *moved = NULL;
 
-    for (unsigned int i = 0; i < buttons->size(); i++) {
-        bool buttonMoved = buttons->at(i)->mouseMoved(x, y);
+    for (unsigned int i = 0; i < mouseEventItems->size(); i++) {
+        bool buttonMoved = mouseEventItems->at(i)->mouseMoved(x, y);
 
         if (buttonMoved) {
-            moved = buttons->at(i);
+            moved = mouseEventItems->at(i);
         }
     }
 
@@ -429,12 +432,14 @@ void MyQGLWidget::initializeSliders() {
         undoButton->setWidth(42);
         sliderButtons->push_back(undoButton);
         buttons->push_back(undoButton);
+        mouseEventItems->push_back(undoButton);
 
         ResetButton *resetButton = new ResetButton(slider);
         resetButton->setHeight(18);
         resetButton->setWidth(42);
         sliderButtons->push_back(resetButton);
         buttons->push_back(resetButton);
+        mouseEventItems->push_back(resetButton);
     }
 
     resetAllButton = new Button("RESET ALL");
@@ -442,29 +447,36 @@ void MyQGLWidget::initializeSliders() {
     resetAllButton->setWidth(100);
     resetAllButton->setLocation(300, 775);
     buttons->push_back(resetAllButton);
+    mouseEventItems->push_back(resetAllButton);
 
     displayGroupButton = new Button("Display by Group");
     displayGroupButton->setHeight(20);
     displayGroupButton->setWidth(130);
     displayGroupButton->setLocation(10, 775);
     buttons->push_back(displayGroupButton);
+    mouseEventItems->push_back(displayGroupButton);
+    //displayTypeButtons->addDisplayButton(displayGroupButton);
 
     displaySpeciesButton = new Button("Display by Species");
     displaySpeciesButton->setHeight(20);
     displaySpeciesButton->setWidth(130);
     displaySpeciesButton->setLocation(150, 775);
     buttons->push_back(displaySpeciesButton);
+    mouseEventItems->push_back(displaySpeciesButton);
+    //displayTypeButtons->addDisplayButton(displaySpeciesButton);
 
     toggleAbsButton = new Button("Toggle Abs. Sizes");
     toggleAbsButton->setHeight(20);
     toggleAbsButton->setWidth(130);
     toggleAbsButton->setLocation(5, 5);
+    mouseEventItems->push_back(toggleAbsButton);
     buttons->push_back(toggleAbsButton);
 
     toggleChartsButton = new Button("Toggle Charts");
     toggleChartsButton->setHeight(20);
     toggleChartsButton->setWidth(130);
     toggleChartsButton->setLocation(5, 30);
+    mouseEventItems->push_back(toggleChartsButton);
     buttons->push_back(toggleChartsButton);
 
     displayByGroup();

@@ -40,21 +40,20 @@ public:
     void setDisplayAbsoluteSizes(bool d);
     void displayAbsoluteSizesOn();
     void displayAbsoluteSizesOff();
-protected:
-
 private:
     QList<int> oldIndices;
     QStringList newLabels;
-    QStringList getNewLabels(QStringList labels, QList<int> oldIndices);
-    QList<int> getNewOrder(QStringList labels, MS_PROD_MainWindow *mainWindow);
-    QList<QList<double>> getNewTimeSeriesMatrix(QList<QList<double>> matrix, QList<int> oldIndices);
-    QList<QList<double>> getNewSquareMatrix(QList<QList<double>> matrix, QList<int> oldIndices);
    
     BetweenSpeciesArcCollection *arcsInter;
     BetweenSpeciesArcCollection *arcsPred;
     BetweenSpeciesArcCollection *arcsCurrent;
 
     std::vector<SingleSpeciesLineChart *> *charts;
+    
+    QStringList getNewLabels(QStringList labels, QList<int> oldIndices);
+    QList<int> getNewOrder(QStringList labels, MS_PROD_MainWindow *mainWindow);
+    QList<QList<double>> getNewTimeSeriesMatrix(QList<QList<double>> matrix, QList<int> oldIndices);
+    QList<QList<double>> getNewSquareMatrix(QList<QList<double>> matrix, QList<int> oldIndices);
 
     void initializeCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);
     BetweenSpeciesArcCollection *initializeArcs(int arcType, QList<QList<double>> matix);
