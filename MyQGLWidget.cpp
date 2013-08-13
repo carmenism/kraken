@@ -470,16 +470,17 @@ void MyQGLWidget::initializeSliders() {
     buttons->push_back(displaySpeciesButton);
     //displayTypeButtons->addDisplayButton(displaySpeciesButton);
 
-    toggleAbsButton = new Button("Toggle Abs. Sizes");
+    toggleAbsButton = new ToggleButton("Abs. Sizes", false);
     toggleAbsButton->setHeight(20);
     toggleAbsButton->setWidth(130);
     toggleAbsButton->setLocation(5, 5);
     buttons->push_back(toggleAbsButton);
 
-    toggleChartsButton = new Button("Toggle Charts");
+    toggleChartsButton = new ToggleButton("Biomass", true);
     toggleChartsButton->setHeight(20);
     toggleChartsButton->setWidth(130);
     toggleChartsButton->setLocation(5, 30);
+    toggleChartsButton->setActive(false);
     buttons->push_back(toggleChartsButton);
 
     togglePredButton = new ToggleButton("Predation", true);
@@ -550,10 +551,19 @@ void MyQGLWidget::positionSliderButtons() {
 
 void MyQGLWidget::toggleAbsoluteSizes() {
     if (managerSpecies->getDisplay()) {
-        if (managerSpecies->getDisplayAbsoluteSizes()) {
-            managerSpecies->displayAbsoluteSizesOff();
-        } else {
+        if (toggleAbsButton->getValue()) {
             managerSpecies->displayAbsoluteSizesOn();
+            
+            toggleChartsButton->setActive(true);
+            toggleAbsButton->setActive(true);
+        } else if (toggleChartsButton->getValue()) {
+            managerSpecies->displayAbsoluteSizesOff();
+            
+            toggleChartsButton->setActive(false);
+            toggleAbsButton->setActive(true);
+        } else {
+            toggleAbsButton->setValue(true);
+            toggleAbsButton->setActive(false);
         }
 
         updateGL();
@@ -562,10 +572,19 @@ void MyQGLWidget::toggleAbsoluteSizes() {
 
 void MyQGLWidget::toggleCharts() {
     if (managerSpecies->getDisplay()) {
-        if (managerSpecies->getDisplayCharts()) {
-            managerSpecies->displayChartsOff();
-        } else {
+        if (toggleChartsButton->getValue()) {
             managerSpecies->displayChartsOn();
+
+            toggleChartsButton->setActive(true);
+            toggleAbsButton->setActive(true);
+        } else if (toggleAbsButton->getValue()) {
+            managerSpecies->displayChartsOff();
+            
+            toggleChartsButton->setActive(true);
+            toggleAbsButton->setActive(false);
+        } else {
+            toggleChartsButton->setValue(true);
+            toggleChartsButton->setActive(false);
         }
 
         updateGL();

@@ -56,7 +56,7 @@ private:
     PlotBySpeciesManager *managerSpecies;
     Button *resetAllButton;
     Button *displayGroupButton, *displaySpeciesButton;
-    Button *toggleAbsButton, *toggleChartsButton;
+    ToggleButton *toggleAbsButton, *toggleChartsButton;
     ToggleButton *togglePredButton, *toggleInterButton;
     
     MS_PROD_MainWindow *mainWindow;
