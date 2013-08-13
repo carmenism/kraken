@@ -32,6 +32,8 @@ public:
     QString getComponentName();
     QString getOutputName();
     InteractionMatrix m_OutputMatrix;
+
+    QList<QList<double>> getOutputMatrix();
 };
 
 #endif // MODELCOMPONENT_H

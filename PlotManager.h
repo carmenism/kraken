@@ -7,6 +7,7 @@
 #include <vector>
 #include <QList>
 
+class Model;
 class MS_PROD_MainWindow;
 class QStringList;
 
@@ -23,7 +24,7 @@ class PlotManager : public Displayable {
         bool empty() { return getCharts()->empty(); }
 
         virtual std::vector<LineChart *> *getCharts() = 0;
-        virtual void updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) = 0;
+        virtual void updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) = 0;
     protected:
 
     private: 

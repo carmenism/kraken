@@ -6,6 +6,8 @@
 
 class Button;
 class ChangeSlider;
+class Model;
+class MouseEventItem;
 class MS_PROD_MainWindow;
 class MultiSpeciesLineChart;
 class Parameters;
@@ -16,9 +18,8 @@ class PlotBySpeciesManager;
 class ResetButton;
 class Slider;
 class SliderButton;
-class UndoButton;
-class MouseEventItem;
 class ToggleButton;
+class UndoButton;
 
 typedef std::vector<MultiSpeciesLineChart *> MSLineChartList;
 typedef std::vector<MultiSpeciesLineChart *>::const_iterator MSLineChartIterator;
@@ -36,7 +37,7 @@ public:
     MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent = NULL);
     ~MyQGLWidget();
 
-    void updateCharts(QList<QList<double>> matrix, QStringList labels); 
+    void updateCharts(Model *model); 
 
     void initializeSliders();
     void drawToPick();

@@ -47,6 +47,11 @@ public:
     void runModel_noOutput();
     void testRun();
 
+    QList<QList<double>> getGrowthMatrix();
+    QList<QList<double>> getCompetitionMatrix();
+    QList<QList<double>> getPredationMatrix();
+    QList<QList<double>> getHarvestMatrix();
+
 };
 
 #endif // MODEL_H

@@ -25,27 +25,32 @@ PlotBySpeciesManager::~PlotBySpeciesManager() {
     delete charts;
 }
 
-void PlotBySpeciesManager::updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) {
+void PlotBySpeciesManager::updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) {
+    QList<QList<double>> biomassMatrixOrig = mainWindow->getParameters()->getBiomassMatrix();
+    //QList<QList<double>> harvestMatrixOrig = mainWindow->getParameters()->m_HarvestLossesMatrix();
+    //mainWindow->getParameters()->getHarvest
+    QStringList labels = mainWindow->getParameters()->getSpeciesList();
+
     if (oldIndices.empty()) {
         oldIndices = getNewOrder(labels, mainWindow);
         newLabels = getNewLabels(labels, oldIndices);
     }
     
-    QList<QList<double>> newMatrix = getNewTimeSeriesMatrix(matrix, oldIndices);
+    QList<QList<double>> biomassMatrix = getNewTimeSeriesMatrix(biomassMatrixOrig, oldIndices);
 
     if (charts->empty()) {
-        initializeCharts(newMatrix, newLabels, mainWindow);
+        initializeCharts(biomassMatrix, newLabels, mainWindow);
         initializePredationArcs(mainWindow);
         initializeInteractionArcs(mainWindow);
         arcsCurrent = arcsPred;
     } else {
-        for (int i = 0; i < newMatrix.size(); i++) {
+        for (int i = 0; i < biomassMatrix.size(); i++) {
             std::vector<float> x;
             std::vector<float> y;
             
-            for (int j = 0; j < newMatrix.at(i).size(); j++) {
+            for (int j = 0; j < biomassMatrix.at(i).size(); j++) {
                 x.push_back(j);
-                y.push_back(newMatrix.at(i).at(j));
+                y.push_back(biomassMatrix.at(i).at(j));
             }
 
             charts->at(i)->setValues(x, y);

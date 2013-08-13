@@ -7,6 +7,7 @@
 #include "Button.h"
 #include "ChangeSlider.h"
 #include "ChartPoint.h"
+#include "Model.h"
 #include "MS_PROD_MainWindow.h"
 #include "MultiSpeciesLineChart.h"
 #include "Parameters.h"
@@ -402,9 +403,9 @@ void MyQGLWidget::keyPressEvent(QKeyEvent* event) {
     }
 }
 
-void MyQGLWidget::updateCharts(QList<QList<double>> matrix, QStringList labels) {
+void MyQGLWidget::updateCharts(Model *model) {
     for (unsigned int i = 0; i < plotManagers->size(); i++) {
-        plotManagers->at(i)->updateCharts(matrix, labels, mainWindow);
+        plotManagers->at(i)->updateCharts(model, mainWindow);
     }
 
     updateGL();

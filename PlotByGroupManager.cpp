@@ -18,7 +18,10 @@ PlotByGroupManager::~PlotByGroupManager() {
     delete charts;
 }
 
-void PlotByGroupManager::updateCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) {
+void PlotByGroupManager::updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) {
+    QList<QList<double>> matrix = mainWindow->getParameters()->getBiomassMatrix();
+    QStringList labels = mainWindow->getParameters()->getSpeciesList();
+
     if (charts->empty()) {
         initializeCharts(matrix, labels, mainWindow);
     } else {

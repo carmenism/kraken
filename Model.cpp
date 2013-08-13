@@ -177,3 +177,19 @@ void Model::runModel_noOutput() {
         // which becomes the new biomass
 
 }
+
+QList<QList<double>> Model::getGrowthMatrix() {
+    return m_ModelComponentList.at(0)->getOutputMatrix();
+}
+
+QList<QList<double>> Model::getCompetitionMatrix() {
+    return m_ModelComponentList.at(1)->getOutputMatrix();
+}
+
+QList<QList<double>> Model::getPredationMatrix() {
+    return m_ModelComponentList.at(2)->getOutputMatrix();
+}
+
+QList<QList<double>> Model::getHarvestMatrix() {
+    return m_ModelComponentList.at(3)->getOutputMatrix();
+}

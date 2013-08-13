@@ -54,3 +54,7 @@ void ModelComponent::outputResults(QTextStream& outputStream, QList<QString> spe
     outputStream << "\n";
 }
 
+QList<QList<double>> ModelComponent::getOutputMatrix() {
+    return m_OutputMatrix.getMatrix();
+}
+
