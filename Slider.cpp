@@ -22,7 +22,7 @@ Slider::Slider(std::string title, float min, float max, float start) {
     curColor->g = 0.65;
     curColor->b = 0.65;
 
-	active = false;
+	//beingAdjusted = false;
 
     displayTitle = true;
     titleFontHeight = 12;
@@ -74,8 +74,8 @@ void Slider::draw() {
 }
 
 bool Slider::mousePressed(float x, float y) {    
-    if (pointInCursor(x, y) && !active) {
-        active = true;
+    if (pointInCursor(x, y) && !mouseIsPressing) {
+        mouseIsPressing = true;
         startX = x;
 	    startCurX = curX;
 
@@ -85,9 +85,9 @@ bool Slider::mousePressed(float x, float y) {
     return false;
 }
 
-bool Slider::mouseReleased() {
-    if (active) {
-        active = false;
+bool Slider::mouseReleased(float x, float y) {
+    if (mouseIsPressing) {
+        mouseIsPressing = false;
 
         valueHistory.push_back(getValue());
 
@@ -103,7 +103,7 @@ bool Slider::pointInCursor(float x, float y) {
 }
 
 bool Slider::mouseMoved(float x, float y) {
-    if (active) {
+    if (mouseIsPressing) {
 		float dx = x - startX;
 		curX = startCurX + dx;
 

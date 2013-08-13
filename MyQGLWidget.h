@@ -56,11 +56,10 @@ private:
     Button *resetAllButton;
     Button *displayGroupButton, *displaySpeciesButton;
     Button *toggleAbsButton, *toggleChartsButton;
-    //DisplayButtonGroup *displayTypeButtons;
-
+    Button *togglePredButton, *toggleInterButton;
+    
     MS_PROD_MainWindow *mainWindow;
 
-    std::vector<MouseEventItem *> *mouseEventItems;
     std::vector<PlotManager *> *plotManagers;
     std::vector<ChangeSlider *> *sliders;
     std::vector<SliderButton *> *sliderButtons;
@@ -84,6 +83,9 @@ private:
 
     void displayByGroup();
     void displayBySpecies();
+
+    void displayInteraction();
+    void displayPredation();
 
     void positionSlidersForSpecies();
     void positionSlidersForGroups();

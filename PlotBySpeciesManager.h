@@ -40,6 +40,9 @@ public:
     void setDisplayAbsoluteSizes(bool d);
     void displayAbsoluteSizesOn();
     void displayAbsoluteSizesOff();
+
+    void displayPredation();
+    void displayInteraction();
 private:
     QList<int> oldIndices;
     QStringList newLabels;

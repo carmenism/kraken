@@ -5,14 +5,16 @@
 class Color;
 class ShadowedRectangle;
 
-#include <string>
-#include "ShadowedRectangle.h"
+
 
 enum {POS_ABOVE, POS_BELOW, POS_LEFT, POS_RIGHT};
 
+#include "MouseEventItem.h"
+#include "ShadowedRectangle.h"
+#include <string>
 #include <vector>
 
-class Slider
+class Slider : public MouseEventItem
 {
 public:
     Slider(std::string title, float min, float max, float start);
@@ -26,9 +28,9 @@ public:
     float getValue();
     void setValue(float value);
 
-    bool mouseMoved(float x, float y);
-    bool mousePressed(float x, float y);
-    bool mouseReleased();
+    virtual bool mouseMoved(float x, float y);
+    virtual bool mousePressed(float x, float y);
+    virtual bool mouseReleased(float x, float y);
 
     float getWidth() { return main->getWidth(); }
     void setWidth(float w);
@@ -77,7 +79,7 @@ private:
     float titleFontHeight;
     int titlePosition;
 
-    bool active;
+    //bool beingAdjusted;
     float startX;
 
     bool displayLabels;

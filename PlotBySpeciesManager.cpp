@@ -251,3 +251,11 @@ std::vector<AbsoluteSizeIndicator *> *PlotBySpeciesManager::getAbsPoints() {
 
     return allPoints;
 }
+
+void PlotBySpeciesManager::displayPredation() {
+    arcsCurrent = arcsPred;
+}
+
+void PlotBySpeciesManager::displayInteraction() {
+    arcsCurrent = arcsInter;
+}
