@@ -22,9 +22,9 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> x, std::vector
     setFontHeight(11);
 
     if (displayXAxisLabels) {
-        setHeight(75 + 8 * 2);
+        setHeight(74 + 8 * 2);
     } else {
-        setHeight(75);
+        setHeight(66);
     }
     displayLegendOff();
     displayTitleOff();

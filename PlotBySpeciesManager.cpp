@@ -137,7 +137,7 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double>> matrix, QString
 
         SingleSpeciesLineChart *chart = new SingleSpeciesLineChart(x, y, labels.at(i).toStdString(), displayXAxis, guilds.size(), guildIndex);
         chart->setTitle(labels.at(i).toStdString());
-        float yLoc = 90 + (i - 1) * 77;
+        float yLoc = 100 + (i - 1) * 78;
         if (displayXAxis) {
             yLoc = 0;
         }

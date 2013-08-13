@@ -298,7 +298,7 @@ float LineChartAxis::getSize() {
     }
 
     if (!displayTickLabels && !displayLabel) {
-        return 3 * fontHeight / 2;
+        return 0;//3 * fontHeight / 2;
     }
 
     return fontHeight + 2 * fontHeight / 3;
