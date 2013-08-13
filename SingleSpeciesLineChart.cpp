@@ -5,14 +5,14 @@
 #include "AbsoluteSizesChart.h"
 #include <GL/glut.h>
 
-SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> x, std::vector<float> y, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex) 
+SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> *x, std::vector<float> *yBiomass, std::vector<float> *yHarvest, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex) 
 : LineChart() {      
     sideLabel = label;
-    ChartPointSeries *series = new ChartPointSeries(this, label, x, y);
+    ChartPointSeries *biomassSeries = new ChartPointSeries(this, label, x, yBiomass);
     Color *c = Color::getEvenlyDistributedColor(numGuilds, guildIndex);
-    series->setColor(c);
-
-    addPointSeries(series);
+    biomassSeries->setColor(c);
+    
+    addPointSeries(biomassSeries);
 
     setLineWidths(2);
     setMarkersSize(6);
@@ -41,6 +41,28 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> x, std::vector
     absChart = new AbsoluteSizesChart(this);
 
     displayAbsoluteSizes = false;
+
+    displayHarvest = true;
+    
+    harvest = new LineChart();
+    harvest->setDisplayTitle(false);
+    harvest->getLeftAxis()->setDisplay(false);
+    harvest->getRightAxis()->setDisplay(true);
+    harvest->getRightAxis()->setLabel("Harvest (mt)");
+    harvest->getRightAxis()->displayLabelOn();
+    harvest->getBottomAxis()->displayLabelOff();
+    harvest->getBottomAxis()->displayTickLabelsOff();
+    harvest->setDisplayLegend(false);
+    harvest->setAxesFontHeight(9);
+
+    ChartPointSeries *harvestSeries = new ChartPointSeries(harvest, label, x, yHarvest);
+    harvestSeries->setColor(&Color::black);
+
+    harvest->addPointSeries(harvestSeries);
+    harvest->setMarkersSize(3);
+    //harvest->setAdjustYAxisToData(false);
+    //harvest->setGlobalMinY(0);
+    //harvest->setGlobalMaxY(25000);
 }
 
 
@@ -48,11 +70,20 @@ SingleSpeciesLineChart::~SingleSpeciesLineChart() {
     delete absChart;
 }
 
-void SingleSpeciesLineChart::setValues(std::vector<float> x, std::vector<float> y) {
-    seriesList->front()->setValues(x, y);
+void SingleSpeciesLineChart::setValues(std::vector<float> *x, std::vector<float> *yBiomass, std::vector<float> *yHarvest) {
+    seriesList->front()->setValues(x, yBiomass);
+    harvest->getPointSeriesList()->front()->setValues(x, yHarvest);
 }
 
 void SingleSpeciesLineChart::draw() {
+    if (displayHarvest) {
+        float w = harvest->getRightAxis()->getSize();
+        harvest->setLocation(xPos + offsetX, yPos + offsetY);
+        harvest->setWidth(getActualWidth() + w);
+        harvest->setHeight(getActualHeight());
+        harvest->draw();
+    }
+
     if (displayAbsoluteSizes) {
         absChart->draw();
     }

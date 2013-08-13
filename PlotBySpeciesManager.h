@@ -45,8 +45,8 @@ public:
     void displayInteraction();
     void displayNoArcs();
 private:
-    QList<int> oldIndices;
-    QStringList newLabels;
+    QList<int> *oldIndices;
+    QStringList *newLabels;
    
     BetweenSpeciesArcCollection *arcsInter;
     BetweenSpeciesArcCollection *arcsPred;
@@ -54,12 +54,12 @@ private:
 
     std::vector<SingleSpeciesLineChart *> *charts;
     
-    QStringList getNewLabels(QStringList labels, QList<int> oldIndices);
-    QList<int> getNewOrder(QStringList labels, MS_PROD_MainWindow *mainWindow);
-    QList<QList<double>> getNewTimeSeriesMatrix(QList<QList<double>> matrix, QList<int> oldIndices);
-    QList<QList<double>> getNewSquareMatrix(QList<QList<double>> matrix, QList<int> oldIndices);
+    QStringList *getNewLabels(QStringList labels);
+    QList<int> *getNewOrder(QStringList labels, MS_PROD_MainWindow *mainWindow);
+    QList<QList<double> *> *getNewTimeSeriesMatrix(QList<QList<double>> matrix);
+    QList<QList<double> *> *getNewSquareMatrix(QList<QList<double>> matrix);
 
-    void initializeCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);
+    void initializeCharts(QList<QList<double> *> *biomassMatrix, QList<QList<double> *> *harvestMatrix, MS_PROD_MainWindow *mainWindow);
     BetweenSpeciesArcCollection *initializeArcs(int arcType, QList<QList<double>> matix);
     void initializeInteractionArcs(MS_PROD_MainWindow *mainWindow);
     void initializePredationArcs(MS_PROD_MainWindow *mainWindow);

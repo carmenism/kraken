@@ -9,12 +9,12 @@
 MultiSpeciesLineChart::MultiSpeciesLineChart(QList<QList<double>> matrix, QStringList labels) 
 : LineChart() {
     for (int i = 0; i < matrix.size(); i++) {
-        std::vector<float> x;
-        std::vector<float> y;
+        std::vector<float> *x = new std::vector<float>();
+        std::vector<float> *y = new std::vector<float>();
         
         for (int j = 0; j < matrix.at(i).size(); j++) {
-            x.push_back(j);
-            y.push_back(matrix.at(i).at(j));
+            x->push_back(j);
+            y->push_back(matrix.at(i).at(j));
         }
 
         ChartPointSeries *series = new ChartPointSeries(this, labels.at(i).toStdString(), x, y);
@@ -22,6 +22,9 @@ MultiSpeciesLineChart::MultiSpeciesLineChart(QList<QList<double>> matrix, QStrin
         series->setColor(c);
 
         addPointSeries(series);
+
+        delete x;
+        delete y;
     }     
 
     axes->at(AXIS_BOTTOM)->setLabel("Year");
@@ -31,14 +34,17 @@ MultiSpeciesLineChart::MultiSpeciesLineChart(QList<QList<double>> matrix, QStrin
 
 void MultiSpeciesLineChart::setValues(QList<QList<double>> matrix) {
     for (int i = 0; i < matrix.size(); i++) {
-        std::vector<float> x;
-        std::vector<float> y;
+        std::vector<float> *x = new std::vector<float>();
+        std::vector<float> *y = new std::vector<float>();
         
         for (int j = 0; j < matrix.at(i).size(); j++) {
-            x.push_back(j);
-            y.push_back(matrix.at(i).at(j));
+            x->push_back(j);
+            y->push_back(matrix.at(i).at(j));
         }
 
         seriesList->at(i)->setValues(x, y);
+
+        delete x;
+        delete y;
     }
 }

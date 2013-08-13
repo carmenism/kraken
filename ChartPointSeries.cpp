@@ -11,25 +11,25 @@
 #define END_ALPHA 0.05
 #define D_ALPHA (START_ALPHA - END_ALPHA) / NUM_RECTS
 
-ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vector<float> x, std::vector<float> y) {
+ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vector<float> *x, std::vector<float> *y) {
     this->chart = chart;
     this->label = label;
     
     points = new ChartPointList();
 
-    if (x.size() != y.size()) {
+    if (x->size() != y->size()) {
         throw "should be equal number of x and y values";
     }
 
-    if (x.empty() || y.empty()) {
+    if (x->empty() || y->empty()) {
         throw "should not be empty values for x or y";
     }
 
     max = NULL;
     min = NULL;
 
-    for (int i = 0; i < x.size(); i++) {
-        ChartPoint *point = new ChartPoint(chart, label, x[i], y[i]);
+    for (int i = 0; i < x->size(); i++) {
+        ChartPoint *point = new ChartPoint(chart, label, x->at(i), y->at(i));
         points->push_back(point);
 
         if (max == NULL || max->getY() < point->getY()) {
@@ -60,16 +60,16 @@ ChartPointSeries::~ChartPointSeries() {
     delete lineColor;
 }
 
-void ChartPointSeries::setValues(std::vector<float> x, std::vector<float> y) {
-    if (x.size() != y.size()) {
+void ChartPointSeries::setValues(std::vector<float> *x, std::vector<float> *y) {
+    if (x->size() != y->size()) {
         throw "should be equal number of x and y values";
     }
 
-    if (x.empty() || y.empty()) {
+    if (x->empty() || y->empty()) {
         throw "should not be empty values for x or y";
     }   
 
-    if (points->size() != y.size()) {
+    if (points->size() != y->size()) {
         throw "to change marker values you must specify one values for each marker";
     }
 
@@ -77,8 +77,8 @@ void ChartPointSeries::setValues(std::vector<float> x, std::vector<float> y) {
     min = NULL;
 
     for (int i = 0; i < points->size(); i++) {
-        points->at(i)->setX(x[i]);
-        points->at(i)->setY(y[i]);
+        points->at(i)->setX(x->at(i));
+        points->at(i)->setY(y->at(i));
 
         if (max == NULL || max->getY() < points->at(i)->getY()) { 
             max = points->at(i);

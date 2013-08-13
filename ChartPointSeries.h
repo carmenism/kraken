@@ -19,10 +19,10 @@ typedef std::vector<ChartPoint *>::const_iterator ChartPointIterator;
 class ChartPointSeries
 {
 public:
-    ChartPointSeries(LineChart *chart, std::string label, std::vector<float> x, std::vector<float> y);
+    ChartPointSeries(LineChart *chart, std::string label, std::vector<float> *x, std::vector<float> *y);
     ~ChartPointSeries();
     
-    void setValues(std::vector<float> x, std::vector<float> y);
+    void setValues(std::vector<float> *x, std::vector<float> *y);
 
     void draw();
     void drawSelected();

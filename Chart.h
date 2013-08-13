@@ -41,8 +41,6 @@ class Chart {
         float fontHeight;
         float width, height;
         bool displayTitle;
-
-    private:  
         float xPos, yPos;
 };
 
