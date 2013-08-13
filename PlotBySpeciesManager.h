@@ -43,6 +43,7 @@ public:
 
     void displayPredation();
     void displayInteraction();
+    void displayNoArcs();
 private:
     QList<int> oldIndices;
     QStringList newLabels;

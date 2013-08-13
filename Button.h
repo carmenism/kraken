@@ -17,18 +17,10 @@ public:
     virtual bool mouseMoved(float x, float y);
     virtual bool mousePressed(float x, float y);
     virtual bool mouseReleased(float x, float y);
-
-    //virtual void setActive(bool a);
-    /*bool isActive() { return active; }
-    void setActive(bool a);
-    void activeOn() { active = true; }
-    void activeOff();*/
-private:
+protected:
     std::string label;
+private:
     Color *labelColor, *labelHoveredColor, *labelActiveColor;
-    //bool mouseIsHovering;
-    //bool mouseIsPressing;
-    //bool active;
 };
 
 #endif /*BUTTON_H_*/

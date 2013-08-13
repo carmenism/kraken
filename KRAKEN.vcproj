@@ -344,6 +344,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\ToggleButton.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\UndoButton.cpp"
 						>
 					</File>
@@ -835,6 +839,10 @@
 					</File>
 					<File
 						RelativePath=".\SliderButton.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ToggleButton.h"
 						>
 					</File>
 					<File

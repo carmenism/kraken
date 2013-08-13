@@ -109,18 +109,3 @@ bool Button::mouseReleased(float x, float y) {
 
     return false;
 }
-/*
-void Button::setActive(bool a) {
-    active = a;
-
-    if (!active) {
-        mouseIsHovering = false;
-        mouseIsPressing = false;
-    }
-}
-
-void Button::activeOff() {
-    active = false;
-    mouseIsHovering = false;
-    mouseIsPressing = false;
-}*/

@@ -18,6 +18,7 @@
 #include "ResetButton.h"
 #include "SliderButton.h"
 #include "UndoButton.h"
+#include "ToggleButton.h"
 
 #include <QList>
 #include <QStringList>
@@ -182,12 +183,11 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
     }
 
     if (toggleInterButton->mouseReleased(x, y)) {
-        displayInteraction();
+        toggleInteraction();
         return true;
     }
-
     if (togglePredButton->mouseReleased(x, y)) {
-        displayPredation();
+        togglePredation();
         return true;
     }
 
@@ -482,13 +482,13 @@ void MyQGLWidget::initializeSliders() {
     toggleChartsButton->setLocation(5, 30);
     buttons->push_back(toggleChartsButton);
 
-    togglePredButton = new Button("Predation");
+    togglePredButton = new ToggleButton("Predation", true);
     togglePredButton->setHeight(20);
     togglePredButton->setWidth(130);
     togglePredButton->setLocation(5, 55);
     buttons->push_back(togglePredButton);
 
-    toggleInterButton = new Button("Interaction");
+    toggleInterButton = new ToggleButton("Interaction", false);
     toggleInterButton->setHeight(20);
     toggleInterButton->setWidth(130);
     toggleInterButton->setLocation(140, 55);
@@ -571,11 +571,21 @@ void MyQGLWidget::toggleCharts() {
         updateGL();
     }
 }
-
-void MyQGLWidget::displayInteraction() {
-    managerSpecies->displayInteraction();
-}
  
-void MyQGLWidget::displayPredation() {
-    managerSpecies->displayPredation();
+void MyQGLWidget::togglePredation() {
+    if (togglePredButton->getValue()) {
+        managerSpecies->displayPredation();
+        toggleInterButton->setValue(false);
+    } else {
+        managerSpecies->displayNoArcs();
+    }
+}
+
+void MyQGLWidget::toggleInteraction() {
+    if (toggleInterButton->getValue()) {
+        managerSpecies->displayInteraction();
+        togglePredButton->setValue(false);
+    } else {
+        managerSpecies->displayNoArcs();
+    }
 }

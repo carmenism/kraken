@@ -18,6 +18,7 @@ class Slider;
 class SliderButton;
 class UndoButton;
 class MouseEventItem;
+class ToggleButton;
 
 typedef std::vector<MultiSpeciesLineChart *> MSLineChartList;
 typedef std::vector<MultiSpeciesLineChart *>::const_iterator MSLineChartIterator;
@@ -56,7 +57,7 @@ private:
     Button *resetAllButton;
     Button *displayGroupButton, *displaySpeciesButton;
     Button *toggleAbsButton, *toggleChartsButton;
-    Button *togglePredButton, *toggleInterButton;
+    ToggleButton *togglePredButton, *toggleInterButton;
     
     MS_PROD_MainWindow *mainWindow;
 
@@ -84,8 +85,8 @@ private:
     void displayByGroup();
     void displayBySpecies();
 
-    void displayInteraction();
-    void displayPredation();
+    void togglePredation();
+    void toggleInteraction();
 
     void positionSlidersForSpecies();
     void positionSlidersForGroups();

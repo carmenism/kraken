@@ -197,10 +197,17 @@ void PlotBySpeciesManager::draw() {
 
 void PlotBySpeciesManager::drawToPick() {
     PlotManager::drawToPick();
-    arcsCurrent->drawToPick();
+
+    if (arcsCurrent != NULL) {
+        arcsCurrent->drawToPick();
+    }
 }
 
 BetweenSpeciesArcList *PlotBySpeciesManager::getArcs() {
+    if (arcsCurrent == NULL) {
+        return NULL;
+    }
+
     return arcsCurrent->getArcs();
 }
 
@@ -258,4 +265,8 @@ void PlotBySpeciesManager::displayPredation() {
 
 void PlotBySpeciesManager::displayInteraction() {
     arcsCurrent = arcsInter;
+}
+
+void PlotBySpeciesManager::displayNoArcs() {
+    arcsCurrent = NULL;
 }
