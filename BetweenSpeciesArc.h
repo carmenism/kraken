@@ -2,6 +2,7 @@
 #define _BETWEENSPECIESARC_H
 
 class SingleSpeciesLineChart;
+class Triangle;
 
 #include "VerticalArc.h"
 
@@ -26,6 +27,7 @@ private:
     SingleSpeciesLineChart *speciesA;
     SingleSpeciesLineChart *speciesB;
     float fontHeight;
+    Triangle *arrowA, *arrowB;
 };
 
 #endif /* _INTERACTIONARC_H */

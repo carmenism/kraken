@@ -83,7 +83,7 @@ void MyQGLWidget::initializeGL() {
     glEnable(GL_BLEND);
     glEnable(GL_LINE_SMOOTH);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glHint( GL_LINE_SMOOTH_HINT, GL_NICEST );
+    glHint( GL_LINE_SMOOTH_HINT, GL_DONT_CARE );
     glHint( GL_POLYGON_SMOOTH_HINT, GL_NICEST );
     glClearColor(1.0, 1.0, 1.0, 0);
 }
