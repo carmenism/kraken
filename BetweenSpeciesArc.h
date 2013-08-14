@@ -27,7 +27,10 @@ private:
     SingleSpeciesLineChart *speciesA;
     SingleSpeciesLineChart *speciesB;
     float fontHeight;
-    Triangle *arrowA, *arrowB;
+    Triangle *arrowA, *arrowB, *arrowMiddle;
+
+    void positionTriangles();
+    void drawTriangles();
 };
 
 #endif /* _INTERACTIONARC_H */
