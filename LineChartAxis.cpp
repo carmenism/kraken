@@ -37,6 +37,7 @@ LineChartAxis::LineChartAxis(LineChart *chart, int type) {
     font = GLUT_BITMAP_HELVETICA_10;
 
     fontHeight = 12;
+    valuesChanged = false;
 }
 
 LineChartAxis::~LineChartAxis() {
@@ -69,9 +70,17 @@ void LineChartAxis::draw() {
                 break;
         }
 
-        float interval = calculateIntervalSize(axisLength);       
-        setMajorTickSpacing(interval);
-        setMinorTickSpacing(interval / 5.0);
+        if (maxValue - minValue == 0) {
+            maxValue = 1;
+            setMajorTickSpacing(1.0);
+            setMinorTickSpacing(1.0 / 5.0);
+            valuesChanged = false;
+        } else if (valuesChanged) {
+            float interval = calculateIntervalSize(axisLength);       
+            setMajorTickSpacing(interval);
+            setMinorTickSpacing(interval / 5.0);
+            valuesChanged = false;
+        }
 
         if (displayMinorTicks) {
             drawTicks(axisLength, minorTickSpacing, minorTickLength);
@@ -233,9 +242,11 @@ float LineChartAxis::calculateIntervalSize(float axisLength) {
         threshold = 10;
     } else {
         threshold = 5;
+        numIntervals = 3;
     }
 
     while (numIntervals > 0) {
+        std::cout<<"attempt " << numIntervals <<"\n";
         tempInterval = range / numIntervals;
         float down = roundDown(tempInterval);
         
@@ -250,13 +261,15 @@ float LineChartAxis::calculateIntervalSize(float axisLength) {
         float posB = valueToPosition(axisLength, minValue + tempInterval  / 5);
 
         if (posB - posA > threshold) {
+            std::cout<<"found good interval " << tempInterval <<"\n";
             return tempInterval;
         }
 
         numIntervals--;
     }
 
-    return range;
+            std::cout<<"giving up " << tempInterval <<"\n";
+    return range;//range;
 }
 
 
@@ -302,4 +315,20 @@ float LineChartAxis::getSize() {
     }
 
     return fontHeight + 2 * fontHeight / 3;
+}
+
+void LineChartAxis::setMinimumValue(float m) {
+    if (minValue != m) {
+        valuesChanged = true;
+    }
+
+    minValue = m;
+}
+
+void LineChartAxis::setMaximumValue(float m) {
+    if (maxValue != m) {
+        valuesChanged = true;
+    }
+
+    maxValue = m;
 }

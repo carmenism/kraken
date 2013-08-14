@@ -60,9 +60,9 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> *x, std::vecto
 
     harvest->addPointSeries(harvestSeries);
     harvest->setMarkersSize(3);
-    harvest->setAdjustYAxisToData(false);
-    harvest->setGlobalMinY(0);
-    harvest->setGlobalMaxY(25000);
+    //harvest->setAdjustYAxisToData(false);
+    //harvest->setGlobalMinY(0);
+    //harvest->setGlobalMaxY(100000);
 }
 
 

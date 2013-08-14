@@ -481,7 +481,7 @@ void MyQGLWidget::initializeSliders() {
     toggleChartsButton->setHeight(20);
     toggleChartsButton->setWidth(130);
     toggleChartsButton->setLocation(5, 30);
-    toggleChartsButton->setActive(false);
+    //toggleChartsButton->setActive(false);
     buttons->push_back(toggleChartsButton);
 
     togglePredButton = new ToggleButton("Predation", true);
@@ -555,17 +555,17 @@ void MyQGLWidget::toggleAbsoluteSizes() {
         if (toggleAbsButton->getValue()) {
             managerSpecies->displayAbsoluteSizesOn();
             
-            toggleChartsButton->setActive(true);
-            toggleAbsButton->setActive(true);
-        } else if (toggleChartsButton->getValue()) {
+            //toggleChartsButton->setActive(true);
+            //toggleAbsButton->setActive(true);
+        } else {//if (toggleChartsButton->getValue()) {
             managerSpecies->displayAbsoluteSizesOff();
             
-            toggleChartsButton->setActive(false);
-            toggleAbsButton->setActive(true);
-        } else {
+            //toggleChartsButton->setActive(false);
+            //toggleAbsButton->setActive(true);
+        } /*else {
             toggleAbsButton->setValue(true);
             toggleAbsButton->setActive(false);
-        }
+        }*/
 
         updateGL();
     }
@@ -576,17 +576,17 @@ void MyQGLWidget::toggleCharts() {
         if (toggleChartsButton->getValue()) {
             managerSpecies->displayChartsOn();
 
-            toggleChartsButton->setActive(true);
-            toggleAbsButton->setActive(true);
-        } else if (toggleAbsButton->getValue()) {
+            //toggleChartsButton->setActive(true);
+            //toggleAbsButton->setActive(true);
+        } else {//if (toggleAbsButton->getValue()) {
             managerSpecies->displayChartsOff();
             
-            toggleChartsButton->setActive(true);
-            toggleAbsButton->setActive(false);
-        } else {
+            //toggleChartsButton->setActive(true);
+            //toggleAbsButton->setActive(false);
+        }/* else {
             toggleChartsButton->setValue(true);
             toggleChartsButton->setActive(false);
-        }
+        }*/
 
         updateGL();
     }

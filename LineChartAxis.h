@@ -32,10 +32,10 @@ public:
     void setMajorTickLength(float len) { majorTickLength = len; }
 
     float getMinimumValue() { return minValue; }
-    void setMinimumValue(float m) { minValue = m; }
+    void setMinimumValue(float m);// { minValue = m; }
 
     float getMaximumValue() { return maxValue; }
-    void setMaximumValue(float m) { maxValue = m; }
+    void setMaximumValue(float m);// { maxValue = m; }
 
     bool getDisplay() { return display; }
     void setDisplay(bool d) { display = d; }
@@ -73,6 +73,8 @@ private:
     int axisType;
 
     void *font;
+
+    bool valuesChanged;
 
     bool display;
     bool displayTickLabels;

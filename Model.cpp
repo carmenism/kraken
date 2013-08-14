@@ -1,4 +1,5 @@
 #include "Model.h"
+#include <iostream>
 
 Model::Model() {
 
@@ -191,5 +192,8 @@ QList<QList<double>> Model::getPredationMatrix() {
 }
 
 QList<QList<double>> Model::getHarvestMatrix() {
+    std::cout << m_ModelComponentList.at(3)->getComponentName().toStdString() << "\n";
+    std::cout << m_ModelComponentList.at(3)->getOutputName().toStdString() << "\n";
+
     return m_ModelComponentList.at(3)->getOutputMatrix();
 }
