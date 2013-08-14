@@ -17,7 +17,7 @@ public:
 
     void draw();
 
-    float getSize();// { return 3 * fontHeight; }
+    float getSize();
 
     float getMinorTickSpacing() { return minorTickSpacing; }
     void setMinorTickSpacing(float m) { minorTickSpacing = m; }
@@ -32,10 +32,10 @@ public:
     void setMajorTickLength(float len) { majorTickLength = len; }
 
     float getMinimumValue() { return minValue; }
-    void setMinimumValue(float m);// { minValue = m; }
+    void setMinimumValue(float m);
 
     float getMaximumValue() { return maxValue; }
-    void setMaximumValue(float m);// { maxValue = m; }
+    void setMaximumValue(float m);
 
     bool getDisplay() { return display; }
     void setDisplay(bool d) { display = d; }

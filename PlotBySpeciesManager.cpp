@@ -298,6 +298,24 @@ void PlotBySpeciesManager::displayChartsOff() {
     setDisplayCharts(false);
 }
 
+bool PlotBySpeciesManager::getDisplayHarvest() {
+    return charts->front()->getDisplayHarvest();
+}
+
+void PlotBySpeciesManager::setDisplayHarvest(bool d) {
+    for (unsigned int i = 0; i < charts->size(); i++) {
+        charts->at(i)->setDisplayHarvest(d);
+    }
+}
+
+void PlotBySpeciesManager::displayHarvestOn() {
+    setDisplayHarvest(true);
+}
+
+void PlotBySpeciesManager::displayHarvestOff() {
+    setDisplayHarvest(false);
+}
+
 std::vector<AbsoluteSizeIndicator *> *PlotBySpeciesManager::getAbsPoints() {
     std::vector<AbsoluteSizeIndicator *> *allPoints = new std::vector<AbsoluteSizeIndicator *>();
 

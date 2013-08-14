@@ -41,6 +41,11 @@ public:
     void displayAbsoluteSizesOn();
     void displayAbsoluteSizesOff();
 
+    bool getDisplayHarvest();
+    void setDisplayHarvest(bool d);
+    void displayHarvestOn();
+    void displayHarvestOff();
+
     void displayPredation();
     void displayInteraction();
     void displayNoArcs();

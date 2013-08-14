@@ -59,6 +59,7 @@ private:
     Button *displayGroupButton, *displaySpeciesButton;
     ToggleButton *toggleAbsButton, *toggleChartsButton;
     ToggleButton *togglePredButton, *toggleInterButton;
+    ToggleButton *toggleHarvButton;
     
     MS_PROD_MainWindow *mainWindow;
 
@@ -82,6 +83,7 @@ private:
 
     void toggleAbsoluteSizes();
     void toggleCharts();
+    void toggleHarvest();
 
     void displayByGroup();
     void displayBySpecies();

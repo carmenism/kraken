@@ -246,7 +246,6 @@ float LineChartAxis::calculateIntervalSize(float axisLength) {
     }
 
     while (numIntervals > 0) {
-        std::cout<<"attempt " << numIntervals <<"\n";
         tempInterval = range / numIntervals;
         float down = roundDown(tempInterval);
         
@@ -261,15 +260,13 @@ float LineChartAxis::calculateIntervalSize(float axisLength) {
         float posB = valueToPosition(axisLength, minValue + tempInterval  / 5);
 
         if (posB - posA > threshold) {
-            std::cout<<"found good interval " << tempInterval <<"\n";
             return tempInterval;
         }
 
         numIntervals--;
     }
 
-            std::cout<<"giving up " << tempInterval <<"\n";
-    return range;//range;
+    return range;
 }
 
 

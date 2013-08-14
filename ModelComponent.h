@@ -33,8 +33,6 @@ public:
     QString getOutputName();
     InteractionMatrix m_OutputMatrix;
 
-    //QString getComponentName() { return m_ComponentName; }
-    //QString getOutputName() { return m_OutputName; }
     QList<QList<double>> getOutputMatrix();
 };
 

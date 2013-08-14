@@ -42,7 +42,7 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> *x, std::vecto
 
     displayAbsoluteSizes = false;
 
-    displayHarvest = true;
+    displayHarvest = false;
     
     harvest = new LineChart();
     harvest->setDisplayTitle(false);
