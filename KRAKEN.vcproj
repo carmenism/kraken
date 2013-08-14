@@ -548,10 +548,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MouseEventItem.h"
-				>
-			</File>
-			<File
 				RelativePath="ms_prod_mainwindow.h"
 				>
 				<FileConfiguration
@@ -618,6 +614,10 @@
 				</File>
 				<File
 					RelativePath=".\Displayable.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MouseEventItem.h"
 					>
 				</File>
 				<File

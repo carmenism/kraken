@@ -49,6 +49,8 @@ public:
     void displayPredation();
     void displayInteraction();
     void displayNoArcs();
+
+    SingleSpeciesLineChart *getChartAt(int i) { return charts->at(i); }
 private:
     QList<int> *oldIndices;
     QStringList *newLabels;

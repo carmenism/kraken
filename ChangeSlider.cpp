@@ -21,8 +21,8 @@ void ChangeSlider::draw() {
 
     if (display) {
         glColor4f(color->r, color->g, color->b, 0.5);
-        glRectf(main->getInnerX() + startCurX, cursor->getY(),
-                main->getInnerX() + curX,      cursor->getY() + cursor->getHeight());
+        glRectf(main->getInnerX() + startCurX, main->getY() - labelFontHeight - 2*main->getBorder(),
+                main->getInnerX() + curX,      main->getY() + cursor->getHeight() - labelFontHeight - 2 *main->getBorder());
     }
 }
 

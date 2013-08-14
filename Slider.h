@@ -32,6 +32,9 @@ public:
     virtual bool mousePressed(float x, float y);
     virtual bool mouseReleased(float x, float y);
 
+    void setMainColor(Color *c) { main->setColor(c); }
+    void setCursorColor(Color *c) { cursor->setColor(c); }
+
     float getWidth() { return main->getWidth(); }
     void setWidth(float w);
 
@@ -71,6 +74,7 @@ protected:
     ShadowedRectangle *main, *cursor;
     float minValue, maxValue;
     float startCurX, curX;
+    float labelFontHeight;
 private:
     std::vector<float> valueHistory;
 
@@ -85,7 +89,6 @@ private:
     bool displayLabels;
     float labelInterval;
     bool labelsBelow;
-    float labelFontHeight;
 
     bool pointInCursor(float x, float y);
     void drawLabels();

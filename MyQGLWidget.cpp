@@ -7,6 +7,7 @@
 #include "Button.h"
 #include "ChangeSlider.h"
 #include "ChartPoint.h"
+#include "Color.h"
 #include "Model.h"
 #include "MS_PROD_MainWindow.h"
 #include "MultiSpeciesLineChart.h"
@@ -17,6 +18,7 @@
 #include "PlotByGroupManager.h"
 #include "PlotBySpeciesManager.h"
 #include "ResetButton.h"
+#include "SingleSpeciesLineChart.h"
 #include "SliderButton.h"
 #include "UndoButton.h"
 #include "ToggleButton.h"
@@ -108,6 +110,15 @@ void MyQGLWidget::paintGL() {
 
     if (!managerGroup->empty()) {
         for (unsigned int i = 0; i < sliders->size(); i++) {
+            if (managerSpecies->getDisplay()) {
+                Color *c=Color::getEvenlyDistributedColor(sliders->size(), i);
+                sliders->at(i)->setMainColor(c);
+                sliders->at(i)->setCursorColor(c);
+            } else {
+                sliders->at(i)->setMainColor(&Color::gray);
+                sliders->at(i)->setCursorColor(&Color::gray);
+            }
+
             sliders->at(i)->draw();
         }
 
