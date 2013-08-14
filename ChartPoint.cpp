@@ -89,7 +89,7 @@ void ChartPoint::drawSelected() {
             y = y - h - 4 * padding;
         }
 
-        glColor4f(c->r, c->g, c->b, 1);
+        glColor4f(0, 0, 0, 1);
         PrintText::drawStrokeText(newLabel, x, y, fontHeight, HORIZ_LEFT, VERT_BOTTOM, true);
     }
 }

@@ -17,17 +17,17 @@ BetweenSpeciesArc::BetweenSpeciesArc(float coefficient, SingleSpeciesLineChart *
 
     arrowA = new Triangle();
     arrowA->setBorderColor(new Color(0, 0, 0, .95));
-    arrowA->setFillColor(new Color(0, 0, 0, .25));
+    arrowA->setFillColor(new Color(1, 1, 1, .45));
     arrowA->setSize(10, 10);
 
     arrowB = new Triangle();
     arrowB->setBorderColor(new Color(0, 0, 0, .95));
-    arrowB->setFillColor(new Color(0, 0, 0, .25));
+    arrowB->setFillColor(new Color(1, 1, 1, .45));
     arrowB->setSize(10, 10);
     
     arrowMiddle = new Triangle();
     arrowMiddle->setBorderColor(new Color(0, 0, 0, .95));
-    arrowMiddle->setFillColor(new Color(0, 0, 0, .25));
+    arrowMiddle->setFillColor(new Color(1, 1, 1, .45));
     arrowMiddle->setSize(10, 10);
 }
 
@@ -82,6 +82,12 @@ void BetweenSpeciesArc::draw() {
 }
 
 void BetweenSpeciesArc::positionTriangles() {
+    Color *c = this->getColor();
+
+    arrowA->setBorderColor(c);
+    arrowB->setBorderColor(c);    
+    arrowMiddle->setBorderColor(c);
+
     float shortEdge = getRadius() / 2;
     float longEdge = shortEdge * sqrt(3.0f);
     float size = max(4, getThickness() / 2);
@@ -118,8 +124,14 @@ void BetweenSpeciesArc::drawTriangles() {
     //    arrowA->draw();
     //    arrowB->draw();
     //} else {
-        arrowMiddle->draw();
     //}
+
+    if (selected) {
+        arrowA->draw();
+        arrowB->draw();
+    } else {
+        arrowMiddle->draw();
+    }
 }
 
 void BetweenSpeciesArc::drawSelected() {
@@ -146,7 +158,7 @@ void BetweenSpeciesArc::drawSelected() {
 
         float yPos = this->y;
 
-        glColor4f(color->r, color->g, color->b, 1);
+        glColor4f(0, 0, 0, 1);
         PrintText::drawStrokeText(label, xPos, yPos, fontHeight, HORIZ_CENTER, VERT_CENTER, true);
     }
 }
