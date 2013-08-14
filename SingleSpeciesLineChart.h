@@ -36,6 +36,8 @@ public:
     void setDisplayHarvest(bool d) { displayHarvest = d; }
     void displayHarvestOn() { displayHarvest = true; }
     void displayHarvestOff() { displayHarvest = false; }
+
+    virtual ChartPointList *getPoints();
 private:
     bool displayAbsoluteSizes;
     bool displayChart;

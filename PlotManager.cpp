@@ -1,4 +1,6 @@
 #include "PlotManager.h"
+#include "Pickable.h"
+#include "ChartPoint.h"
 
 PlotManager::~PlotManager() {
 
@@ -20,17 +22,17 @@ void PlotManager::drawToPick() {
     }
 }
 
-ChartPointList *PlotManager::getPoints() {
+std::vector<Pickable *> *PlotManager::getPickables() {
     std::vector<LineChart *> *charts = getCharts();
-    ChartPointList *allPoints = new ChartPointList();
+    std::vector<Pickable *> *allPicks = new std::vector<Pickable *>();
 
     for (int i = 0; i < charts->size(); i++) {
         ChartPointList *points = charts->at(i)->getPoints();
 
-        allPoints->insert(allPoints->end(), points->begin(), points->end());
+        allPicks->insert(allPicks->end(), points->begin(), points->end());
     }
 
-    return allPoints;
+    return allPicks;
 }
 
 void PlotManager::captureLastValues() {

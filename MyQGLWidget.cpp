@@ -375,7 +375,7 @@ void MyQGLWidget::mouseMovePickables(int x, int y) {
         std::vector<Pickable *> *allPickables = new std::vector<Pickable *>();
         for (unsigned int i = 0; i < plotManagers->size(); i++) {
             if (plotManagers->at(i)->getDisplay()) {
-                ChartPointList *p = plotManagers->at(i)->getPoints();
+                std::vector<Pickable *> *p = plotManagers->at(i)->getPickables();
                 allPickables->insert(allPickables->end(), p->begin(), p->end());
             }
         }
@@ -468,45 +468,41 @@ void MyQGLWidget::initializeSliders() {
     displayGroupButton->setWidth(130);
     displayGroupButton->setLocation(10, 775);
     buttons->push_back(displayGroupButton);
-    //displayTypeButtons->addDisplayButton(displayGroupButton);
 
     displaySpeciesButton = new Button("Display by Species");
     displaySpeciesButton->setHeight(20);
     displaySpeciesButton->setWidth(130);
     displaySpeciesButton->setLocation(150, 775);
     buttons->push_back(displaySpeciesButton);
-    //displayTypeButtons->addDisplayButton(displaySpeciesButton);
 
     toggleAbsButton = new ToggleButton("Abs. Sizes", false);
     toggleAbsButton->setHeight(20);
     toggleAbsButton->setWidth(130);
-    toggleAbsButton->setLocation(5, 30);
+    toggleAbsButton->setLocation(5, 5);
     buttons->push_back(toggleAbsButton);
 
     toggleChartsButton = new ToggleButton("Biomass", true);
     toggleChartsButton->setHeight(20);
     toggleChartsButton->setWidth(130);
-    toggleChartsButton->setLocation(5, 55);
-    //toggleChartsButton->setActive(false);
+    toggleChartsButton->setLocation(5, 30);
     buttons->push_back(toggleChartsButton);
 
     toggleHarvButton = new ToggleButton("Harvest", false);
     toggleHarvButton->setHeight(20);
     toggleHarvButton->setWidth(130);
-    toggleHarvButton->setLocation(5, 5);
-    //toggleChartsButton->setActive(false);
+    toggleHarvButton->setLocation(140, 30);
     buttons->push_back(toggleHarvButton);
 
     togglePredButton = new ToggleButton("Predation", true);
     togglePredButton->setHeight(20);
     togglePredButton->setWidth(130);
-    togglePredButton->setLocation(5, 80);
+    togglePredButton->setLocation(5, 55);
     buttons->push_back(togglePredButton);
 
     toggleInterButton = new ToggleButton("Interaction", false);
     toggleInterButton->setHeight(20);
     toggleInterButton->setWidth(130);
-    toggleInterButton->setLocation(140, 80);
+    toggleInterButton->setLocation(140, 55);
     buttons->push_back(toggleInterButton);
 
     displayByGroup();
@@ -566,19 +562,10 @@ void MyQGLWidget::positionSliderButtons() {
 void MyQGLWidget::toggleAbsoluteSizes() {
     if (managerSpecies->getDisplay()) {
         if (toggleAbsButton->getValue()) {
-            managerSpecies->displayAbsoluteSizesOn();
-            
-            //toggleChartsButton->setActive(true);
-            //toggleAbsButton->setActive(true);
-        } else {//if (toggleChartsButton->getValue()) {
+            managerSpecies->displayAbsoluteSizesOn();            
+        } else {
             managerSpecies->displayAbsoluteSizesOff();
-            
-            //toggleChartsButton->setActive(false);
-            //toggleAbsButton->setActive(true);
-        } /*else {
-            toggleAbsButton->setValue(true);
-            toggleAbsButton->setActive(false);
-        }*/
+        }
 
         updateGL();
     }
@@ -588,18 +575,11 @@ void MyQGLWidget::toggleCharts() {
     if (managerSpecies->getDisplay()) {
         if (toggleChartsButton->getValue()) {
             managerSpecies->displayChartsOn();
-
-            //toggleChartsButton->setActive(true);
-            //toggleAbsButton->setActive(true);
-        } else {//if (toggleAbsButton->getValue()) {
+            managerSpecies->displayHarvestOff();
+            toggleHarvButton->setValue(false);
+        } else {
             managerSpecies->displayChartsOff();
-            
-            //toggleChartsButton->setActive(true);
-            //toggleAbsButton->setActive(false);
-        }/* else {
-            toggleChartsButton->setValue(true);
-            toggleChartsButton->setActive(false);
-        }*/
+        }
 
         updateGL();
     }
@@ -609,6 +589,8 @@ void MyQGLWidget::toggleHarvest() {
     if (managerSpecies->getDisplay()) {
         if (toggleHarvButton->getValue()) {
             managerSpecies->displayHarvestOn();
+            managerSpecies->displayChartsOff();
+            toggleChartsButton->setValue(false);
         } else {
             managerSpecies->displayHarvestOff();
         }

@@ -7,6 +7,7 @@
 #include <vector>
 #include <QList>
 
+class Pickable;
 class Model;
 class MS_PROD_MainWindow;
 class QStringList;
@@ -19,7 +20,7 @@ class PlotManager : public Displayable {
         virtual void draw();
         virtual void drawToPick();
         void captureLastValues();
-        ChartPointList *getPoints();
+        std::vector<Pickable *> *getPickables();
         
         bool empty() { return getCharts()->empty(); }
 
