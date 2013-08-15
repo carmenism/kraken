@@ -14,7 +14,7 @@ LineChart::LineChart() : Chart2D() {
     adjustYAxisToData = true;
 
     legend = new LineChartLegend(this);
-    displayLegend = true;
+    legend->setDisplay(false);
 
     setUpAxes();
 
@@ -23,7 +23,6 @@ LineChart::LineChart() : Chart2D() {
     setLineWidths(1);
     setMarkersSize(5);
     displayMarkersOn();
-    displayLegendOn();
     
     offsetX = 40;
     offsetY = 40;
@@ -95,7 +94,7 @@ void LineChart::drawAtOrigin() {
         drawAxes();
         drawLines();  
         
-        if (displayLegend) {
+        if (legend->getDisplay()) {
             legend->setLocation(actualWidth + 5, height / 2);
             legend->draw();
         }

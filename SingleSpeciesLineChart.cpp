@@ -3,6 +3,7 @@
 #include "PrintText.h"
 #include "Color.h"
 #include "AbsoluteSizesChart.h"
+#include "LineChartLegend.h"
 #include <GL/glut.h>
 #include <iostream>
 
@@ -27,7 +28,8 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> *x, std::vecto
     } else {
         setHeight(66);
     }
-    displayLegendOff();
+    
+    legend->setDisplay(false);
     displayTitleOff();
 
     axes->at(AXIS_BOTTOM)->setLabel("Year");
@@ -57,7 +59,6 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> *x, std::vecto
     harvest->getBottomAxis()->displayLabelOn();
     harvest->getBottomAxis()->setDisplayLabel(displayXAxisLabels);
     harvest->getBottomAxis()->setDisplayTickLabels(displayXAxisLabels);
-    harvest->setDisplayLegend(false);
     harvest->setAxesFontHeight(9);
 
     ChartPointSeries *harvestSeries = new ChartPointSeries(harvest, label, x, yHarvest);

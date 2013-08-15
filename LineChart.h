@@ -49,11 +49,6 @@ public:
     void displayAsAreas();
     void displayAsLines();
 
-    bool getDisplayLegend() { return displayLegend; }
-    void setDisplayLegend(bool d) { displayLegend = d; }
-    void displayLegendOn() { displayLegend = true; }
-    void displayLegendOff() { displayLegend = false; }
-
     LineChartAxis *getBottomAxis();
     LineChartAxis *getTopAxis();
     LineChartAxis *getLeftAxis();
@@ -91,10 +86,9 @@ protected:
     float offsetX, offsetY;
     float actualWidth, actualHeight;
     void updateActualSize();
-private:
     LineChartLegend *legend;
-
-    bool displayLegend;    
+private:
+    //bool displayLegend;    
 
     bool adjustYAxisToData;
 

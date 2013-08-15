@@ -120,12 +120,6 @@ void BetweenSpeciesArc::positionTriangles() {
 }
 
 void BetweenSpeciesArc::drawTriangles() {
-    //if (getRadius() > 100) {
-    //    arrowA->draw();
-    //    arrowB->draw();
-    //} else {
-    //}
-
     if (selected) {
         arrowA->draw();
         arrowB->draw();
@@ -149,7 +143,6 @@ void BetweenSpeciesArc::drawSelected() {
       
         std::string label = speciesA->getTitle() + betweenSpeciesLabel + speciesB->getTitle() + " (" + toStr(coefficient) + ")";
 
-        float padding = 4;
         float xPos = this->x + radius / 2;
 
         if (!this->arcToRight()) {

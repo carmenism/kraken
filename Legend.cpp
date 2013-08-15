@@ -6,6 +6,7 @@ Legend::Legend() {
     x = 0;
     y = 0;
     padding = 5;
+    display = false;
 }
 
 Legend::~Legend() {
