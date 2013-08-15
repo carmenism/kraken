@@ -96,8 +96,6 @@ private:
     
     void drawTickLabels();
     void drawLabel();
-    
-    std::string getLabel(float value);
 
     float round(float num);
     float roundDown(float num);

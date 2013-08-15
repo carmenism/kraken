@@ -153,7 +153,7 @@ void LineChartAxis::drawTickLabels() {
     float x, y;
 
     while (value <= maxValue) {
-        std::string label = getLabel(value);
+        std::string label = numToStr(value);
         switch (axisType) {
             case AXIS_TOP:
                 x = valueToPosition(chart->getActualWidth(), value);
@@ -213,24 +213,6 @@ float LineChartAxis::positionToValue(float axisLength, float position) {
 
     return minValue + distFromMin;
 }
-
-std::string LineChartAxis::getLabel(float value) {
-    int intValue = (int) value;
-
-    if (intValue != 0 && intValue == value) {
-        if (intValue % 1000000 == 0) {
-            float newValue = value / 1000000;
-
-            return toStr(newValue) + "M";
-        } else if (intValue % 1000 == 0) {
-            float newValue = value / 1000;
-
-            return toStr(newValue) + "k";
-        }
-    }
-
-    return toStr(value);
-}   
 
 float LineChartAxis::calculateIntervalSize(float axisLength) {
     int numIntervals = 6;

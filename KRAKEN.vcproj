@@ -355,6 +355,10 @@
 							>
 						</File>
 						<File
+							RelativePath=".\AbsoluteSizeLegend.cpp"
+							>
+						</File>
+						<File
 							RelativePath=".\AbsoluteSizesChart.cpp"
 							>
 						</File>
@@ -594,11 +598,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
+				RelativePath="ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<File
-				RelativePath="ui_ms_prod_mainwindow.h"
+				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<Filter
@@ -758,6 +762,10 @@
 						>
 						<File
 							RelativePath=".\AbsoluteSizeIndicator.h"
+							>
+						</File>
+						<File
+							RelativePath=".\AbsoluteSizeLegend.h"
 							>
 						</File>
 						<File

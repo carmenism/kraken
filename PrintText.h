@@ -63,4 +63,23 @@ inline std::string toStr(float x) {
   return o.str();
 }
 
+inline std::string numToStr(float value) {
+    int intValue = (int) value;
+
+    if (intValue != 0 && intValue == value) {
+        if (intValue % 1000000 == 0) {
+            float newValue = value / 1000000;
+
+            return toStr(newValue) + "M";
+        } else if (intValue % 1000 == 0) {
+            float newValue = value / 1000;
+
+            return toStr(newValue) + "k";
+        }
+    }
+
+    return toStr(value);
+}   
+
+
 #endif /* PRINTTEXT_H_ */

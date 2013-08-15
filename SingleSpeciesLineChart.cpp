@@ -40,6 +40,8 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> *x, std::vecto
     updateActualSize();
 
     absChart = new AbsoluteSizesChart(this);
+    absChart->setDisplayLegend(displayXAxisLabels);
+    absChart->setLegendLocation(1065, 5);
 
     displayAbsoluteSizes = false;
 

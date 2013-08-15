@@ -5,7 +5,7 @@
 ChangeSlider::ChangeSlider(std::string title, float min, float max, float start) 
     : Slider(title, min, max, start) {
     decreaseColor = &Color::red;
-    increaseColor = &Color::blue;
+    increaseColor = &Color::skyblue;
 
     color = increaseColor;
     display = false;
@@ -17,13 +17,13 @@ ChangeSlider::~ChangeSlider() {
 }
 
 void ChangeSlider::draw() {
-    Slider::draw();
-
     if (display) {
         glColor4f(color->r, color->g, color->b, 0.5);
         glRectf(main->getInnerX() + startCurX, main->getY() - labelFontHeight - 2*main->getBorder(),
                 main->getInnerX() + curX,      main->getY() + cursor->getHeight() - labelFontHeight - 2 *main->getBorder());
     }
+
+    Slider::draw();
 }
 
 bool ChangeSlider::mouseMoved(float x, float y) {

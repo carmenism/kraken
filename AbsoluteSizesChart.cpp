@@ -1,5 +1,6 @@
 #include "AbsoluteSizesChart.h"
 #include "AbsoluteSizeIndicator.h"
+#include "AbsoluteSizeLegend.h"
 #include "ChartPointSeries.h"
 #include "ChartPoint.h"
 #include "LineChart.h"
@@ -10,6 +11,7 @@ AbsoluteSizesChart::AbsoluteSizesChart(LineChart *lineChart) {
     this->lineChart = lineChart;
     this->startIndex = 0;
     this->indexInterval = 5;
+    this->scalingFactor = 0.01f;
 
     points = new std::vector<AbsoluteSizeIndicator *>();
 
@@ -35,9 +37,31 @@ AbsoluteSizesChart::AbsoluteSizesChart(LineChart *lineChart) {
         AbsoluteSizeIndicator *a = new AbsoluteSizeIndicator(label, x, y);
         points->push_back(a);
     }
+
+    std::vector<float> sampleValues;
+    sampleValues.push_back(10000);
+    sampleValues.push_back(50000);
+    sampleValues.push_back(100000);
+    sampleValues.push_back(500000);
+    legend = new AbsoluteSizeLegend(this, sampleValues);
+}
+
+AbsoluteSizesChart::~AbsoluteSizesChart() {
+    while (!points->empty()) {
+        AbsoluteSizeIndicator *p = points->back();
+        points->pop_back();
+        delete p;
+    }
+
+    delete points;
+    delete legend;
 }
 
 void AbsoluteSizesChart::draw() {
+    if (legend->getDisplay()) {
+        legend->draw();
+    }
+
     setXLocation(lineChart->getXLocation() + lineChart->getOffsetX());
     setYLocation(lineChart->getYLocation() + lineChart->getOffsetY());
     width = lineChart->getActualWidth();
@@ -66,19 +90,22 @@ void AbsoluteSizesChart::drawAtOrigin() {
     while (i < points->size()) {
         points->at(i)->setValueY(lineChartPoints->at(i)->getY());
 
-        float radius = radiusFromArea(points->at(i)->getValueY() / 100);
-        float diameter = radius * 2;
-
-        float posX = points->at(i)->getValueX() * width / globalMaxX;
-        float posY = height / 2;
-
-        points->at(i)->setSize(diameter, diameter);
-        points->at(i)->setLocation(posX, posY);
+        positionPoint(points->at(i));
         points->at(i)->draw();
-        //points->at(i)->drawSelected();
 
         i = i + indexInterval;
     }
+}
+
+void AbsoluteSizesChart::positionPoint(AbsoluteSizeIndicator *point) {
+    float radius = getRadiusFromValue(point->getValueY());
+    float diameter = radius * 2;
+
+    float posX = point->getValueX() * width / globalMaxX;
+    float posY = height / 2;
+
+    point->setSize(diameter, diameter);
+    point->setLocation(posX, posY);
 }
 
 void AbsoluteSizesChart::drawToPick() {
@@ -102,48 +129,37 @@ void AbsoluteSizesChart::drawToPickAtOrigin() {
     while (i < points->size()) {
         points->at(i)->setValueY(lineChartPoints->at(i)->getY());
 
-        float radius = radiusFromArea(points->at(i)->getValueY() / 100);
-        float diameter = radius * 2;
-
-        float posX = points->at(i)->getValueX() * width / globalMaxX;
-        float posY = height / 2;
-
-        points->at(i)->setSize(diameter, diameter);
-        points->at(i)->setLocation(posX, posY);
+        positionPoint(points->at(i));
         points->at(i)->drawToPick();
 
         i = i + indexInterval;
     }
 }
-/*
-std::vector<AbsoluteSizeIndicator *> *AbsoluteSizesChart::getPoints() {
-    std::vector<AbsoluteSizeIndicator *> *newList;
-    unsigned int i = startIndex;
-    
-    while (i < points->size()) {
-        newList->push_back(points->at(i));
 
-        i = i + indexInterval;
-    }
-
-    return newList;
-}*/
-
-void AbsoluteSizesChart::calculateMaxRadius() {
-    unsigned int i = startIndex;
-    int number = 0;
-
-    while (i > points->size()) {
-        number++;
-        i = i + indexInterval;
-    }
-
-    float spacing = 5;
-    float widthWithoutSpacing = width - spacing * number; 
-
-    maxRadius = widthWithoutSpacing / (number * 2);
-}   
+float AbsoluteSizesChart::getRadiusFromValue(float value) {
+    return radiusFromArea(value * scalingFactor);
+}
 
 float AbsoluteSizesChart::radiusFromArea(float area) {
     return sqrt(area / M_PI);
+}
+
+bool AbsoluteSizesChart::getDisplayLegend() {
+    return legend->getDisplay();
+}
+
+void AbsoluteSizesChart::setDisplayLegend(bool d) {
+    legend->setDisplay(d);
+}
+
+void AbsoluteSizesChart::displayLegendOn() {
+    legend->displayOn();
+}
+
+void AbsoluteSizesChart::displayLegendOff() {
+    legend->displayOff();
+}
+
+void AbsoluteSizesChart::setLegendLocation(float x, float y) {
+    legend->setValues(x, y);
 }
