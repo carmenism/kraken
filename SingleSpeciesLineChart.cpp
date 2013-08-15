@@ -66,6 +66,8 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> *x, std::vecto
 
     harvest->addPointSeries(harvestSeries);
     harvest->setMarkersSize(6);
+
+    fontHeight = 12;
 }
 
 

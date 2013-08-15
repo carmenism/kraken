@@ -199,15 +199,15 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double> *> *biomassMatri
 }
 
 void PlotBySpeciesManager::initializeInteractionArcs(MS_PROD_MainWindow *mainWindow) {
-    arcsInter = initializeArcs(ARC_INTERACTION, mainWindow->getParameters()->getWithinGuildCompMatrix());
+    arcsInter = initializeArcs("Arcs Represent Species Interaction", ARC_INTERACTION, mainWindow->getParameters()->getWithinGuildCompMatrix());
 }
 
 void PlotBySpeciesManager::initializePredationArcs(MS_PROD_MainWindow *mainWindow) {
-    arcsPred = initializeArcs(ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix());
+    arcsPred = initializeArcs("Arcs Represent Species Predation", ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix());
 }
 
-BetweenSpeciesArcCollection *PlotBySpeciesManager::initializeArcs(int arcType, QList<QList<double>> matrix) {
-    BetweenSpeciesArcCollection *arcs = new BetweenSpeciesArcCollection();
+BetweenSpeciesArcCollection *PlotBySpeciesManager::initializeArcs(std::string title, int arcType, QList<QList<double>> matrix) {
+    BetweenSpeciesArcCollection *arcs = new BetweenSpeciesArcCollection(title);
     QList<QList<double> *> *newMatrix = getNewSquareMatrix(matrix);
 
     for (int i = 0; i < newMatrix->size(); i++) {
@@ -219,6 +219,8 @@ BetweenSpeciesArcCollection *PlotBySpeciesManager::initializeArcs(int arcType, Q
             }
         }        
     }
+
+    arcs->setTitleLocation(1195, 795);
 
     delete newMatrix;
     return arcs;

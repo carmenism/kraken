@@ -4,6 +4,7 @@
 #include <QtOpenGL/QGLWidget>
 #include <vector>
 #include <QList>
+#include <string>
 #include <QStringList>
 #include "PlotManager.h"
 #include "ChartPointSeries.h"
@@ -67,7 +68,7 @@ private:
     QList<QList<double> *> *getNewSquareMatrix(QList<QList<double>> matrix);
 
     void initializeCharts(QList<QList<double> *> *biomassMatrix, QList<QList<double> *> *harvestMatrix, MS_PROD_MainWindow *mainWindow);
-    BetweenSpeciesArcCollection *initializeArcs(int arcType, QList<QList<double>> matix);
+    BetweenSpeciesArcCollection *initializeArcs(std::string title, int arcType, QList<QList<double>> matix);
     void initializeInteractionArcs(MS_PROD_MainWindow *mainWindow);
     void initializePredationArcs(MS_PROD_MainWindow *mainWindow);
 };

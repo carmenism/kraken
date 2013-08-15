@@ -7,6 +7,7 @@ class Color;
 
 #include "Displayable.h"
 #include <vector>
+#include <string>
 
 enum {ARC_PREDATION, ARC_INTERACTION};
 
@@ -20,12 +21,14 @@ typedef std::vector<BetweenSpeciesArc *>::const_iterator BetweenSpeciesArcIterat
 
 class BetweenSpeciesArcCollection : public Displayable {
 public:
-    BetweenSpeciesArcCollection();
+    BetweenSpeciesArcCollection(std::string title);
     ~BetweenSpeciesArcCollection();
 
     void draw();
     void drawSelected();
     void drawToPick();
+
+    void setTitleLocation(float x, float y);
 
     void addArc(BetweenSpeciesArc *arc);
     void addArc(int type, float coeff, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB, Color *c, bool setToLeft);
@@ -33,6 +36,8 @@ public:
 private:
     BetweenSpeciesArcList *arcs;
     BetweenSpeciesArc *selected;
+    std::string title;
+    float titleX, titleY;
 };
 
 #endif /* _BETWEENSPECIESARCCOLLECTION_H */

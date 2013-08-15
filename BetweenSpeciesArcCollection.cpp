@@ -2,10 +2,13 @@
 #include "BetweenSpeciesArc.h"
 #include "InteractionArc.h"
 #include "PredationArc.h"
+#include "PrintText.h"
+#include <QtOpenGL>
 
-BetweenSpeciesArcCollection::BetweenSpeciesArcCollection() {
+BetweenSpeciesArcCollection::BetweenSpeciesArcCollection(std::string title) {
     arcs = new BetweenSpeciesArcList();
     selected = NULL;
+    this->title = title;
 }
 
 BetweenSpeciesArcCollection::~BetweenSpeciesArcCollection() {
@@ -16,6 +19,11 @@ BetweenSpeciesArcCollection::~BetweenSpeciesArcCollection() {
     }
 
     delete arcs;
+}
+
+void BetweenSpeciesArcCollection::setTitleLocation(float x, float y) {
+    titleX = x;
+    titleY = y;
 }
 
 void BetweenSpeciesArcCollection::draw() {
@@ -40,6 +48,9 @@ void BetweenSpeciesArcCollection::draw() {
             arcs->at(i)->draw();
         }
     }
+
+    glColor4f(0, 0, 0, 1);
+    PrintText::drawStrokeText(title, titleX, titleY, 14, HORIZ_RIGHT, VERT_TOP, false, 0);
 }
 
 void BetweenSpeciesArcCollection::drawSelected() {
