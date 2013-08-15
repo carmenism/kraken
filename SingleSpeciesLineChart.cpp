@@ -65,9 +65,6 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> *x, std::vecto
 
     harvest->addPointSeries(harvestSeries);
     harvest->setMarkersSize(6);
-    //harvest->setAdjustYAxisToData(false);
-    //harvest->setGlobalMinY(0);
-    //harvest->setGlobalMaxY(100000);
 }
 
 
@@ -132,15 +129,6 @@ void SingleSpeciesLineChart::drawAtOrigin() {
     glColor4f(0, 0, 0, 1);
     PrintText::drawStrokeText(sideLabel, -10, offsetY + actualHeight / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER);
 }
-
-/*void SingleSpeciesLineChart::drawToPickAtOrigin() {
-    LineChart::drawToPickAtOrigin();
-
-    glPushMatrix();
-        glTranslatef(offsetX, offsetY, 0);
-         
-    glPopMatrix();
-}*/
 
 Color *SingleSpeciesLineChart::getColor() {
     return seriesList->front()->getColor();

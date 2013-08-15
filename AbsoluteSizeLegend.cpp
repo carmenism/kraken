@@ -5,8 +5,7 @@
 #include <QtOpenGL>
 #include <string>
 
-AbsoluteSizeLegend::AbsoluteSizeLegend(AbsoluteSizesChart *chart, std::vector<float> sampleValues)
-: Point(0, 0) {
+AbsoluteSizeLegend::AbsoluteSizeLegend(AbsoluteSizesChart *chart, std::vector<float> sampleValues) {
     this->chart = chart;
     points = new std::vector<AbsoluteSizeIndicator *>();
 
@@ -27,10 +26,9 @@ AbsoluteSizeLegend::~AbsoluteSizeLegend() {
     delete points;
 }
 
-void AbsoluteSizeLegend::draw() {
-    float padding = 5;
+float AbsoluteSizeLegend::getMaxRadius() {
     float maxRadius = 0;
-    float height = padding;
+    height = padding;
 
     for (unsigned int i = 0; i < points->size(); i++) {
         float radius = chart->getRadiusFromValue(points->at(i)->getValueY());
@@ -43,53 +41,43 @@ void AbsoluteSizeLegend::draw() {
         }
 
         height = height + padding + diameter;
-    }
+    }    
 
-    glPushMatrix();
-        glTranslatef(x, y, 0); 
-    
-        float posX = maxRadius + padding;
-        float posXLabel = posX * 2;
-        float posY = padding;
-        float maxTextWidth = 0;
+    return maxRadius;
+}
 
-        for (unsigned int i = 0; i < points->size(); i++) {
-            float radius = points->at(i)->getHeight() / 2;
+void AbsoluteSizeLegend::drawAtOrigin() {
+    float maxRadius = getMaxRadius();
+    float posX = maxRadius + padding;
+    float posXLabel = posX * 2;
+    float posY = padding;
+    float maxTextWidth = 0;
 
-            posY = posY + radius;
-            points->at(i)->setLocation(posX, height - posY);
-            points->at(i)->draw();
+    for (unsigned int i = 0; i < points->size(); i++) {
+        float radius = points->at(i)->getHeight() / 2;
 
-            float value = points->at(i)->getValueY();
-            std::string label = numToStr(value);
-            glColor4f(0, 0, 0, 1);
-            PrintText::drawStrokeText(label, posXLabel, height - posY, 12, HORIZ_LEFT, VERT_CENTER, false, 0);
-    
-            float width = PrintText::strokeWidth(label, 12);
+        posY = posY + radius;
+        points->at(i)->setLocation(posX, height - posY);
+        points->at(i)->draw();
 
-            if (maxTextWidth < width) {
-                maxTextWidth = width;
-            }
+        float value = points->at(i)->getValueY();
+        std::string label = numToStr(value);
+        glColor4f(0, 0, 0, 1);
+        PrintText::drawStrokeText(label, posXLabel, height - posY, fontHeight, HORIZ_LEFT, VERT_CENTER, false, 0);
 
-            posY = posY + radius + padding;
+        float width = PrintText::strokeWidth(label, fontHeight);
+
+        if (maxTextWidth < width) {
+            maxTextWidth = width;
         }
 
-        float width = 2 * maxRadius + 3 * padding + maxTextWidth;
+        posY = posY + radius + padding;
+    }
 
-        glColor4f(0, 0, 0, 1);
-        PrintText::drawStrokeText("LEGEND", width  / 2, height, 12, HORIZ_CENTER, VERT_BOTTOM, false, 0);
-    
-        height = height + 12 + padding;
+    width = 2 * maxRadius + 3 * padding + maxTextWidth;
 
-        glPolygonMode(GL_FRONT, GL_LINE);  
-        glLineWidth(1.0);
-        glColor4f(0.5, 0.5, 0.5, 1);
+    glColor4f(0, 0, 0, 1);
+    PrintText::drawStrokeText("LEGEND", width  / 2, height, fontHeight, HORIZ_CENTER, VERT_BOTTOM, false, 0);
 
-        glBegin(GL_LINE_LOOP);
-            glVertex2f( 0, 0 );
-            glVertex2f( 0, height );
-            glVertex2f( width, height );
-            glVertex2f( width, 0 );
-        glEnd();
-    glPopMatrix();
+    height = height + fontHeight + padding;
 }

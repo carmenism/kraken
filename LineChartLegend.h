@@ -3,21 +3,20 @@
 
 class LineChart;
 
-class LineChartLegend {
+#include "Legend.h"
+
+class LineChartLegend : public Legend {
 public:
     LineChartLegend(LineChart *c);
     ~LineChartLegend();
 
-    void draw(float x, float y, float lineLength, float spacing);
+    virtual void drawAtOrigin();
 
-    float getFontHeight() { return fontHeight; }
-    void setFontHeight(float h) { fontHeight = h; }
+    float getLineLength() { return lineLength; }
+    void setLineLength(float len) { lineLength = len; }
 private:
+    float lineLength;
     LineChart *chart;
-
-    void drawBoundary(float width, float height);
-
-    float fontHeight;
 };
 
 #endif /* LINECHARTLEGEND_H_ */

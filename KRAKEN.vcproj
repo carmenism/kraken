@@ -347,6 +347,10 @@
 						RelativePath=".\Chart.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\Legend.cpp"
+						>
+					</File>
 					<Filter
 						Name="AbsoluteSize"
 						>
@@ -755,6 +759,10 @@
 					</File>
 					<File
 						RelativePath=".\Chart2D.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Legend.h"
 						>
 					</File>
 					<Filter
