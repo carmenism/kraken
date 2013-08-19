@@ -355,3 +355,7 @@ void LineChart::captureLastValues() {
         (*it)->captureLastValues();
     }
 }
+
+float LineChart::getLegendWidth() {
+    return legend->getWidth();
+}

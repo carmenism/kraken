@@ -23,11 +23,11 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> *x, std::vecto
     setLegendFontHeight(12);
     setFontHeight(11);
 
-    if (displayXAxisLabels) {
-        setHeight(74 + 8 * 2);
-    } else {
-        setHeight(66);
-    }
+    //if (displayXAxisLabels) {
+    //    setHeight(74 + 8 * 2);
+    //} else {
+    //    setHeight(66);
+    //}
     
     legend->setDisplay(false);
     displayTitleOff();

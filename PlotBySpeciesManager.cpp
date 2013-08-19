@@ -4,6 +4,7 @@
 #include "InteractionArc.h"
 #include "PredationArc.h"
 #include "BetweenSpeciesArcCollection.h"
+#include "LineChartAxis.h"
 #include <QList>
 #include <QStringList>
 
@@ -236,12 +237,37 @@ std::vector<LineChart *> *PlotBySpeciesManager::getCharts() {
     return lineCharts;
 }
 
-void PlotBySpeciesManager::draw() {
+void PlotBySpeciesManager::draw(float windowWidth, float windowHeight) {
     if (arcsCurrent != NULL) {
         arcsCurrent->draw();
     }
 
-    PlotManager::draw();
+    if (charts != NULL && !charts->empty()) {
+        //PlotManager::draw(windowWidth, windowHeight);
+        int numCharts = charts->size();
+        float spacing = 5;
+        float topSpace = 10;
+        float leftSpace = 200;
+        float bottomAxisHeight = charts->at(0)->getBottomAxis()->getSize();
+        float height = windowHeight - bottomAxisHeight - spacing * (numCharts + 1) - topSpace;   
+        float chartHeight = height / numCharts;
+        float maxArc = windowHeight - 2 * spacing - chartHeight - bottomAxisHeight;
+        float chartWidth = windowWidth - leftSpace - maxArc;
+        float x = leftSpace + maxArc / 2;
+
+        charts->at(0)->setLocation(x, spacing);
+        charts->at(0)->setWidth(chartWidth);
+        charts->at(0)->setHeight(chartHeight + bottomAxisHeight);
+        charts->at(0)->draw();
+
+        for (int i = 1; i < charts->size(); i++) {
+            float y = spacing + bottomAxisHeight + i * (chartHeight + spacing);
+            charts->at(i)->setLocation(x, y);
+            charts->at(i)->setWidth(chartWidth);
+            charts->at(i)->setHeight(chartHeight);
+            charts->at(i)->draw();
+        }
+    }
 
     if (arcsCurrent != NULL) {
         arcsCurrent->drawSelected();

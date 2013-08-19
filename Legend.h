@@ -15,6 +15,9 @@ public:
     float getX() { return x; }
     float getY() { return y; }
 
+    float getWidth() { return width; }
+    float getHeight() { return height; }
+
     float getFontHeight() { return fontHeight; }
     void setFontHeight(float h) { fontHeight = h; }
 protected:

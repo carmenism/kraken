@@ -6,7 +6,7 @@ PlotManager::~PlotManager() {
 
 }
 
-void PlotManager::draw() {
+void PlotManager::draw(float windowWidth, float windowHeight) {
     std::vector<LineChart *> *charts = getCharts();
 
     for (int i = 0; i < charts->size(); i++) {

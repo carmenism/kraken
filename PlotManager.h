@@ -17,7 +17,7 @@ class PlotManager : public Displayable {
         PlotManager() {  }
         ~PlotManager();
      
-        virtual void draw();
+        virtual void draw(float windowWidth, float windowHeight);
         virtual void drawToPick();
         void captureLastValues();
         std::vector<Pickable *> *getPickables();

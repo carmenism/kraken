@@ -80,6 +80,8 @@ public:
 
     bool getAdjustYAxisToData() { return adjustYAxisToData; }
     void setAdjustYAxisToData(bool a) { adjustYAxisToData = a; }
+
+    float getLegendWidth();
 protected:
     ChartPointSeriesList *seriesList;
     LineChartAxisList *axes;

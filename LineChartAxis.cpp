@@ -37,7 +37,6 @@ LineChartAxis::LineChartAxis(LineChart *chart, int type) {
     font = GLUT_BITMAP_HELVETICA_10;
 
     fontHeight = 12;
-    valuesChanged = false;
 }
 
 LineChartAxis::~LineChartAxis() {
@@ -74,12 +73,10 @@ void LineChartAxis::draw() {
             maxValue = 1;
             setMajorTickSpacing(1.0);
             setMinorTickSpacing(1.0 / 5.0);
-            valuesChanged = false;
-        } else if (valuesChanged) {
+        } else {
             float interval = calculateIntervalSize(axisLength);       
             setMajorTickSpacing(interval);
             setMinorTickSpacing(interval / 5.0);
-            valuesChanged = false;
         }
 
         if (displayMinorTicks) {
@@ -297,17 +294,9 @@ float LineChartAxis::getSize() {
 }
 
 void LineChartAxis::setMinimumValue(float m) {
-    if (minValue != m) {
-        valuesChanged = true;
-    }
-
     minValue = m;
 }
 
 void LineChartAxis::setMaximumValue(float m) {
-    if (maxValue != m) {
-        valuesChanged = true;
-    }
-
     maxValue = m;
 }

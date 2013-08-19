@@ -74,8 +74,6 @@ private:
 
     void *font;
 
-    bool valuesChanged;
-
     bool display;
     bool displayTickLabels;
     bool displayLabel;

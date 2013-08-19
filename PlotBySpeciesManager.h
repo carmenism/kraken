@@ -21,7 +21,7 @@ public:
     PlotBySpeciesManager(); 
     ~PlotBySpeciesManager();
 
-    void draw();
+    void draw(float windowWidth, float windowHeight);
     virtual void drawToPick();
 
     void captureLastValues();

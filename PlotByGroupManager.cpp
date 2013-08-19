@@ -18,6 +18,41 @@ PlotByGroupManager::~PlotByGroupManager() {
     delete charts;
 }
 
+void PlotByGroupManager::draw(float windowWidth, float windowHeight) {
+    if (charts != NULL && !charts->empty()) {
+        float maxLegendWidth = 0;
+        for (int i = 0; i < charts->size(); i++) {
+            float w = charts->at(i)->getLegendWidth();
+
+            if (maxLegendWidth < w) {
+                maxLegendWidth = w;
+            }
+        }
+
+        float spacing = 10;
+        float topSpacing = 20;
+        float sliderHeight = 50;
+        float chartWidth = (windowWidth - 3 * spacing - 2 * maxLegendWidth) / 2;
+        float chartHeight = (windowHeight - 5 * spacing - 2 * sliderHeight - topSpacing) / 2;
+
+        float leftX = spacing;
+        float rightX = 2 * spacing + chartWidth + maxLegendWidth;
+        float bottomY = 2 * spacing + sliderHeight;
+        float topY = 2 * bottomY + chartHeight;
+        
+        charts->at(0)->setLocation(leftX, bottomY);
+        charts->at(1)->setLocation(rightX, bottomY);
+        charts->at(2)->setLocation(leftX, topY);
+        charts->at(3)->setLocation(rightX, topY);
+
+        for (int i = 0; i < charts->size(); i++) {
+            charts->at(i)->setWidth(chartWidth);
+            charts->at(i)->setHeight(chartHeight);
+            charts->at(i)->draw();
+        }        
+    }
+}
+
 void PlotByGroupManager::updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) {
     QList<QList<double>> matrix = mainWindow->getParameters()->getBiomassMatrix();
     QStringList labels = mainWindow->getParameters()->getSpeciesList();
@@ -61,17 +96,13 @@ void PlotByGroupManager::initializeCharts(QList<QList<double>> matrix, QStringLi
 
         MultiSpeciesLineChart *chart = new MultiSpeciesLineChart(matrixForGuild, labelsForGuild);
         chart->setTitle(guilds.at(i).toStdString());
-        chart->setWidth(420);
-        chart->setHeight(330);
+        //chart->setWidth(420);
+        //chart->setHeight(330);
         chart->setAxesFontHeight(10);
         chart->setLegendFontHeight(12);
         charts->push_back(chart);
     }
 
-    charts->at(0)->setLocation(5, 47);
-    charts->at(1)->setLocation(620, 47);
-    charts->at(2)->setLocation(5, 440);
-    charts->at(3)->setLocation(620, 440);
 }
 
 std::vector<LineChart *> *PlotByGroupManager::getCharts() {

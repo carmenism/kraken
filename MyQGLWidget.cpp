@@ -35,9 +35,8 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     this->mainWindow = mainWindow;
 
     setMouseTracking(true);
-    //setFixedWidth(1200);
-    //setFixedHeight(800);
-    setGeometry(20, 20, 1200, 800);
+    setMinimumWidth(1000);
+    setMinimumHeight(600);
 
     labelSuffix = " harvest effort";
     
@@ -105,11 +104,17 @@ void MyQGLWidget::paintGL() {
 
     for (unsigned int i = 0; i < plotManagers->size(); i++) {
         if (plotManagers->at(i)->getDisplay()) {
-            plotManagers->at(i)->draw();
+            plotManagers->at(i)->draw(size().rwidth(), size().rheight());
         }
     }
 
     if (!managerGroup->empty()) {
+        if (managerSpecies->getDisplay()) {
+
+        } else {
+            positionSlidersForGroups();
+        }
+
         for (unsigned int i = 0; i < sliders->size(); i++) {
             if (managerSpecies->getDisplay()) {
                 Color *c=Color::getEvenlyDistributedColor(sliders->size(), i);
@@ -127,8 +132,13 @@ void MyQGLWidget::paintGL() {
             sliderButtons->at(i)->draw();
         }
 
+        resetAllButton->setLocation(300, size().rheight() - 25);
         resetAllButton->draw();
+
+        displayGroupButton->setLocation(10, size().rheight() - 25);
         displayGroupButton->draw();
+
+        displaySpeciesButton->setLocation(150, size().rheight() - 25);
         displaySpeciesButton->draw();
 
         if (managerSpecies->getDisplay()) {
@@ -426,6 +436,8 @@ void MyQGLWidget::updateCharts(Model *model) {
         plotManagers->at(i)->updateCharts(model, mainWindow);
     }
 
+    updateGL();    
+
     updateGL();
 }
 
@@ -472,19 +484,16 @@ void MyQGLWidget::initializeSliders() {
     resetAllButton = new Button("RESET ALL");
     resetAllButton->setHeight(20);
     resetAllButton->setWidth(100);
-    resetAllButton->setLocation(300, 775);
     buttons->push_back(resetAllButton);
 
     displayGroupButton = new Button("Display by Group");
     displayGroupButton->setHeight(20);
     displayGroupButton->setWidth(130);
-    displayGroupButton->setLocation(10, 775);
     buttons->push_back(displayGroupButton);
 
     displaySpeciesButton = new Button("Display by Species");
     displaySpeciesButton->setHeight(20);
     displaySpeciesButton->setWidth(130);
-    displaySpeciesButton->setLocation(150, 775);
     buttons->push_back(displaySpeciesButton);
 
     toggleAbsButton = new ToggleButton("Abs. Sizes", false);
@@ -551,13 +560,19 @@ void MyQGLWidget::positionSlidersForSpecies() {
     positionSliderButtons();
 }
 
-void MyQGLWidget::positionSlidersForGroups() {    
+void MyQGLWidget::positionSlidersForGroups() {  
+    if (managerGroup->empty()) {
+        return;
+    }
+
     sliders->at(0)->setLocation(100, 22);  // flatfish
     sliders->at(1)->setLocation(700, 22);  // groundfish
     sliders->at(2)->setLocation(100, 410); // pelagics
     sliders->at(3)->setLocation(700, 410); // elasmobranchs
 
     for (unsigned int i = 0; i < sliders->size(); i++) {
+        MultiSpeciesLineChart *chart = managerGroup->getChartAt(i);
+        sliders->at(i)->setLocation(chart->getXLocation() + 55, chart->getYLocation() - 30);
         sliders->at(i)->titlePositionRight();
     }
 
