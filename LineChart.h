@@ -72,8 +72,8 @@ public:
     float getOffsetX() { return offsetX; }
     float getOffsetY() { return offsetY; }
 
-    float getActualWidth() { return actualWidth; }
-    float getActualHeight() { return actualHeight; }
+    float getInnerWidth() { return innerWidth; }
+    float getInnerHeight() { return innerHeight; }
     
     virtual void setWidth(float w);
     virtual void setHeight(float h);
@@ -84,7 +84,7 @@ protected:
     ChartPointSeriesList *seriesList;
     LineChartAxisList *axes;
     float offsetX, offsetY;
-    float actualWidth, actualHeight;
+    float innerWidth, innerHeight;
     void updateActualSize();
     LineChartLegend *legend;
 private:

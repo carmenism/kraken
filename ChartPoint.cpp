@@ -42,13 +42,13 @@ ChartPoint::~ChartPoint() {
 }
 
 void ChartPoint::calculateLocation() {
-    float posX = x * chart->getActualWidth() / chart->getGlobalMaxX();
-    float posY = y * chart->getActualHeight() / chart->getGlobalMaxY();
+    float posX = x * chart->getInnerWidth() / chart->getGlobalMaxX();
+    float posY = y * chart->getInnerHeight() / chart->getGlobalMaxY();
 
     marker->setLocation(posX, posY);
 
-    lastPositionX = last->getX() * chart->getActualWidth() / chart->getGlobalMaxX();
-    lastPositionY = last->getY() * chart->getActualHeight() / chart->getGlobalMaxY();
+    lastPositionX = last->getX() * chart->getInnerWidth() / chart->getGlobalMaxX();
+    lastPositionY = last->getY() * chart->getInnerHeight() / chart->getGlobalMaxY();
 }
 
 void ChartPoint::draw() {
@@ -78,14 +78,14 @@ void ChartPoint::drawSelected() {
         float h = fontHeight;
         float w = PrintText::strokeWidth(newLabel, fontHeight);
 
-        if (x + w > chart->getActualWidth()) {
+        if (x + w > chart->getInnerWidth()) {
             x = x - w - 4 * padding;         
         }
         if (x < 0) {
             x = 0;
         }
 
-        if (y + h > chart->getActualHeight()) {
+        if (y + h > chart->getInnerHeight()) {
             y = y - h - 4 * padding;
         }
 
@@ -116,7 +116,7 @@ void ChartPoint::drawHistoryLine() {
     float startX = chart->getOffsetX() + chart->getXLocation();
     float startY = chart->getOffsetY() + chart->getYLocation();
 
-    glScissor(startX - 2, startY, chart->getActualWidth() + 4, chart->getActualHeight());
+    glScissor(startX - 2, startY, chart->getInnerWidth() + 4, chart->getInnerHeight());
 
     glColor4f(c->r, c->g, c->b, 0.6);
     glLineWidth(3);

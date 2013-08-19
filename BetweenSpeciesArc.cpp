@@ -70,8 +70,8 @@ void BetweenSpeciesArc::draw() {
         this->x = speciesA->getXLocation();
     }
 
-    this->yA = speciesA->getYLocation() + speciesA->getOffsetY() + speciesA->getActualHeight() / 2;
-    this->yB = speciesB->getYLocation() + speciesB->getOffsetY() + speciesB->getActualHeight() / 2;
+    this->yA = speciesA->getYLocation() + speciesA->getOffsetY() + speciesA->getInnerHeight() / 2;
+    this->yB = speciesB->getYLocation() + speciesB->getOffsetY() + speciesB->getInnerHeight() / 2;
 
     this->setThickness(getThickness());
 

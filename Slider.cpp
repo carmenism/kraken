@@ -202,8 +202,8 @@ float Slider::valueToPosition(float value) {
 }
 
 float Slider::positionToValue(float position) {
-    float actualWidth = main->getInnerWidth() - cursor->getWidth();
-    float percent = position / actualWidth;
+    float InnerWidth = main->getInnerWidth() - cursor->getWidth();
+    float percent = position / InnerWidth;
 
     return minValue + percent * (maxValue - minValue);
 }

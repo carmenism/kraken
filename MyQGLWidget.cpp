@@ -35,8 +35,9 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     this->mainWindow = mainWindow;
 
     setMouseTracking(true);
-    setFixedWidth(1200);
-    setFixedHeight(800);
+    //setFixedWidth(1200);
+    //setFixedHeight(800);
+    setGeometry(20, 20, 1200, 800);
 
     labelSuffix = " harvest effort";
     

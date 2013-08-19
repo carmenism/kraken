@@ -58,16 +58,16 @@ void LineChart::setUpAxes() {
 }
 
 void LineChart::updateActualSize() {
-    actualWidth = width;
-    actualHeight = height;
+    innerWidth = width;
+    innerHeight = height;
 
-    actualWidth = actualWidth - axes->at(AXIS_RIGHT)->getSize();
-    actualWidth = actualWidth - axes->at(AXIS_LEFT)->getSize();
-    actualHeight = actualHeight - axes->at(AXIS_TOP)->getSize();
-    actualHeight = actualHeight - axes->at(AXIS_BOTTOM)->getSize();
+    innerWidth = innerWidth - axes->at(AXIS_RIGHT)->getSize();
+    innerWidth = innerWidth - axes->at(AXIS_LEFT)->getSize();
+    innerHeight = innerHeight - axes->at(AXIS_TOP)->getSize();
+    innerHeight = innerHeight - axes->at(AXIS_BOTTOM)->getSize();
 
     if (displayTitle) {
-        actualHeight = actualHeight - fontHeight - fontHeight / 3;
+        innerHeight = innerHeight - fontHeight - fontHeight / 3;
     }
 
     offsetX = axes->at(AXIS_LEFT)->getSize();
@@ -95,17 +95,17 @@ void LineChart::drawAtOrigin() {
         drawLines();  
         
         if (legend->getDisplay()) {
-            legend->setLocation(actualWidth + 5, height / 2);
+            legend->setLocation(innerWidth + 5, height / 2);
             legend->draw();
         }
 
-        float titlePos = actualHeight + fontHeight / 3;
+        float titlePos = innerHeight + fontHeight / 3;
         if (axes->at(AXIS_TOP)->getDisplay()) {
             titlePos = titlePos + axes->at(AXIS_TOP)->getSize();
         }
         if (displayTitle) {
             glColor4f(0, 0, 0, 1);
-            PrintText::drawStrokeText(title, actualWidth / 2, titlePos, fontHeight, HORIZ_CENTER);
+            PrintText::drawStrokeText(title, innerWidth / 2, titlePos, fontHeight, HORIZ_CENTER);
         }
         drawSelected();
     glPopMatrix();
@@ -208,9 +208,9 @@ void LineChart::drawBoundary() {
 
     glBegin(GL_LINE_LOOP);
         glVertex2f( 0, 0 );
-        glVertex2f( 0, actualHeight );
-        glVertex2f( actualWidth, actualHeight );
-        glVertex2f( actualWidth, 0 );
+        glVertex2f( 0, innerHeight );
+        glVertex2f( innerWidth, innerHeight );
+        glVertex2f( innerWidth, 0 );
     glEnd();
 }
 

@@ -93,13 +93,13 @@ void SingleSpeciesLineChart::draw() {
     if (displayHarvest) {
         float w = harvest->getLeftAxis()->getSize();
         harvest->setLocation(xPos, yPos + offsetY);
-        harvest->setWidth(getActualWidth() + w);
-        harvest->setHeight(getActualHeight());
+        harvest->setWidth(getInnerWidth() + w);
+        harvest->setHeight(getInnerHeight());
 
         if (harvest->getBottomAxis()->getDisplayLabel()) {
             harvest->setLocation(xPos, yPos);
             float h = harvest->getBottomAxis()->getSize();
-            harvest->setHeight(getActualHeight() + h);
+            harvest->setHeight(getInnerHeight() + h);
         }
 
         harvest->draw();
@@ -130,7 +130,7 @@ void SingleSpeciesLineChart::drawAtOrigin() {
     }
 
     glColor4f(0, 0, 0, 1);
-    PrintText::drawStrokeText(sideLabel, -10, offsetY + actualHeight / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER);
+    PrintText::drawStrokeText(sideLabel, -10, offsetY + innerHeight / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER);
 }
 
 Color *SingleSpeciesLineChart::getColor() {

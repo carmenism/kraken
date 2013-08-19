@@ -205,8 +205,8 @@ void ChartPointSeries::drawGhost() {
     glEnable(GL_SCISSOR_TEST);
     float startX = chart->getOffsetX() + chart->getXLocation();
     float startY = chart->getOffsetY() + chart->getYLocation();
-    float w = chart->getActualWidth();
-    float h = chart->getActualHeight();
+    float w = chart->getInnerWidth();
+    float h = chart->getInnerHeight();
 
     glScissor(startX, startY, w, h);
 
