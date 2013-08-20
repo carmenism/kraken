@@ -188,6 +188,7 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double> *> *biomassMatri
         if (displayXAxis) {
             yLoc = 0;
         }
+        chart->setLineWidths(1);
         chart->setLocation(450, yLoc);
         charts->push_back(chart);
 
@@ -255,9 +256,12 @@ void PlotBySpeciesManager::draw(float windowWidth, float windowHeight) {
         float chartWidth = windowWidth - leftSpace - maxArc;
         float x = leftSpace + maxArc / 2;
 
+        float markerSize = getMarkersSize(chartWidth, chartHeight + bottomAxisHeight);
+
         charts->at(0)->setLocation(x, spacing);
         charts->at(0)->setWidth(chartWidth);
         charts->at(0)->setHeight(chartHeight + bottomAxisHeight);
+        charts->at(0)->setMarkersSize(markerSize);
         charts->at(0)->draw();
 
         for (int i = 1; i < charts->size(); i++) {
@@ -265,6 +269,7 @@ void PlotBySpeciesManager::draw(float windowWidth, float windowHeight) {
             charts->at(i)->setLocation(x, y);
             charts->at(i)->setWidth(chartWidth);
             charts->at(i)->setHeight(chartHeight);
+            charts->at(i)->setMarkersSize(markerSize);
             charts->at(i)->draw();
         }
     }

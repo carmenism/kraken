@@ -54,9 +54,17 @@ float PlotManager::getFontSize(float windowWidth, float windowHeight) {
 }
 
 float PlotManager::getMarkersSize(float chartWidth, float chartHeight) {
-    if (chartWidth < 400 || chartHeight < 200) {
+    if (chartWidth < 100 || chartHeight < 75) {
+        return 4;
+    }
+
+    if (chartWidth < 200 || chartHeight < 150) {
         return 5;
     } 
+
+    if (chartWidth < 400 || chartHeight < 300) {
+        return 6;
+    }
 
     return 7;
 }
