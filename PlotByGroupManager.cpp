@@ -20,8 +20,16 @@ PlotByGroupManager::~PlotByGroupManager() {
 
 void PlotByGroupManager::draw(float windowWidth, float windowHeight) {
     if (charts != NULL && !charts->empty()) {
+        float legendFontSize = 12;
+        if (windowWidth < 900) {
+            legendFontSize = 8;
+        } else if (windowWidth < 1100) {
+            legendFontSize = 10;
+        }   
+
         float maxLegendWidth = 0;
         for (int i = 0; i < charts->size(); i++) {
+            charts->at(i)->setLegendFontHeight(legendFontSize);
             float w = charts->at(i)->getLegendWidth();
 
             if (maxLegendWidth < w) {

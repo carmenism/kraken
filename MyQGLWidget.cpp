@@ -35,7 +35,7 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     this->mainWindow = mainWindow;
 
     setMouseTracking(true);
-    setMinimumWidth(1000);
+    setMinimumWidth(800);
     setMinimumHeight(600);
 
     labelSuffix = " harvest effort";
@@ -565,6 +565,17 @@ void MyQGLWidget::positionSlidersForGroups() {
         return;
     }
 
+    float labelHeight = 10;
+    float titleHeight = 12;
+
+    if (size().rwidth() < 900) {
+        labelHeight = 8;
+        titleHeight = 10;
+    } else if (size().rwidth() < 1100) {
+        labelHeight = 9;
+        titleHeight = 11;
+    }
+
     sliders->at(0)->setLocation(100, 22);  // flatfish
     sliders->at(1)->setLocation(700, 22);  // groundfish
     sliders->at(2)->setLocation(100, 410); // pelagics
@@ -572,8 +583,12 @@ void MyQGLWidget::positionSlidersForGroups() {
 
     for (unsigned int i = 0; i < sliders->size(); i++) {
         MultiSpeciesLineChart *chart = managerGroup->getChartAt(i);
+        float width = min(chart->getInnerWidth() * 0.65, 220);
         sliders->at(i)->setLocation(chart->getXLocation() + 55, chart->getYLocation() - 30);
         sliders->at(i)->titlePositionRight();
+        sliders->at(i)->setWidth(width);
+        sliders->at(i)->setLabelFontHeight(labelHeight);
+        sliders->at(i)->setTitleFontHeight(titleHeight);
     }
 
     positionSliderButtons();
