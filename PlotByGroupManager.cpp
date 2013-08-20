@@ -20,12 +20,7 @@ PlotByGroupManager::~PlotByGroupManager() {
 
 void PlotByGroupManager::draw(float windowWidth, float windowHeight) {
     if (charts != NULL && !charts->empty()) {
-        float legendFontSize = 12;
-        if (windowWidth < 900) {
-            legendFontSize = 8;
-        } else if (windowWidth < 1100) {
-            legendFontSize = 10;
-        }   
+        float legendFontSize = getFontSize(windowWidth, windowHeight);   
 
         float maxLegendWidth = 0;
         for (int i = 0; i < charts->size(); i++) {
@@ -56,6 +51,7 @@ void PlotByGroupManager::draw(float windowWidth, float windowHeight) {
         for (int i = 0; i < charts->size(); i++) {
             charts->at(i)->setWidth(chartWidth);
             charts->at(i)->setHeight(chartHeight);
+            charts->at(i)->setMarkersSize(getMarkersSize(chartWidth, chartHeight));
             charts->at(i)->draw();
         }        
     }

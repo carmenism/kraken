@@ -42,3 +42,21 @@ void PlotManager::captureLastValues() {
         charts->at(j)->captureLastValues();
     }
 }
+
+float PlotManager::getFontSize(float windowWidth, float windowHeight) {
+    if (windowWidth < 900) {
+        return 8;
+    } else if (windowWidth < 1100) {
+        return 10;
+    } 
+    
+    return 12;
+}
+
+float PlotManager::getMarkersSize(float chartWidth, float chartHeight) {
+    if (chartWidth < 400 || chartHeight < 200) {
+        return 5;
+    } 
+
+    return 7;
+}

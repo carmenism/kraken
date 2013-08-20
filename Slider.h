@@ -75,8 +75,10 @@ protected:
     float minValue, maxValue;
     float startCurX, curX;
     float labelFontHeight;
-private:
     std::vector<float> valueHistory;
+
+    float valueToPosition(float value);
+private:
 
     bool displayTitle;
     std::string title;
@@ -93,7 +95,6 @@ private:
     bool pointInCursor(float x, float y);
     void drawLabels();
     void drawTitle();
-    float valueToPosition(float value);
     float positionToValue(float position);
 };
 

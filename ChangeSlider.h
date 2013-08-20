@@ -18,6 +18,8 @@ private:
     Color *increaseColor;
     Color *color;
     bool display;
+
+    void determineColor(float value, float lastValue);
 };
 
 #endif /* CHANGESLIDER_H_ */
