@@ -221,7 +221,7 @@ float LineChartAxis::calculateIntervalSize(float axisLength) {
         threshold = 10;
     } else {
         threshold = 5;
-        numIntervals = 3;
+        //numIntervals = 3;
     }
 
     while (numIntervals > 0) {

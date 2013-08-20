@@ -118,21 +118,12 @@ void MyQGLWidget::paintGL() {
 
     if (!managerGroup->empty()) {
         if (managerSpecies->getDisplay()) {
-
+            positionSlidersForSpecies();
         } else {
             positionSlidersForGroups();
         }
 
         for (unsigned int i = 0; i < sliders->size(); i++) {
-            if (managerSpecies->getDisplay()) {
-                Color *c=Color::getEvenlyDistributedColor(sliders->size(), i);
-                sliders->at(i)->setMainColor(c);
-                sliders->at(i)->setCursorColor(c);
-            } else {
-                sliders->at(i)->setMainColor(&Color::gray);
-                sliders->at(i)->setCursorColor(&Color::gray);
-            }
-
             sliders->at(i)->draw();
         }
 
@@ -580,23 +571,59 @@ void MyQGLWidget::displayBySpecies() {
 }
 
 void MyQGLWidget::positionSlidersForSpecies() {
-    sliders->at(0)->setLocation(65, 150); // flatfish
-    sliders->at(1)->setLocation(65, 350); // groundfish
-    sliders->at(2)->setLocation(65, 550); // pelagics
-    sliders->at(3)->setLocation(65, 705); // elasmobranchs
-
     for (unsigned int i = 0; i < sliders->size(); i++) {
         sliders->at(i)->titlePositionAbove();
     }
+    
+    std::vector<LineChart *> *charts = managerSpecies->getCharts();
+    //float width = max(charts->at(0)->getInnerWidth() * 0.50, 220);
 
+    for (unsigned int i = 0; i < sliders->size(); i++) {
+        std::string sliderTitle = sliders->at(i)->getTitle();
+        std::string guild = sliderTitle.substr(0, sliderTitle.length() - labelSuffix.length());
+        QString qGuild = QString::fromStdString(guild);
+
+        std::vector<int> indices;
+        
+        for (unsigned int j = 0; j < charts->size(); j++) {
+            std::string speciesTitle = charts->at(j)->getTitle();
+            QString qSpeciesTitle = QString::fromStdString(speciesTitle);
+            QString speciesGuild = mainWindow->getParameters()->getGuildMembership(qSpeciesTitle);
+
+            if (QString::compare(qGuild, speciesGuild) == 0) {
+                indices.push_back(j);
+            }
+        }
+
+        if (indices.size() % 2 == 1) {
+            int middle = indices[indices.size() / 2];
+            LineChart *middleChart = charts->at(middle);
+            float y = middleChart->getYLocation() + middleChart->getOffsetY() + middleChart->getInnerHeight() / 2;
+            sliders->at(i)->setLocation(65, y);
+        } else {
+            int a = indices[indices.size() / 2];
+            int b = indices[indices.size() / 2 - 1];
+
+            LineChart *chartA = charts->at(a);
+            LineChart *chartB = charts->at(b);
+            float yA = chartA->getYLocation() + chartA->getOffsetY() + chartA->getInnerHeight() / 2;
+            float yB = chartB->getYLocation() + chartB->getOffsetY() + chartB->getInnerHeight() / 2;
+            sliders->at(i)->setLocation(65, (yA + yB) / 2);
+        }
+
+        sliders->at(i)->setWidth(220);
+        sliders->at(i)->setLabelFontHeight(10);
+        sliders->at(i)->setTitleFontHeight(12);
+        
+        Color *c=Color::getEvenlyDistributedColor(sliders->size(), i);
+        sliders->at(i)->setMainColor(c);
+        sliders->at(i)->setCursorColor(c);
+    }
+    
     positionSliderButtons();
 }
 
-void MyQGLWidget::positionSlidersForGroups() {  
-    if (managerGroup->empty()) {
-        return;
-    }
-
+void MyQGLWidget::setSliderFontSizes() {
     float labelHeight = 10;
     float titleHeight = 12;
 
@@ -608,10 +635,18 @@ void MyQGLWidget::positionSlidersForGroups() {
         titleHeight = 11;
     }
 
-    sliders->at(0)->setLocation(100, 22);  // flatfish
-    sliders->at(1)->setLocation(700, 22);  // groundfish
-    sliders->at(2)->setLocation(100, 410); // pelagics
-    sliders->at(3)->setLocation(700, 410); // elasmobranchs
+    for (unsigned int i = 0; i < sliders->size(); i++) {
+        sliders->at(i)->setLabelFontHeight(labelHeight);
+        sliders->at(i)->setTitleFontHeight(titleHeight);
+        sliders->at(i)->setMainColor(&Color::gray);
+        sliders->at(i)->setCursorColor(&Color::gray);
+    }
+}
+
+void MyQGLWidget::positionSlidersForGroups() {  
+    if (managerGroup->empty()) {
+        return;
+    }   
 
     for (unsigned int i = 0; i < sliders->size(); i++) {
         MultiSpeciesLineChart *chart = managerGroup->getChartAt(i);
@@ -619,10 +654,9 @@ void MyQGLWidget::positionSlidersForGroups() {
         sliders->at(i)->setLocation(chart->getXLocation() + 55, chart->getYLocation() - 30);
         sliders->at(i)->titlePositionRight();
         sliders->at(i)->setWidth(width);
-        sliders->at(i)->setLabelFontHeight(labelHeight);
-        sliders->at(i)->setTitleFontHeight(titleHeight);
     }
-
+    
+    setSliderFontSizes();
     positionSliderButtons();
 }
 

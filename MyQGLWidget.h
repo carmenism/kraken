@@ -100,6 +100,8 @@ private:
     void resetAllSliders();
     void updateEffortToSlider(Slider *slider);
     void setEffort(float value, std::string guildName);
+
+    void setSliderFontSizes();
 };
 
 #endif  /* _MYQGLWIDGET_H */
