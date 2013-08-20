@@ -30,7 +30,8 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     plotManagers = new std::vector<PlotManager *>();
     sliders = new std::vector<ChangeSlider *>();
     sliderButtons = new std::vector<SliderButton *>();
-    buttons = new std::vector<Button *>();
+    speciesButtons = new std::vector<Button *>();
+    alwaysDisplayingButtons = new std::vector<Button *>();
 
     this->mainWindow = mainWindow;
 
@@ -63,13 +64,20 @@ MyQGLWidget::~MyQGLWidget() {
         delete s;
     }
 
-    while (!buttons->empty()) {
-        Button *b = buttons->back();
-        buttons->pop_back();
+    while (!speciesButtons->empty()) {
+        Button *b = speciesButtons->back();
+        speciesButtons->pop_back();
         delete b;
     }
-   
-    delete buttons;
+
+    while (!alwaysDisplayingButtons->empty()) {
+        Button *b = alwaysDisplayingButtons->back();
+        alwaysDisplayingButtons->pop_back();
+        delete b;
+    }
+
+    delete alwaysDisplayingButtons;
+    delete speciesButtons;
     delete sliderButtons;
     delete sliders;
     delete plotManagers;
@@ -296,11 +304,21 @@ void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
 bool MyQGLWidget::mousePressButtons(float x, float y) {
     bool buttonPress = false; 
 
-    for (unsigned int i = 0; i < buttons->size(); i++) {
-        buttonPress = buttons->at(i)->mousePressed(x, y);
+    for (unsigned int i = 0; i < alwaysDisplayingButtons->size(); i++) {
+        buttonPress = alwaysDisplayingButtons->at(i)->mousePressed(x, y);
 
         if (buttonPress) {
             return true;
+        }
+    }
+
+    if (managerSpecies->getDisplay()) {
+        for (unsigned int i = 0; i < speciesButtons->size(); i++) {
+            buttonPress = speciesButtons->at(i)->mousePressed(x, y);
+
+            if (buttonPress) {
+                return true;
+            }
         }
     }
 
@@ -357,11 +375,25 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
 bool MyQGLWidget::mouseMoveButtons(float x, float y) {
     Button *moved = NULL;
 
-    for (unsigned int i = 0; i < buttons->size(); i++) {
-        bool buttonMoved = buttons->at(i)->mouseMoved(x, y);
+    for (unsigned int i = 0; i < alwaysDisplayingButtons->size(); i++) {
+        bool buttonMoved = alwaysDisplayingButtons->at(i)->mouseMoved(x, y);
 
         if (buttonMoved) {
-            moved = buttons->at(i);
+            moved = alwaysDisplayingButtons->at(i);
+        }
+    }
+
+    if (moved != NULL) {
+        return true;
+    }
+
+    if (managerSpecies->getDisplay()) {
+        for (unsigned int i = 0; i < speciesButtons->size(); i++) {
+            bool buttonMoved = speciesButtons->at(i)->mouseMoved(x, y);
+
+            if (buttonMoved) {
+                moved = speciesButtons->at(i);
+            }
         }
     }
 
@@ -472,59 +504,59 @@ void MyQGLWidget::initializeSliders() {
         undoButton->setHeight(18);
         undoButton->setWidth(42);
         sliderButtons->push_back(undoButton);
-        buttons->push_back(undoButton);
+        alwaysDisplayingButtons->push_back(undoButton);
 
         ResetButton *resetButton = new ResetButton(slider);
         resetButton->setHeight(18);
         resetButton->setWidth(42);
         sliderButtons->push_back(resetButton);
-        buttons->push_back(resetButton);
+        alwaysDisplayingButtons->push_back(resetButton);
     }
 
     resetAllButton = new Button("RESET ALL");
     resetAllButton->setHeight(20);
     resetAllButton->setWidth(100);
-    buttons->push_back(resetAllButton);
+    alwaysDisplayingButtons->push_back(resetAllButton);
 
     displayGroupButton = new Button("Display by Group");
     displayGroupButton->setHeight(20);
     displayGroupButton->setWidth(130);
-    buttons->push_back(displayGroupButton);
+    alwaysDisplayingButtons->push_back(displayGroupButton);
 
     displaySpeciesButton = new Button("Display by Species");
     displaySpeciesButton->setHeight(20);
     displaySpeciesButton->setWidth(130);
-    buttons->push_back(displaySpeciesButton);
+    alwaysDisplayingButtons->push_back(displaySpeciesButton);
 
     toggleAbsButton = new ToggleButton("Abs. Sizes", false);
     toggleAbsButton->setHeight(20);
     toggleAbsButton->setWidth(130);
     toggleAbsButton->setLocation(5, 5);
-    buttons->push_back(toggleAbsButton);
+    speciesButtons->push_back(toggleAbsButton);
 
     toggleChartsButton = new ToggleButton("Biomass", true);
     toggleChartsButton->setHeight(20);
     toggleChartsButton->setWidth(130);
     toggleChartsButton->setLocation(5, 30);
-    buttons->push_back(toggleChartsButton);
+    speciesButtons->push_back(toggleChartsButton);
 
     toggleHarvButton = new ToggleButton("Harvest", false);
     toggleHarvButton->setHeight(20);
     toggleHarvButton->setWidth(130);
     toggleHarvButton->setLocation(140, 30);
-    buttons->push_back(toggleHarvButton);
+    speciesButtons->push_back(toggleHarvButton);
 
     togglePredButton = new ToggleButton("Predation", true);
     togglePredButton->setHeight(20);
     togglePredButton->setWidth(130);
     togglePredButton->setLocation(5, 55);
-    buttons->push_back(togglePredButton);
+    speciesButtons->push_back(togglePredButton);
 
     toggleInterButton = new ToggleButton("Interaction", false);
     toggleInterButton->setHeight(20);
     toggleInterButton->setWidth(130);
     toggleInterButton->setLocation(140, 55);
-    buttons->push_back(toggleInterButton);
+    speciesButtons->push_back(toggleInterButton);
 
     displayByGroup();
 }

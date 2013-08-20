@@ -66,7 +66,8 @@ private:
     std::vector<PlotManager *> *plotManagers;
     std::vector<ChangeSlider *> *sliders;
     std::vector<SliderButton *> *sliderButtons;
-    std::vector<Button *> *buttons;
+    std::vector<Button *> *speciesButtons;
+    std::vector<Button *> *alwaysDisplayingButtons;
 
     std::string labelSuffix;
 

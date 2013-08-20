@@ -22,8 +22,6 @@ Slider::Slider(std::string title, float min, float max, float start) {
     curColor->g = 0.65;
     curColor->b = 0.65;
 
-	//beingAdjusted = false;
-
     displayTitle = true;
     titleFontHeight = 12;
     titlePosition = POS_RIGHT;

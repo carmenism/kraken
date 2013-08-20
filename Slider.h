@@ -85,7 +85,6 @@ private:
     float titleFontHeight;
     int titlePosition;
 
-    //bool beingAdjusted;
     float startX;
 
     bool displayLabels;

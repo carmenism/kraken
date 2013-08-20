@@ -62,6 +62,7 @@ bool ShadowedRectangle::containsPoint(float x, float y) {
 	
     if (y < this->y || y > this->y + height) {
         return false;
+        
     }
 
     return true;
