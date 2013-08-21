@@ -251,7 +251,7 @@ void PlotBySpeciesManager::draw(float windowWidth, float windowHeight) {
         int numCharts = charts->size();
         float spacing = 10;
         float topSpace = 10;
-        float leftSpace = 200;
+        float leftSpace = 180;
         float bottomAxisHeight = charts->at(0)->getBottomAxis()->getSize();
         float height = windowHeight - bottomAxisHeight - spacing * (numCharts + 1) - topSpace;   
         float chartHeight = height / numCharts;
