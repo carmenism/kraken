@@ -249,7 +249,7 @@ void PlotBySpeciesManager::draw(float windowWidth, float windowHeight) {
     if (charts != NULL && !charts->empty()) {
         //PlotManager::draw(windowWidth, windowHeight);
         int numCharts = charts->size();
-        float spacing = 5;
+        float spacing = 10;
         float topSpace = 10;
         float leftSpace = 200;
         float bottomAxisHeight = charts->at(0)->getBottomAxis()->getSize();

@@ -92,8 +92,8 @@ private:
 
     void drawTicks(float axisLength, float tickSpacing, float tickLength);
     
-    void drawTickLabels();
-    void drawLabel();
+    void drawTickLabels(float axisLength);
+    void drawLabel(float axisLength);
 
     float round(float num);
     float roundDown(float num);

@@ -625,10 +625,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\GUIConstants.h"
-					>
-				</File>
-				<File
 					RelativePath=".\MouseEventItem.h"
 					>
 				</File>
