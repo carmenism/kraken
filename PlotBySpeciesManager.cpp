@@ -183,13 +183,8 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double> *> *biomassMatri
         }
 
         SingleSpeciesLineChart *chart = new SingleSpeciesLineChart(x, yBiomass, yHarvest, newLabels->at(i).toStdString(), displayXAxis, guilds.size(), guildIndex);
-        chart->setTitle(newLabels->at(i).toStdString());
-        float yLoc = 100 + (i - 1) * 78;
-        if (displayXAxis) {
-            yLoc = 0;
-        }
+        chart->setTitle(newLabels->at(i).toStdString());        
         chart->setLineWidths(1);
-        chart->setLocation(450, yLoc);
         charts->push_back(chart);
 
         displayXAxis = false;
@@ -220,9 +215,7 @@ BetweenSpeciesArcCollection *PlotBySpeciesManager::initializeArcs(std::string ti
                 arcs->addArc(arcType, coeff, charts->at(j), charts->at(i), charts->at(j)->getColor(), j < i);
             }
         }        
-    }
-
-    arcs->setTitleLocation(1195, 795);
+    }   
 
     delete newMatrix;
     return arcs;
@@ -240,6 +233,16 @@ std::vector<LineChart *> *PlotBySpeciesManager::getCharts() {
 
 void PlotBySpeciesManager::draw(float windowWidth, float windowHeight) {
     if (arcsCurrent != NULL) {
+        arcsCurrent->setTitleLocation(windowWidth - 5, windowHeight - 5);
+    
+        if (windowWidth < 900) {
+            arcsCurrent->setFontHeight(12);
+        } else if (windowWidth < 1000) {
+            arcsCurrent->setFontHeight(13);
+        } else {
+            arcsCurrent->setFontHeight(14);
+        }
+
         arcsCurrent->draw();
     }
 
@@ -262,6 +265,7 @@ void PlotBySpeciesManager::draw(float windowWidth, float windowHeight) {
         charts->at(0)->setWidth(chartWidth);
         charts->at(0)->setHeight(chartHeight + bottomAxisHeight);
         charts->at(0)->setMarkersSize(markerSize);
+        charts->at(0)->setAbsLegendLocation(windowWidth - 5, 5);
         charts->at(0)->draw();
 
         for (int i = 1; i < charts->size(); i++) {

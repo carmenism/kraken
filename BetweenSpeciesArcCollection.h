@@ -30,6 +30,9 @@ public:
 
     void setTitleLocation(float x, float y);
 
+    float getFontHeight() { return fontHeight; }
+    void setFontHeight(float h) { fontHeight = h; }
+
     void addArc(BetweenSpeciesArc *arc);
     void addArc(int type, float coeff, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB, Color *c, bool setToLeft);
     BetweenSpeciesArcList *getArcs() { return arcs; }
@@ -38,6 +41,7 @@ private:
     BetweenSpeciesArc *selected;
     std::string title;
     float titleX, titleY;
+    float fontHeight;
 };
 
 #endif /* _BETWEENSPECIESARCCOLLECTION_H */

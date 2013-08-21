@@ -161,5 +161,5 @@ void AbsoluteSizesChart::displayLegendOff() {
 }
 
 void AbsoluteSizesChart::setLegendLocation(float x, float y) {
-    legend->setLocation(x, y);
+    legend->setLocation(x - legend->getWidth(), y);
 }

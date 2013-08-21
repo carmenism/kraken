@@ -38,6 +38,8 @@ public:
     void displayHarvestOff() { displayHarvest = false; }
 
     virtual ChartPointList *getPoints();
+
+    void setAbsLegendLocation(float x, float y);
 private:
     bool displayAbsoluteSizes;
     bool displayChart;

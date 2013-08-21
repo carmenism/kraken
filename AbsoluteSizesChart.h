@@ -31,6 +31,8 @@ class AbsoluteSizesChart : public Chart2D {
         void displayLegendOff();
 
         void setLegendLocation(float x, float y);
+
+        AbsoluteSizeLegend *getLegend() { return legend; }
     protected:
     private:
         int startIndex, indexInterval; 

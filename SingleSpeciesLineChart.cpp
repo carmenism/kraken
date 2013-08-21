@@ -4,6 +4,7 @@
 #include "Color.h"
 #include "AbsoluteSizesChart.h"
 #include "LineChartLegend.h"
+#include "AbsoluteSizeLegend.h"
 #include <GL/glut.h>
 #include <iostream>
 
@@ -23,12 +24,6 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> *x, std::vecto
     setLegendFontHeight(12);
     setFontHeight(11);
 
-    //if (displayXAxisLabels) {
-    //    setHeight(74 + 8 * 2);
-    //} else {
-    //    setHeight(66);
-    //}
-    
     legend->setDisplay(false);
     displayTitleOff();
 
@@ -43,7 +38,6 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> *x, std::vecto
 
     absChart = new AbsoluteSizesChart(this);
     absChart->setDisplayLegend(displayXAxisLabels);
-    absChart->setLegendLocation(1065, 5);
 
     displayAbsoluteSizes = false;
 
@@ -139,4 +133,8 @@ Color *SingleSpeciesLineChart::getColor() {
 
 std::vector<AbsoluteSizeIndicator *> *SingleSpeciesLineChart::getAbsPoints() {
     return absChart->getPoints();
+}
+
+void SingleSpeciesLineChart::setAbsLegendLocation(float x, float y) {
+    absChart->setLegendLocation(x, y);
 }

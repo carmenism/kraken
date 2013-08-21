@@ -9,6 +9,7 @@ BetweenSpeciesArcCollection::BetweenSpeciesArcCollection(std::string title) {
     arcs = new BetweenSpeciesArcList();
     selected = NULL;
     this->title = title;
+    fontHeight = 14;
 }
 
 BetweenSpeciesArcCollection::~BetweenSpeciesArcCollection() {
@@ -50,7 +51,7 @@ void BetweenSpeciesArcCollection::draw() {
     }
 
     glColor4f(0, 0, 0, 1);
-    PrintText::drawStrokeText(title, titleX, titleY, 14, HORIZ_RIGHT, VERT_TOP, false, 0);
+    PrintText::drawStrokeText(title, titleX, titleY, fontHeight, HORIZ_RIGHT, VERT_TOP, false, 0);
 }
 
 void BetweenSpeciesArcCollection::drawSelected() {
