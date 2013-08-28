@@ -67,7 +67,7 @@ void BetweenSpeciesArc::draw() {
     if (arcToRight()) {
         this->x = speciesA->getXLocation() + speciesA->getWidth();
     } else {
-        this->x = speciesA->getXLocation();
+        this->x = speciesA->getXLocation() + speciesA->getOffsetX();
     }
 
     this->yA = speciesA->getYLocation() + speciesA->getOffsetY() + speciesA->getInnerHeight() / 2;
