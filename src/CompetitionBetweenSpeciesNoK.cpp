@@ -13,7 +13,6 @@ double CompetitionModuleBetweenSpeciesNoK::getModelComponentValue(Parameters* pa
 
     // Get growth, carrying capacity, and biomass of current species
     int i = speciesIndex;
-    double r_i = paramObj->getGrowthRate(i);
     double Bi = paramObj->getBiomass(i, timestep);
 
     // Initialize competition coefficient and biomass for other species
@@ -43,7 +42,7 @@ double CompetitionModuleBetweenSpeciesNoK::getModelComponentValue(Parameters* pa
     }
 
     // calculate loss to biomass from competition
-    double lossToWithinGroupCompetition = -1.0 * (r_i * Bi * summedTerm );
+    double lossToWithinGroupCompetition = -1.0 * (Bi * summedTerm);
 
     return lossToWithinGroupCompetition;
 
