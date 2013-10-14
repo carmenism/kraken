@@ -131,7 +131,10 @@ void MyQGLWidget::paintGL() {
             sliderButtons->at(i)->draw();
         }
 
-        resetAllButton->setLocation(300, size().rheight() - 25);
+        baselineButton->setLocation(380, size().rheight() - 25);
+        baselineButton->draw();
+
+        resetAllButton->setLocation(290, size().rheight() - 25);
         resetAllButton->draw();
 
         displayGroupButton->setLocation(10, size().rheight() - 25);
@@ -180,6 +183,11 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
+    if (baselineButton->mouseReleased(x, y)) {
+        setBaseline();
+        return true;
+    }
+
     if (toggleChartsButton->mouseReleased(x, y)) {
         toggleCharts();
         return true;
@@ -232,8 +240,6 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
         updateEffortToSlider(button->getSlider());
 
         runModel();
-        clearDisplayOfSliders();
-        captureLastValues();
 
         return true;
     }
@@ -248,13 +254,11 @@ void MyQGLWidget::resetAllSliders() {
     }
 
     runModel();
-    clearDisplayOfSliders();
-    captureLastValues();
 }
 
-void MyQGLWidget::clearDisplayOfSliders() {
+void MyQGLWidget::setSlidersBaseline() {
     for (unsigned int i = 0; i < sliders->size(); i++) {
-        sliders->at(i)->clearDisplay();
+        sliders->at(i)->setBaseline();//->clearDisplay();
     }
 }
 
@@ -322,19 +326,9 @@ bool MyQGLWidget::mousePressSliders(float x, float y) {
     
     for (unsigned int i = 0; i < sliders->size(); i++) {
         sliderPressed = sliders->at(i)->mousePressed(x, y);
-        if (sliderPressed) {                
-            captureLastValues();
-
+        if (sliderPressed) {      
             pressed = sliders->at(i);
             break;
-        }
-    }
-
-    if (sliderPressed) {
-        for (unsigned int i = 0; i < sliders->size(); i++) {
-            if (sliders->at(i) != pressed) {
-                sliders->at(i)->clearDisplay();
-            }
         }
     }
 
@@ -504,48 +498,56 @@ void MyQGLWidget::initializeSliders() {
         alwaysDisplayingButtons->push_back(resetButton);
     }
 
-    resetAllButton = new Button("RESET ALL");
-    resetAllButton->setHeight(20);
-    resetAllButton->setWidth(100);
+    float buttonHeight = 18;
+    float buttonWidth = 85;
+
+    baselineButton = new Button("Set Baseline");
+    baselineButton->setWidth(buttonWidth);
+    baselineButton->setHeight(buttonHeight);
+    alwaysDisplayingButtons->push_back(baselineButton);
+
+    resetAllButton = new Button("Reset All");
+    resetAllButton->setHeight(buttonHeight);
+    resetAllButton->setWidth(buttonWidth);
     alwaysDisplayingButtons->push_back(resetAllButton);
 
     displayGroupButton = new Button("Display by Group");
-    displayGroupButton->setHeight(20);
-    displayGroupButton->setWidth(130);
+    displayGroupButton->setHeight(buttonHeight);
+    displayGroupButton->setWidth(buttonWidth);
     alwaysDisplayingButtons->push_back(displayGroupButton);
 
     displaySpeciesButton = new Button("Display by Species");
-    displaySpeciesButton->setHeight(20);
-    displaySpeciesButton->setWidth(130);
+    displaySpeciesButton->setHeight(buttonHeight);
+    displaySpeciesButton->setWidth(buttonWidth);
     alwaysDisplayingButtons->push_back(displaySpeciesButton);
 
     toggleAbsButton = new ToggleButton("Abs. Sizes", false);
-    toggleAbsButton->setHeight(20);
-    toggleAbsButton->setWidth(130);
+    toggleAbsButton->setHeight(buttonHeight);
+    toggleAbsButton->setWidth(buttonWidth);
     toggleAbsButton->setLocation(5, 5);
     speciesButtons->push_back(toggleAbsButton);
 
     toggleChartsButton = new ToggleButton("Biomass", true);
-    toggleChartsButton->setHeight(20);
-    toggleChartsButton->setWidth(130);
+    toggleChartsButton->setHeight(buttonHeight);
+    toggleChartsButton->setWidth(buttonWidth);
     toggleChartsButton->setLocation(5, 30);
     speciesButtons->push_back(toggleChartsButton);
 
     toggleHarvButton = new ToggleButton("Harvest", false);
-    toggleHarvButton->setHeight(20);
+    toggleHarvButton->setHeight(buttonHeight);
     toggleHarvButton->setWidth(130);
     toggleHarvButton->setLocation(140, 30);
     speciesButtons->push_back(toggleHarvButton);
 
     togglePredButton = new ToggleButton("Predation", true);
-    togglePredButton->setHeight(20);
-    togglePredButton->setWidth(130);
+    togglePredButton->setHeight(buttonHeight);
+    togglePredButton->setWidth(buttonWidth);
     togglePredButton->setLocation(5, 55);
     speciesButtons->push_back(togglePredButton);
 
     toggleInterButton = new ToggleButton("Interaction", false);
-    toggleInterButton->setHeight(20);
-    toggleInterButton->setWidth(130);
+    toggleInterButton->setHeight(buttonHeight);
+    toggleInterButton->setWidth(buttonWidth);
     toggleInterButton->setLocation(140, 55);
     speciesButtons->push_back(toggleInterButton);
 
@@ -723,4 +725,9 @@ void MyQGLWidget::toggleInteraction() {
     } else {
         managerSpecies->displayNoArcs();
     }
+}
+
+void MyQGLWidget::setBaseline() {
+    setSlidersBaseline();
+    captureLastValues();
 }

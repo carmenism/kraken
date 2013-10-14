@@ -55,6 +55,7 @@ private:
     Picker *picker;    
     PlotByGroupManager *managerGroup;
     PlotBySpeciesManager *managerSpecies;
+    Button *baselineButton;
     Button *resetAllButton;
     Button *displayGroupButton, *displaySpeciesButton;
     ToggleButton *toggleAbsButton, *toggleChartsButton;
@@ -80,6 +81,8 @@ private:
     bool mouseMoveSliders(float x, float y);
     void mouseMovePickables(int x, int y);
 
+    void setBaseline();
+
     void captureLastValues();
 
     void toggleAbsoluteSizes();
@@ -96,7 +99,7 @@ private:
     void positionSlidersForGroups();
     void positionSliderButtons();
 
-    void clearDisplayOfSliders();
+    void setSlidersBaseline();
     void resetAllSliders();
     void updateEffortToSlider(Slider *slider);
     void setEffort(float value, std::string guildName);

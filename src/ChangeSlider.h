@@ -13,11 +13,13 @@ public:
     bool mouseMoved(float x, float y);
 
     void clearDisplay() { display = false; }
+    void setBaseline();
 private:
     Color *decreaseColor;
     Color *increaseColor;
     Color *color;
     bool display;
+    int baselineIndex;
 
     void determineColor(float value, float lastValue);
 };

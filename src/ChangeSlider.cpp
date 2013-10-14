@@ -9,6 +9,7 @@ ChangeSlider::ChangeSlider(std::string title, float min, float max, float start)
 
     color = increaseColor;
     display = false;
+    baselineIndex = 0;
 }
 
 ChangeSlider::~ChangeSlider() {
@@ -22,16 +23,12 @@ void ChangeSlider::draw() {
         glColor4f(color->r, color->g, color->b, 0.5);
 
         float value = getValue();
-        float lastValue = valueHistory.back();
-        
-        if (!mouseIsPressing) {
-            value = valueHistory.back();
+        float lastValue = getValue();
 
-            if (valueHistory.size() > 1) {
-                lastValue = valueHistory[valueHistory.size() - 2];
-            }
+        if (baselineIndex >= 0 && baselineIndex < valueHistory.size()) {
+            lastValue = valueHistory[baselineIndex]; //.back();
         }
-
+        
         determineColor(value, lastValue);
 
         float valueX = valueToPosition(value);
@@ -61,4 +58,8 @@ void ChangeSlider::determineColor(float value, float lastValue) {
     } else {
         color = decreaseColor;
     }
+}
+
+void ChangeSlider::setBaseline() {
+    baselineIndex = valueHistory.size() - 1;
 }
