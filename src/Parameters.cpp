@@ -1093,19 +1093,37 @@ void Parameters::setEffortForGuild(std::string guildName, float value) {
 }
 
 void Parameters::setEffortForGuild(QString guildName, float value) {
-    //m_EffortMatrix.printMatrix();
-    //std::cout << "***************\n";
+    setMatrixForGuild(&m_EffortMatrix, guildName, value);
+}
 
+void Parameters::setEffortForSpecies(std::string speciesName, float value) {
+    setEffortForSpecies(QString::fromStdString(speciesName), value);
+}
+
+void Parameters::setEffortForSpecies(QString speciesName, float value) {
+    setMatrixForSpecies(&m_EffortMatrix, speciesName, value);
+}
+
+void Parameters::setMatrixForGuild(InteractionMatrix *matrix, QString guildName, float value) {
     for (int i = 0; i < m_SpeciesList.size(); i++) {
         QString guild = getGuildMembership(m_SpeciesList.at(i));
 
         if (QString::compare(guild, guildName) == 0) {
-            for (int j = 0; j < m_EffortMatrix.getNumberColumns(i); j++) {
-                m_EffortMatrix.setMatrixValue(i, j, value);
-            }
+            setMatrixAtAllColumns(matrix, i, value);
         }
     }
+}
 
-    //m_EffortMatrix.printMatrix();
-    //std::cout << "*****************************************\n";
+void Parameters::setMatrixForSpecies(InteractionMatrix *matrix, QString speciesName, float value) {
+    for (int i = 0; i < m_SpeciesList.size(); i++) {
+        if (QString::compare(m_SpeciesList.at(i), speciesName) == 0) {
+            setMatrixAtAllColumns(matrix, i, value);
+        }
+    }
+}
+
+void Parameters::setMatrixAtAllColumns(InteractionMatrix *matrix, int rowIndex, float value) {
+    for (int j = 0; j < matrix->getNumberColumns(rowIndex); j++) {
+        matrix->setMatrixValue(rowIndex, j, value);
+    }
 }

@@ -72,7 +72,9 @@ private:
     InteractionMatrix m_PredationLossRatesMinMatrix;
     InteractionMatrix m_PredationLossRatesMaxMatrix;
 
-
+    void setMatrixForGuild(InteractionMatrix *matrix, QString guildName, float value);
+    void setMatrixForSpecies(InteractionMatrix *matrix, QString speciesName, float value);
+    void setMatrixAtAllColumns(InteractionMatrix *matrix, int rowIndex, float value);
 public:
     Parameters();
 
@@ -244,6 +246,8 @@ public:
     void setEffortForGuild(QString guildName, float value);
     void setEffortForGuild(std::string guildName, float value);
 
+    void setEffortForSpecies(std::string speciesName, float value);
+    void setEffortForSpecies(QString speciesName, float value);
 };
 
 #endif // PARAMETERS_H
