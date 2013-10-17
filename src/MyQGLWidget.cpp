@@ -274,6 +274,7 @@ void MyQGLWidget::setEffort(float value, std::string guildName) {
 }
 
 void MyQGLWidget::runModel() {
+    //mainWindow->getParameters()->setCatchability(QString("GB Yt"), 0.9);
     mainWindow->runModel();
 }
 

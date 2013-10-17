@@ -1088,12 +1088,54 @@ void Parameters::set_GA_mutationRate(double mutationRate) {
     m_GA_mutationRate = mutationRate;
 }
 
+//m_BiomassMatrix
+
+void Parameters::setInitialBiomass(QString speciesName, float value) {
+    setListForSpecies(&m_InitialBiomassList, speciesName, value);
+}
+
+void Parameters::setInitialBiomass(std::string speciesName, float value) {
+    setInitialBiomass(QString::fromStdString(speciesName), value);
+}
+
+void Parameters::setInitialBiomass(int speciesIndex, float value) {
+    m_InitialBiomassList[speciesIndex] = value;
+}
+
+void Parameters::setGrowthRate(QString speciesName, float value) {
+    setListForSpecies(&m_GrowthRateList, speciesName, value);
+}
+
+void Parameters::setGrowthRate(std::string speciesName, float value) {
+    setGrowthRate(QString::fromStdString(speciesName), value);
+}
+
+void Parameters::setGrowthRate(int speciesIndex, float value) {
+    m_GrowthRateList[speciesIndex] = value;
+}
+
+void Parameters::setCatchability(QString speciesName, float value) {
+    setMatrixForSpeciesAtAllColumns(&m_CatchabilityMatrix, speciesName, value);
+}
+
+void Parameters::setCatchability(std::string speciesName, float value) {
+    setCatchability(QString::fromStdString(speciesName), value);
+}
+
+void Parameters::setCatchability(int speciesIndex, float value) {
+    setMatrixAtAllColumns(&m_CatchabilityMatrix, speciesIndex, value);
+}
+
 void Parameters::setEffortForGuild(std::string guildName, float value) {
     setEffortForGuild(QString::fromStdString(guildName), value);
 }
 
 void Parameters::setEffortForGuild(QString guildName, float value) {
-    setMatrixForGuild(&m_EffortMatrix, guildName, value);
+    setMatrixForGuildAtAllColumns(&m_EffortMatrix, guildName, value);
+}
+
+void Parameters::setEffortForGuild(int guildIndex, float value) {
+    setMatrixForGuildAtAllColumns(&m_EffortMatrix, guildIndex, value);
 }
 
 void Parameters::setEffortForSpecies(std::string speciesName, float value) {
@@ -1101,23 +1143,97 @@ void Parameters::setEffortForSpecies(std::string speciesName, float value) {
 }
 
 void Parameters::setEffortForSpecies(QString speciesName, float value) {
-    setMatrixForSpecies(&m_EffortMatrix, speciesName, value);
+    setMatrixForSpeciesAtAllColumns(&m_EffortMatrix, speciesName, value);
 }
 
-void Parameters::setMatrixForGuild(InteractionMatrix *matrix, QString guildName, float value) {
+void Parameters::setEffortForSpecies(int speciesIndex, float value) {
+    setMatrixAtAllColumns(&m_EffortMatrix, speciesIndex, value);
+}
+
+void Parameters::setPredation(std::string predName, std::string preyName, float value) {
+    setPredation(QString::fromStdString(predName), QString::fromStdString(preyName), value);
+}
+
+void Parameters::setPredation(QString predName, QString preyName, float value) {
+    int pred = -1;
+    int prey = -1;
+
+    for (int i = 0; i < m_SpeciesList.size(); i++) {
+        if (QString::compare(m_SpeciesList.at(i), predName) == 0) {
+            pred = i;
+        }
+        if (QString::compare(m_SpeciesList.at(i), preyName) == 0) {
+            prey = i;
+        }
+    }
+
+    if (pred != -1 && prey != -1) {
+        setPredation(pred, prey, value);
+    }
+}
+
+void Parameters::setPredation(int predIndex, int preyIndex, float value) {
+    m_PredationMatrix.setMatrixValue(preyIndex, predIndex, value);
+}
+
+void Parameters::setInteraction(std::string species, std::string affectedSpecies, float value) {
+    setInteraction(QString::fromStdString(species), QString::fromStdString(affectedSpecies), value);
+}
+
+void Parameters::setInteraction(QString species, QString affectedSpecies, float value) {
+    int spec = -1;
+    int affected = -1;
+
+    for (int i = 0; i < m_SpeciesList.size(); i++) {
+        if (QString::compare(m_SpeciesList.at(i), species) == 0) {
+            spec = i;
+        }
+        if (QString::compare(m_SpeciesList.at(i), affectedSpecies) == 0) {
+            affected = i;
+        }
+    }
+
+    if (spec != -1 && affected != -1) {
+        setInteraction(spec, affected, value);
+    }
+}
+
+void Parameters::setInteraction(int speciesIndex, int affectedSpeciesIndex, float value) {
+    m_WithinGuildCompMatrix.setMatrixValue(affectedSpeciesIndex, speciesIndex, value);
+}
+
+void Parameters::setListForSpecies(QList<double> *list, QString speciesName, float value) {
+    for (int i = 0; i < m_SpeciesList.size(); i++) {
+        if (QString::compare(m_SpeciesList.at(i), speciesName) == 0) {
+            (*list)[i] = value;
+
+            return;
+        }
+    }
+}
+
+void Parameters::setMatrixForGuildAtAllColumns(InteractionMatrix *matrix, int guildIndex, float value) {
+    setMatrixForGuildAtAllColumns(matrix, m_GuildList.at(guildIndex), value);
+}
+
+void Parameters::setMatrixForGuildAtAllColumns(InteractionMatrix *matrix, QString guildName, float value) {
     for (int i = 0; i < m_SpeciesList.size(); i++) {
         QString guild = getGuildMembership(m_SpeciesList.at(i));
 
         if (QString::compare(guild, guildName) == 0) {
             setMatrixAtAllColumns(matrix, i, value);
+
+            return;
         }
     }
 }
 
-void Parameters::setMatrixForSpecies(InteractionMatrix *matrix, QString speciesName, float value) {
+void Parameters::setMatrixForSpeciesAtAllColumns(InteractionMatrix *matrix, QString speciesName, float value) {
     for (int i = 0; i < m_SpeciesList.size(); i++) {
         if (QString::compare(m_SpeciesList.at(i), speciesName) == 0) {
             setMatrixAtAllColumns(matrix, i, value);
+
+            return;
         }
     }
 }

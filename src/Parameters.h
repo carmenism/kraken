@@ -72,8 +72,10 @@ private:
     InteractionMatrix m_PredationLossRatesMinMatrix;
     InteractionMatrix m_PredationLossRatesMaxMatrix;
 
-    void setMatrixForGuild(InteractionMatrix *matrix, QString guildName, float value);
-    void setMatrixForSpecies(InteractionMatrix *matrix, QString speciesName, float value);
+    void setListForSpecies(QList<double> *list, QString speciesName, float value);
+    void setMatrixForGuildAtAllColumns(InteractionMatrix *matrix, QString guildName, float value);
+    void setMatrixForGuildAtAllColumns(InteractionMatrix *matrix, int guildIndex, float value);
+    void setMatrixForSpeciesAtAllColumns(InteractionMatrix *matrix, QString speciesName, float value);
     void setMatrixAtAllColumns(InteractionMatrix *matrix, int rowIndex, float value);
 public:
     Parameters();
@@ -243,11 +245,33 @@ public:
     void setPredationLossRatesMaxMatrix(Int_Matrix);
     void printPredationLossRatesMaxMatrix();
 
+    void setInitialBiomass(QString speciesName, float value);
+    void setInitialBiomass(std::string speciesName, float value);
+    void setInitialBiomass(int speciesIndex, float value);
+
+    void setGrowthRate(QString speciesName, float value);
+    void setGrowthRate(std::string speciesName, float value);
+    void setGrowthRate(int speciesIndex, float value);
+
+    void setCatchability(QString speciesName, float value);
+    void setCatchability(std::string speciesName, float value);
+    void setCatchability(int speciesIndex, float value);
+
+    void setPredation(QString predName, QString preyName, float value);
+    void setPredation(std::string predName, std::string preyName, float value);
+    void setPredation(int predIndex, int preyIndex, float value);
+
+    void setInteraction(QString species, QString affectedSpecies, float value);
+    void setInteraction(std::string species, std::string affectedSpecies, float value);
+    void setInteraction(int speciesIndex, int affectedSpeciesIndex, float value);
+
     void setEffortForGuild(QString guildName, float value);
     void setEffortForGuild(std::string guildName, float value);
+    void setEffortForGuild(int guildIndex, float value);
 
     void setEffortForSpecies(std::string speciesName, float value);
     void setEffortForSpecies(QString speciesName, float value);
+    void setEffortForSpecies(int speciesIndex, float value);
 };
 
 #endif // PARAMETERS_H
