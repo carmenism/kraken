@@ -1088,8 +1088,6 @@ void Parameters::set_GA_mutationRate(double mutationRate) {
     m_GA_mutationRate = mutationRate;
 }
 
-//m_BiomassMatrix
-
 void Parameters::setInitialBiomass(QString speciesName, float value) {
     setListForSpecies(&m_InitialBiomassList, speciesName, value);
 }

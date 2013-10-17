@@ -253,6 +253,7 @@ public:
     void setGrowthRate(std::string speciesName, float value);
     void setGrowthRate(int speciesIndex, float value);
 
+    InteractionMatrix * getCatchabilityMatrix() { return &m_CatchabilityMatrix; }
     void setCatchability(QString speciesName, float value);
     void setCatchability(std::string speciesName, float value);
     void setCatchability(int speciesIndex, float value);
@@ -268,7 +269,6 @@ public:
     void setEffortForGuild(QString guildName, float value);
     void setEffortForGuild(std::string guildName, float value);
     void setEffortForGuild(int guildIndex, float value);
-
     void setEffortForSpecies(std::string speciesName, float value);
     void setEffortForSpecies(QString speciesName, float value);
     void setEffortForSpecies(int speciesIndex, float value);
