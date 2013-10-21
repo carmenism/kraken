@@ -131,16 +131,16 @@ void MyQGLWidget::paintGL() {
             sliderButtons->at(i)->draw();
         }
 
-        baselineButton->setLocation(380, size().rheight() - 25);
+        baselineButton->setLocation(330, size().rheight() - 25);
         baselineButton->draw();
 
-        resetAllButton->setLocation(290, size().rheight() - 25);
+        resetAllButton->setLocation(235, size().rheight() - 25);
         resetAllButton->draw();
 
         displayGroupButton->setLocation(10, size().rheight() - 25);
         displayGroupButton->draw();
 
-        displaySpeciesButton->setLocation(150, size().rheight() - 25);
+        displaySpeciesButton->setLocation(120, size().rheight() - 25);
         displaySpeciesButton->draw();
 
         if (managerSpecies->getDisplay()) {
