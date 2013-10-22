@@ -617,7 +617,7 @@ void MS_PROD_MainWindow::pb_Run_Clicked() {
 
 }
 
-void MS_PROD_MainWindow::runModel() {
+void MS_PROD_MainWindow::runModel(bool updateCharts) {
 
     Parameters* ptr_paramObj = &paramObj;
     ModelFormParameters* ptr_modelParamObj = &modelFormParamObj;
@@ -628,7 +628,9 @@ void MS_PROD_MainWindow::runModel() {
     model.runModel();
     //QMessageBox::information(this, tr("Kraken 1.1"), tr("Run Completed"));
 
-    glWidget->updateCharts(&model);
+    if (updateCharts) {
+        glWidget->updateCharts(&model);
+    }
 }
 
 

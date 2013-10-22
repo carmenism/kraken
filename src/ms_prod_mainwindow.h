@@ -35,7 +35,7 @@ public:
     void setGLWidget(MyQGLWidget *w) { glWidget = w; }
     Parameters *getParameters() { return &paramObj; }
     
-    void runModel();
+    void runModel(bool updateCharts = true);
 
     virtual void closeEvent(QCloseEvent *event);
 private:

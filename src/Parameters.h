@@ -248,6 +248,7 @@ public:
     void setInitialBiomass(QString speciesName, float value);
     void setInitialBiomass(std::string speciesName, float value);
     void setInitialBiomass(int speciesIndex, float value);
+    //void setInitialBiomass(QList<double> list);
 
     void setGrowthRate(QString speciesName, float value);
     void setGrowthRate(std::string speciesName, float value);
@@ -266,6 +267,7 @@ public:
     void setInteraction(std::string species, std::string affectedSpecies, float value);
     void setInteraction(int speciesIndex, int affectedSpeciesIndex, float value);
 
+    InteractionMatrix * getEffortMatrix() { return &m_EffortMatrix; }
     void setEffortForGuild(QString guildName, float value);
     void setEffortForGuild(std::string guildName, float value);
     void setEffortForGuild(int guildIndex, float value);

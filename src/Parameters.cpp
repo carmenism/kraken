@@ -1100,6 +1100,12 @@ void Parameters::setInitialBiomass(int speciesIndex, float value) {
     m_InitialBiomassList[speciesIndex] = value;
 }
 
+/*void Parameters::setInitialBiomass(QList<double> list) {
+    for (int i = 0; i < m_InitialBiomassList.size(); i++) {
+        setInitialBiomass(i, list[i]);
+    }
+}*/
+
 void Parameters::setGrowthRate(QString speciesName, float value) {
     setListForSpecies(&m_GrowthRateList, speciesName, value);
 }

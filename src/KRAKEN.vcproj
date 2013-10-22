@@ -305,6 +305,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\KrakenMonteCarlo.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\MonteCarlo.cpp"
 					>
 				</File>
@@ -629,6 +633,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\KrakenMonteCarlo.h"
+					>
+				</File>
+				<File
 					RelativePath=".\MonteCarlo.h"
 					>
 				</File>
@@ -810,6 +818,10 @@
 						</File>
 						<File
 							RelativePath=".\LineChartLegend.h"
+							>
+						</File>
+						<File
+							RelativePath=".\MonteCarloLineChart.h"
 							>
 						</File>
 						<File
