@@ -1,4 +1,4 @@
-#include "PlotBySpeciesManager.h"
+#include "PlotBySpeciesWithArcsManager.h"
 #include "SingleSpeciesLineChart.h"
 #include "MS_PROD_MainWindow.h"
 #include "InteractionArc.h"
@@ -9,13 +9,13 @@
 #include <QList>
 #include <QStringList>
 
-PlotBySpeciesManager::PlotBySpeciesManager() : charts() {
+PlotBySpeciesWithArcsManager::PlotBySpeciesWithArcsManager() : charts() {
     arcsCurrent = NULL;
 
     charts = new std::vector<SingleSpeciesLineChart *>();
 }
 
-PlotBySpeciesManager::~PlotBySpeciesManager() {
+PlotBySpeciesWithArcsManager::~PlotBySpeciesWithArcsManager() {
     while (!charts->empty()) {
         SingleSpeciesLineChart *c = charts->back();
         charts->pop_back();
@@ -27,7 +27,7 @@ PlotBySpeciesManager::~PlotBySpeciesManager() {
     delete charts;
 }
 
-void PlotBySpeciesManager::updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) {
+void PlotBySpeciesWithArcsManager::updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) {
     QList<QList<double>> biomassMatrixOrig = mainWindow->getParameters()->getBiomassMatrix();
     QList<QList<double>> harvestMatrixOrig = model->getHarvestMatrix();
    
@@ -89,7 +89,7 @@ void PlotBySpeciesManager::updateCharts(Model *model, MS_PROD_MainWindow *mainWi
     delete biomassMatrix;
 }
 
-void PlotBySpeciesManager::initializeCharts(QList<QList<double> *> *biomassMatrix, QList<QList<double> *> *harvestMatrix, MS_PROD_MainWindow *mainWindow) {
+void PlotBySpeciesWithArcsManager::initializeCharts(QList<QList<double> *> *biomassMatrix, QList<QList<double> *> *harvestMatrix, MS_PROD_MainWindow *mainWindow) {
     bool displayXAxis = true;
     QStringList guilds = mainWindow->getParameters()->getGuildList();
     QStringList *newLabels = groupReordering->getNewLabels();
@@ -127,15 +127,15 @@ void PlotBySpeciesManager::initializeCharts(QList<QList<double> *> *biomassMatri
     }
 }
 
-void PlotBySpeciesManager::initializeInteractionArcs(MS_PROD_MainWindow *mainWindow) {
+void PlotBySpeciesWithArcsManager::initializeInteractionArcs(MS_PROD_MainWindow *mainWindow) {
     arcsInter = initializeArcs("Arcs Represent Species Interaction", ARC_INTERACTION, mainWindow->getParameters()->getWithinGuildCompMatrix());
 }
 
-void PlotBySpeciesManager::initializePredationArcs(MS_PROD_MainWindow *mainWindow) {
+void PlotBySpeciesWithArcsManager::initializePredationArcs(MS_PROD_MainWindow *mainWindow) {
     arcsPred = initializeArcs("Arcs Represent Species Predation", ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix());
 }
 
-BetweenSpeciesArcCollection *PlotBySpeciesManager::initializeArcs(std::string title, int arcType, QList<QList<double>> matrix) {
+BetweenSpeciesArcCollection *PlotBySpeciesWithArcsManager::initializeArcs(std::string title, int arcType, QList<QList<double>> matrix) {
     BetweenSpeciesArcCollection *arcs = new BetweenSpeciesArcCollection(title);
     QList<QList<double> *> *newMatrix = groupReordering->getNewSquareMatrix(matrix);
 
@@ -153,7 +153,7 @@ BetweenSpeciesArcCollection *PlotBySpeciesManager::initializeArcs(std::string ti
     return arcs;
 }
 
-std::vector<LineChart *> *PlotBySpeciesManager::getCharts() {
+std::vector<LineChart *> *PlotBySpeciesWithArcsManager::getCharts() {
     std::vector<LineChart *> *lineCharts = new std::vector<LineChart *>();
 
     for (unsigned int i = 0; i < charts->size(); i++) {
@@ -163,7 +163,7 @@ std::vector<LineChart *> *PlotBySpeciesManager::getCharts() {
     return lineCharts;
 }
 
-void PlotBySpeciesManager::draw(float windowWidth, float windowHeight) {
+void PlotBySpeciesWithArcsManager::draw(float windowWidth, float windowHeight) {
     if (arcsCurrent != NULL) {
         arcsCurrent->setTitleLocation(windowWidth - 5, windowHeight - 5);
     
@@ -214,7 +214,7 @@ void PlotBySpeciesManager::draw(float windowWidth, float windowHeight) {
     }
 }
 
-void PlotBySpeciesManager::drawToPick() {
+void PlotBySpeciesWithArcsManager::drawToPick() {
     PlotManager::drawToPick();
 
     if (arcsCurrent != NULL) {
@@ -222,7 +222,7 @@ void PlotBySpeciesManager::drawToPick() {
     }
 }
 
-BetweenSpeciesArcList *PlotBySpeciesManager::getArcs() {
+BetweenSpeciesArcList *PlotBySpeciesWithArcsManager::getArcs() {
     if (arcsCurrent == NULL) {
         return NULL;
     }
@@ -230,61 +230,61 @@ BetweenSpeciesArcList *PlotBySpeciesManager::getArcs() {
     return arcsCurrent->getArcs();
 }
 
-bool PlotBySpeciesManager::getDisplayAbsoluteSizes() {
+bool PlotBySpeciesWithArcsManager::getDisplayAbsoluteSizes() {
     return charts->front()->getDisplayAbsoluteSizes();
 }
 
-void PlotBySpeciesManager::setDisplayAbsoluteSizes(bool d) {
+void PlotBySpeciesWithArcsManager::setDisplayAbsoluteSizes(bool d) {
     for (unsigned int i = 0; i < charts->size(); i++) {
         charts->at(i)->setDisplayAbsoluteSizes(d);
     }
 }
 
-void PlotBySpeciesManager::displayAbsoluteSizesOn() {
+void PlotBySpeciesWithArcsManager::displayAbsoluteSizesOn() {
     setDisplayAbsoluteSizes(true);
 }
 
-void PlotBySpeciesManager::displayAbsoluteSizesOff() {
+void PlotBySpeciesWithArcsManager::displayAbsoluteSizesOff() {
     setDisplayAbsoluteSizes(false);
 }
 
-bool PlotBySpeciesManager::getDisplayCharts() {
+bool PlotBySpeciesWithArcsManager::getDisplayCharts() {
     return charts->front()->getDisplayChart();
 }
 
-void PlotBySpeciesManager::setDisplayCharts(bool d) {
+void PlotBySpeciesWithArcsManager::setDisplayCharts(bool d) {
     for (unsigned int i = 0; i < charts->size(); i++) {
         charts->at(i)->setDisplayChart(d);
     }
 }
 
-void PlotBySpeciesManager::displayChartsOn() {
+void PlotBySpeciesWithArcsManager::displayChartsOn() {
     setDisplayCharts(true);
 }
 
-void PlotBySpeciesManager::displayChartsOff() {
+void PlotBySpeciesWithArcsManager::displayChartsOff() {
     setDisplayCharts(false);
 }
 
-bool PlotBySpeciesManager::getDisplayHarvest() {
+bool PlotBySpeciesWithArcsManager::getDisplayHarvest() {
     return charts->front()->getDisplayHarvest();
 }
 
-void PlotBySpeciesManager::setDisplayHarvest(bool d) {
+void PlotBySpeciesWithArcsManager::setDisplayHarvest(bool d) {
     for (unsigned int i = 0; i < charts->size(); i++) {
         charts->at(i)->setDisplayHarvest(d);
     }
 }
 
-void PlotBySpeciesManager::displayHarvestOn() {
+void PlotBySpeciesWithArcsManager::displayHarvestOn() {
     setDisplayHarvest(true);
 }
 
-void PlotBySpeciesManager::displayHarvestOff() {
+void PlotBySpeciesWithArcsManager::displayHarvestOff() {
     setDisplayHarvest(false);
 }
 
-std::vector<AbsoluteSizeIndicator *> *PlotBySpeciesManager::getAbsPoints() {
+std::vector<AbsoluteSizeIndicator *> *PlotBySpeciesWithArcsManager::getAbsPoints() {
     std::vector<AbsoluteSizeIndicator *> *allPoints = new std::vector<AbsoluteSizeIndicator *>();
 
     for (unsigned int i = 0; i < charts->size(); i++) {
@@ -296,14 +296,14 @@ std::vector<AbsoluteSizeIndicator *> *PlotBySpeciesManager::getAbsPoints() {
     return allPoints;
 }
 
-void PlotBySpeciesManager::displayPredation() {
+void PlotBySpeciesWithArcsManager::displayPredation() {
     arcsCurrent = arcsPred;
 }
 
-void PlotBySpeciesManager::displayInteraction() {
+void PlotBySpeciesWithArcsManager::displayInteraction() {
     arcsCurrent = arcsInter;
 }
 
-void PlotBySpeciesManager::displayNoArcs() {
+void PlotBySpeciesWithArcsManager::displayNoArcs() {
     arcsCurrent = NULL;
 }

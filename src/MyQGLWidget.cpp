@@ -17,7 +17,7 @@
 #include "Picker.h"
 #include "PlotManager.h"
 #include "PlotByGroupManager.h"
-#include "PlotBySpeciesManager.h"
+#include "PlotBySpeciesWithArcsManager.h"
 #include "ResetButton.h"
 #include "SingleSpeciesLineChart.h"
 #include "SliderButton.h"
@@ -44,7 +44,7 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     
     managerGroup = new PlotByGroupManager();
     managerGroup->displayOff();
-    managerSpecies = new PlotBySpeciesManager();
+    managerSpecies = new PlotBySpeciesWithArcsManager();
 
     plotManagers->push_back(managerGroup);
     plotManagers->push_back(managerSpecies);

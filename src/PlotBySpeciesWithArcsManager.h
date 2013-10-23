@@ -1,5 +1,5 @@
-#ifndef _PLOTBYSPECIESMANAGER_H
-#define _PLOTBYSPECIESMANAGER_H
+#ifndef _PLOTBYSPECIESWITHARCSMANAGER_H
+#define _PLOTBYSPECIESWITHARCSMANAGER_H
 
 #include <QtOpenGL/QGLWidget>
 #include <vector>
@@ -17,10 +17,10 @@ class GroupReordering;
 
 #include "BetweenSpeciesArcCollection.h"
 
-class PlotBySpeciesManager : public PlotManager {
+class PlotBySpeciesWithArcsManager : public PlotManager {
 public:
-    PlotBySpeciesManager(); 
-    ~PlotBySpeciesManager();
+    PlotBySpeciesWithArcsManager(); 
+    ~PlotBySpeciesWithArcsManager();
 
     void draw(float windowWidth, float windowHeight);
     virtual void drawToPick();
@@ -64,15 +64,10 @@ private:
 
     std::vector<SingleSpeciesLineChart *> *charts;
     
-    ///QStringList *getNewLabels(QStringList labels);
-    ///QList<int> *getNewOrder(QStringList labels, MS_PROD_MainWindow *mainWindow);
-    //QList<QList<double> *> *getNewTimeSeriesMatrix(QList<QList<double>> matrix);
-    //QList<QList<double> *> *getNewSquareMatrix(QList<QList<double>> matrix);
-
     void initializeCharts(QList<QList<double> *> *biomassMatrix, QList<QList<double> *> *harvestMatrix, MS_PROD_MainWindow *mainWindow);
     BetweenSpeciesArcCollection *initializeArcs(std::string title, int arcType, QList<QList<double>> matix);
     void initializeInteractionArcs(MS_PROD_MainWindow *mainWindow);
     void initializePredationArcs(MS_PROD_MainWindow *mainWindow);
 };
 
-#endif  /* _PLOTBYSPECIESMANAGER_H */
+#endif  /* _PLOTBYSPECIESWITHARCSMANAGER_H */

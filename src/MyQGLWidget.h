@@ -14,7 +14,7 @@ class Parameters;
 class Picker;
 class PlotManager;
 class PlotByGroupManager;
-class PlotBySpeciesManager;
+class PlotBySpeciesWithArcsManager;
 class ResetButton;
 class Slider;
 class SliderButton;
@@ -54,7 +54,7 @@ protected:
 private:
     Picker *picker;    
     PlotByGroupManager *managerGroup;
-    PlotBySpeciesManager *managerSpecies;
+    PlotBySpeciesWithArcsManager *managerSpecies;
     Button *baselineButton;
     Button *resetAllButton;
     Button *displayGroupButton, *displaySpeciesButton;
