@@ -179,34 +179,9 @@ void PlotBySpeciesWithArcsManager::draw(float windowWidth, float windowHeight) {
     }
 
     if (charts != NULL && !charts->empty()) {
-        int numCharts = charts->size();
-        float spacing = 10;
-        float topSpace = 10;
-        float leftSpace = 180;
-        float bottomAxisHeight = charts->at(0)->getBottomAxis()->getSize();
-        float height = windowHeight - bottomAxisHeight - spacing * (numCharts + 1) - topSpace;   
-        float chartHeight = height / numCharts;
-        float maxArc = windowHeight - 2 * spacing - chartHeight - bottomAxisHeight;
-        float chartWidth = windowWidth - leftSpace - maxArc;
-        float x = leftSpace + maxArc / 2;
-
-        float markerSize = getMarkersSize(chartWidth, chartHeight + bottomAxisHeight);
-
-        charts->at(0)->setLocation(x, spacing);
-        charts->at(0)->setWidth(chartWidth);
-        charts->at(0)->setHeight(chartHeight + bottomAxisHeight);
-        charts->at(0)->setMarkersSize(markerSize);
+        setChartLocations(windowWidth, windowHeight);
         charts->at(0)->setAbsLegendLocation(windowWidth - 5, 5);
-        charts->at(0)->draw();
-
-        for (int i = 1; i < charts->size(); i++) {
-            float y = spacing + bottomAxisHeight + i * (chartHeight + spacing);
-            charts->at(i)->setLocation(x, y);
-            charts->at(i)->setWidth(chartWidth);
-            charts->at(i)->setHeight(chartHeight);
-            charts->at(i)->setMarkersSize(markerSize);
-            charts->at(i)->draw();
-        }
+        PlotManager::draw(windowWidth, windowHeight);        
     }
 
     if (arcsCurrent != NULL) {

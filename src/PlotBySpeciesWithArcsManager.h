@@ -6,7 +6,7 @@
 #include <QList>
 #include <string>
 #include <QStringList>
-#include "PlotManager.h"
+#include "PlotBySpeciesManager.h"
 #include "ChartPointSeries.h"
 
 class AbsoluteSizeIndicator;
@@ -17,7 +17,7 @@ class GroupReordering;
 
 #include "BetweenSpeciesArcCollection.h"
 
-class PlotBySpeciesWithArcsManager : public PlotManager {
+class PlotBySpeciesWithArcsManager : public PlotBySpeciesManager {
 public:
     PlotBySpeciesWithArcsManager(); 
     ~PlotBySpeciesWithArcsManager();
@@ -52,12 +52,8 @@ public:
     void displayInteraction();
     void displayNoArcs();
 
-    void setGroupReordering(GroupReordering *gr) { groupReordering = gr; }
-
     SingleSpeciesLineChart *getChartAt(int i) { return charts->at(i); }
-private:
-    GroupReordering *groupReordering;
-   
+private:   
     BetweenSpeciesArcCollection *arcsInter;
     BetweenSpeciesArcCollection *arcsPred;
     BetweenSpeciesArcCollection *arcsCurrent;

@@ -12,6 +12,11 @@ GroupReordering::GroupReordering(MS_PROD_MainWindow *mw) {
     newLabels = determineNewLabels(labels);
 }
 
+GroupReordering::~GroupReordering() {
+    delete oldIndices;    
+    delete newLabels;
+}
+
 QList<QList<double> *> *GroupReordering::getNewTimeSeriesMatrix(QList<QList<double>> matrix) {
     QList<QList<double> *> *newMatrix = new QList<QList<double> *>();
 
