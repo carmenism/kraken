@@ -13,6 +13,7 @@ class AbsoluteSizeIndicator;
 class SingleSpeciesLineChart;
 class InteractionArc;
 class PredationArc;
+class GroupReordering;
 
 #include "BetweenSpeciesArcCollection.h"
 
@@ -51,10 +52,11 @@ public:
     void displayInteraction();
     void displayNoArcs();
 
+    void setGroupReordering(GroupReordering *gr) { groupReordering = gr; }
+
     SingleSpeciesLineChart *getChartAt(int i) { return charts->at(i); }
 private:
-    QList<int> *oldIndices;
-    QStringList *newLabels;
+    GroupReordering *groupReordering;
    
     BetweenSpeciesArcCollection *arcsInter;
     BetweenSpeciesArcCollection *arcsPred;
@@ -62,10 +64,10 @@ private:
 
     std::vector<SingleSpeciesLineChart *> *charts;
     
-    QStringList *getNewLabels(QStringList labels);
-    QList<int> *getNewOrder(QStringList labels, MS_PROD_MainWindow *mainWindow);
-    QList<QList<double> *> *getNewTimeSeriesMatrix(QList<QList<double>> matrix);
-    QList<QList<double> *> *getNewSquareMatrix(QList<QList<double>> matrix);
+    ///QStringList *getNewLabels(QStringList labels);
+    ///QList<int> *getNewOrder(QStringList labels, MS_PROD_MainWindow *mainWindow);
+    //QList<QList<double> *> *getNewTimeSeriesMatrix(QList<QList<double>> matrix);
+    //QList<QList<double> *> *getNewSquareMatrix(QList<QList<double>> matrix);
 
     void initializeCharts(QList<QList<double> *> *biomassMatrix, QList<QList<double> *> *harvestMatrix, MS_PROD_MainWindow *mainWindow);
     BetweenSpeciesArcCollection *initializeArcs(std::string title, int arcType, QList<QList<double>> matix);

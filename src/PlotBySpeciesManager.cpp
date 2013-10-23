@@ -5,13 +5,12 @@
 #include "PredationArc.h"
 #include "BetweenSpeciesArcCollection.h"
 #include "LineChartAxis.h"
+#include "GroupReordering.h"
 #include <QList>
 #include <QStringList>
 
 PlotBySpeciesManager::PlotBySpeciesManager() : charts() {
     arcsCurrent = NULL;
-    oldIndices = NULL;
-    newLabels = NULL;
 
     charts = new std::vector<SingleSpeciesLineChart *>();
 }
@@ -26,22 +25,14 @@ PlotBySpeciesManager::~PlotBySpeciesManager() {
     delete arcsInter;
     delete arcsPred;
     delete charts;
-    delete oldIndices;
-    delete newLabels;
 }
 
 void PlotBySpeciesManager::updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) {
     QList<QList<double>> biomassMatrixOrig = mainWindow->getParameters()->getBiomassMatrix();
     QList<QList<double>> harvestMatrixOrig = model->getHarvestMatrix();
-    QStringList labels = mainWindow->getParameters()->getSpeciesList();
-
-    if (oldIndices == NULL) {
-        oldIndices = getNewOrder(labels, mainWindow);
-        newLabels = getNewLabels(labels);
-    }
-    
-    QList<QList<double> *> *biomassMatrix = getNewTimeSeriesMatrix(biomassMatrixOrig);
-    QList<QList<double> *> *harvestMatrix = getNewTimeSeriesMatrix(harvestMatrixOrig);
+   
+    QList<QList<double> *> *biomassMatrix = groupReordering->getNewTimeSeriesMatrix(biomassMatrixOrig);
+    QList<QList<double> *> *harvestMatrix = groupReordering->getNewTimeSeriesMatrix(harvestMatrixOrig);
 
     QList<QList<double> *> *newHarvestMatrix = new QList<QList<double> *>();
     for (int i = 0; i < harvestMatrix->size(); i++) {
@@ -98,69 +89,10 @@ void PlotBySpeciesManager::updateCharts(Model *model, MS_PROD_MainWindow *mainWi
     delete biomassMatrix;
 }
 
-QList<QList<double> *> *PlotBySpeciesManager::getNewTimeSeriesMatrix(QList<QList<double>> matrix) {
-    QList<QList<double> *> *newMatrix = new QList<QList<double> *>();
-
-    for (int i = 0; i < oldIndices->size(); i++) {
-        QList<double> *newRow = new QList<double>();
-
-        for (int j = 0; j < matrix.at(oldIndices->at(i)).size(); j++) {
-            newRow->append( matrix.at(oldIndices->at(i)).at(j) );
-        }
-
-        newMatrix->append(newRow);
-    }
-
-    return newMatrix;
-}
-
-QList<QList<double> *> *PlotBySpeciesManager::getNewSquareMatrix(QList<QList<double>> matrix) {
-    QList<QList<double> *> *newMatrix = new QList<QList<double> *>();
-
-    for (int i = 0; i < oldIndices->size(); i++) {
-        QList<double> *newRow = new QList<double>();
-
-        for (int j = 0; j < matrix.at(oldIndices->at(i)).size(); j++) {
-            newRow->append( matrix.at(oldIndices->at(i)).at(oldIndices->at(j)) );
-        }
-
-        newMatrix->append(newRow);
-    }
-
-    return newMatrix;
-}
-
-QStringList *PlotBySpeciesManager::getNewLabels(QStringList labels) {
-    QStringList *newList = new QStringList();
-    
-    for (int i = 0; i < oldIndices->size(); i++) {
-        newList->append(labels.at(oldIndices->at(i)));
-    }
-
-    return newList;
-}
-
-QList<int> *PlotBySpeciesManager::getNewOrder(QStringList labels, MS_PROD_MainWindow *mainWindow) {
-    QList<int> *oldIndices = new QList<int>();
-
-    QStringList guilds = mainWindow->getParameters()->getGuildList();
-
-    for (int g = 0; g < guilds.size(); g++) {
-        for (int s = 0; s < labels.size(); s++) {
-            QString guild = mainWindow->getParameters()->getGuildMembership(labels.at(s));
-
-            if (QString::compare(guilds.at(g), guild) == 0) {
-                oldIndices->append(s);
-            }
-        }
-    }
-
-    return oldIndices;
-}
-
 void PlotBySpeciesManager::initializeCharts(QList<QList<double> *> *biomassMatrix, QList<QList<double> *> *harvestMatrix, MS_PROD_MainWindow *mainWindow) {
     bool displayXAxis = true;
     QStringList guilds = mainWindow->getParameters()->getGuildList();
+    QStringList *newLabels = groupReordering->getNewLabels();
 
     for (int i = 0; i < biomassMatrix->size(); i++) {
         QString guild = mainWindow->getParameters()->getGuildMembership(newLabels->at(i));
@@ -205,7 +137,7 @@ void PlotBySpeciesManager::initializePredationArcs(MS_PROD_MainWindow *mainWindo
 
 BetweenSpeciesArcCollection *PlotBySpeciesManager::initializeArcs(std::string title, int arcType, QList<QList<double>> matrix) {
     BetweenSpeciesArcCollection *arcs = new BetweenSpeciesArcCollection(title);
-    QList<QList<double> *> *newMatrix = getNewSquareMatrix(matrix);
+    QList<QList<double> *> *newMatrix = groupReordering->getNewSquareMatrix(matrix);
 
     for (int i = 0; i < newMatrix->size(); i++) {
         for (int j = 0; j < newMatrix->at(i)->size(); j++) {

@@ -39,7 +39,7 @@ public:
 
     void updateCharts(Model *model); 
 
-    void initializeSliders();
+    void initialize();
     void drawToPick();
 
     void runModel();

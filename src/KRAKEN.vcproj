@@ -412,6 +412,10 @@
 					Name="Managers"
 					>
 					<File
+						RelativePath=".\GroupReordering.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\PlotByGroupManager.cpp"
 						>
 					</File>
@@ -753,6 +757,10 @@
 				<Filter
 					Name="Managers"
 					>
+					<File
+						RelativePath=".\GroupReordering.h"
+						>
+					</File>
 					<File
 						RelativePath=".\PlotByGroupManager.h"
 						>

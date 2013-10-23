@@ -8,6 +8,7 @@
 #include "ChangeSlider.h"
 #include "ChartPoint.h"
 #include "Color.h"
+#include "GroupReordering.h"
 #include "Model.h"
 #include "MS_PROD_MainWindow.h"
 #include "MultiSpeciesLineChart.h"
@@ -466,7 +467,10 @@ void MyQGLWidget::captureLastValues() {
     }
 }
 
-void MyQGLWidget::initializeSliders() {
+void MyQGLWidget::initialize() {
+    GroupReordering *gr = new GroupReordering(mainWindow);
+    managerSpecies->setGroupReordering(gr);
+
     while (!sliders->empty()) {
         Slider *s = sliders->back();
         sliders->pop_back();

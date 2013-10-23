@@ -207,7 +207,7 @@ void MS_PROD_MainWindow::loadFromParameterFile(QString fileName) {
     }
     file.close();
     paramObj.setLoadedTrue();
-    glWidget->initializeSliders();
+    glWidget->initialize();
 
     // Log outputs to screen
     MS_PROD_MainWindow::logResults();

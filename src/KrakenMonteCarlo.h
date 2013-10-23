@@ -9,7 +9,7 @@ class Parameters;
 
 class KrakenMonteCarlo : public MonteCarlo {
 public:
-    KrakenMonteCarlo(MS_PROD_MainWindow *mw, Parameters *p);
+    KrakenMonteCarlo(MS_PROD_MainWindow *mw);
     ~KrakenMonteCarlo();
 
     void run();

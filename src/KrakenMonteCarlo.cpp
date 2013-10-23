@@ -3,9 +3,9 @@
 #include "InteractionMatrix.h"
 #include "MS_PROD_MainWindow.h"
 
-KrakenMonteCarlo::KrakenMonteCarlo(MS_PROD_MainWindow *mw, Parameters *p) {
+KrakenMonteCarlo::KrakenMonteCarlo(MS_PROD_MainWindow *mw) {
     mainWindow = mw;
-    parameters = p;
+    parameters = mw->getParameters();
     jitter = 0.1;
 }
 
