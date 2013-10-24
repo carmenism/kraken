@@ -59,6 +59,7 @@ private:
     PlotByGroupManager *managerGroup;
     PlotBySpeciesWithArcsManager *managerSpecies;
     MonteCarloPlotManager *managerMC;
+    Button *runMCButton;
     Button *baselineButton;
     Button *resetAllButton;
     Button *displayGroupButton, *displaySpeciesButton, *displayMCButton;

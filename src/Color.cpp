@@ -64,11 +64,11 @@ Color *Color::getEvenlyDistributedColor(int numberColors, int offset) {
     float saturation = 1.0;
     float brightness = 0.5;
 
-    if (offset % 3 == 1) {
+    //if (offset % 3 == 1) {
         brightness = 0.4f;
-    } else if (offset % 3 == 2) {
-        brightness = 0.6f;
-    }
+    //} else if (offset % 3 == 2) {
+    //    brightness = 0.6f;
+    //}
 
     return hslToRgb(hue, saturation, brightness);
 }
