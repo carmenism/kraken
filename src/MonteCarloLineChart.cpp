@@ -11,7 +11,7 @@ MonteCarloLineChart::MonteCarloLineChart(std::string label, bool displayXAxisLab
 : LineChart() {      
     sideLabel = label;
     Color *c = Color::getEvenlyDistributedColor(numGuilds, guildIndex);
-    semiTransparentColor = new Color(c->r, c->g, c->b, 0.1);
+    semiTransparentColor = new Color(c->r, c->g, c->b, 0.075);
 
     setLineWidths(2);
     setMarkersSize(6);
