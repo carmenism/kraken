@@ -1,6 +1,7 @@
 #include "PlotBySpeciesManager.h"
 #include "GroupReordering.h"
 #include "LineChartAxis.h"
+#include "LineChart.h"
 
 PlotBySpeciesManager::PlotBySpeciesManager() {
     spacing = 10;
@@ -28,14 +29,12 @@ void PlotBySpeciesManager::setChartLocations(float windowWidth, float windowHeig
     charts->at(0)->setWidth(chartWidth);
     charts->at(0)->setHeight(chartHeight + bottomAxisHeight);
     charts->at(0)->setMarkersSize(markerSize);
-    //charts->at(0)->draw();
-
+    
     for (int i = 1; i < charts->size(); i++) {
         float y = spacing + bottomAxisHeight + i * (chartHeight + spacing);
         charts->at(i)->setLocation(x, y);
         charts->at(i)->setWidth(chartWidth);
         charts->at(i)->setHeight(chartHeight);
         charts->at(i)->setMarkersSize(markerSize);
-        //charts->at(i)->draw();
     }
 }

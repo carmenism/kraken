@@ -2,8 +2,10 @@
 #include "Parameters.h"
 #include "InteractionMatrix.h"
 #include "MS_PROD_MainWindow.h"
+#include "MonteCarloPlotManager.h"
 
-KrakenMonteCarlo::KrakenMonteCarlo(MS_PROD_MainWindow *mw) {
+KrakenMonteCarlo::KrakenMonteCarlo(MS_PROD_MainWindow *mw, MonteCarloPlotManager *pm) {
+    plotManager = pm;
     mainWindow = mw;
     parameters = mw->getParameters();
     jitter = 0.1;
@@ -14,6 +16,7 @@ KrakenMonteCarlo::~KrakenMonteCarlo() {
 }
 
 void KrakenMonteCarlo::run() {
+    plotManager->updateCharts(NULL, mainWindow);
 
     saveValues();
 
@@ -21,6 +24,7 @@ void KrakenMonteCarlo::run() {
         generateJitteredValues();
         mainWindow->runModel(false);
         // plot model
+        plotManager->addJitteredValues(mainWindow);
     }
 
     resetValues();

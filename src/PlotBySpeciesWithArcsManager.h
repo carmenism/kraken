@@ -13,7 +13,6 @@ class AbsoluteSizeIndicator;
 class SingleSpeciesLineChart;
 class InteractionArc;
 class PredationArc;
-class GroupReordering;
 
 #include "BetweenSpeciesArcCollection.h"
 
@@ -26,7 +25,7 @@ public:
     virtual void drawToPick();
 
     void captureLastValues();
-    ChartPointList *getPoints();
+    //ChartPointList *getPoints();
     BetweenSpeciesArcList *getArcs();    
     std::vector<LineChart *> *getCharts();
     void updateCharts(Model *model, MS_PROD_MainWindow *mainWindow);

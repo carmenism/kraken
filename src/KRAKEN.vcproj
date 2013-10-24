@@ -399,6 +399,10 @@
 							>
 						</File>
 						<File
+							RelativePath=".\MonteCarloLineChart.cpp"
+							>
+						</File>
+						<File
 							RelativePath=".\MultiSpeciesLineChart.cpp"
 							>
 						</File>
@@ -413,6 +417,10 @@
 					>
 					<File
 						RelativePath=".\GroupReordering.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\MonteCarloPlotManager.cpp"
 						>
 					</File>
 					<File
@@ -763,6 +771,10 @@
 					>
 					<File
 						RelativePath=".\GroupReordering.h"
+						>
+					</File>
+					<File
+						RelativePath=".\MonteCarloPlotManager.h"
 						>
 					</File>
 					<File

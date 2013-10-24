@@ -110,7 +110,7 @@ void PlotBySpeciesWithArcsManager::initializeCharts(QList<QList<double> *> *biom
         
         for (int j = 0; j < biomassMatrix->at(i)->size(); j++) {
             x->push_back(j);
-            yBiomass->push_back(biomassMatrix->at(i)->at(j));
+            yBiomass->push_back(biomassMatrix->at(i)->at(j));            
             yHarvest->push_back(harvestMatrix->at(i)->at(j));
         }
 
@@ -151,16 +151,6 @@ BetweenSpeciesArcCollection *PlotBySpeciesWithArcsManager::initializeArcs(std::s
 
     delete newMatrix;
     return arcs;
-}
-
-std::vector<LineChart *> *PlotBySpeciesWithArcsManager::getCharts() {
-    std::vector<LineChart *> *lineCharts = new std::vector<LineChart *>();
-
-    for (unsigned int i = 0; i < charts->size(); i++) {
-        lineCharts->push_back(charts->at(i));
-    }
-
-    return lineCharts;
 }
 
 void PlotBySpeciesWithArcsManager::draw(float windowWidth, float windowHeight) {
@@ -281,4 +271,14 @@ void PlotBySpeciesWithArcsManager::displayInteraction() {
 
 void PlotBySpeciesWithArcsManager::displayNoArcs() {
     arcsCurrent = NULL;
+}
+
+std::vector<LineChart *> *PlotBySpeciesWithArcsManager::getCharts() {
+    std::vector<LineChart *> *lineCharts = new std::vector<LineChart *>();
+
+    for (unsigned int i = 0; i < charts->size(); i++) {
+        lineCharts->push_back(charts->at(i));
+    }
+
+    return lineCharts;
 }

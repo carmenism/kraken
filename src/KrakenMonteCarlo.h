@@ -6,10 +6,11 @@
 
 class MS_PROD_MainWindow;
 class Parameters;
+class MonteCarloPlotManager;
 
 class KrakenMonteCarlo : public MonteCarlo {
 public:
-    KrakenMonteCarlo(MS_PROD_MainWindow *mw);
+    KrakenMonteCarlo(MS_PROD_MainWindow *mw, MonteCarloPlotManager *pm);
     ~KrakenMonteCarlo();
 
     void run();
@@ -17,6 +18,7 @@ protected:
     double jitter;
     MS_PROD_MainWindow *mainWindow;
     Parameters *parameters;
+    MonteCarloPlotManager *plotManager;
 
     QList<QList<double>> origPredation;
     QList<QList<double>> origInteraction;

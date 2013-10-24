@@ -23,6 +23,8 @@
 #include "SliderButton.h"
 #include "UndoButton.h"
 #include "ToggleButton.h"
+#include "MonteCarloPlotManager.h"
+#include "KrakenMonteCarlo.h"
 
 #include <QList>
 #include <QStringList>
@@ -46,8 +48,14 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     managerGroup->displayOff();
     managerSpecies = new PlotBySpeciesWithArcsManager();
 
+    managerMC = new MonteCarloPlotManager();
+    managerMC->displayOff();
+
+    kmc = new KrakenMonteCarlo(mainWindow, managerMC);
+
     plotManagers->push_back(managerGroup);
     plotManagers->push_back(managerSpecies);
+    plotManagers->push_back(managerMC);
 
     picker = new Picker(this);
 }
@@ -124,25 +132,30 @@ void MyQGLWidget::paintGL() {
             positionSlidersForGroups();
         }
 
-        for (unsigned int i = 0; i < sliders->size(); i++) {
-            sliders->at(i)->draw();
+        if (!managerMC->getDisplay()) {
+            for (unsigned int i = 0; i < sliders->size(); i++) {
+                sliders->at(i)->draw();
+            }
+
+            for (unsigned int i = 0; i < sliderButtons->size(); i++) {
+                sliderButtons->at(i)->draw();
+            }
+
+            baselineButton->setLocation(420, size().rheight() - 25);
+            baselineButton->draw();
+
+            resetAllButton->setLocation(235, size().rheight() - 25);
+            resetAllButton->draw();
         }
-
-        for (unsigned int i = 0; i < sliderButtons->size(); i++) {
-            sliderButtons->at(i)->draw();
-        }
-
-        baselineButton->setLocation(330, size().rheight() - 25);
-        baselineButton->draw();
-
-        resetAllButton->setLocation(235, size().rheight() - 25);
-        resetAllButton->draw();
 
         displayGroupButton->setLocation(10, size().rheight() - 25);
         displayGroupButton->draw();
 
         displaySpeciesButton->setLocation(120, size().rheight() - 25);
         displaySpeciesButton->draw();
+
+        displayMCButton->setLocation(330, size().rheight() - 25);
+        displayMCButton->draw();
 
         if (managerSpecies->getDisplay()) {
             toggleAbsButton->draw();
@@ -211,6 +224,11 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
 
     if (displaySpeciesButton->mouseReleased(x, y)) {
         displayBySpecies();
+        return true;
+    }
+
+    if (displayMCButton->mouseReleased(x, y)) {
+        displayMonteCarlo();
         return true;
     }
 
@@ -470,6 +488,7 @@ void MyQGLWidget::captureLastValues() {
 void MyQGLWidget::initialize() {
     GroupReordering *gr = new GroupReordering(mainWindow);
     managerSpecies->setGroupReordering(gr);
+    managerMC->setGroupReordering(gr);
 
     while (!sliders->empty()) {
         Slider *s = sliders->back();
@@ -526,6 +545,11 @@ void MyQGLWidget::initialize() {
     displaySpeciesButton->setWidth(buttonWidth);
     alwaysDisplayingButtons->push_back(displaySpeciesButton);
 
+    displayMCButton = new Button("Monte Carlo");
+    displayMCButton->setHeight(buttonHeight);
+    displayMCButton->setWidth(buttonWidth);
+    alwaysDisplayingButtons->push_back(displayMCButton);
+
     toggleAbsButton = new ToggleButton("Abs. Sizes", false);
     toggleAbsButton->setHeight(buttonHeight);
     toggleAbsButton->setWidth(buttonWidth);
@@ -562,8 +586,12 @@ void MyQGLWidget::initialize() {
 void MyQGLWidget::displayByGroup() {
     displayGroupButton->activeOff();
     displaySpeciesButton->activeOn();
+    displayMCButton->activeOn();
+
     managerGroup->displayOn();
     managerSpecies->displayOff();
+    managerMC->displayOff();
+
     positionSlidersForGroups();
     updateGL();
 }
@@ -571,10 +599,25 @@ void MyQGLWidget::displayByGroup() {
 void MyQGLWidget::displayBySpecies() {
     displaySpeciesButton->activeOff();
     displayGroupButton->activeOn();
+    displayMCButton->activeOn();
+
     managerSpecies->displayOn();
     managerGroup->displayOff();
+    managerMC->displayOff();
+
     positionSlidersForSpecies();
     updateGL();
+}
+
+void MyQGLWidget::displayMonteCarlo() {
+    kmc->run();
+    displaySpeciesButton->activeOn();
+    displayGroupButton->activeOn();
+    displayMCButton->activeOff();
+
+    managerMC->displayOn();
+    managerSpecies->displayOff();
+    managerGroup->displayOff();
 }
 
 void MyQGLWidget::positionSlidersForSpecies() {

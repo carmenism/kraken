@@ -15,6 +15,8 @@ class Picker;
 class PlotManager;
 class PlotByGroupManager;
 class PlotBySpeciesWithArcsManager;
+class MonteCarloPlotManager;
+class KrakenMonteCarlo;
 class ResetButton;
 class Slider;
 class SliderButton;
@@ -52,12 +54,14 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
 private:
+    KrakenMonteCarlo *kmc;
     Picker *picker;    
     PlotByGroupManager *managerGroup;
     PlotBySpeciesWithArcsManager *managerSpecies;
+    MonteCarloPlotManager *managerMC;
     Button *baselineButton;
     Button *resetAllButton;
-    Button *displayGroupButton, *displaySpeciesButton;
+    Button *displayGroupButton, *displaySpeciesButton, *displayMCButton;
     ToggleButton *toggleAbsButton, *toggleChartsButton;
     ToggleButton *togglePredButton, *toggleInterButton;
     ToggleButton *toggleHarvButton;
@@ -91,6 +95,7 @@ private:
 
     void displayByGroup();
     void displayBySpecies();
+    void displayMonteCarlo();
 
     void togglePredation();
     void toggleInteraction();
