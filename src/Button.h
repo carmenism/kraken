@@ -12,7 +12,7 @@ class Button: public MouseEventItem, public ShadowedRectangle
 public:
     Button(std::string label);
     ~Button();
-    void draw();
+    virtual void draw();
     
     virtual bool mouseMoved(float x, float y);
     virtual bool mousePressed(float x, float y);

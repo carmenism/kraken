@@ -9,7 +9,7 @@ public:
     ToggleButton(std::string label);
     ToggleButton(std::string label, bool value);
     ~ToggleButton();
-    void draw();
+    virtual void draw();
     
     virtual bool mouseReleased(float x, float y);
 

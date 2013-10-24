@@ -72,7 +72,9 @@ private:
     std::vector<ChangeSlider *> *sliders;
     std::vector<SliderButton *> *sliderButtons;
     std::vector<Button *> *speciesButtons;
-    std::vector<Button *> *alwaysDisplayingButtons;
+    std::vector<Button *> *displayButtons;
+    std::vector<Button *> *speciesGroupButtons;
+    std::vector<Button *> *monteCarloButtons;
 
     std::string labelSuffix;
 
@@ -110,6 +112,9 @@ private:
     void setEffort(float value, std::string guildName);
 
     void setSliderFontSizes();
+
+    void deleteButtonList(std::vector<Button *> *list);
+    Button *mouseMoveButtonHelper(std::vector<Button *> *list, float x, float y);
 };
 
 #endif  /* _MYQGLWIDGET_H */

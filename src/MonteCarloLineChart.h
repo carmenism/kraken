@@ -18,8 +18,10 @@ public:
 
     void addSemiTransparentPointSeries(int simNum, std::vector<float> *x, std::vector<float> *y);
     void addSemiTransparentPointSeries(int simNum, ChartPointSeries *series);
+    
     void addBlackPointSeries(int simNum, std::vector<float> *x, std::vector<float> *y);
     void addBlackPointSeries(int simNum, ChartPointSeries *series);
+   
     void addPointSeries(int simNum, std::vector<float> *x, std::vector<float> *y, Color *color);
     void addPointSeries(int simNum, ChartPointSeries *series, Color *color);
 
