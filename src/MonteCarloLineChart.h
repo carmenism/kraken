@@ -9,19 +9,25 @@ class Color;
 
 class MonteCarloLineChart : public LineChart {
 public:
-    MonteCarloLineChart(std::vector<float> *x, std::vector<float> *y, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex);
-    ~MonteCarloLineChart() {}
+    MonteCarloLineChart(std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex);
+    //MonteCarloLineChart(std::vector<float> *x, std::vector<float> *y, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex);
+    ~MonteCarloLineChart();
     
     virtual void drawAtOrigin();
 
     void setValues(std::vector<float> *x, std::vector<float> *y);
 
-    void addPointSeries(std::vector<float> *x, std::vector<float> *y);
-    void addPointSeries(ChartPointSeries *series);
-private:    
-    std::string sideLabel;
+    void addSemiTransparentPointSeries(int simNum, std::vector<float> *x, std::vector<float> *y);
+    void addSemiTransparentPointSeries(int simNum, ChartPointSeries *series);
+    void addBlackPointSeries(int simNum, std::vector<float> *x, std::vector<float> *y);
+    void addBlackPointSeries(int simNum, ChartPointSeries *series);
+    void addPointSeries(int simNum, std::vector<float> *x, std::vector<float> *y, Color *color);
+    void addPointSeries(int simNum, ChartPointSeries *series, Color *color);
 
-    void clearValues();
+    void clearAllValues();
+private:    
+    Color *semiTransparentColor;
+    std::string sideLabel;
 };
 
 #endif MONTECARLOLINECHART_H_ 

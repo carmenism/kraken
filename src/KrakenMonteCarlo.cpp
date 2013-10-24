@@ -23,11 +23,14 @@ void KrakenMonteCarlo::run() {
     for (int i = 0; i < numberSimulations; i++) {
         generateJitteredValues();
         mainWindow->runModel(false);
-        // plot model
-        plotManager->addJitteredValues(mainWindow);
+        plotManager->addValues(i, mainWindow, true);
     }
 
     resetValues();
+    mainWindow->runModel(false);
+    plotManager->addValues(numberSimulations, mainWindow, false);
+
+    plotManager->removeMarkers();
 }
 
 void KrakenMonteCarlo::saveValues() {

@@ -7,15 +7,11 @@
 #include "PrintText.h"
 #include <GL/glut.h>
 
-MonteCarloLineChart::MonteCarloLineChart(std::vector<float> *x, std::vector<float> *y, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex) 
+MonteCarloLineChart::MonteCarloLineChart(std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex) 
 : LineChart() {      
     sideLabel = label;
-    ChartPointSeries *biomassSeries = new ChartPointSeries(this, label, x, y);
     Color *c = Color::getEvenlyDistributedColor(numGuilds, guildIndex);
-    Color *color = new Color(c->r, c->g, c->b, 0.1);
-    biomassSeries->setColor(color);
-    
-    addPointSeries(biomassSeries);
+    semiTransparentColor = new Color(c->r, c->g, c->b, 0.1);
 
     setLineWidths(2);
     setMarkersSize(6);
@@ -36,7 +32,13 @@ MonteCarloLineChart::MonteCarloLineChart(std::vector<float> *x, std::vector<floa
 
     updateActualSize();
 
-    fontHeight = 12;
+    fontHeight = 12;    
+
+    displayGhost = false;
+}
+
+MonteCarloLineChart::~MonteCarloLineChart() {
+    delete semiTransparentColor;
 }
 
 void MonteCarloLineChart::drawAtOrigin() {
@@ -46,26 +48,20 @@ void MonteCarloLineChart::drawAtOrigin() {
     PrintText::drawStrokeText(sideLabel, -10, offsetY + innerHeight / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER);
 }
 
-void MonteCarloLineChart::setValues(std::vector<float> *x, std::vector<float> *y) {
-    seriesList->front()->setValues(x, y);
+void MonteCarloLineChart::addSemiTransparentPointSeries(int simNum, std::vector<float> *x, std::vector<float> *y) {
+    addPointSeries(simNum, x, y, semiTransparentColor);
 }
 
-void MonteCarloLineChart::clearValues() {
-    while (!seriesList->empty()) {
-        ChartPointSeries *p = seriesList->back();
-        seriesList->pop_back();
-        delete p;
+void MonteCarloLineChart::addBlackPointSeries(int simNum, std::vector<float> *x, std::vector<float> *y) {
+    addPointSeries(simNum, x, y, &Color::black);
+}
+
+void MonteCarloLineChart::addPointSeries(int simNum, std::vector<float> *x, std::vector<float> *y, Color *color) {
+    if (!seriesList->empty() && simNum < seriesList->size()) {
+        seriesList->at(simNum)->setValues(x, y);
+    } else {
+        ChartPointSeries *series = new ChartPointSeries(this, "", x, y);    
+        seriesList->push_back(series);
+        series->setColor(color);
     }
-
-    seriesList->clear();
-}
-
-void MonteCarloLineChart::addPointSeries(std::vector<float> *x, std::vector<float> *y) {
-    ChartPointSeries *series = new ChartPointSeries(this, "", x, y);
-    addPointSeries(series);
-}
-
-void MonteCarloLineChart::addPointSeries(ChartPointSeries *series) {
-    seriesList->push_back(series);
-    series->setColor(seriesList->front()->getColor());
 }

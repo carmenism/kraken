@@ -28,6 +28,8 @@ LineChart::LineChart() : Chart2D() {
     offsetY = 40;
 
     updateActualSize();
+
+    displayGhost = true;
 }
 
 LineChart::~LineChart() {
@@ -215,9 +217,11 @@ void LineChart::drawBoundary() {
 }
 
 void LineChart::drawLines() {
-    FOREACH_POINTSERIESP(it, seriesList) {
-        if ((*it)->getDisplay()) {
-            (*it)->drawGhost();
+    if (displayGhost) {
+        FOREACH_POINTSERIESP(it, seriesList) {
+            if ((*it)->getDisplay()) {
+                (*it)->drawGhost();
+            }
         }
     }
 

@@ -28,7 +28,7 @@ ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vec
     max = NULL;
     min = NULL;
 
-    for (int i = 0; i < x->size(); i++) {
+    for (unsigned int i = 0; i < x->size(); i++) {
         ChartPoint *point = new ChartPoint(chart, label, x->at(i), y->at(i));
         points->push_back(point);
 
@@ -76,7 +76,7 @@ void ChartPointSeries::setValues(std::vector<float> *x, std::vector<float> *y) {
     max = NULL;
     min = NULL;
 
-    for (int i = 0; i < points->size(); i++) {
+    for (unsigned int i = 0; i < points->size(); i++) {
         points->at(i)->setX(x->at(i));
         points->at(i)->setY(y->at(i));
 
@@ -313,3 +313,6 @@ void ChartPointSeries::captureLastValues() {
     }
 }
 
+int ChartPointSeries::size() {
+    return points->size();
+}

@@ -71,6 +71,8 @@ public:
     void captureLastValues();
 
     void drawGhost();
+
+    int size();
 private:
     LineChart *chart;
 

@@ -20,11 +20,13 @@ public:
     void draw(float windowWidth, float windowHeight);
     virtual void drawToPick();
 
+    void removeMarkers();
+
     void captureLastValues();
     virtual std::vector<LineChart *> *getCharts();
     virtual void updateCharts(Model *model, MS_PROD_MainWindow *mainWindow);
 
-    void addJitteredValues(MS_PROD_MainWindow *mainWindow);
+    void addValues(int simNum, MS_PROD_MainWindow *mainWindow, bool jittered);
 private:      
     std::vector<MonteCarloLineChart *> *charts;
 

@@ -83,6 +83,7 @@ public:
 
     float getLegendWidth();
 protected:
+    bool displayGhost;
     ChartPointSeriesList *seriesList;
     LineChartAxisList *axes;
     float offsetX, offsetY;
@@ -90,8 +91,6 @@ protected:
     void updateActualSize();
     LineChartLegend *legend;
 private:
-    //bool displayLegend;    
-
     bool adjustYAxisToData;
 
     void calculateGlobalBounds();
