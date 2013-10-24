@@ -10,7 +10,6 @@ class Color;
 class MonteCarloLineChart : public LineChart {
 public:
     MonteCarloLineChart(std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex);
-    //MonteCarloLineChart(std::vector<float> *x, std::vector<float> *y, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex);
     ~MonteCarloLineChart();
     
     virtual void drawAtOrigin();
