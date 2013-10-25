@@ -84,6 +84,7 @@ MyQGLWidget::~MyQGLWidget() {
     delete sliders;
     delete plotManagers;
     delete picker;
+    delete kmc;
 }
 
 void MyQGLWidget::deleteButtonList(std::vector<Button *> *list) {
