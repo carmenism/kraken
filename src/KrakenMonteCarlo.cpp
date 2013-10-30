@@ -50,10 +50,11 @@ void KrakenMonteCarlo::resetValues() {
 }
 
 void KrakenMonteCarlo::generateJitteredValues() {
-    parameters->setInitialBiomassList(makeJitteredList(origInitBio, jitter));
+    int n = 5;
+    parameters->setInitialBiomassList(makeJitteredList(origInitBio, jitter, n));
 
-    parameters->setPredationMatrix(makeJitteredMatrixWithinRange(origPredation, jitter, 0, 1));
-    parameters->setWithinGuildCompMatrix(makeJitteredMatrixWithinRange(origInteraction, jitter, 0, 1));
-    parameters->setGrowthRates(makeJitteredListWithinRange(origGrowth, jitter, 0, 1));
-    parameters->setCatchabilitiesList(makeJitteredListWithinRange(origCatchability, jitter, 0, 1));
+    parameters->setPredationMatrix(makeJitteredMatrixWithinRange(origPredation, jitter, 0, 1, n));
+    parameters->setWithinGuildCompMatrix(makeJitteredMatrixWithinRange(origInteraction, jitter, 0, 1, n));
+    parameters->setGrowthRates(makeJitteredListWithinRange(origGrowth, jitter, 0, 1, n));
+    parameters->setCatchabilitiesList(makeJitteredListWithinRange(origCatchability, jitter, 0, 1, n));
 }
