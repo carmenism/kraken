@@ -82,6 +82,8 @@ public:
     void setAdjustYAxisToData(bool a) { adjustYAxisToData = a; }
 
     float getLegendWidth();
+
+    ChartPointSeriesList *getSeriesList() { return seriesList; }
 protected:
     bool displayGhost;
     ChartPointSeriesList *seriesList;
