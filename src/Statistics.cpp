@@ -155,6 +155,21 @@ void Statistics::draw() {
 
     int index = startIndex;
     float boxWidth = 20;
+    
+    int nextIndex = startIndex + interval;
+    float posA = calculateXLocation(index) + boxWidth / 2;
+    float posB = calculateXLocation(nextIndex) - boxWidth / 2;
+
+    while (posB - posA < 10 && boxWidth > 0) {
+        boxWidth = boxWidth - 2;
+        posA = calculateXLocation(index) + boxWidth / 2;
+        posB = calculateXLocation(nextIndex) - boxWidth / 2;
+    }
+
+    if (boxWidth < 5) {
+        boxWidth = 5;
+    }
+
     float halfBoxWidth = boxWidth / 2;
 
     while (index < boxMiddle->size()) {
