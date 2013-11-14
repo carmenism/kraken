@@ -67,15 +67,19 @@ private:
     ToggleButton *togglePredButton, *toggleInterButton;
     ToggleButton *toggleHarvButton;
     
+    ToggleButton *toggleOrigLineButton;
+    ToggleButton *toggleStreaksButton;
+    ToggleButton *toggleStatsButton;
+    
     MS_PROD_MainWindow *mainWindow;
 
-    std::vector<PlotManager *> *plotManagers;
-    std::vector<ChangeSlider *> *sliders;
-    std::vector<SliderButton *> *sliderButtons;
-    std::vector<Button *> *speciesButtons;
-    std::vector<Button *> *displayButtons;
-    std::vector<Button *> *speciesGroupButtons;
-    std::vector<Button *> *monteCarloButtons;
+    std::vector<PlotManager *> *plotManagers;//d
+    std::vector<ChangeSlider *> *sliders;//d
+    std::vector<SliderButton *> *sliderButtons;//d?
+    std::vector<Button *> *speciesButtons;//d
+    std::vector<Button *> *displayButtons;//d
+    std::vector<Button *> *speciesGroupButtons;//d
+    std::vector<Button *> *monteCarloButtons;//d
 
     std::string labelSuffix;
 
@@ -116,6 +120,10 @@ private:
 
     void deleteButtonList(std::vector<Button *> *list);
     Button *mouseMoveButtonHelper(std::vector<Button *> *list, float x, float y);
+
+    void toggleOriginalLine();
+    void toggleStreaks();
+    void toggleStatistics();
 };
 
 #endif  /* _MYQGLWIDGET_H */

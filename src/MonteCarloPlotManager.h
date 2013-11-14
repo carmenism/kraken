@@ -27,6 +27,20 @@ public:
     virtual void updateCharts(Model *model, MS_PROD_MainWindow *mainWindow);
 
     void addValues(int simNum, MS_PROD_MainWindow *mainWindow, bool jittered);
+
+    void updateStatistics();
+
+    void setDisplayStreaks(bool d);
+    void displayStreaksOn();
+    void displayStreaksOff();
+
+    void setDisplayOriginalLine(bool d);
+    void displayOriginalLineOn();
+    void displayOriginalLineOff();
+
+    void setDisplayStatistics(bool d);
+    void displayStatisticsOn();
+    void displayStatisticsOff();
 private:      
     std::vector<MonteCarloLineChart *> *charts;
 

@@ -66,6 +66,14 @@ void MonteCarloPlotManager::addValues(int simNum, MS_PROD_MainWindow *mainWindow
         delete x;
         delete y;
     }
+
+    while (!biomassMatrix->empty()) {
+        QList<double> *row = biomassMatrix->back();
+        biomassMatrix->pop_back();
+        delete row;
+    }
+
+    delete biomassMatrix;
 }
 
 void MonteCarloPlotManager::initializeCharts(QList<QList<double> *> *biomassMatrix, MS_PROD_MainWindow *mainWindow) {
@@ -99,4 +107,52 @@ std::vector<LineChart *> *MonteCarloPlotManager::getCharts() {
     }
 
     return lineCharts;
+}
+
+void MonteCarloPlotManager::updateStatistics() {
+    for (unsigned int i = 0; i < charts->size(); i++) {
+        charts->at(i)->updateStatistics();
+    }
+}
+
+void MonteCarloPlotManager::setDisplayStreaks(bool d) {
+    for (unsigned int i = 0; i < charts->size(); i++) {
+        charts->at(i)->setDisplayStreaks(d);
+    }
+}
+
+void MonteCarloPlotManager::displayStreaksOn() {
+    setDisplayStreaks(true);
+}
+
+void MonteCarloPlotManager::displayStreaksOff() {
+    setDisplayStreaks(false);
+}
+
+void MonteCarloPlotManager::setDisplayOriginalLine(bool d) {
+    for (unsigned int i = 0; i < charts->size(); i++) {
+        charts->at(i)->setDisplayOriginalLine(d);
+    }
+}
+
+void MonteCarloPlotManager::displayOriginalLineOn() {
+    setDisplayOriginalLine(true);
+}
+
+void MonteCarloPlotManager::displayOriginalLineOff() {
+    setDisplayOriginalLine(false);
+}
+
+void MonteCarloPlotManager::setDisplayStatistics(bool d) {
+    for (unsigned int i = 0; i < charts->size(); i++) {
+        charts->at(i)->setDisplayStatistics(d);
+    }
+}
+
+void MonteCarloPlotManager::displayStatisticsOn() {
+    setDisplayStatistics(true);
+}
+
+void MonteCarloPlotManager::displayStatisticsOff() {
+    setDisplayStatistics(false);
 }

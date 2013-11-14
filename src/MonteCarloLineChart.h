@@ -2,6 +2,7 @@
 #define MONTECARLOLINECHART_H_
 
 class Color;
+class Statistics;
 
 #include "LineChart.h"
 #include <vector>
@@ -26,7 +27,26 @@ public:
     void addPointSeries(int simNum, ChartPointSeries *series, Color *color);
 
     void clearAllValues();
-private:    
+
+    void updateStatistics();
+
+    bool getDisplayOriginalLine() { return displayOriginalLine; }
+    void setDisplayOriginalLine(bool d) { displayOriginalLine = d; }
+    void displayOriginalLineOn() { displayOriginalLine = true; }
+    void displayOriginalLineOff() { displayOriginalLine = false; }
+
+    bool getDisplayStreaks() { return displayStreaks; }
+    void setDisplayStreaks(bool d) { displayStreaks = d; }
+    void displayStreaksOn() { displayStreaks = true; }
+    void displayStreaksOff() { displayStreaks = false; }
+    void setDisplayStatistics(bool d);
+    void displayStatisticsOn();
+    void displayStatisticsOff();
+private:       
+    bool displayOriginalLine;
+    bool displayStreaks;
+
+    Statistics *stats;
     Color *semiTransparentColor;
     std::string sideLabel;
 };

@@ -129,6 +129,7 @@ void MyQGLWidget::paintGL() {
     }
 
     if (!managerGroup->empty()) {
+        float xPos = size().rwidth() - 100;
         float yPos = size().rheight() - 25;
         displayGroupButton->setLocation(50, yPos);
         displaySpeciesButton->setLocation(115, yPos);
@@ -137,6 +138,10 @@ void MyQGLWidget::paintGL() {
         baselineButton->setLocation(280, yPos);
         resetAllButton->setLocation(370, yPos);
         runMCButton->setLocation(280, yPos);
+
+        toggleStatsButton->setLocation(xPos, 75);
+        toggleStreaksButton->setLocation(xPos, 50);
+        toggleOrigLineButton->setLocation(xPos, 100);
 
         if (managerSpecies->getDisplay() || managerGroup->getDisplay()) {
             if (managerSpecies->getDisplay()) {
@@ -216,7 +221,7 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
         }
     }
 
-    updateGL();
+    //updateGL();
 }
 
 bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
@@ -273,6 +278,20 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
         togglePredation();
         return true;
     }
+
+    if (toggleOrigLineButton->mouseReleased(x, y)) {
+        toggleOriginalLine();
+        return true;
+    }
+    if (toggleStreaksButton->mouseReleased(x, y)) {
+        toggleStreaks();
+        return true;
+    }
+    if (toggleStatsButton->mouseReleased(x, y)) {
+        toggleStatistics();
+        return true;
+    }
+
 
     SliderButton *button = NULL;
 
@@ -652,6 +671,21 @@ void MyQGLWidget::initialize() {
     runMCButton->setWidth(buttonWidth);
     monteCarloButtons->push_back(runMCButton);
 
+    toggleOrigLineButton = new ToggleButton("Original Line", false);
+    toggleOrigLineButton->setHeight(buttonHeight);
+    toggleOrigLineButton->setWidth(buttonWidth);
+    monteCarloButtons->push_back(toggleOrigLineButton);
+
+    toggleStreaksButton = new ToggleButton("Streaks", true);
+    toggleStreaksButton->setHeight(buttonHeight);
+    toggleStreaksButton->setWidth(buttonWidth);
+    monteCarloButtons->push_back(toggleStreaksButton);
+
+    toggleStatsButton = new ToggleButton("Statistics", false);
+    toggleStatsButton->setHeight(buttonHeight);
+    toggleStatsButton->setWidth(buttonWidth);
+    monteCarloButtons->push_back(toggleStatsButton);
+
     displayByGroup();
 }
 
@@ -687,7 +721,7 @@ void MyQGLWidget::displayMonteCarlo() {
     displayGroupButton->activeOn();
     displayMCButton->activeOff();
 
-    managerMC->displayOn();
+    //managerMC->displayOn();
     managerSpecies->displayOff();
     managerGroup->displayOff();
 }
@@ -850,4 +884,17 @@ void MyQGLWidget::toggleInteraction() {
 void MyQGLWidget::setBaseline() {
     setSlidersBaseline();
     captureLastValues();
+}
+
+void MyQGLWidget::toggleOriginalLine() {
+    //managerMC->displayOriginalLine
+    managerMC->displayOriginalLineOn();
+}
+
+void MyQGLWidget::toggleStreaks() {
+
+}
+
+void MyQGLWidget::toggleStatistics() {
+
 }

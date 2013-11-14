@@ -31,6 +31,8 @@ void KrakenMonteCarlo::run() {
     plotManager->addValues(numberSimulations, mainWindow, false);
 
     plotManager->removeMarkers();
+
+    plotManager->updateStatistics();
 }
 
 void KrakenMonteCarlo::saveValues() {

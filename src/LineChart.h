@@ -29,7 +29,7 @@ public:
     LineChart();
     ~LineChart();
 
-    void drawAtOrigin();
+    virtual void drawAtOrigin();
     void drawToPickAtOrigin();
     void drawToPickLines();
 

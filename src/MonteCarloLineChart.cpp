@@ -5,10 +5,14 @@
 #include "LineChartLegend.h"
 #include "ChartPointSeries.h"
 #include "PrintText.h"
+#include "Statistics.h"
 #include <GL/glut.h>
 
 MonteCarloLineChart::MonteCarloLineChart(std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex) 
 : LineChart() {      
+    displayOriginalLine = false;
+    displayStreaks = true;
+
     sideLabel = label;
     Color *c = Color::getEvenlyDistributedColor(numGuilds, guildIndex);
     semiTransparentColor = new Color(c->r, c->g, c->b, 0.075);
@@ -35,17 +39,30 @@ MonteCarloLineChart::MonteCarloLineChart(std::string label, bool displayXAxisLab
     fontHeight = 12;    
 
     displayGhost = false;
+
+    stats = new Statistics(this);
 }
 
 MonteCarloLineChart::~MonteCarloLineChart() {
     delete semiTransparentColor;
+    delete stats;
 }
 
 void MonteCarloLineChart::drawAtOrigin() {
+    for (unsigned int i = 0; i < seriesList->size() - 1; i++) {
+        seriesList->at(i)->setDisplay(displayStreaks);
+    }
+
+    seriesList->at(seriesList->size() - 1)->setDisplay(displayOriginalLine);
+
     LineChart::drawAtOrigin();
     
     glColor4f(0, 0, 0, 1);
     PrintText::drawStrokeText(sideLabel, -10, offsetY + innerHeight / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER);
+
+    if (stats->getDisplay()) {
+        stats->draw();
+    }
 }
 
 void MonteCarloLineChart::addSemiTransparentPointSeries(int simNum, std::vector<float> *x, std::vector<float> *y) {
@@ -64,4 +81,20 @@ void MonteCarloLineChart::addPointSeries(int simNum, std::vector<float> *x, std:
         seriesList->push_back(series);
         series->setColor(color);
     }
+}
+
+void MonteCarloLineChart::updateStatistics() {
+    stats->recalculate();
+}
+
+void MonteCarloLineChart::displayStatisticsOn() {
+    stats->displayOn();
+}
+
+void MonteCarloLineChart::displayStatisticsOff() {
+    stats->displayOff();
+}
+
+void MonteCarloLineChart::setDisplayStatistics(bool d) {
+    stats->setDisplay(d);
 }
