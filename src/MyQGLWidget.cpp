@@ -85,6 +85,7 @@ MyQGLWidget::~MyQGLWidget() {
     delete plotManagers;
     delete picker;
     delete kmc;
+    delete gr;
 }
 
 void MyQGLWidget::deleteButtonList(std::vector<Button *> *list) {
@@ -221,7 +222,7 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
         }
     }
 
-    //updateGL();
+    updateGL();
 }
 
 bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
@@ -572,7 +573,7 @@ void MyQGLWidget::captureLastValues() {
 }
 
 void MyQGLWidget::initialize() {
-    GroupReordering *gr = new GroupReordering(mainWindow);
+    gr = new GroupReordering(mainWindow);
     managerSpecies->setGroupReordering(gr);
     managerMC->setGroupReordering(gr);
 
@@ -721,7 +722,7 @@ void MyQGLWidget::displayMonteCarlo() {
     displayGroupButton->activeOn();
     displayMCButton->activeOff();
 
-    //managerMC->displayOn();
+    managerMC->displayOn();
     managerSpecies->displayOff();
     managerGroup->displayOff();
 }
@@ -887,14 +888,25 @@ void MyQGLWidget::setBaseline() {
 }
 
 void MyQGLWidget::toggleOriginalLine() {
-    //managerMC->displayOriginalLine
-    managerMC->displayOriginalLineOn();
+    if (toggleOrigLineButton->getValue()) {
+        managerMC->displayOriginalLineOn();
+    } else {
+        managerMC->displayOriginalLineOff();
+    }
 }
 
 void MyQGLWidget::toggleStreaks() {
-
+    if (toggleStreaksButton->getValue()) {
+        managerMC->displayStreaksOn();
+    } else {
+        managerMC->displayStreaksOff();
+    }
 }
 
 void MyQGLWidget::toggleStatistics() {
-
+    if (toggleStatsButton->getValue()) {
+        managerMC->displayStatisticsOn();
+    } else {
+        managerMC->displayStatisticsOff();
+    }
 }

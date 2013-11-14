@@ -22,6 +22,7 @@ class Slider;
 class SliderButton;
 class ToggleButton;
 class UndoButton;
+class GroupReordering;
 
 typedef std::vector<MultiSpeciesLineChart *> MSLineChartList;
 typedef std::vector<MultiSpeciesLineChart *>::const_iterator MSLineChartIterator;
@@ -54,6 +55,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
 private:
+    GroupReordering *gr;
     KrakenMonteCarlo *kmc;
     Picker *picker;    
     PlotByGroupManager *managerGroup;

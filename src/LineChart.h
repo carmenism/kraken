@@ -85,6 +85,7 @@ public:
 
     ChartPointSeriesList *getSeriesList() { return seriesList; }
 protected:
+    bool adjustYAxisToData;
     bool displayGhost;
     ChartPointSeriesList *seriesList;
     LineChartAxisList *axes;
@@ -93,9 +94,7 @@ protected:
     void updateActualSize();
     LineChartLegend *legend;
 private:
-    bool adjustYAxisToData;
-
-    void calculateGlobalBounds();
+    virtual void calculateGlobalBounds();
     void drawBoundary();
     void drawLines();
     void drawSelected();

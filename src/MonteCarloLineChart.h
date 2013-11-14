@@ -49,6 +49,8 @@ private:
     Statistics *stats;
     Color *semiTransparentColor;
     std::string sideLabel;
+
+    virtual void calculateGlobalBounds();
 };
 
 #endif MONTECARLOLINECHART_H_ 

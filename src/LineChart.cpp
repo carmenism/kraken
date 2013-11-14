@@ -160,7 +160,6 @@ void LineChart::drawToPickAtOrigin() {
     glPopMatrix();
 }
 
-
 void LineChart::calculateGlobalBounds() {
     globalMinX = (std::numeric_limits<float>::max)();
     globalMaxX = -1 * (std::numeric_limits<float>::max)();

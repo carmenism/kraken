@@ -6,6 +6,7 @@
 #include "ChartPointSeries.h"
 #include "PrintText.h"
 #include "Statistics.h"
+#include <limits>
 #include <GL/glut.h>
 
 MonteCarloLineChart::MonteCarloLineChart(std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex) 
@@ -49,11 +50,13 @@ MonteCarloLineChart::~MonteCarloLineChart() {
 }
 
 void MonteCarloLineChart::drawAtOrigin() {
-    for (unsigned int i = 0; i < seriesList->size() - 1; i++) {
-        seriesList->at(i)->setDisplay(displayStreaks);
-    }
+    if (!seriesList->empty()) {
+        for (unsigned int i = 0; i < seriesList->size() - 1; i++) {
+            seriesList->at(i)->setDisplay(displayStreaks);
+        }
 
-    seriesList->at(seriesList->size() - 1)->setDisplay(displayOriginalLine);
+        seriesList->at(seriesList->size() - 1)->setDisplay(displayOriginalLine);
+    }
 
     LineChart::drawAtOrigin();
     
@@ -97,4 +100,45 @@ void MonteCarloLineChart::displayStatisticsOff() {
 
 void MonteCarloLineChart::setDisplayStatistics(bool d) {
     stats->setDisplay(d);
+}
+
+
+void MonteCarloLineChart::calculateGlobalBounds() {
+    globalMinX = (std::numeric_limits<float>::max)();
+    globalMaxX = -1 * (std::numeric_limits<float>::max)();
+
+    if (adjustYAxisToData) {
+        globalMinY = (std::numeric_limits<float>::max)();
+        globalMaxY = -1 * (std::numeric_limits<float>::max)();
+    }
+
+    FOREACH_POINTSERIESP(it, seriesList) {
+        float minX = (*it)->getMinimumValueX();
+        float maxX = (*it)->getMaximumValueX();
+
+        float minY = (*it)->getMinimumValueY();
+        float maxY = (*it)->getMaximumValueY();
+
+        if (globalMinX > minX) {
+            globalMinX = minX;
+        }
+
+        if (globalMaxX < maxX) {
+            globalMaxX = maxX;
+        }
+
+        if (adjustYAxisToData) {
+            if (globalMinY > minY) {
+                globalMinY = minY;
+            }
+
+            if (globalMaxY < maxY) {
+                globalMaxY = maxY;
+            }
+        }
+    }
+
+    if (adjustYAxisToData) {
+        globalMaxY = globalMaxY + 0.05 * (globalMaxY - globalMinY);
+    }
 }
