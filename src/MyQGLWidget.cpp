@@ -905,8 +905,8 @@ void MyQGLWidget::toggleStreaks() {
 
 void MyQGLWidget::toggleStatistics() {
     if (toggleStatsButton->getValue()) {
-        managerMC->displayStatisticsOn();
+        managerMC->displayBoxPlotsOn();
     } else {
-        managerMC->displayStatisticsOff();
+        managerMC->displayBoxPlotsOff();
     }
 }

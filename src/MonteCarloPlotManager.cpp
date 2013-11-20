@@ -143,16 +143,16 @@ void MonteCarloPlotManager::displayOriginalLineOff() {
     setDisplayOriginalLine(false);
 }
 
-void MonteCarloPlotManager::setDisplayStatistics(bool d) {
+void MonteCarloPlotManager::setDisplayBoxPlots(bool d) {
     for (unsigned int i = 0; i < charts->size(); i++) {
-        charts->at(i)->setDisplayStatistics(d);
+        charts->at(i)->setDisplayBoxPlots(d);
     }
 }
 
-void MonteCarloPlotManager::displayStatisticsOn() {
-    setDisplayStatistics(true);
+void MonteCarloPlotManager::displayBoxPlotsOn() {
+    setDisplayBoxPlots(true);
 }
 
-void MonteCarloPlotManager::displayStatisticsOff() {
-    setDisplayStatistics(false);
+void MonteCarloPlotManager::displayBoxPlotsOff() {
+    setDisplayBoxPlots(false);
 }

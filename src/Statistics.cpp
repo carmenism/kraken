@@ -2,12 +2,15 @@
 #include "LineChart.h"
 #include "ChartPointSeries.h"
 #include "ChartPoint.h"
+#include "Color.h"
 #include <limits>
 #include <QtAlgorithms>
 #include <GL/glut.h>
 
 Statistics::Statistics(LineChart *chart) {
     display = false;
+    displayHurricaneTrack = true;
+    displayBoxPlots = true;
 
     this->chart = chart;
 
@@ -19,15 +22,13 @@ Statistics::Statistics(LineChart *chart) {
     q1 = new QList<double>();
     q3 = new QList<double>();
 
-    startIndex = 0;
+    meanPlus2SD = new QList<double>();
+    meanPlus1SD = new QList<double>();
+    meanMinus1SD = new QList<double>();
+    meanMinus2SD = new QList<double>();
+
+    startIndex = 5;
     interval = 5;
-
-    boxTop = NULL;
-    boxBottom = NULL;
-    boxMiddle = NULL;
-
-    whiskerTop = NULL;
-    whiskerBottom = NULL;
 }
 
 Statistics::~Statistics() {
@@ -48,6 +49,10 @@ void Statistics::recalculate() {
     median->clear();
     q1->clear();
     q3->clear();
+    meanPlus2SD->clear();
+    meanPlus1SD->clear();
+    meanMinus1SD->clear();
+    meanMinus2SD->clear();
 
     ChartPointSeriesList * seriesList = chart->getSeriesList();
 
@@ -89,23 +94,16 @@ void Statistics::recalculate() {
         
         mean->push_back(meanV);
         stdDev->push_back(stdDevV);
+        meanPlus2SD->push_back(meanV + 2 * stdDevV);
+        meanPlus1SD->push_back(meanV + stdDevV);
+        meanMinus1SD->push_back(meanV - stdDevV);
+        meanMinus2SD->push_back(meanV - 2 * stdDevV);
 
         findQuartiles(values);
 
         min->push_back(minV);
         max->push_back(maxV);
     }
-
-    boxTop = q3;
-    boxBottom = q1;
-    boxMiddle = median;
-
-    whiskerTop = max;
-    whiskerBottom = min;
-}
-
-void Statistics::print() {
-
 }
 
 void Statistics::findQuartiles(QList<double> list) {
@@ -147,72 +145,126 @@ float Statistics::calculateYLocation(float valueY) {
 }
 
 void Statistics::draw() {
-    if (boxMiddle != NULL) {
     glPushMatrix();
-    float transX = chart->getOffsetX();
-    float transY = chart->getOffsetY();
-    glTranslatef(transX, transY, 0);
+        float transX = chart->getOffsetX();
+        float transY = chart->getOffsetY();
 
-    int index = startIndex;
-    float boxWidth = 20;
-    
-    int nextIndex = startIndex + interval;
-    float posA = calculateXLocation(index) + boxWidth / 2;
-    float posB = calculateXLocation(nextIndex) - boxWidth / 2;
+        glTranslatef(transX, transY, 0);
 
-    while (posB - posA < 10 && boxWidth > 0) {
-        boxWidth = boxWidth - 2;
-        posA = calculateXLocation(index) + boxWidth / 2;
-        posB = calculateXLocation(nextIndex) - boxWidth / 2;
-    }
+        if (displayBoxPlots) {
+            drawBoxPlots();
+        }
 
-    if (boxWidth < 5) {
-        boxWidth = 5;
-    }
-
-    float halfBoxWidth = boxWidth / 2;
-
-    while (index < boxMiddle->size()) {
-        float xPos = calculateXLocation(index);
-        float yPosTop = calculateYLocation(boxTop->at(index));
-        float yPosBot = calculateYLocation(boxBottom->at(index));
-        float yPosMid = calculateYLocation(boxMiddle->at(index));
-        float yPosMax = calculateYLocation(max->at(index));
-        float yPosMin = calculateYLocation(min->at(index));
-
-        glColor3f(0, 0, 0);
-        glLineWidth(1);
-
-        glBegin(GL_LINE_LOOP);
-            glVertex2f(xPos - halfBoxWidth, yPosTop);
-            glVertex2f(xPos + halfBoxWidth, yPosTop);
-            glVertex2f(xPos + halfBoxWidth, yPosBot);
-            glVertex2f(xPos - halfBoxWidth, yPosBot);
-        glEnd();
-        glBegin(GL_LINE_LOOP);
-            glVertex2f(xPos - halfBoxWidth, yPosMid);
-            glVertex2f(xPos + halfBoxWidth, yPosMid);
-        glEnd();
-        glBegin(GL_LINE_LOOP);
-            glVertex2f(xPos, yPosMax);
-            glVertex2f(xPos, yPosTop);
-        glEnd();
-        glBegin(GL_LINE_LOOP);
-            glVertex2f(xPos, yPosMin);
-            glVertex2f(xPos, yPosBot);
-        glEnd();
-        glBegin(GL_LINE_LOOP);
-            glVertex2f(xPos - halfBoxWidth / 2, yPosMax);
-            glVertex2f(xPos + halfBoxWidth / 2, yPosMax);
-        glEnd();
-        glBegin(GL_LINE_LOOP);
-            glVertex2f(xPos - halfBoxWidth / 2, yPosMin);
-            glVertex2f(xPos + halfBoxWidth / 2, yPosMin);
-        glEnd();
-
-        index = index + interval;
-    }
-
+        if (displayHurricaneTrack) {
+            drawHurricaneTrack();
+        }
     glPopMatrix();
+}
+
+void Statistics::drawHurricaneTrack() {
+    Color *color = chart->getSeriesList()->at(0)->getColor();
+
+    glColor4f(color->r, color->g, color->b, 0.3);
+    drawHurricaneTrackBand(meanPlus2SD, meanMinus2SD);
+    drawHurricaneTrackBand(meanPlus1SD, meanMinus1SD);
+}
+
+void Statistics::drawHurricaneTrackBand(QList<double> *top, QList<double> *bottom) {
+    glPolygonMode(GL_FRONT, GL_FILL); 
+
+    double lastTop = -1;
+    double lastBot = -1;
+    double lastX = -1;
+
+    for (int i = 0; i < top->size(); i++) {
+        float xLoc = calculateXLocation(i);
+        float yTop = calculateYLocation(top->at(i));
+        float yBot = calculateYLocation(bottom->at(i));
+
+        if (lastTop != -1) {
+            glBegin( GL_POLYGON );
+                glVertex2f(lastX, lastBot);
+                glVertex2f(lastX, lastTop);
+                glVertex2f(xLoc, yTop);
+                glVertex2f(xLoc, yBot);
+            glEnd();
+        }
+
+        lastX = xLoc;
+        lastTop = yTop;
+        lastBot = yBot;
+    }
+}
+
+void Statistics::drawBoxPlots() {    
+    QList<double> *boxTop = q3;
+    QList<double> *boxBottom = q1;
+    
+    QList<double> *boxMiddle = median;
+
+    if (boxMiddle != NULL) {
+        int index = startIndex;
+        float boxWidth = 20;
+        
+        int nextIndex = startIndex + interval;
+        float posA = calculateXLocation(index) + boxWidth / 2;
+        float posB = calculateXLocation(nextIndex) - boxWidth / 2;
+
+        while (posB - posA < 10 && boxWidth > 0) {
+            boxWidth = boxWidth - 2;
+            posA = calculateXLocation(index) + boxWidth / 2;
+            posB = calculateXLocation(nextIndex) - boxWidth / 2;
+        }
+
+        if (boxWidth < 5) {
+            boxWidth = 5;
+        }
+
+        float halfBoxWidth = boxWidth / 2;
+
+        while (index < boxMiddle->size()) {
+            float xPos = calculateXLocation(index);
+            float yPosTop = calculateYLocation(boxTop->at(index));
+            float yPosBot = calculateYLocation(boxBottom->at(index));
+            float yPosMid = calculateYLocation(boxMiddle->at(index));
+            float yPosMax = calculateYLocation(max->at(index));
+            float yPosMin = calculateYLocation(min->at(index));
+
+            glColor3f(0, 0, 0);
+            glLineWidth(1);
+
+            glBegin(GL_LINE_LOOP);
+                glVertex2f(xPos - halfBoxWidth, yPosTop);
+                glVertex2f(xPos + halfBoxWidth, yPosTop);
+                glVertex2f(xPos + halfBoxWidth, yPosBot);
+                glVertex2f(xPos - halfBoxWidth, yPosBot);
+            glEnd();
+            glBegin(GL_LINES);
+                glVertex2f(xPos - halfBoxWidth, yPosMid);
+                glVertex2f(xPos + halfBoxWidth, yPosMid);
+            glEnd();
+            glPushAttrib(GL_ENABLE_BIT); 
+                glLineStipple(1, 0xAAAA);
+                glEnable(GL_LINE_STIPPLE);
+                glBegin(GL_LINES);
+                    glVertex2f(xPos, yPosMax);
+                    glVertex2f(xPos, yPosTop);
+                glEnd();
+                glBegin(GL_LINES);
+                    glVertex2f(xPos, yPosMin);
+                    glVertex2f(xPos, yPosBot);
+                glEnd();
+            glPopAttrib();
+            glBegin(GL_LINES);
+                glVertex2f(xPos - halfBoxWidth / 2, yPosMax);
+                glVertex2f(xPos + halfBoxWidth / 2, yPosMax);
+            glEnd();
+            glBegin(GL_LINES);
+                glVertex2f(xPos - halfBoxWidth / 2, yPosMin);
+                glVertex2f(xPos + halfBoxWidth / 2, yPosMin);
+            glEnd();
+
+            index = index + interval;
+        }
     }
 }

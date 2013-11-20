@@ -39,9 +39,16 @@ public:
     void setDisplayStreaks(bool d) { displayStreaks = d; }
     void displayStreaksOn() { displayStreaks = true; }
     void displayStreaksOff() { displayStreaks = false; }
-    void setDisplayStatistics(bool d);
+    /*void setDisplayStatistics(bool d);
     void displayStatisticsOn();
-    void displayStatisticsOff();
+    void displayStatisticsOff();*/
+    void setDisplayBoxPlots(bool d);
+    void displayBoxPlotsOn();
+    void displayBoxPlotsOff();
+    
+    void setDisplayHurricaneTrack(bool d);
+    void displayHurricaneTrackOn();
+    void displayHurricaneTrackOff();
 private:       
     bool displayOriginalLine;
     bool displayStreaks;

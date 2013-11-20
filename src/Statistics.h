@@ -12,16 +12,27 @@ public:
 
     void recalculate();
 
-    void print();
-
     void draw();
+    void drawBoxPlots();
+    void drawHurricaneTrack();
+    void drawHurricaneTrackBand(QList<double> *top, QList<double> *bottom);
 
     bool getDisplay() { return display; }
     void setDisplay(bool d) { display = d; }
     void displayOn() { display = true; }
     void displayOff() { display = false; }
+    
+    bool getDisplayBoxPlots() { return displayBoxPlots; }
+    void setDisplayBoxPlots(bool d) { displayBoxPlots = d; }
+    void displayBoxPlotsOn() { displayBoxPlots = true; }
+    void displayBoxPlotsOff() { displayBoxPlots = false; }
+    
+    bool getDisplayHurricaneTrack() { return displayHurricaneTrack; }
+    void setDisplayHurricaneTrack(bool d) { displayHurricaneTrack = d; }
+    void displayHurricaneTrackOn() { displayHurricaneTrack = true; }
+    void displayHurricaneTrackOff() { displayHurricaneTrack = false; }
 private:
-    bool display;
+    bool display, displayBoxPlots, displayHurricaneTrack;
     int startIndex;
     int interval;
 
@@ -35,13 +46,10 @@ private:
     QList<double> *q1;
     QList<double> *q3;
 
-    QList<double> *whiskerTop;
-    QList<double> *whiskerBottom;
-    
-    QList<double> *boxTop;
-    QList<double> *boxBottom;
-    
-    QList<double> *boxMiddle;
+    QList<double> *meanPlus2SD; 
+    QList<double> *meanPlus1SD; 
+    QList<double> *meanMinus1SD;
+    QList<double> *meanMinus2SD; 
 
     void findQuartiles(QList<double> list);
     double findMedian(QList<double> sortedList, int indexStart, int indexEnd);

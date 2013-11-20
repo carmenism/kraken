@@ -38,9 +38,9 @@ public:
     void displayOriginalLineOn();
     void displayOriginalLineOff();
 
-    void setDisplayStatistics(bool d);
-    void displayStatisticsOn();
-    void displayStatisticsOff();
+    void setDisplayBoxPlots(bool d);
+    void displayBoxPlotsOn();
+    void displayBoxPlotsOff();
 private:      
     std::vector<MonteCarloLineChart *> *charts;
 

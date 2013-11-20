@@ -90,7 +90,7 @@ void MonteCarloLineChart::updateStatistics() {
     stats->recalculate();
 }
 
-void MonteCarloLineChart::displayStatisticsOn() {
+/*void MonteCarloLineChart::displayStatisticsOn() {
     stats->displayOn();
 }
 
@@ -100,7 +100,7 @@ void MonteCarloLineChart::displayStatisticsOff() {
 
 void MonteCarloLineChart::setDisplayStatistics(bool d) {
     stats->setDisplay(d);
-}
+}*/
 
 
 void MonteCarloLineChart::calculateGlobalBounds() {
@@ -141,4 +141,28 @@ void MonteCarloLineChart::calculateGlobalBounds() {
     if (adjustYAxisToData) {
         globalMaxY = globalMaxY + 0.05 * (globalMaxY - globalMinY);
     }
+}
+
+void MonteCarloLineChart::setDisplayBoxPlots(bool d) {
+    stats->setDisplayBoxPlots(d);
+}
+
+void MonteCarloLineChart::displayBoxPlotsOn() {
+    stats->displayBoxPlotsOn();
+}
+
+void MonteCarloLineChart::displayBoxPlotsOff() {
+    stats->displayBoxPlotsOff();
+}
+
+void MonteCarloLineChart::setDisplayHurricaneTrack(bool d) {
+    stats->setDisplayHurricaneTrack(d);
+}
+
+void MonteCarloLineChart::displayHurricaneTrackOn() {
+    stats->displayHurricaneTrackOn();
+}
+
+void MonteCarloLineChart::displayHurricaneTrackOff() {
+    stats->displayHurricaneTrackOff();
 }
