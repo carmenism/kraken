@@ -8,9 +8,9 @@
 #include <GL/glut.h>
 
 Statistics::Statistics(LineChart *chart) {
-    display = false;
-    displayHurricaneTrack = true;
-    displayBoxPlots = true;
+    //display = false;
+    displayHurricaneTrack = false;
+    displayBoxPlots = false;
 
     this->chart = chart;
 
@@ -167,6 +167,8 @@ void Statistics::drawHurricaneTrack() {
     glColor4f(color->r, color->g, color->b, 0.3);
     drawHurricaneTrackBand(meanPlus2SD, meanMinus2SD);
     drawHurricaneTrackBand(meanPlus1SD, meanMinus1SD);
+
+    drawLine(mean, 1);
 }
 
 void Statistics::drawHurricaneTrackBand(QList<double> *top, QList<double> *bottom) {
@@ -196,7 +198,28 @@ void Statistics::drawHurricaneTrackBand(QList<double> *top, QList<double> *botto
     }
 }
 
-void Statistics::drawBoxPlots() {    
+void Statistics::drawLine(QList<double> *list, double lineWidth) {
+    glColor4f(0, 0, 0, 1);
+    glLineWidth(lineWidth);
+
+    //glPolygonMode(GL_FRONT, GL_LINE);
+    glBegin(GL_LINE_STRIP);
+
+    for (int i = 0; i < list->size(); i++) {
+        float xLoc = calculateXLocation(i);
+        float yLoc = calculateYLocation(list->at(i));
+
+        glVertex2f(xLoc, yLoc);
+    }
+    
+    glEnd();
+
+    glLineWidth(1);
+}
+
+void Statistics::drawBoxPlots() {   
+    //drawLine(median, 2);
+
     QList<double> *boxTop = q3;
     QList<double> *boxBottom = q1;
     
@@ -254,6 +277,7 @@ void Statistics::drawBoxPlots() {
                     glVertex2f(xPos, yPosMin);
                     glVertex2f(xPos, yPosBot);
                 glEnd();
+                glDisable(GL_LINE_STIPPLE);
             glPopAttrib();
             glBegin(GL_LINES);
                 glVertex2f(xPos - halfBoxWidth / 2, yPosMax);

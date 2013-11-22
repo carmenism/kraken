@@ -140,9 +140,10 @@ void MyQGLWidget::paintGL() {
         resetAllButton->setLocation(370, yPos);
         runMCButton->setLocation(280, yPos);
 
-        toggleStatsButton->setLocation(xPos, 75);
-        toggleStreaksButton->setLocation(xPos, 50);
-        toggleOrigLineButton->setLocation(xPos, 100);
+        streaksButton->setLocation(xPos, 75);
+        boxPlotsButton->setLocation(xPos, 50);
+        hurricaneTrackButton->setLocation(xPos, 100);
+        //toggleOrigLineButton->setLocation(xPos, 100);
 
         if (managerSpecies->getDisplay() || managerGroup->getDisplay()) {
             if (managerSpecies->getDisplay()) {
@@ -280,19 +281,22 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
         return true;
     }
 
-    if (toggleOrigLineButton->mouseReleased(x, y)) {
+    /*if (toggleOrigLineButton->mouseReleased(x, y)) {
         toggleOriginalLine();
         return true;
-    }
-    if (toggleStreaksButton->mouseReleased(x, y)) {
-        toggleStreaks();
+    }*/
+    if (streaksButton->mouseReleased(x, y)) {
+        monteCarloStreaks();
         return true;
     }
-    if (toggleStatsButton->mouseReleased(x, y)) {
-        toggleStatistics();
+    if (boxPlotsButton->mouseReleased(x, y)) {
+        monteCarloBoxPlots();
         return true;
     }
-
+    if (hurricaneTrackButton->mouseReleased(x, y)) {
+        monteCarloHurricaneTrack();
+        return true;
+    }
 
     SliderButton *button = NULL;
 
@@ -672,20 +676,21 @@ void MyQGLWidget::initialize() {
     runMCButton->setWidth(buttonWidth);
     monteCarloButtons->push_back(runMCButton);
 
-    toggleOrigLineButton = new ToggleButton("Original Line", false);
-    toggleOrigLineButton->setHeight(buttonHeight);
-    toggleOrigLineButton->setWidth(buttonWidth);
-    monteCarloButtons->push_back(toggleOrigLineButton);
+    streaksButton = new Button("Streaks");
+    streaksButton->setHeight(buttonHeight);
+    streaksButton->setWidth(buttonWidth);
+    monteCarloButtons->push_back(streaksButton);
+    streaksButton->activeOff();
 
-    toggleStreaksButton = new ToggleButton("Streaks", true);
-    toggleStreaksButton->setHeight(buttonHeight);
-    toggleStreaksButton->setWidth(buttonWidth);
-    monteCarloButtons->push_back(toggleStreaksButton);
+    boxPlotsButton = new Button("Box Plots");
+    boxPlotsButton->setHeight(buttonHeight);
+    boxPlotsButton->setWidth(buttonWidth);
+    monteCarloButtons->push_back(boxPlotsButton);
 
-    toggleStatsButton = new ToggleButton("Statistics", false);
-    toggleStatsButton->setHeight(buttonHeight);
-    toggleStatsButton->setWidth(buttonWidth);
-    monteCarloButtons->push_back(toggleStatsButton);
+    hurricaneTrackButton = new Button("Hurricane Track");
+    hurricaneTrackButton->setHeight(buttonHeight);
+    hurricaneTrackButton->setWidth(buttonWidth);
+    monteCarloButtons->push_back(hurricaneTrackButton);
 
     displayByGroup();
 }
@@ -887,26 +892,26 @@ void MyQGLWidget::setBaseline() {
     captureLastValues();
 }
 
-void MyQGLWidget::toggleOriginalLine() {
-    if (toggleOrigLineButton->getValue()) {
-        managerMC->displayOriginalLineOn();
-    } else {
-        managerMC->displayOriginalLineOff();
-    }
+void MyQGLWidget::monteCarloStreaks() {
+    managerMC->displayStreaks();
+
+    streaksButton->activeOff();    
+    boxPlotsButton->activeOn();
+    hurricaneTrackButton->activeOn();
 }
 
-void MyQGLWidget::toggleStreaks() {
-    if (toggleStreaksButton->getValue()) {
-        managerMC->displayStreaksOn();
-    } else {
-        managerMC->displayStreaksOff();
-    }
+void MyQGLWidget::monteCarloBoxPlots() {
+    managerMC->displayBoxPlots();
+
+    streaksButton->activeOn();    
+    boxPlotsButton->activeOff();
+    hurricaneTrackButton->activeOn();
 }
 
-void MyQGLWidget::toggleStatistics() {
-    if (toggleStatsButton->getValue()) {
-        managerMC->displayBoxPlotsOn();
-    } else {
-        managerMC->displayBoxPlotsOff();
-    }
+void MyQGLWidget::monteCarloHurricaneTrack() {
+    managerMC->displayHurricaneTrack();
+
+    streaksButton->activeOn();    
+    boxPlotsButton->activeOn();
+    hurricaneTrackButton->activeOff();
 }

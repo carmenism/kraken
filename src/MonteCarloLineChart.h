@@ -39,9 +39,7 @@ public:
     void setDisplayStreaks(bool d) { displayStreaks = d; }
     void displayStreaksOn() { displayStreaks = true; }
     void displayStreaksOff() { displayStreaks = false; }
-    /*void setDisplayStatistics(bool d);
-    void displayStatisticsOn();
-    void displayStatisticsOff();*/
+    
     void setDisplayBoxPlots(bool d);
     void displayBoxPlotsOn();
     void displayBoxPlotsOff();
@@ -55,6 +53,7 @@ private:
 
     Statistics *stats;
     Color *semiTransparentColor;
+    Color *originalLineColor;
     std::string sideLabel;
 
     virtual void calculateGlobalBounds();

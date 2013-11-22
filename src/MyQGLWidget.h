@@ -69,9 +69,10 @@ private:
     ToggleButton *togglePredButton, *toggleInterButton;
     ToggleButton *toggleHarvButton;
     
-    ToggleButton *toggleOrigLineButton;
-    ToggleButton *toggleStreaksButton;
-    ToggleButton *toggleStatsButton;
+    //Button *origLineButton;
+    Button *streaksButton;
+    Button *boxPlotsButton;
+    Button *hurricaneTrackButton;
     
     MS_PROD_MainWindow *mainWindow;
 
@@ -123,9 +124,10 @@ private:
     void deleteButtonList(std::vector<Button *> *list);
     Button *mouseMoveButtonHelper(std::vector<Button *> *list, float x, float y);
 
-    void toggleOriginalLine();
-    void toggleStreaks();
-    void toggleStatistics();
+    //void mcOriginalLine();
+    void monteCarloStreaks();
+    void monteCarloBoxPlots();
+    void monteCarloHurricaneTrack();
 };
 
 #endif  /* _MYQGLWIDGET_H */

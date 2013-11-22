@@ -17,11 +17,11 @@ public:
     void drawHurricaneTrack();
     void drawHurricaneTrackBand(QList<double> *top, QList<double> *bottom);
 
-    bool getDisplay() { return display; }
+    /*bool getDisplay() { return display; }
     void setDisplay(bool d) { display = d; }
     void displayOn() { display = true; }
     void displayOff() { display = false; }
-    
+    */
     bool getDisplayBoxPlots() { return displayBoxPlots; }
     void setDisplayBoxPlots(bool d) { displayBoxPlots = d; }
     void displayBoxPlotsOn() { displayBoxPlots = true; }
@@ -32,7 +32,8 @@ public:
     void displayHurricaneTrackOn() { displayHurricaneTrack = true; }
     void displayHurricaneTrackOff() { displayHurricaneTrack = false; }
 private:
-    bool display, displayBoxPlots, displayHurricaneTrack;
+    //bool display;
+    bool displayBoxPlots, displayHurricaneTrack;
     int startIndex;
     int interval;
 
@@ -56,6 +57,8 @@ private:
 
     float calculateXLocation(float valueX);
     float calculateYLocation(float valueY);
+
+    void drawLine(QList<double> *list, double lineWidth);
 };
 
 #endif /* STATISTICS_H_ */

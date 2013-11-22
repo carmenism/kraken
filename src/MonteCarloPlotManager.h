@@ -41,6 +41,14 @@ public:
     void setDisplayBoxPlots(bool d);
     void displayBoxPlotsOn();
     void displayBoxPlotsOff();
+    
+    void setDisplayHurricaneTrack(bool d);
+    void displayHurricaneTrackOn();
+    void displayHurricaneTrackOff();
+
+    void displayBoxPlots();
+    void displayStreaks();
+    void displayHurricaneTrack();
 private:      
     std::vector<MonteCarloLineChart *> *charts;
 
