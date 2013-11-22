@@ -64,9 +64,7 @@ void MonteCarloLineChart::drawAtOrigin() {
     glColor4f(0, 0, 0, 1);
     PrintText::drawStrokeText(sideLabel, -10, offsetY + innerHeight / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER);
 
-    //if (stats->getDisplay()) {
-        stats->draw();
-    //}
+    stats->draw();
 }
 
 void MonteCarloLineChart::addSemiTransparentPointSeries(int simNum, std::vector<float> *x, std::vector<float> *y) {
@@ -90,19 +88,6 @@ void MonteCarloLineChart::addPointSeries(int simNum, std::vector<float> *x, std:
 void MonteCarloLineChart::updateStatistics() {
     stats->recalculate();
 }
-
-/*void MonteCarloLineChart::displayStatisticsOn() {
-    stats->displayOn();
-}
-
-void MonteCarloLineChart::displayStatisticsOff() {
-    stats->displayOff();
-}
-
-void MonteCarloLineChart::setDisplayStatistics(bool d) {
-    stats->setDisplay(d);
-}*/
-
 
 void MonteCarloLineChart::calculateGlobalBounds() {
     globalMinX = (std::numeric_limits<float>::max)();

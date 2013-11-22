@@ -2,6 +2,7 @@
 #define STATISTICS_H_
 
 class LineChart;
+class Color;
 
 #include <QList>
 
@@ -15,13 +16,8 @@ public:
     void draw();
     void drawBoxPlots();
     void drawHurricaneTrack();
-    void drawHurricaneTrackBand(QList<double> *top, QList<double> *bottom);
+    void drawHurricaneTrackBand(QList<double> *top, QList<double> *bottom, Color *color, float alpha);
 
-    /*bool getDisplay() { return display; }
-    void setDisplay(bool d) { display = d; }
-    void displayOn() { display = true; }
-    void displayOff() { display = false; }
-    */
     bool getDisplayBoxPlots() { return displayBoxPlots; }
     void setDisplayBoxPlots(bool d) { displayBoxPlots = d; }
     void displayBoxPlotsOn() { displayBoxPlots = true; }
@@ -32,7 +28,6 @@ public:
     void displayHurricaneTrackOn() { displayHurricaneTrack = true; }
     void displayHurricaneTrackOff() { displayHurricaneTrack = false; }
 private:
-    //bool display;
     bool displayBoxPlots, displayHurricaneTrack;
     int startIndex;
     int interval;

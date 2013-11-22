@@ -164,14 +164,14 @@ void Statistics::draw() {
 void Statistics::drawHurricaneTrack() {
     Color *color = chart->getSeriesList()->at(0)->getColor();
 
-    glColor4f(color->r, color->g, color->b, 0.3);
-    drawHurricaneTrackBand(meanPlus2SD, meanMinus2SD);
-    drawHurricaneTrackBand(meanPlus1SD, meanMinus1SD);
+    drawHurricaneTrackBand(meanPlus2SD, meanMinus2SD, color, 0.3);
+    drawHurricaneTrackBand(meanPlus1SD, meanMinus1SD, color, 0.6);
 
     drawLine(mean, 1);
 }
 
-void Statistics::drawHurricaneTrackBand(QList<double> *top, QList<double> *bottom) {
+void Statistics::drawHurricaneTrackBand(QList<double> *top, QList<double> *bottom, Color *color, float alpha) {
+    glColor4f(color->r, color->g, color->b, alpha);
     glPolygonMode(GL_FRONT, GL_FILL); 
 
     double lastTop = -1;
