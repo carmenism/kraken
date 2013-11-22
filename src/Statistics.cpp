@@ -8,9 +8,9 @@
 #include <GL/glut.h>
 
 Statistics::Statistics(LineChart *chart) {
-    //display = false;
     displayHurricaneTrack = false;
     displayBoxPlots = false;
+    displayErrorBars = false;
 
     this->chart = chart;
 
@@ -145,20 +145,26 @@ float Statistics::calculateYLocation(float valueY) {
 }
 
 void Statistics::draw() {
-    glPushMatrix();
-        float transX = chart->getOffsetX();
-        float transY = chart->getOffsetY();
+    if (mean != NULL) {
+        glPushMatrix();
+            float transX = chart->getOffsetX();
+            float transY = chart->getOffsetY();
 
-        glTranslatef(transX, transY, 0);
+            glTranslatef(transX, transY, 0);
 
-        if (displayBoxPlots) {
-            drawBoxPlots();
-        }
+            if (displayBoxPlots) {
+                drawBoxPlots();
+            }
 
-        if (displayHurricaneTrack) {
-            drawHurricaneTrack();
-        }
-    glPopMatrix();
+            if (displayHurricaneTrack) {
+                drawHurricaneTrack();
+            }
+
+            if (displayErrorBars) {
+                drawErrorBars();
+            }
+        glPopMatrix();
+    }
 }
 
 void Statistics::drawHurricaneTrack() {
@@ -225,70 +231,90 @@ void Statistics::drawBoxPlots() {
     
     QList<double> *boxMiddle = median;
 
-    if (boxMiddle != NULL) {
-        int index = startIndex;
-        float boxWidth = 20;
-        
-        int nextIndex = startIndex + interval;
-        float posA = calculateXLocation(index) + boxWidth / 2;
-        float posB = calculateXLocation(nextIndex) - boxWidth / 2;
+    int index = startIndex;
+    float boxWidth = 20;
+    
+    int nextIndex = startIndex + interval;
+    float posA = calculateXLocation(index) + boxWidth / 2;
+    float posB = calculateXLocation(nextIndex) - boxWidth / 2;
 
-        while (posB - posA < 10 && boxWidth > 0) {
-            boxWidth = boxWidth - 2;
-            posA = calculateXLocation(index) + boxWidth / 2;
-            posB = calculateXLocation(nextIndex) - boxWidth / 2;
-        }
-
-        if (boxWidth < 5) {
-            boxWidth = 5;
-        }
-
-        float halfBoxWidth = boxWidth / 2;
-
-        while (index < boxMiddle->size()) {
-            float xPos = calculateXLocation(index);
-            float yPosTop = calculateYLocation(boxTop->at(index));
-            float yPosBot = calculateYLocation(boxBottom->at(index));
-            float yPosMid = calculateYLocation(boxMiddle->at(index));
-            float yPosMax = calculateYLocation(max->at(index));
-            float yPosMin = calculateYLocation(min->at(index));
-
-            glColor3f(0, 0, 0);
-            glLineWidth(1);
-
-            glBegin(GL_LINE_LOOP);
-                glVertex2f(xPos - halfBoxWidth, yPosTop);
-                glVertex2f(xPos + halfBoxWidth, yPosTop);
-                glVertex2f(xPos + halfBoxWidth, yPosBot);
-                glVertex2f(xPos - halfBoxWidth, yPosBot);
-            glEnd();
-            glBegin(GL_LINES);
-                glVertex2f(xPos - halfBoxWidth, yPosMid);
-                glVertex2f(xPos + halfBoxWidth, yPosMid);
-            glEnd();
-            glPushAttrib(GL_ENABLE_BIT); 
-                glLineStipple(1, 0xAAAA);
-                glEnable(GL_LINE_STIPPLE);
-                glBegin(GL_LINES);
-                    glVertex2f(xPos, yPosMax);
-                    glVertex2f(xPos, yPosTop);
-                glEnd();
-                glBegin(GL_LINES);
-                    glVertex2f(xPos, yPosMin);
-                    glVertex2f(xPos, yPosBot);
-                glEnd();
-                glDisable(GL_LINE_STIPPLE);
-            glPopAttrib();
-            glBegin(GL_LINES);
-                glVertex2f(xPos - halfBoxWidth / 2, yPosMax);
-                glVertex2f(xPos + halfBoxWidth / 2, yPosMax);
-            glEnd();
-            glBegin(GL_LINES);
-                glVertex2f(xPos - halfBoxWidth / 2, yPosMin);
-                glVertex2f(xPos + halfBoxWidth / 2, yPosMin);
-            glEnd();
-
-            index = index + interval;
-        }
+    while (posB - posA < 10 && boxWidth > 0) {
+        boxWidth = boxWidth - 2;
+        posA = calculateXLocation(index) + boxWidth / 2;
+        posB = calculateXLocation(nextIndex) - boxWidth / 2;
     }
+
+    if (boxWidth < 5) {
+        boxWidth = 5;
+    }
+
+    float halfBoxWidth = boxWidth / 2;
+
+    while (index < boxMiddle->size()) {
+        float xPos = calculateXLocation(index);
+        float yPosTop = calculateYLocation(boxTop->at(index));
+        float yPosBot = calculateYLocation(boxBottom->at(index));
+        float yPosMid = calculateYLocation(boxMiddle->at(index));
+        float yPosMax = calculateYLocation(max->at(index));
+        float yPosMin = calculateYLocation(min->at(index));
+
+        glColor3f(0, 0, 0);
+        glLineWidth(1);
+
+        glBegin(GL_LINE_LOOP);
+            glVertex2f(xPos - halfBoxWidth, yPosTop);
+            glVertex2f(xPos + halfBoxWidth, yPosTop);
+            glVertex2f(xPos + halfBoxWidth, yPosBot);
+            glVertex2f(xPos - halfBoxWidth, yPosBot);
+        glEnd();
+        glBegin(GL_LINES);
+            glVertex2f(xPos - halfBoxWidth, yPosMid);
+            glVertex2f(xPos + halfBoxWidth, yPosMid);
+        glEnd();
+        glPushAttrib(GL_ENABLE_BIT); 
+            glLineStipple(1, 0xAAAA);
+            glEnable(GL_LINE_STIPPLE);
+            glBegin(GL_LINES);
+                glVertex2f(xPos, yPosMax);
+                glVertex2f(xPos, yPosTop);
+            glEnd();
+            glBegin(GL_LINES);
+                glVertex2f(xPos, yPosMin);
+                glVertex2f(xPos, yPosBot);
+            glEnd();
+            glDisable(GL_LINE_STIPPLE);
+        glPopAttrib();
+        glBegin(GL_LINES);
+            glVertex2f(xPos - halfBoxWidth / 2, yPosMax);
+            glVertex2f(xPos + halfBoxWidth / 2, yPosMax);
+        glEnd();
+        glBegin(GL_LINES);
+            glVertex2f(xPos - halfBoxWidth / 2, yPosMin);
+            glVertex2f(xPos + halfBoxWidth / 2, yPosMin);
+        glEnd();
+
+        index = index + interval;
+    }
+}
+
+void Statistics::drawErrorBars() {
+    int index = startIndex;
+
+    glColor3f(0, 0, 0);
+    glLineWidth(3);
+    
+    while (index < meanPlus1SD->size()) {
+        float xPos = calculateXLocation(index);
+        float yPosTop = calculateYLocation(meanPlus1SD->at(index));
+        float yPosBot = calculateYLocation(meanMinus1SD->at(index));
+        
+        glBegin(GL_LINES);
+            glVertex2f(xPos, yPosTop);
+            glVertex2f(xPos, yPosBot);
+        glEnd();
+
+        index = index + interval;
+    }
+ 
+    glLineWidth(1);
 }

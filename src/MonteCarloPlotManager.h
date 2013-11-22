@@ -45,10 +45,15 @@ public:
     void setDisplayHurricaneTrack(bool d);
     void displayHurricaneTrackOn();
     void displayHurricaneTrackOff();
+    
+    void setDisplayErrorBars(bool d);
+    void displayErrorBarsOn();
+    void displayErrorBarsOff();
 
     void displayBoxPlots();
     void displayStreaks();
     void displayHurricaneTrack();
+    void displayErrorBars();
 private:      
     std::vector<MonteCarloLineChart *> *charts;
 

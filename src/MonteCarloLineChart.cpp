@@ -152,3 +152,16 @@ void MonteCarloLineChart::displayHurricaneTrackOn() {
 void MonteCarloLineChart::displayHurricaneTrackOff() {
     stats->displayHurricaneTrackOff();
 }
+
+void MonteCarloLineChart::setDisplayErrorBars(bool d) {
+    stats->setDisplayErrorBars(d);
+}
+
+void MonteCarloLineChart::displayErrorBarsOn() {
+    stats->displayErrorBarsOn();
+}
+
+void MonteCarloLineChart::displayErrorBarsOff() {
+    stats->displayErrorBarsOff();
+}
+    

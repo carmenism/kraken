@@ -171,11 +171,26 @@ void MonteCarloPlotManager::displayHurricaneTrackOff() {
     setDisplayHurricaneTrack(false);
 }
 
+void MonteCarloPlotManager::setDisplayErrorBars(bool d) {
+    for (unsigned int i = 0; i < charts->size(); i++) {
+        charts->at(i)->setDisplayErrorBars(d);
+    }
+}
+
+void MonteCarloPlotManager::displayErrorBarsOn() {
+    setDisplayErrorBars(true);
+}
+
+void MonteCarloPlotManager::displayErrorBarsOff() {
+    setDisplayErrorBars(false);
+}
+
 void MonteCarloPlotManager::displayBoxPlots() {
     displayOriginalLineOn();
     displayBoxPlotsOn();
     displayStreaksOff();
     displayHurricaneTrackOff();
+    displayErrorBarsOff();
 }
     
 void MonteCarloPlotManager::displayStreaks() {
@@ -183,6 +198,7 @@ void MonteCarloPlotManager::displayStreaks() {
     displayBoxPlotsOff();
     displayStreaksOn();
     displayHurricaneTrackOff();
+    displayErrorBarsOff();
 }
 
 void MonteCarloPlotManager::displayHurricaneTrack() {
@@ -190,4 +206,13 @@ void MonteCarloPlotManager::displayHurricaneTrack() {
     displayBoxPlotsOff();
     displayStreaksOff();
     displayHurricaneTrackOn();
+    displayErrorBarsOff();
+}
+
+void MonteCarloPlotManager::displayErrorBars() {
+    displayOriginalLineOn();
+    displayBoxPlotsOff();
+    displayStreaksOff();
+    displayHurricaneTrackOff();
+    displayErrorBarsOn();
 }

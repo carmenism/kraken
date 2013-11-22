@@ -44,6 +44,10 @@ public:
     void displayBoxPlotsOn();
     void displayBoxPlotsOff();
     
+    void setDisplayErrorBars(bool d);
+    void displayErrorBarsOn();
+    void displayErrorBarsOff();
+    
     void setDisplayHurricaneTrack(bool d);
     void displayHurricaneTrackOn();
     void displayHurricaneTrackOff();

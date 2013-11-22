@@ -73,6 +73,7 @@ private:
     Button *streaksButton;
     Button *boxPlotsButton;
     Button *hurricaneTrackButton;
+    Button *errorBarsButton;
     
     MS_PROD_MainWindow *mainWindow;
 
@@ -128,6 +129,7 @@ private:
     void monteCarloStreaks();
     void monteCarloBoxPlots();
     void monteCarloHurricaneTrack();
+    void monteCarloErrorBars();
 };
 
 #endif  /* _MYQGLWIDGET_H */
