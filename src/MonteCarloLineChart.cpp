@@ -141,16 +141,16 @@ void MonteCarloLineChart::displayBoxPlotsOff() {
     stats->displayBoxPlotsOff();
 }
 
-void MonteCarloLineChart::setDisplayHurricaneTrack(bool d) {
-    stats->setDisplayHurricaneTrack(d);
+void MonteCarloLineChart::setDisplayErrorBands(bool d) {
+    stats->setDisplayErrorBands(d);
 }
 
-void MonteCarloLineChart::displayHurricaneTrackOn() {
-    stats->displayHurricaneTrackOn();
+void MonteCarloLineChart::displayErrorBandsOn() {
+    stats->displayErrorBandsOn();
 }
 
-void MonteCarloLineChart::displayHurricaneTrackOff() {
-    stats->displayHurricaneTrackOff();
+void MonteCarloLineChart::displayErrorBandsOff() {
+    stats->displayErrorBandsOff();
 }
 
 void MonteCarloLineChart::setDisplayErrorBars(bool d) {

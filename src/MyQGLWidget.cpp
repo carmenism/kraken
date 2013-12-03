@@ -142,7 +142,7 @@ void MyQGLWidget::paintGL() {
 
         streaksButton->setLocation(xPos, 75);
         boxPlotsButton->setLocation(xPos, 50);
-        hurricaneTrackButton->setLocation(xPos, 100);
+        errorBandsButton->setLocation(xPos, 100);
         errorBarsButton->setLocation(xPos, 125);
 
         if (managerSpecies->getDisplay() || managerGroup->getDisplay()) {
@@ -289,8 +289,8 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
         monteCarloBoxPlots();
         return true;
     }
-    if (hurricaneTrackButton->mouseReleased(x, y)) {
-        monteCarloHurricaneTrack();
+    if (errorBandsButton->mouseReleased(x, y)) {
+        monteCarloErrorBands();
         return true;
     }
     if (errorBarsButton->mouseReleased(x, y)) {
@@ -687,10 +687,10 @@ void MyQGLWidget::initialize() {
     boxPlotsButton->setWidth(buttonWidth);
     monteCarloButtons->push_back(boxPlotsButton);
 
-    hurricaneTrackButton = new Button("Hurricane Track");
-    hurricaneTrackButton->setHeight(buttonHeight);
-    hurricaneTrackButton->setWidth(buttonWidth);
-    monteCarloButtons->push_back(hurricaneTrackButton);
+    errorBandsButton = new Button("Error Bands");
+    errorBandsButton->setHeight(buttonHeight);
+    errorBandsButton->setWidth(buttonWidth);
+    monteCarloButtons->push_back(errorBandsButton);
 
     errorBarsButton = new Button("Error Bars");
     errorBarsButton->setHeight(buttonHeight);
@@ -902,7 +902,7 @@ void MyQGLWidget::monteCarloStreaks() {
 
     streaksButton->activeOff();    
     boxPlotsButton->activeOn();
-    hurricaneTrackButton->activeOn();
+    errorBandsButton->activeOn();
     errorBarsButton->activeOn();
 }
 
@@ -911,16 +911,16 @@ void MyQGLWidget::monteCarloBoxPlots() {
 
     streaksButton->activeOn();    
     boxPlotsButton->activeOff();
-    hurricaneTrackButton->activeOn();
+    errorBandsButton->activeOn();
     errorBarsButton->activeOn();
 }
 
-void MyQGLWidget::monteCarloHurricaneTrack() {
-    managerMC->displayHurricaneTrack();
+void MyQGLWidget::monteCarloErrorBands() {
+    managerMC->displayErrorBands();
 
     streaksButton->activeOn();    
     boxPlotsButton->activeOn();
-    hurricaneTrackButton->activeOff();
+    errorBandsButton->activeOff();
     errorBarsButton->activeOn();
 }
 
@@ -929,6 +929,6 @@ void MyQGLWidget::monteCarloErrorBars() {
 
     streaksButton->activeOn();    
     boxPlotsButton->activeOn();
-    hurricaneTrackButton->activeOn();
+    errorBandsButton->activeOn();
     errorBarsButton->activeOff();
 }

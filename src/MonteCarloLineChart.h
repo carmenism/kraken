@@ -48,9 +48,9 @@ public:
     void displayErrorBarsOn();
     void displayErrorBarsOff();
     
-    void setDisplayHurricaneTrack(bool d);
-    void displayHurricaneTrackOn();
-    void displayHurricaneTrackOff();
+    void setDisplayErrorBands(bool d);
+    void displayErrorBandsOn();
+    void displayErrorBandsOff();
 private:       
     bool displayOriginalLine;
     bool displayStreaks;

@@ -8,7 +8,7 @@
 #include <GL/glut.h>
 
 Statistics::Statistics(LineChart *chart) {
-    displayHurricaneTrack = false;
+    displayErrorBands = false;
     displayBoxPlots = false;
     displayErrorBars = false;
 
@@ -156,8 +156,8 @@ void Statistics::draw() {
                 drawBoxPlots();
             }
 
-            if (displayHurricaneTrack) {
-                drawHurricaneTrack();
+            if (displayErrorBands) {
+                drawErrorBands();
             }
 
             if (displayErrorBars) {
@@ -167,16 +167,16 @@ void Statistics::draw() {
     }
 }
 
-void Statistics::drawHurricaneTrack() {
+void Statistics::drawErrorBands() {
     Color *color = chart->getSeriesList()->at(0)->getColor();
 
-    drawHurricaneTrackBand(meanPlus2SD, meanMinus2SD, color, 0.3);
-    drawHurricaneTrackBand(meanPlus1SD, meanMinus1SD, color, 0.6);
+    drawErrorBand(meanPlus2SD, meanMinus2SD, color, 0.3);
+    drawErrorBand(meanPlus1SD, meanMinus1SD, color, 0.6);
 
     drawLine(mean, 1);
 }
 
-void Statistics::drawHurricaneTrackBand(QList<double> *top, QList<double> *bottom, Color *color, float alpha) {
+void Statistics::drawErrorBand(QList<double> *top, QList<double> *bottom, Color *color, float alpha) {
     glColor4f(color->r, color->g, color->b, alpha);
     glPolygonMode(GL_FRONT, GL_FILL); 
 
@@ -301,7 +301,9 @@ void Statistics::drawErrorBars() {
     int index = startIndex;
 
     glColor3f(0, 0, 0);
-    glLineWidth(3);
+    glLineWidth(1);
+
+    float whiskerWidth = 10;
     
     while (index < meanPlus1SD->size()) {
         float xPos = calculateXLocation(index);
@@ -311,6 +313,15 @@ void Statistics::drawErrorBars() {
         glBegin(GL_LINES);
             glVertex2f(xPos, yPosTop);
             glVertex2f(xPos, yPosBot);
+        glEnd();
+
+        glBegin(GL_LINES);
+            glVertex2f(xPos - whiskerWidth / 2, yPosTop);
+            glVertex2f(xPos + whiskerWidth / 2, yPosTop);
+        glEnd();
+        glBegin(GL_LINES);
+            glVertex2f(xPos - whiskerWidth / 2, yPosBot);
+            glVertex2f(xPos + whiskerWidth / 2, yPosBot);
         glEnd();
 
         index = index + interval;

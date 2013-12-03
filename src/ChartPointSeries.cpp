@@ -316,3 +316,7 @@ void ChartPointSeries::captureLastValues() {
 int ChartPointSeries::size() {
     return points->size();
 }
+
+float ChartPointSeries::getPercentIncreaseOfLastPoint() {
+    return points->back()->getPercentIncreaseFromLast();
+}

@@ -79,14 +79,18 @@ void PlotBySpeciesWithArcsManager::updateCharts(Model *model, MS_PROD_MainWindow
         harvestMatrix->removeFirst();
         delete r;
     }
-    while (!biomassMatrix->empty()) {
-        QList<double> *r = biomassMatrix->at(0);
-        biomassMatrix->removeFirst();
-        delete r;
-    }
+    //if (biomassMatrix != NULL) {
+        while (!biomassMatrix->empty()) {
+            QList<double> *r = biomassMatrix->at(0);
+            biomassMatrix->removeFirst();
+            delete r;
+        }
+        delete biomassMatrix;
+    //}
     delete newHarvestMatrix;
     delete harvestMatrix;
-    delete biomassMatrix;
+    
+    //lastBiomass = biomassMatrix;
 }
 
 void PlotBySpeciesWithArcsManager::initializeCharts(QList<QList<double> *> *biomassMatrix, QList<QList<double> *> *harvestMatrix, MS_PROD_MainWindow *mainWindow) {

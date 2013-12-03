@@ -42,9 +42,9 @@ public:
     void displayBoxPlotsOn();
     void displayBoxPlotsOff();
     
-    void setDisplayHurricaneTrack(bool d);
-    void displayHurricaneTrackOn();
-    void displayHurricaneTrackOff();
+    void setDisplayErrorBands(bool d);
+    void displayErrorBandsOn();
+    void displayErrorBandsOff();
     
     void setDisplayErrorBars(bool d);
     void displayErrorBarsOn();
@@ -52,7 +52,7 @@ public:
 
     void displayBoxPlots();
     void displayStreaks();
-    void displayHurricaneTrack();
+    void displayErrorBands();
     void displayErrorBars();
 private:      
     std::vector<MonteCarloLineChart *> *charts;

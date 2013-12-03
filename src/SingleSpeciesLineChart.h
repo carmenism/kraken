@@ -40,6 +40,8 @@ public:
     virtual ChartPointList *getPoints();
 
     void setAbsLegendLocation(float x, float y);
+    
+    float getPercentIncreaseOfLastPoint();
 private:
     bool displayAbsoluteSizes;
     bool displayChart;

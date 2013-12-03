@@ -25,12 +25,12 @@ public:
     void displayBoxPlotsOn() { displayBoxPlots = true; }
     void displayBoxPlotsOff() { displayBoxPlots = false; }
     
-    bool getDisplayHurricaneTrack() { return displayHurricaneTrack; }
-    void setDisplayHurricaneTrack(bool d) { displayHurricaneTrack = d; }
-    void displayHurricaneTrackOn() { displayHurricaneTrack = true; }
-    void displayHurricaneTrackOff() { displayHurricaneTrack = false; }
+    bool getDisplayErrorBands() { return displayErrorBands; }
+    void setDisplayErrorBands(bool d) { displayErrorBands = d; }
+    void displayErrorBandsOn() { displayErrorBands = true; }
+    void displayErrorBandsOff() { displayErrorBands = false; }
 private:
-    bool displayBoxPlots, displayHurricaneTrack;
+    bool displayBoxPlots, displayErrorBands;
     bool displayErrorBars;
     int startIndex;
     int interval;
@@ -52,8 +52,8 @@ private:
 
     void drawErrorBars();
     void drawBoxPlots();
-    void drawHurricaneTrack();
-    void drawHurricaneTrackBand(QList<double> *top, QList<double> *bottom, Color *color, float alpha);
+    void drawErrorBands();
+    void drawErrorBand(QList<double> *top, QList<double> *bottom, Color *color, float alpha);
 
     void findQuartiles(QList<double> list);
     double findMedian(QList<double> sortedList, int indexStart, int indexEnd);

@@ -138,3 +138,7 @@ std::vector<AbsoluteSizeIndicator *> *SingleSpeciesLineChart::getAbsPoints() {
 void SingleSpeciesLineChart::setAbsLegendLocation(float x, float y) {
     absChart->setLegendLocation(x, y);
 }
+
+float SingleSpeciesLineChart::getPercentIncreaseOfLastPoint() {
+    return seriesList->front()->getPercentIncreaseOfLastPoint();
+}

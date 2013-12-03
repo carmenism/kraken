@@ -53,6 +53,9 @@ public:
 
     SingleSpeciesLineChart *getChartAt(int i) { return charts->at(i); }
 private:   
+    //QList<QList<double> *> *lastBiomass;
+    QList<double> percentChangeInFinalBiomass;
+
     BetweenSpeciesArcCollection *arcsInter;
     BetweenSpeciesArcCollection *arcsPred;
     BetweenSpeciesArcCollection *arcsCurrent;

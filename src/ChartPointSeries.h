@@ -73,6 +73,8 @@ public:
     void drawGhost();
 
     int size();
+
+    float getPercentIncreaseOfLastPoint();
 private:
     LineChart *chart;
 

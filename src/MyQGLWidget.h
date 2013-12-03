@@ -72,7 +72,7 @@ private:
     //Button *origLineButton;
     Button *streaksButton;
     Button *boxPlotsButton;
-    Button *hurricaneTrackButton;
+    Button *errorBandsButton;
     Button *errorBarsButton;
     
     MS_PROD_MainWindow *mainWindow;
@@ -125,10 +125,9 @@ private:
     void deleteButtonList(std::vector<Button *> *list);
     Button *mouseMoveButtonHelper(std::vector<Button *> *list, float x, float y);
 
-    //void mcOriginalLine();
     void monteCarloStreaks();
     void monteCarloBoxPlots();
-    void monteCarloHurricaneTrack();
+    void monteCarloErrorBands();
     void monteCarloErrorBars();
 };
 

@@ -43,12 +43,12 @@ void BetweenSpeciesArc::drawFaded() {
 
     float oldArrowBord = arrowA->getBorderColor()->a;
     float oldArrowFill = arrowA->getFillColor()->a;
-    arrowA->getBorderColor()->a = 0.3;
-    arrowA->getFillColor()->a = 0.05;
-    arrowB->getBorderColor()->a = 0.3;
-    arrowB->getFillColor()->a = 0.05;
-    arrowMiddle->getBorderColor()->a = 0.3;
-    arrowMiddle->getFillColor()->a = 0.05;
+    arrowA->getBorderColor()->a = startAlpha;
+    arrowA->getFillColor()->a = finalAlpha;
+    arrowB->getBorderColor()->a = startAlpha;
+    arrowB->getFillColor()->a = finalAlpha;
+    arrowMiddle->getBorderColor()->a = startAlpha;
+    arrowMiddle->getFillColor()->a = finalAlpha;
 
     draw();
 
@@ -72,13 +72,17 @@ void BetweenSpeciesArc::draw() {
 
     this->yA = speciesA->getYLocation() + speciesA->getOffsetY() + speciesA->getInnerHeight() / 2;
     this->yB = speciesB->getYLocation() + speciesB->getOffsetY() + speciesB->getInnerHeight() / 2;
+    float mult = abs(speciesB->getPercentIncreaseOfLastPoint());
+    float thickness = getThickness();
 
-    this->setThickness(getThickness());
+    this->setThickness(thickness);// * mult);
 
-    VerticalArc::draw();
+    ///if (mult != 0 && mult > 0.1) {
+        VerticalArc::draw();
 
-    positionTriangles();
-    drawTriangles();
+        positionTriangles();
+        drawTriangles();
+    //}
 }
 
 void BetweenSpeciesArc::positionTriangles() {
