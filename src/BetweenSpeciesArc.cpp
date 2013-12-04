@@ -29,6 +29,8 @@ BetweenSpeciesArc::BetweenSpeciesArc(float coefficient, SingleSpeciesLineChart *
     arrowMiddle->setBorderColor(new Color(0, 0, 0, .95));
     arrowMiddle->setFillColor(new Color(1, 1, 1, .45));
     arrowMiddle->setSize(10, 10);
+
+    displayDynamically = false;
 }
 
 BetweenSpeciesArc::~BetweenSpeciesArc() {
@@ -72,14 +74,25 @@ void BetweenSpeciesArc::draw() {
 
     this->yA = speciesA->getYLocation() + speciesA->getOffsetY() + speciesA->getInnerHeight() / 2;
     this->yB = speciesB->getYLocation() + speciesB->getOffsetY() + speciesB->getInnerHeight() / 2;
-    float multA = abs(speciesA->getPercentIncreaseOfLastPoint());
-    float multB = abs(speciesB->getPercentIncreaseOfLastPoint());
+    
     float thickness = getThickness();
-    float newThickness = thickness * multB;
 
-    this->setThickness(newThickness);
+    if (displayDynamically) {
+        float multA = abs(speciesA->getPercentIncreaseOfLastPoint());
+        float multB = abs(speciesB->getPercentIncreaseOfLastPoint());
+        float newThickness = thickness * multB;
 
-    if (multA != 0 && multB != 0 && newThickness > 1 && multB > 0.1) {
+        this->setThickness(newThickness);
+
+        if (multA != 0 && multB != 0 && newThickness > 1 && multB > 0.1) {
+            VerticalArc::draw();
+
+            positionTriangles();
+            drawTriangles();
+        }
+    } else {        
+        this->setThickness(thickness);
+
         VerticalArc::draw();
 
         positionTriangles();

@@ -281,6 +281,11 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
         return true;
     }
 
+    if (toggleArcsDynamicButton->mouseReleased(x, y)) {
+        toggleDynamicArcs();
+        return true;
+    }
+
     if (streaksButton->mouseReleased(x, y)) {
         monteCarloStreaks();
         return true;
@@ -671,6 +676,12 @@ void MyQGLWidget::initialize() {
     toggleInterButton->setLocation(140, 55);
     speciesButtons->push_back(toggleInterButton);
 
+    toggleArcsDynamicButton = new ToggleButton("Dynamic Arcs", false);
+    toggleArcsDynamicButton->setHeight(buttonHeight);
+    toggleArcsDynamicButton->setWidth(buttonWidth);
+    toggleArcsDynamicButton->setLocation(5, 80);
+    speciesButtons->push_back(toggleArcsDynamicButton);
+
     runMCButton = new Button("Run Simulation");
     runMCButton->setHeight(buttonHeight);
     runMCButton->setWidth(buttonWidth);
@@ -931,4 +942,12 @@ void MyQGLWidget::monteCarloErrorBars() {
     boxPlotsButton->activeOn();
     errorBandsButton->activeOn();
     errorBarsButton->activeOff();
+}
+
+void MyQGLWidget::toggleDynamicArcs() {
+    if (toggleArcsDynamicButton->getValue()) {
+       managerSpecies->displayArcsDynamicallyOn();
+    } else {
+       managerSpecies->displayArcsDynamicallyOff();
+    }
 }

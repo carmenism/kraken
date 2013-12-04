@@ -286,3 +286,16 @@ std::vector<LineChart *> *PlotBySpeciesWithArcsManager::getCharts() {
 
     return lineCharts;
 }
+  
+void PlotBySpeciesWithArcsManager::setDisplayArcsDynamically(bool d) {
+    arcsInter->setDisplayDynamically(d);
+    arcsPred->setDisplayDynamically(d);
+}
+
+void PlotBySpeciesWithArcsManager::displayArcsDynamicallyOn() {
+    setDisplayArcsDynamically(true);
+}
+
+void PlotBySpeciesWithArcsManager::displayArcsDynamicallyOff() {
+    setDisplayArcsDynamically(false);
+}

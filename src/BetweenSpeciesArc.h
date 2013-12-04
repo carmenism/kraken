@@ -20,9 +20,14 @@ public:
 
     virtual float getThickness() = 0;
 
+    bool getDisplayDynamically() { return displayDynamically; }
+    void setDisplayDynamically(bool d) { displayDynamically = d; }
+    void displayDynamicallyOn() { displayDynamically = true; }
+    void displayDynamicallyOff() { displayDynamically = false; }
 protected:
     float coefficient;
 private:
+    bool displayDynamically;
     std::string betweenSpeciesLabel;
     SingleSpeciesLineChart *speciesA;
     SingleSpeciesLineChart *speciesB;

@@ -36,6 +36,10 @@ public:
     void addArc(BetweenSpeciesArc *arc);
     void addArc(int type, float coeff, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB, Color *c, bool setToLeft);
     BetweenSpeciesArcList *getArcs() { return arcs; }
+
+    void setDisplayDynamically(bool d);
+    void displayDynamicallyOn();
+    void displayDynamicallyOff();
 private:
     BetweenSpeciesArcList *arcs;
     BetweenSpeciesArc *selected;

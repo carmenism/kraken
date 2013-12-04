@@ -87,3 +87,17 @@ void BetweenSpeciesArcCollection::addArc(int type, float coeff, SingleSpeciesLin
 
     addArc(arc);
 }
+
+void BetweenSpeciesArcCollection::setDisplayDynamically(bool d) {
+    for (unsigned int i = 0; i < arcs->size(); i++) {
+        arcs->at(i)->setDisplayDynamically(d);
+    }
+}
+
+void BetweenSpeciesArcCollection::displayDynamicallyOn() {
+    setDisplayDynamically(true);
+}
+
+void BetweenSpeciesArcCollection::displayDynamicallyOff() {
+    setDisplayDynamically(false);
+}

@@ -50,10 +50,13 @@ public:
     void displayPredation();
     void displayInteraction();
     void displayNoArcs();
+    
+    void setDisplayArcsDynamically(bool d);
+    void displayArcsDynamicallyOn();
+    void displayArcsDynamicallyOff();
 
     SingleSpeciesLineChart *getChartAt(int i) { return charts->at(i); }
 private:   
-    //QList<QList<double> *> *lastBiomass;
     QList<double> percentChangeInFinalBiomass;
 
     BetweenSpeciesArcCollection *arcsInter;

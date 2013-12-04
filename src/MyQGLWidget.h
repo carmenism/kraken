@@ -68,6 +68,7 @@ private:
     ToggleButton *toggleAbsButton, *toggleChartsButton;
     ToggleButton *togglePredButton, *toggleInterButton;
     ToggleButton *toggleHarvButton;
+    ToggleButton *toggleArcsDynamicButton;
     
     Button *streaksButton;
     Button *boxPlotsButton;
@@ -128,6 +129,8 @@ private:
     void monteCarloBoxPlots();
     void monteCarloErrorBands();
     void monteCarloErrorBars();
+
+    void toggleDynamicArcs();
 };
 
 #endif  /* _MYQGLWIDGET_H */
