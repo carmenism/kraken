@@ -80,11 +80,11 @@ void BetweenSpeciesArc::draw() {
     if (displayDynamically) {
         float multA = abs(speciesA->getPercentIncreaseOfLastPoint());
         float multB = abs(speciesB->getPercentIncreaseOfLastPoint());
-        float newThickness = thickness * multB;
+        float newThickness = thickness * multA;
 
         this->setThickness(newThickness);
 
-        if (multA != 0 && multB != 0 && newThickness > 1 && multB > 0.1) {
+        if (multA != 0 && multB != 0 && newThickness > 1) { // && multB > 0.1
             VerticalArc::draw();
 
             positionTriangles();

@@ -5,6 +5,7 @@
 
 class LineChart;
 class ChartPoint;
+class Point;
 class Color;
 class Shape;
 
@@ -36,6 +37,9 @@ public:
     
     float getMinimumValueX();
     float getMinimumValueY();
+    
+    float getLastMinimumValueY();
+    float getLastMaximumValueY(); 
 
     void setDisplay(bool d) { display = d; }
     bool getDisplay() { return display; }
@@ -82,6 +86,7 @@ private:
     ChartPointList *points;
     ChartPoint *legendPoint;
     ChartPoint *min, *max;
+    Point *lastMin, *lastMax;
     float lineWidth;
     Color *lineColor;
     bool display, displayMarkers, displayAsArea;

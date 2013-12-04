@@ -1,5 +1,6 @@
 #include "ChartPointSeries.h"
 #include "ChartPoint.h"
+#include "Point.h"
 #include "Color.h"
 #include "LineChart.h"
 #include "PrintText.h"
@@ -39,6 +40,9 @@ ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vec
             min = point;
         }
     }
+    
+    lastMin = min;
+    lastMax = max;
 
     lineColor = &Color::black;
     lineWidth = 1.0;
@@ -73,6 +77,9 @@ void ChartPointSeries::setValues(std::vector<float> *x, std::vector<float> *y) {
         throw "to change marker values you must specify one values for each marker";
     }
 
+    lastMin = NULL;
+    lastMax = NULL;
+
     max = NULL;
     min = NULL;
 
@@ -86,6 +93,14 @@ void ChartPointSeries::setValues(std::vector<float> *x, std::vector<float> *y) {
 
         if (min == NULL || min->getY() > points->at(i)->getY()) {
             min = points->at(i);
+        }
+
+        if (lastMax == NULL || lastMax->getY() < points->at(i)->getLast()->getY()) { 
+            lastMax = points->at(i)->getLast();
+        }
+
+        if (lastMin == NULL || lastMin->getY() > points->at(i)->getLast()->getY()) {
+            lastMin = points->at(i)->getLast();
         }
     }
 }
@@ -258,11 +273,19 @@ float ChartPointSeries::getMaximumValueX() {
 }
 
 float ChartPointSeries::getMinimumValueY() {
-    return min->getY();//min(min->getValueY(), min->getLastValueY());
+    return min->getY();
 }
 
 float ChartPointSeries::getMaximumValueY() {
-    return max->getY();//max(max->getValueY(), max->getLastValueY());
+    return max->getY();
+}
+
+float ChartPointSeries::getLastMinimumValueY() {
+    return lastMin->getY();
+}
+
+float ChartPointSeries::getLastMaximumValueY() {
+    return lastMax->getY();
 }
 
 void ChartPointSeries::setMarkerShape(int shape) {
@@ -308,6 +331,9 @@ Color *ChartPointSeries::getColor() {
 }
 
 void ChartPointSeries::captureLastValues() {
+    //lastMin = min;
+    //lastMax = max;
+
     FOREACH_POINTP(it, points) {
         (*it)->captureLastValues();
     }
