@@ -84,6 +84,16 @@ public:
     float getLegendWidth();
 
     ChartPointSeriesList *getSeriesList() { return seriesList; }
+
+    bool getDisplayGhost() { return displayGhost; }
+    void setDisplayGhost(bool d) { displayGhost = d; }
+    void displayGhostOn() { displayGhost = true; }
+    void displayGhostOff() { displayGhost = false; }
+
+    bool getDisplayGhostAsLine() { return displayGhostAsLine; }
+    void setDisplayGhostAsLine(bool d) { displayGhostAsLine = d; }
+    void displayGhostAsALine() { displayGhostAsLine = true; }
+    void displayGhostAsABlend() { displayGhostAsLine = false; }
 protected:
     bool adjustYAxisToData;
     bool displayGhost, displayGhostAsLine;
