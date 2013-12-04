@@ -216,10 +216,6 @@ void ChartPointSeries::drawAsArea() {
     }
 }
 
-void ChartPointSeries::drawGhost() {
-    drawGhostAsLine();
-}
-
 void ChartPointSeries::drawGhostAsLine() {
     //glEnable(GL_SCISSOR_TEST);
     //float startX = chart->getOffsetX() + chart->getXLocation();

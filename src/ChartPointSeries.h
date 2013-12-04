@@ -74,7 +74,10 @@ public:
 
     void captureLastValues();
 
-    void drawGhost();
+    //void drawGhost();
+    
+    void drawGhostAsLine();
+    void drawGhostAsBlend();
 
     int size();
 
@@ -93,10 +96,7 @@ private:
 
     void calculatePointLocations();
     void drawAsLines();
-    void drawAsArea();
-    
-    void drawGhostAsLine();
-    void drawGhostAsBlend();
+    void drawAsArea();    
 };
 
 #endif /*CHARTPOINTSERIES_H_*/

@@ -30,6 +30,7 @@ LineChart::LineChart() : Chart2D() {
     updateActualSize();
 
     displayGhost = true;
+    displayGhostAsLine = false;
 }
 
 LineChart::~LineChart() {
@@ -232,7 +233,11 @@ void LineChart::drawLines() {
     if (displayGhost) {
         FOREACH_POINTSERIESP(it, seriesList) {
             if ((*it)->getDisplay()) {
-                (*it)->drawGhost();
+                if (displayGhostAsLine) {
+                    (*it)->drawGhostAsLine();
+                } else {
+                    (*it)->drawGhostAsBlend();
+                }
             }
         }
     }

@@ -86,7 +86,7 @@ public:
     ChartPointSeriesList *getSeriesList() { return seriesList; }
 protected:
     bool adjustYAxisToData;
-    bool displayGhost;
+    bool displayGhost, displayGhostAsLine;
     ChartPointSeriesList *seriesList;
     LineChartAxisList *axes;
     float offsetX, offsetY;
