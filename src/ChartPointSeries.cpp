@@ -217,6 +217,52 @@ void ChartPointSeries::drawAsArea() {
 }
 
 void ChartPointSeries::drawGhost() {
+    drawGhostAsLine();
+}
+
+void ChartPointSeries::drawGhostAsLine() {
+    //glEnable(GL_SCISSOR_TEST);
+    //float startX = chart->getOffsetX() + chart->getXLocation();
+    //float startY = chart->getOffsetY() + chart->getYLocation();
+    //float w = chart->getInnerWidth();
+    //float h = chart->getInnerHeight();
+
+    float lastX = -1000;
+    float lastY = -1000;
+   
+    glPolygonMode(GL_FRONT, GL_LINE);
+    glLineWidth(lineWidth);
+    //glColor4f(0.5, 0.5, 0.5, 1);
+    glColor4f(lineColor->r, lineColor->g, lineColor->b, 1);
+
+    glPushAttrib(GL_ENABLE_BIT); 
+    glLineStipple(1, 0xAAAA);
+    glEnable(GL_LINE_STIPPLE);
+    
+    glBegin(GL_LINES);
+        FOREACH_POINTP(it, points) { 
+            float x = (*it)->getLastPositionX();
+            float y = (*it)->getLastPositionY();
+
+            if (lastX != -1000) {
+                // draw line to last       
+                glVertex2f(lastX, lastY);
+                glVertex2f(x, y);                
+            }
+
+            lastX = x;
+            lastY = y;
+        }
+    glEnd();    
+    glLineWidth(1);
+
+    glDisable(GL_LINE_STIPPLE);
+    glPopAttrib();
+
+    //glDisable(GL_SCISSOR_TEST);
+}
+
+void ChartPointSeries::drawGhostAsBlend() {
     glEnable(GL_SCISSOR_TEST);
     float startX = chart->getOffsetX() + chart->getXLocation();
     float startY = chart->getOffsetY() + chart->getYLocation();

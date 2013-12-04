@@ -94,6 +94,9 @@ private:
     void calculatePointLocations();
     void drawAsLines();
     void drawAsArea();
+    
+    void drawGhostAsLine();
+    void drawGhostAsBlend();
 };
 
 #endif /*CHARTPOINTSERIES_H_*/
