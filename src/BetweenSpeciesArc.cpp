@@ -72,17 +72,19 @@ void BetweenSpeciesArc::draw() {
 
     this->yA = speciesA->getYLocation() + speciesA->getOffsetY() + speciesA->getInnerHeight() / 2;
     this->yB = speciesB->getYLocation() + speciesB->getOffsetY() + speciesB->getInnerHeight() / 2;
-    float mult = abs(speciesB->getPercentIncreaseOfLastPoint());
+    float multA = abs(speciesA->getPercentIncreaseOfLastPoint());
+    float multB = abs(speciesB->getPercentIncreaseOfLastPoint());
     float thickness = getThickness();
+    float newThickness = thickness * multB;
 
-    this->setThickness(thickness);// * mult);
+    this->setThickness(newThickness);
 
-    ///if (mult != 0 && mult > 0.1) {
+    if (multA != 0 && multB != 0 && newThickness > 1 && multB > 0.1) {
         VerticalArc::draw();
 
         positionTriangles();
         drawTriangles();
-    //}
+    }
 }
 
 void BetweenSpeciesArc::positionTriangles() {
