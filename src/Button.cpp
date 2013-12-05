@@ -64,12 +64,14 @@ void Button::draw() {
     }
 }
 
-bool Button::mouseMoved(float x, float y) {
+bool Button::mouseMoved(float mouseX, float mouseY) {   
     if (!active) {
+        mouseIsHovering = false;
+
         return false;
     }
 
-    if (ShadowedRectangle::containsPoint(x, y)) {
+    if (ShadowedRectangle::containsPoint(mouseX, mouseY)) {
         mouseIsHovering = true;
     } else {
         mouseIsHovering = false;

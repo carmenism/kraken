@@ -115,6 +115,14 @@ void MonteCarloPlotManager::updateStatistics() {
     }
 }
 
+bool MonteCarloPlotManager::getDisplayStreaks() {
+    if (!charts->empty()) {
+        return charts->at(0)->getDisplayStreaks();
+    }
+
+    return false;
+}
+
 void MonteCarloPlotManager::setDisplayStreaks(bool d) {
     for (unsigned int i = 0; i < charts->size(); i++) {
         charts->at(i)->setDisplayStreaks(d);
@@ -143,6 +151,14 @@ void MonteCarloPlotManager::displayOriginalLineOff() {
     setDisplayOriginalLine(false);
 }
 
+bool MonteCarloPlotManager::getDisplayBoxPlots() {
+    if (!charts->empty()) {
+        return charts->at(0)->getDisplayBoxPlots();
+    }
+
+    return false;
+}
+
 void MonteCarloPlotManager::setDisplayBoxPlots(bool d) {
     for (unsigned int i = 0; i < charts->size(); i++) {
         charts->at(i)->setDisplayBoxPlots(d);
@@ -156,7 +172,15 @@ void MonteCarloPlotManager::displayBoxPlotsOn() {
 void MonteCarloPlotManager::displayBoxPlotsOff() {
     setDisplayBoxPlots(false);
 }
-    
+   
+bool MonteCarloPlotManager::getDisplayErrorBands() {
+    if (!charts->empty()) {
+        return charts->at(0)->getDisplayErrorBands();
+    }
+
+    return false;
+}
+
 void MonteCarloPlotManager::setDisplayErrorBands(bool d) {
     for (unsigned int i = 0; i < charts->size(); i++) {
         charts->at(i)->setDisplayErrorBands(d);
@@ -169,6 +193,14 @@ void MonteCarloPlotManager::displayErrorBandsOn() {
 
 void MonteCarloPlotManager::displayErrorBandsOff() {
     setDisplayErrorBands(false);
+}
+
+bool MonteCarloPlotManager::getDisplayErrorBars() {
+    if (!charts->empty()) {
+        return charts->at(0)->getDisplayErrorBars();
+    }
+
+    return false;
 }
 
 void MonteCarloPlotManager::setDisplayErrorBars(bool d) {

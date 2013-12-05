@@ -129,6 +129,10 @@ void MonteCarloLineChart::calculateGlobalBounds() {
     }
 }
 
+bool MonteCarloLineChart::getDisplayBoxPlots() {
+    return stats->getDisplayBoxPlots();
+}
+
 void MonteCarloLineChart::setDisplayBoxPlots(bool d) {
     stats->setDisplayBoxPlots(d);
 }
@@ -141,6 +145,10 @@ void MonteCarloLineChart::displayBoxPlotsOff() {
     stats->displayBoxPlotsOff();
 }
 
+bool MonteCarloLineChart::getDisplayErrorBands() {
+    return stats->getDisplayErrorBands();
+}
+
 void MonteCarloLineChart::setDisplayErrorBands(bool d) {
     stats->setDisplayErrorBands(d);
 }
@@ -151,6 +159,10 @@ void MonteCarloLineChart::displayErrorBandsOn() {
 
 void MonteCarloLineChart::displayErrorBandsOff() {
     stats->displayErrorBandsOff();
+}
+
+bool MonteCarloLineChart::getDisplayErrorBars() {
+    return stats->getDisplayErrorBars();
 }
 
 void MonteCarloLineChart::setDisplayErrorBars(bool d) {

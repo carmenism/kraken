@@ -30,6 +30,7 @@ public:
 
     void updateStatistics();
 
+    bool getDisplayStreaks();
     void setDisplayStreaks(bool d);
     void displayStreaksOn();
     void displayStreaksOff();
@@ -37,15 +38,18 @@ public:
     void setDisplayOriginalLine(bool d);
     void displayOriginalLineOn();
     void displayOriginalLineOff();
-
+    
+    bool getDisplayBoxPlots();
     void setDisplayBoxPlots(bool d);
     void displayBoxPlotsOn();
     void displayBoxPlotsOff();
     
+    bool getDisplayErrorBands();
     void setDisplayErrorBands(bool d);
     void displayErrorBandsOn();
     void displayErrorBandsOff();
     
+    bool getDisplayErrorBars();
     void setDisplayErrorBars(bool d);
     void displayErrorBarsOn();
     void displayErrorBarsOff();

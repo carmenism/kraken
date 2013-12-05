@@ -94,7 +94,8 @@ private:
     std::vector<Button *> *speciesButtons;
     std::vector<Button *> *displayButtons;
     std::vector<Button *> *speciesGroupButtons;
-    std::vector<Button *> *monteCarloButtons;
+    std::vector<Button *> *monteCarloOtherButtons;
+    std::vector<Button *> *monteCarloTypeButtons;
     std::vector<Button *> *changeTypeButtons;
 
     std::string labelSuffix;

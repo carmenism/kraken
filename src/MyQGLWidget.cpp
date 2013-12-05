@@ -37,8 +37,9 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     speciesButtons = new std::vector<Button *>();
     displayButtons = new std::vector<Button *>();
     speciesGroupButtons = new std::vector<Button *>();
-    monteCarloButtons = new std::vector<Button *>();
     changeTypeButtons = new std::vector<Button *>();
+    monteCarloTypeButtons = new std::vector<Button *>();
+    monteCarloOtherButtons = new std::vector<Button *>();
 
     paddingRight = 0;
     paddingLeft = 0;
@@ -85,8 +86,9 @@ MyQGLWidget::~MyQGLWidget() {
     deleteButtonList(displayButtons);
     deleteButtonList(speciesButtons);
     deleteButtonList(speciesGroupButtons);
-    deleteButtonList(monteCarloButtons); 
     deleteButtonList(changeTypeButtons);
+    deleteButtonList(monteCarloTypeButtons);
+    deleteButtonList(monteCarloOtherButtons);
 
     delete sliders;
     delete plotManagers;
@@ -146,12 +148,6 @@ void MyQGLWidget::paintGL() {
         
         baselineButton->setLocation(280, yPos);
         resetAllButton->setLocation(370, yPos);
-        runMCButton->setLocation(280, yPos);
-
-        streaksButton->setLocation(xPos, 75);
-        boxPlotsButton->setLocation(xPos, 50);
-        errorBandsButton->setLocation(xPos, 100);
-        errorBarsButton->setLocation(xPos, 125);
 
         if (managerSpecies->getDisplay() || managerGroup->getDisplay()) {
             if (managerSpecies->getDisplay()) {
@@ -178,9 +174,10 @@ void MyQGLWidget::paintGL() {
 
             drawBoxedGroup("Change", 5, size().rheight() - 2 * yOff - 1, 5, changeTypeButtons);
         } else {
-            for (unsigned int i = 0; i < monteCarloButtons->size(); i++) {
-                monteCarloButtons->at(i)->draw();
-            }
+            runMCButton->setLocation(280, yPos);
+            runMCButton->draw();
+
+            drawBoxedGroup("Type", 5, size().rheight() - 2 * yOff - 1, 5, monteCarloTypeButtons);
         }
 
         drawBoxedGroup("Display", 5, size().rheight() - yOff, 5, displayButtons);
@@ -188,7 +185,7 @@ void MyQGLWidget::paintGL() {
 }
 
 void MyQGLWidget::drawBoxedGroup(std::string label, float x, float y, float spacing, std::vector<Button *> *buttons) {
-    float textWidth = PrintText::strokeWidth(label, 10);
+    float textWidth = int(PrintText::strokeWidth(label, 10)) + 1;
     
     float xPos = 4 * spacing + textWidth;
     float height = 0;
@@ -257,6 +254,12 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
 bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
     if (runMCButton->mouseReleased(x, y)) {
         kmc->run();
+        
+        streaksButton->setActive(!managerMC->getDisplayStreaks());
+        boxPlotsButton->setActive(!managerMC->getDisplayBoxPlots());
+        errorBarsButton->setActive(!managerMC->getDisplayErrorBars());
+        errorBandsButton->setActive(!managerMC->getDisplayErrorBands());        
+
         return true;
     }
 
@@ -453,8 +456,18 @@ bool MyQGLWidget::mousePressButtons(float x, float y) {
     }
 
     if (managerMC->getDisplay()) {
-        for (unsigned int i = 0; i < monteCarloButtons->size(); i++) {
-            buttonPress = monteCarloButtons->at(i)->mousePressed(x, y);
+        for (unsigned int i = 0; i < monteCarloTypeButtons->size(); i++) {
+            buttonPress = monteCarloTypeButtons->at(i)->mousePressed(x, y);
+
+            if (buttonPress) {
+                return true;
+            }
+        }
+    }
+
+    if (managerMC->getDisplay()) {
+        for (unsigned int i = 0; i < monteCarloOtherButtons->size(); i++) {
+            buttonPress = monteCarloOtherButtons->at(i)->mousePressed(x, y);
 
             if (buttonPress) {
                 return true;
@@ -505,17 +518,7 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
 bool MyQGLWidget::mouseMoveButtons(float x, float y) {
     Button *moved = NULL;
 
-    for (unsigned int i = 0; i < displayButtons->size(); i++) {
-        moved = mouseMoveButtonHelper(displayButtons, x, y);
-    }
-
-    if (moved != NULL) {
-        return true;
-    }
-
-    for (unsigned int i = 0; i < changeTypeButtons->size(); i++) {
-        moved = mouseMoveButtonHelper(changeTypeButtons, x, y);
-    }
+    moved = mouseMoveButtonHelper(displayButtons, x, y);
 
     if (moved != NULL) {
         return true;
@@ -523,6 +526,7 @@ bool MyQGLWidget::mouseMoveButtons(float x, float y) {
 
     if (managerSpecies->getDisplay() || managerGroup->getDisplay()) {
         moved = mouseMoveButtonHelper(speciesGroupButtons, x, y);
+        moved = mouseMoveButtonHelper(changeTypeButtons, x, y);
     }
 
     if (moved != NULL) {
@@ -538,7 +542,13 @@ bool MyQGLWidget::mouseMoveButtons(float x, float y) {
     }
 
     if (managerMC->getDisplay()) {
-        moved = mouseMoveButtonHelper(monteCarloButtons, x, y);
+        moved = mouseMoveButtonHelper(monteCarloOtherButtons, x, y);
+
+        if (moved != NULL) {
+            return true;
+        }
+
+        moved = mouseMoveButtonHelper(monteCarloTypeButtons, x, y);
     }
 
     if (moved != NULL) {
@@ -758,28 +768,31 @@ void MyQGLWidget::initialize() {
     runMCButton = new Button("Run Simulation");
     runMCButton->setHeight(buttonHeight);
     runMCButton->setWidth(buttonWidth);
-    monteCarloButtons->push_back(runMCButton);
+    monteCarloOtherButtons->push_back(runMCButton);
 
     streaksButton = new Button("Streaks");
     streaksButton->setHeight(buttonHeight);
     streaksButton->setWidth(buttonWidth);
-    monteCarloButtons->push_back(streaksButton);
+    monteCarloTypeButtons->push_back(streaksButton);
     streaksButton->activeOff();
 
     boxPlotsButton = new Button("Box Plots");
     boxPlotsButton->setHeight(buttonHeight);
-    boxPlotsButton->setWidth(buttonWidth);
-    monteCarloButtons->push_back(boxPlotsButton);
+    boxPlotsButton->setWidth(buttonWidth + 5);
+    monteCarloTypeButtons->push_back(boxPlotsButton);
+    boxPlotsButton->activeOff();
 
     errorBandsButton = new Button("Error Bands");
     errorBandsButton->setHeight(buttonHeight);
-    errorBandsButton->setWidth(buttonWidth);
-    monteCarloButtons->push_back(errorBandsButton);
+    errorBandsButton->setWidth(buttonWidth + 20);
+    monteCarloTypeButtons->push_back(errorBandsButton);
+    errorBandsButton->activeOff();
 
     errorBarsButton = new Button("Error Bars");
     errorBarsButton->setHeight(buttonHeight);
-    errorBarsButton->setWidth(buttonWidth);
-    monteCarloButtons->push_back(errorBarsButton);
+    errorBarsButton->setWidth(buttonWidth + 20);
+    monteCarloTypeButtons->push_back(errorBarsButton);
+    errorBarsButton->activeOff();
 
     displayByGroup();
 }

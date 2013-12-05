@@ -40,14 +40,17 @@ public:
     void displayStreaksOn() { displayStreaks = true; }
     void displayStreaksOff() { displayStreaks = false; }
     
+    bool getDisplayBoxPlots();
     void setDisplayBoxPlots(bool d);
     void displayBoxPlotsOn();
     void displayBoxPlotsOff();
     
+    bool getDisplayErrorBars();
     void setDisplayErrorBars(bool d);
     void displayErrorBarsOn();
     void displayErrorBarsOff();
     
+    bool getDisplayErrorBands();
     void setDisplayErrorBands(bool d);
     void displayErrorBandsOn();
     void displayErrorBandsOff();
