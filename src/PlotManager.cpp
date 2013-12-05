@@ -68,3 +68,29 @@ float PlotManager::getMarkersSize(float chartWidth, float chartHeight) {
 
     return 7;
 }
+
+void PlotManager::displayGhostOff() {
+    std::vector<LineChart *> *charts = getCharts();
+
+    for (unsigned int j = 0; j < charts->size(); j++) {
+        charts->at(j)->displayGhostOff();
+    }
+}
+
+void PlotManager::displayGhostAsLine() {
+    std::vector<LineChart *> *charts = getCharts();
+    
+    for (unsigned int j = 0; j < charts->size(); j++) {
+        charts->at(j)->displayGhostOn();
+        charts->at(j)->displayGhostAsALine();
+    }
+}
+
+void PlotManager::displayGhostAsBlend() {
+    std::vector<LineChart *> *charts = getCharts();
+
+    for (unsigned int j = 0; j < charts->size(); j++) {
+        charts->at(j)->displayGhostOn();
+        charts->at(j)->displayGhostAsABlend();
+    }
+}

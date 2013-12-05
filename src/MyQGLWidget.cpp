@@ -39,6 +39,11 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     speciesGroupButtons = new std::vector<Button *>();
     monteCarloButtons = new std::vector<Button *>();
 
+    paddingRight = 0;
+    paddingLeft = 0;
+    paddingBottom = 0;
+    paddingTop = 40;
+
     this->mainWindow = mainWindow;
 
     setMouseTracking(true);
@@ -123,18 +128,26 @@ void MyQGLWidget::resizeGL(int w, int h) {
 void MyQGLWidget::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    for (unsigned int i = 0; i < plotManagers->size(); i++) {
-        if (plotManagers->at(i)->getDisplay()) {
-            plotManagers->at(i)->draw(size().rwidth(), size().rheight());
+    glPushMatrix();
+        glTranslatef(paddingLeft, paddingBottom, 0);
+        for (unsigned int i = 0; i < plotManagers->size(); i++) {
+            if (plotManagers->at(i)->getDisplay()) {
+                plotManagers->at(i)->draw(size().rwidth() - paddingRight - paddingLeft, size().rheight() - paddingTop - paddingBottom);
+            }
         }
-    }
+    glPopMatrix();
 
     if (!managerGroup->empty()) {
         float xPos = size().rwidth() - 100;
         float yPos = size().rheight() - 25;
+        float yOff = 30;
         displayGroupButton->setLocation(50, yPos);
         displaySpeciesButton->setLocation(115, yPos);
         displayMCButton->setLocation(180, yPos);
+        
+        changeLineButton->setLocation(50, yPos - yOff);
+        changeBlendButton->setLocation(115, yPos - yOff);
+        changeOffButton->setLocation(180, yPos - yOff);
         
         baselineButton->setLocation(280, yPos);
         resetAllButton->setLocation(370, yPos);
@@ -167,6 +180,14 @@ void MyQGLWidget::paintGL() {
             for (unsigned int i = 0; i < sliderButtons->size(); i++) {
                 sliderButtons->at(i)->draw();
             }
+
+            glColor4f(0, 0, 0, 1);
+            PrintText::drawStrokeText("Change", 10, size().rheight() - 16 - yOff, 10, HORIZ_LEFT, VERT_CENTER);
+            //for (int i = 0; i < displayButtons->size(); i++) {
+            //    displayButtons->at(i)->draw();
+            //}
+
+            drawBox(5, size().rheight() - 2 * yOff - 1, 249, 27);
         } else {
             for (unsigned int i = 0; i < monteCarloButtons->size(); i++) {
                 monteCarloButtons->at(i)->draw();
@@ -178,23 +199,24 @@ void MyQGLWidget::paintGL() {
         for (int i = 0; i < displayButtons->size(); i++) {
             displayButtons->at(i)->draw();
         }
-        float x = 5;
-        float y = size().rheight() - 30;
-        float w = 249;
-        float h = 27;
-        glDisable(GL_LINE_SMOOTH);
-        glPolygonMode(GL_FRONT, GL_LINE);  
-            glLineWidth(0.5);
-            glColor4f(0.5, 0.5, 0.5, 1);
 
-            glBegin(GL_LINE_LOOP);
-            glVertex2f( x, y );
-            glVertex2f( x, y + h );
-            glVertex2f( x + w, y + h );
-            glVertex2f( x + w, y );
-        glEnd();
-        glEnable(GL_LINE_SMOOTH);
+        drawBox(5, size().rheight() - yOff, 249, 27);
     }
+}
+
+void MyQGLWidget::drawBox(float x, float y, float w, float h) {
+    glDisable(GL_LINE_SMOOTH);
+    glPolygonMode(GL_FRONT, GL_LINE);  
+        glLineWidth(0.5);
+        glColor4f(0.5, 0.5, 0.5, 1);
+
+        glBegin(GL_LINE_LOOP);
+        glVertex2f( x, y );
+        glVertex2f( x, y + h );
+        glVertex2f( x + w, y + h );
+        glVertex2f( x + w, y );
+    glEnd();
+    glEnable(GL_LINE_SMOOTH);
 }
 
 void MyQGLWidget::drawToPick() {
@@ -264,6 +286,19 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
 
     if (displayMCButton->mouseReleased(x, y)) {
         displayMonteCarlo();
+        return true;
+    }
+
+    if (changeLineButton->mouseReleased(x, y)) {
+        displayGhostAsLine();
+        return true;
+    }
+    if (changeBlendButton->mouseReleased(x, y)) {
+        displayGhostAsBlend();
+        return true;
+    }
+    if (changeOffButton->mouseReleased(x, y)) {
+        displayGhostOff();
         return true;
     }
 
@@ -646,6 +681,22 @@ void MyQGLWidget::initialize() {
     displayMCButton->setWidth(buttonWidth);
     displayButtons->push_back(displayMCButton);
 
+    changeLineButton = new Button("Line");
+    changeLineButton->setHeight(buttonHeight);
+    changeLineButton->setWidth(buttonWidth);
+    speciesGroupButtons->push_back(changeLineButton);
+
+    changeBlendButton = new Button("Blend");
+    changeBlendButton->setHeight(buttonHeight);
+    changeBlendButton->setWidth(buttonWidth);
+    speciesGroupButtons->push_back(changeBlendButton);
+    changeBlendButton->activeOff();
+
+    changeOffButton = new Button("Off");
+    changeOffButton->setHeight(buttonHeight);
+    changeOffButton->setWidth(buttonWidth);
+    speciesGroupButtons->push_back(changeOffButton);
+
     toggleAbsButton = new ToggleButton("Abs. Sizes", false);
     toggleAbsButton->setHeight(buttonHeight);
     toggleAbsButton->setWidth(buttonWidth);
@@ -950,4 +1001,34 @@ void MyQGLWidget::toggleDynamicArcs() {
     } else {
        managerSpecies->displayArcsDynamicallyOff();
     }
+}
+
+void MyQGLWidget::displayGhostOff() {
+    changeLineButton->activeOn();
+    changeBlendButton->activeOn();
+    changeOffButton->activeOff();
+
+    managerGroup->displayGhostOff();
+    managerSpecies->displayGhostOff();
+    managerMC->displayGhostOff();
+}
+
+void MyQGLWidget::displayGhostAsLine() {
+    changeLineButton->activeOff();
+    changeBlendButton->activeOn();
+    changeOffButton->activeOn();
+
+    managerGroup->displayGhostAsLine();
+    managerSpecies->displayGhostAsLine();
+    managerMC->displayGhostOff();
+}
+
+void MyQGLWidget::displayGhostAsBlend() {
+    changeLineButton->activeOn();
+    changeBlendButton->activeOff();
+    changeOffButton->activeOn();
+
+    managerGroup->displayGhostAsBlend();
+    managerSpecies->displayGhostAsBlend();
+    managerMC->displayGhostOff();
 }

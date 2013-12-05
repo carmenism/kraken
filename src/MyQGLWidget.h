@@ -46,6 +46,11 @@ public:
     void drawToPick();
 
     void runModel();
+
+    int getPaddingTop() { return paddingTop; }
+    int getPaddingBottom() { return paddingBottom; }
+    int getPaddingRight() { return paddingRight; }
+    int getPaddingLeft() { return paddingLeft; }
 protected:
     void initializeGL();
     void resizeGL(int w, int h);
@@ -55,6 +60,11 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
 private:
+    int paddingTop;
+    int paddingBottom;
+    int paddingRight;
+    int paddingLeft;
+
     GroupReordering *gr;
     KrakenMonteCarlo *kmc;
     Picker *picker;    
@@ -64,6 +74,7 @@ private:
     Button *runMCButton;
     Button *baselineButton;
     Button *resetAllButton;
+    Button *changeLineButton, *changeBlendButton, *changeOffButton;
     Button *displayGroupButton, *displaySpeciesButton, *displayMCButton;
     ToggleButton *toggleAbsButton, *toggleChartsButton;
     ToggleButton *togglePredButton, *toggleInterButton;
@@ -131,6 +142,12 @@ private:
     void monteCarloErrorBars();
 
     void toggleDynamicArcs();
+
+    void displayGhostOff();
+    void displayGhostAsLine();
+    void displayGhostAsBlend();
+
+    void drawBox(float x, float y, float w, float h);
 };
 
 #endif  /* _MYQGLWIDGET_H */
