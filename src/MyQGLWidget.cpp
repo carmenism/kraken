@@ -251,100 +251,97 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
     updateGL();
 }
 
-bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
-    if (runMCButton->mouseReleased(x, y)) {
-        kmc->run();
-        
-        streaksButton->setActive(!managerMC->getDisplayStreaks());
-        boxPlotsButton->setActive(!managerMC->getDisplayBoxPlots());
-        errorBarsButton->setActive(!managerMC->getDisplayErrorBars());
-        errorBandsButton->setActive(!managerMC->getDisplayErrorBands());        
-
-        return true;
-    }
-
-    if (baselineButton->mouseReleased(x, y)) {
-        setBaseline();
-        return true;
-    }
-
-    if (toggleChartsButton->mouseReleased(x, y)) {
-        toggleCharts();
-        return true;
-    }
-        
-    if (toggleAbsButton->mouseReleased(x, y)) {
-        toggleAbsoluteSizes();
-        return true;
-    }
-
-    if (toggleHarvButton->mouseReleased(x, y)) {
-        toggleHarvest();
-        return true;
-    }
-
+bool MyQGLWidget::mouseReleaseButtons(float x, float y) {         
     if (displayGroupButton->mouseReleased(x, y)) {
         displayByGroup();
         return true;
     }
-
     if (displaySpeciesButton->mouseReleased(x, y)) {
         displayBySpecies();
         return true;
     }
-
     if (displayMCButton->mouseReleased(x, y)) {
         displayMonteCarlo();
         return true;
     }
 
-    if (changeLineButton->mouseReleased(x, y)) {
-        displayGhostAsLine();
-        return true;
-    }
-    if (changeBlendButton->mouseReleased(x, y)) {
-        displayGhostAsBlend();
-        return true;
-    }
-    if (changeOffButton->mouseReleased(x, y)) {
-        displayGhostOff();
-        return true;
-    }
-
-    if (resetAllButton->mouseReleased(x, y)) {
-        resetAllSliders();
-        return true;
-    }
-
-    if (toggleInterButton->mouseReleased(x, y)) {
-        toggleInteraction();
-        return true;
-    }
-    if (togglePredButton->mouseReleased(x, y)) {
-        togglePredation();
-        return true;
+    if (managerSpecies->getDisplay() || managerGroup->getDisplay()) {
+        if (changeLineButton->mouseReleased(x, y)) {
+            displayGhostAsLine();
+            return true;
+        }
+        if (changeBlendButton->mouseReleased(x, y)) {
+            displayGhostAsBlend();
+            return true;
+        }
+        if (changeOffButton->mouseReleased(x, y)) {
+            displayGhostOff();
+            return true;
+        }
+        if (resetAllButton->mouseReleased(x, y)) {
+            resetAllSliders();
+            return true;
+        }
+        if (baselineButton->mouseReleased(x, y)) {
+            setBaseline();
+            return true;
+        } 
     }
 
-    if (toggleArcsDynamicButton->mouseReleased(x, y)) {
-        toggleDynamicArcs();
-        return true;
+    if (managerSpecies->getDisplay()) {
+        if (toggleInterButton->mouseReleased(x, y)) {
+            toggleInteraction();
+            return true;
+        }
+        if (togglePredButton->mouseReleased(x, y)) {
+            togglePredation();
+            return true;
+        }
+        if (toggleArcsDynamicButton->mouseReleased(x, y)) {
+            toggleDynamicArcs();
+            return true;
+        }
+        if (toggleChartsButton->mouseReleased(x, y)) {
+            toggleCharts();
+            return true;
+        }            
+        if (toggleAbsButton->mouseReleased(x, y)) {
+            toggleAbsoluteSizes();
+            return true;
+        }
+        if (toggleHarvButton->mouseReleased(x, y)) {
+            toggleHarvest();
+            return true;
+        }
     }
 
-    if (streaksButton->mouseReleased(x, y)) {
-        monteCarloStreaks();
-        return true;
-    }
-    if (boxPlotsButton->mouseReleased(x, y)) {
-        monteCarloBoxPlots();
-        return true;
-    }
-    if (errorBandsButton->mouseReleased(x, y)) {
-        monteCarloErrorBands();
-        return true;
-    }
-    if (errorBarsButton->mouseReleased(x, y)) {
-        monteCarloErrorBars();
-        return true;
+    if (managerMC->getDisplay()) {
+        if (runMCButton->mouseReleased(x, y)) {
+            kmc->run();
+            
+            streaksButton->setActive(!managerMC->getDisplayStreaks());
+            boxPlotsButton->setActive(!managerMC->getDisplayBoxPlots());
+            errorBarsButton->setActive(!managerMC->getDisplayErrorBars());
+            errorBandsButton->setActive(!managerMC->getDisplayErrorBands());        
+
+            return true;
+        }
+        if (streaksButton->mouseReleased(x, y)) {
+            monteCarloStreaks();
+            return true;
+        }
+        if (boxPlotsButton->mouseReleased(x, y)) {
+            monteCarloBoxPlots();
+            return true;
+        }
+        if (errorBandsButton->mouseReleased(x, y)) {
+            monteCarloErrorBands();
+            return true;
+        }
+        if (errorBarsButton->mouseReleased(x, y)) {
+            monteCarloErrorBars();
+            return true;
+        }
     }
 
     SliderButton *button = NULL;
@@ -427,14 +424,6 @@ bool MyQGLWidget::mousePressButtons(float x, float y) {
         }
     }
 
-    for (unsigned int i = 0; i < changeTypeButtons->size(); i++) {
-        buttonPress = changeTypeButtons->at(i)->mousePressed(x, y);
-
-        if (buttonPress) {
-            return true;
-        }
-    }
-
     if (managerSpecies->getDisplay()) {
         for (unsigned int i = 0; i < speciesButtons->size(); i++) {
             buttonPress = speciesButtons->at(i)->mousePressed(x, y);
@@ -453,6 +442,14 @@ bool MyQGLWidget::mousePressButtons(float x, float y) {
                 return true;
             }
         }
+
+        for (unsigned int i = 0; i < changeTypeButtons->size(); i++) {
+            buttonPress = changeTypeButtons->at(i)->mousePressed(x, y);
+
+            if (buttonPress) {
+                return true;
+            }
+        }
     }
 
     if (managerMC->getDisplay()) {
@@ -463,9 +460,7 @@ bool MyQGLWidget::mousePressButtons(float x, float y) {
                 return true;
             }
         }
-    }
 
-    if (managerMC->getDisplay()) {
         for (unsigned int i = 0; i < monteCarloOtherButtons->size(); i++) {
             buttonPress = monteCarloOtherButtons->at(i)->mousePressed(x, y);
 

@@ -56,21 +56,6 @@ void ShadowedRectangle::draw() {
 }
 
 bool ShadowedRectangle::containsPoint(float mouseX, float mouseY) {
-    /*if (x < this->x || x > (this->x + width)) {
-        return false;
-    }
-	
-    if (y < this->y || y > (this->y + height)) {
-        return false;
-        
-    }
-
-    return true;*/
-
-    if (mouseX >= this->x && mouseX <= (this->x + width)
-         && mouseY >= this->y && mouseY <= (this->y + height)) {
-        return true;        
-    }
-
-    return false;
+    return (mouseX >= this->x && mouseX <= (this->x + width)
+         && mouseY >= this->y && mouseY <= (this->y + height));
 }
