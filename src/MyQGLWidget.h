@@ -95,6 +95,7 @@ private:
     std::vector<Button *> *displayButtons;
     std::vector<Button *> *speciesGroupButtons;
     std::vector<Button *> *monteCarloButtons;
+    std::vector<Button *> *changeTypeButtons;
 
     std::string labelSuffix;
 
@@ -148,6 +149,7 @@ private:
     void displayGhostAsBlend();
 
     void drawBox(float x, float y, float w, float h);
+    void drawBoxedGroup(std::string label, float x, float y, float spacing, std::vector<Button *> *buttons);
 };
 
 #endif  /* _MYQGLWIDGET_H */

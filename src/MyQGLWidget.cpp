@@ -38,6 +38,7 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     displayButtons = new std::vector<Button *>();
     speciesGroupButtons = new std::vector<Button *>();
     monteCarloButtons = new std::vector<Button *>();
+    changeTypeButtons = new std::vector<Button *>();
 
     paddingRight = 0;
     paddingLeft = 0;
@@ -85,6 +86,7 @@ MyQGLWidget::~MyQGLWidget() {
     deleteButtonList(speciesButtons);
     deleteButtonList(speciesGroupButtons);
     deleteButtonList(monteCarloButtons); 
+    deleteButtonList(changeTypeButtons);
 
     delete sliders;
     delete plotManagers;
@@ -141,13 +143,6 @@ void MyQGLWidget::paintGL() {
         float xPos = size().rwidth() - 100;
         float yPos = size().rheight() - 25;
         float yOff = 30;
-        displayGroupButton->setLocation(50, yPos);
-        displaySpeciesButton->setLocation(115, yPos);
-        displayMCButton->setLocation(180, yPos);
-        
-        changeLineButton->setLocation(50, yPos - yOff);
-        changeBlendButton->setLocation(115, yPos - yOff);
-        changeOffButton->setLocation(180, yPos - yOff);
         
         baselineButton->setLocation(280, yPos);
         resetAllButton->setLocation(370, yPos);
@@ -181,27 +176,38 @@ void MyQGLWidget::paintGL() {
                 sliderButtons->at(i)->draw();
             }
 
-            glColor4f(0, 0, 0, 1);
-            PrintText::drawStrokeText("Change", 10, size().rheight() - 16 - yOff, 10, HORIZ_LEFT, VERT_CENTER);
-            //for (int i = 0; i < displayButtons->size(); i++) {
-            //    displayButtons->at(i)->draw();
-            //}
-
-            drawBox(5, size().rheight() - 2 * yOff - 1, 249, 27);
+            drawBoxedGroup("Change", 5, size().rheight() - 2 * yOff - 1, 5, changeTypeButtons);
         } else {
             for (unsigned int i = 0; i < monteCarloButtons->size(); i++) {
                 monteCarloButtons->at(i)->draw();
             }
         }
 
-        glColor4f(0, 0, 0, 1);
-        PrintText::drawStrokeText("Display", 10, size().rheight() - 16, 10, HORIZ_LEFT, VERT_CENTER);
-        for (int i = 0; i < displayButtons->size(); i++) {
-            displayButtons->at(i)->draw();
-        }
-
-        drawBox(5, size().rheight() - yOff, 249, 27);
+        drawBoxedGroup("Display", 5, size().rheight() - yOff, 5, displayButtons);
     }
+}
+
+void MyQGLWidget::drawBoxedGroup(std::string label, float x, float y, float spacing, std::vector<Button *> *buttons) {
+    float textWidth = PrintText::strokeWidth(label, 10);
+    
+    float xPos = 4 * spacing + textWidth;
+    float height = 0;
+
+    for (int i = 0; i < buttons->size(); i++) {
+        buttons->at(i)->setLocation(xPos, y + spacing);
+
+        xPos = xPos + spacing + buttons->at(i)->getWidth();
+        height = max(height, buttons->at(i)->getHeight());
+    }
+
+    for (int i = 0; i < buttons->size(); i++) {
+        buttons->at(i)->draw();
+    }
+
+    glColor4f(0, 0, 0, 1);
+    PrintText::drawStrokeText(label, x + spacing, y + spacing + height / 2, 10, HORIZ_LEFT, VERT_CENTER);
+    
+    drawBox(x, y, xPos - spacing, height + spacing * 2);
 }
 
 void MyQGLWidget::drawBox(float x, float y, float w, float h) {
@@ -418,6 +424,14 @@ bool MyQGLWidget::mousePressButtons(float x, float y) {
         }
     }
 
+    for (unsigned int i = 0; i < changeTypeButtons->size(); i++) {
+        buttonPress = changeTypeButtons->at(i)->mousePressed(x, y);
+
+        if (buttonPress) {
+            return true;
+        }
+    }
+
     if (managerSpecies->getDisplay()) {
         for (unsigned int i = 0; i < speciesButtons->size(); i++) {
             buttonPress = speciesButtons->at(i)->mousePressed(x, y);
@@ -493,6 +507,14 @@ bool MyQGLWidget::mouseMoveButtons(float x, float y) {
 
     for (unsigned int i = 0; i < displayButtons->size(); i++) {
         moved = mouseMoveButtonHelper(displayButtons, x, y);
+    }
+
+    if (moved != NULL) {
+        return true;
+    }
+
+    for (unsigned int i = 0; i < changeTypeButtons->size(); i++) {
+        moved = mouseMoveButtonHelper(changeTypeButtons, x, y);
     }
 
     if (moved != NULL) {
@@ -684,18 +706,18 @@ void MyQGLWidget::initialize() {
     changeLineButton = new Button("Line");
     changeLineButton->setHeight(buttonHeight);
     changeLineButton->setWidth(buttonWidth);
-    speciesGroupButtons->push_back(changeLineButton);
+    changeTypeButtons->push_back(changeLineButton);
 
     changeBlendButton = new Button("Blend");
     changeBlendButton->setHeight(buttonHeight);
     changeBlendButton->setWidth(buttonWidth);
-    speciesGroupButtons->push_back(changeBlendButton);
+    changeTypeButtons->push_back(changeBlendButton);
     changeBlendButton->activeOff();
 
     changeOffButton = new Button("Off");
     changeOffButton->setHeight(buttonHeight);
     changeOffButton->setWidth(buttonWidth);
-    speciesGroupButtons->push_back(changeOffButton);
+    changeTypeButtons->push_back(changeOffButton);
 
     toggleAbsButton = new ToggleButton("Abs. Sizes", false);
     toggleAbsButton->setHeight(buttonHeight);
