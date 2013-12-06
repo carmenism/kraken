@@ -34,12 +34,22 @@ public:
     void setFontHeight(float h) { fontHeight = h; }
 
     void addArc(BetweenSpeciesArc *arc);
-    void addArc(int type, float coeff, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB, Color *c, bool setToLeft);
+    void addArc(int type, float coeff, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB, bool setToLeft, Color *c = NULL);
     BetweenSpeciesArcList *getArcs() { return arcs; }
 
     void setDisplayDynamically(bool d);
     void displayDynamicallyOn();
     void displayDynamicallyOff();
+
+    void setAdjustType(int t);
+    void adjustNone();
+    void adjustSmaller();
+    void adjustLarger();
+
+    void setAdjustPercentage(float p);
+
+    void addArcs(BetweenSpeciesArcCollection *otherArcs);
+    void clear();
 private:
     BetweenSpeciesArcList *arcs;
     BetweenSpeciesArc *selected;

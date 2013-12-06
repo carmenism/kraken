@@ -44,6 +44,8 @@ public:
     static Color avocado;
     static Color navy;
 
+    static Color darkRed;
+
     static Color gray;
     static Color black;
     static Color white;

@@ -129,6 +129,8 @@ Color Color::pink(0.96f, 0.66f, 0.71f);
 Color Color::tan(0.8f, 0.67f, 0.49f);
 Color Color::brown(0.54f, 0.21f, 0.06f);
 
+Color Color::darkRed(0.55f, 0, 0);
+
 Color Color::gray(0.5, 0.5, 0.5);
 Color Color::black(0.0, 0.0, 0.0);
 Color Color::white(1.0, 1.0, 1.0);
@@ -138,7 +140,7 @@ Color arr[] = {Color::red, Color::blue, Color::green,
                   Color::tan, Color::pink, Color::skyblue,
                   Color::lavender, Color::avocado, Color::navy,
                   Color::brown, Color::gray, Color::magenta, 
-                  Color::goldenrod};
+                  Color::goldenrod, Color::darkRed};
 
 Color *Color::colors = arr;
 

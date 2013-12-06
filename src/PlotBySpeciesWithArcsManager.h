@@ -49,6 +49,7 @@ public:
 
     void displayPredation();
     void displayInteraction();
+    void displayBothArcs();
     void displayNoArcs();
     
     void setDisplayArcsDynamically(bool d);
@@ -61,14 +62,16 @@ private:
 
     BetweenSpeciesArcCollection *arcsInter;
     BetweenSpeciesArcCollection *arcsPred;
+    BetweenSpeciesArcCollection *arcsBoth;
     BetweenSpeciesArcCollection *arcsCurrent;
 
     std::vector<SingleSpeciesLineChart *> *charts;
     
     void initializeCharts(QList<QList<double> *> *biomassMatrix, QList<QList<double> *> *harvestMatrix, MS_PROD_MainWindow *mainWindow);
-    BetweenSpeciesArcCollection *initializeArcs(std::string title, int arcType, QList<QList<double>> matix);
+    void initializeArcs(BetweenSpeciesArcCollection *arcs, int arcType, QList<QList<double>> matix, bool useColorOfChart);
     void initializeInteractionArcs(MS_PROD_MainWindow *mainWindow);
     void initializePredationArcs(MS_PROD_MainWindow *mainWindow);
+    void initializeBothArcs(MS_PROD_MainWindow *mainWindow);
 };
 
 #endif  /* _PLOTBYSPECIESWITHARCSMANAGER_H */

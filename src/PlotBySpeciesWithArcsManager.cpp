@@ -24,6 +24,7 @@ PlotBySpeciesWithArcsManager::~PlotBySpeciesWithArcsManager() {
 
     delete arcsInter;
     delete arcsPred;
+    delete arcsBoth;
     delete charts;
 }
 
@@ -48,7 +49,8 @@ void PlotBySpeciesWithArcsManager::updateCharts(Model *model, MS_PROD_MainWindow
         initializeCharts(biomassMatrix, newHarvestMatrix, mainWindow);
         initializePredationArcs(mainWindow);
         initializeInteractionArcs(mainWindow);
-        arcsCurrent = arcsPred;
+        initializeBothArcs(mainWindow);
+        arcsCurrent = arcsBoth;//arcsPred;
     } else {
         for (int i = 0; i < biomassMatrix->size(); i++) {
             std::vector<float> *x = new std::vector<float>;
@@ -132,15 +134,32 @@ void PlotBySpeciesWithArcsManager::initializeCharts(QList<QList<double> *> *biom
 }
 
 void PlotBySpeciesWithArcsManager::initializeInteractionArcs(MS_PROD_MainWindow *mainWindow) {
-    arcsInter = initializeArcs("Arcs Represent Species Interaction", ARC_INTERACTION, mainWindow->getParameters()->getWithinGuildCompMatrix());
+    arcsInter = new BetweenSpeciesArcCollection("Arcs Represent Species Interaction");
+    initializeArcs(arcsInter, ARC_INTERACTION, mainWindow->getParameters()->getWithinGuildCompMatrix(), true);
 }
 
 void PlotBySpeciesWithArcsManager::initializePredationArcs(MS_PROD_MainWindow *mainWindow) {
-    arcsPred = initializeArcs("Arcs Represent Species Predation", ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix());
+    arcsPred = new BetweenSpeciesArcCollection("Arcs Represent Species Predation");
+    initializeArcs(arcsPred, ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix(), true);
 }
 
-BetweenSpeciesArcCollection *PlotBySpeciesWithArcsManager::initializeArcs(std::string title, int arcType, QList<QList<double>> matrix) {
-    BetweenSpeciesArcCollection *arcs = new BetweenSpeciesArcCollection(title);
+void PlotBySpeciesWithArcsManager::initializeBothArcs(MS_PROD_MainWindow *mainWindow) {
+    arcsBoth = new BetweenSpeciesArcCollection("Red: Predation, Gray: Interaction");
+    initializeArcs(arcsBoth, ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix(), false);
+    arcsBoth->adjustLarger();
+    //arcsBoth->setAdjustPercentage(0.5);
+    
+    BetweenSpeciesArcCollection *tmp = new BetweenSpeciesArcCollection("TEMP");
+    initializeArcs(tmp, ARC_INTERACTION, mainWindow->getParameters()->getWithinGuildCompMatrix(), false);
+    tmp->adjustSmaller();
+    
+    arcsBoth->addArcs(tmp);
+
+    tmp->clear();
+    delete tmp;
+}
+
+void PlotBySpeciesWithArcsManager::initializeArcs(BetweenSpeciesArcCollection *arcs, int arcType, QList<QList<double>> matrix, bool useColorOfChart) {
     QList<QList<double> *> *newMatrix = groupReordering->getNewSquareMatrix(matrix);
 
     for (int i = 0; i < newMatrix->size(); i++) {
@@ -148,13 +167,18 @@ BetweenSpeciesArcCollection *PlotBySpeciesWithArcsManager::initializeArcs(std::s
             double coeff = newMatrix->at(i)->at(j);
 
             if (coeff != 0) {
-                arcs->addArc(arcType, coeff, charts->at(j), charts->at(i), charts->at(j)->getColor(), j < i);
+                Color *color = NULL;
+
+                if (useColorOfChart) {
+                    color = charts->at(j)->getColor();
+                }
+
+                arcs->addArc(arcType, coeff, charts->at(j), charts->at(i), j < i, color);
             }
         }        
     }   
 
     delete newMatrix;
-    return arcs;
 }
 
 void PlotBySpeciesWithArcsManager::draw(float windowWidth, float windowHeight) {
@@ -273,6 +297,10 @@ void PlotBySpeciesWithArcsManager::displayInteraction() {
     arcsCurrent = arcsInter;
 }
 
+void PlotBySpeciesWithArcsManager::displayBothArcs() {
+    arcsCurrent = arcsBoth;
+}
+
 void PlotBySpeciesWithArcsManager::displayNoArcs() {
     arcsCurrent = NULL;
 }
@@ -290,6 +318,7 @@ std::vector<LineChart *> *PlotBySpeciesWithArcsManager::getCharts() {
 void PlotBySpeciesWithArcsManager::setDisplayArcsDynamically(bool d) {
     arcsInter->setDisplayDynamically(d);
     arcsPred->setDisplayDynamically(d);
+    arcsBoth->setDisplayDynamically(d);
 }
 
 void PlotBySpeciesWithArcsManager::displayArcsDynamicallyOn() {

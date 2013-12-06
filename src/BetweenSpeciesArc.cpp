@@ -31,6 +31,9 @@ BetweenSpeciesArc::BetweenSpeciesArc(float coefficient, SingleSpeciesLineChart *
     arrowMiddle->setSize(10, 10);
 
     displayDynamically = false;
+
+    adjustType = ADJUST_NONE;
+    adjustPercentage = 0.4;
 }
 
 BetweenSpeciesArc::~BetweenSpeciesArc() {
@@ -75,6 +78,26 @@ void BetweenSpeciesArc::draw() {
     this->yA = speciesA->getYLocation() + speciesA->getOffsetY() + speciesA->getInnerHeight() / 2;
     this->yB = speciesB->getYLocation() + speciesB->getOffsetY() + speciesB->getInnerHeight() / 2;
     
+    float adjustOffset = (speciesA->getInnerHeight() / 2) * adjustPercentage;
+
+    if (adjustType == ADJUST_LARGER) {
+        if (this->yA > this->yB) {
+            this->yA = this->yA + adjustOffset;
+            this->yB = this->yB - adjustOffset;
+        } else {
+            this->yA = this->yA - adjustOffset;
+            this->yB = this->yB + adjustOffset;
+        }
+    } else if (adjustType == ADJUST_SMALLER) {
+        if (this->yA > this->yB) {
+            this->yA = this->yA - adjustOffset;
+            this->yB = this->yB + adjustOffset;
+        } else {
+            this->yA = this->yA + adjustOffset;
+            this->yB = this->yB - adjustOffset;
+        }
+    }
+
     float thickness = getThickness();
 
     if (displayDynamically) {

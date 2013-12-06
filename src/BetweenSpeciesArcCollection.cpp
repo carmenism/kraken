@@ -70,7 +70,7 @@ void BetweenSpeciesArcCollection::addArc(BetweenSpeciesArc *arc) {
     arcs->push_back(arc);
 }
 
-void BetweenSpeciesArcCollection::addArc(int type, float coeff, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB, Color *c, bool setToLeft) {
+void BetweenSpeciesArcCollection::addArc(int type, float coeff, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB, bool setToLeft, Color *c) {
     BetweenSpeciesArc *arc;
 
     if (type == ARC_INTERACTION) {
@@ -79,7 +79,9 @@ void BetweenSpeciesArcCollection::addArc(int type, float coeff, SingleSpeciesLin
         arc = new PredationArc(coeff, speciesA, speciesB);
     }
 
-    arc->setColor(c);
+    if (c != NULL) {
+        arc->setColor(c);
+    }
 
     if (setToLeft) {
         arc->setArcToLeft();
@@ -100,4 +102,38 @@ void BetweenSpeciesArcCollection::displayDynamicallyOn() {
 
 void BetweenSpeciesArcCollection::displayDynamicallyOff() {
     setDisplayDynamically(false);
+}
+
+void BetweenSpeciesArcCollection::setAdjustType(int t) {
+    for (unsigned int i = 0; i < arcs->size(); i++) {
+        arcs->at(i)->setAdjustType(t);
+    }
+}
+
+void BetweenSpeciesArcCollection::adjustNone() {
+    setAdjustType(ADJUST_NONE);
+}
+
+void BetweenSpeciesArcCollection::adjustSmaller() {
+    setAdjustType(ADJUST_SMALLER);
+}
+
+void BetweenSpeciesArcCollection::adjustLarger() {
+    setAdjustType(ADJUST_LARGER);
+}
+
+void BetweenSpeciesArcCollection::setAdjustPercentage(float p) {
+    for (unsigned int i = 0; i < arcs->size(); i++) {
+        arcs->at(i)->setAdjustPercentage(p);
+    }
+}
+
+void BetweenSpeciesArcCollection::addArcs(BetweenSpeciesArcCollection *otherArcs) {
+    for (unsigned int i = 0; i < otherArcs->arcs->size(); i++) {
+        arcs->push_back(otherArcs->arcs->at(i));
+    }
+}
+
+void BetweenSpeciesArcCollection::clear() {
+    arcs->clear();
 }
