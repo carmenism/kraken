@@ -87,7 +87,7 @@ private:
     std::vector<SliderButton *> *sliderButtons;
     std::vector<Button *> *speciesButtons;
     std::vector<Button *> *speciesGroupButtons;
-    std::vector<Button *> *monteCarloOtherButtons;
+    std::vector<Button *> *monteCarloButtons;
 
     std::string labelSuffix;
 
@@ -112,11 +112,6 @@ private:
     void displayBySpecies();
     void displayMonteCarlo();
 
-    void arcTypePredation();
-    void arcTypeInteraction();
-    void arcTypeBoth();
-    void arcTypeNone();
-
     void positionSlidersForSpecies();
     void positionSlidersForGroups();
     void positionSliderButtons();
@@ -130,11 +125,6 @@ private:
 
     void deleteButtonList(std::vector<Button *> *list);
     bool mouseMoveButtonHelper(std::vector<Button *> *list, float x, float y);
-
-    void monteCarloStreaks();
-    void monteCarloBoxPlots();
-    void monteCarloErrorBands();
-    void monteCarloErrorBars();
 
     void toggleDynamicArcs();
 

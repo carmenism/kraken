@@ -37,7 +37,7 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     sliderButtons = new std::vector<SliderButton *>();
     speciesButtons = new std::vector<Button *>();
     speciesGroupButtons = new std::vector<Button *>();
-    monteCarloOtherButtons = new std::vector<Button *>();
+    monteCarloButtons = new std::vector<Button *>();
 
     std::vector<std::string> viewLabels;
     viewLabels.push_back("Four Panel");
@@ -110,7 +110,7 @@ MyQGLWidget::~MyQGLWidget() {
 
     deleteButtonList(speciesButtons);
     deleteButtonList(speciesGroupButtons);
-    deleteButtonList(monteCarloOtherButtons);
+    deleteButtonList(monteCarloButtons);
 
     delete bgView;
     delete bgChange;
@@ -291,19 +291,17 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
         if (bgArc->mouseReleased(x, y)) {
             int releasedIndex = bgArc->getReleasedIndex();
 
-            if (releasedIndex == 0) {
-                arcTypeInteraction();
-                return true;
+            if (releasedIndex == 0) {      
+                managerSpecies->displayInteraction();
             } else if (releasedIndex == 1) {
-                arcTypePredation();
-                return true;
+                managerSpecies->displayPredation();
             } else if (releasedIndex == 2) {
-                arcTypeBoth();
-                return true;
-            } else if (releasedIndex == 3) {
-                arcTypeNone();
-                return true;
+                managerSpecies->displayBothArcs();
+            } else if (releasedIndex == 3) {              
+                managerSpecies->displayNoArcs();
             }
+                
+            return true;
         }
 
         if (toggleArcsDynamicButton->mouseReleased(x, y)) {
@@ -339,18 +337,16 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
             int releasedIndex = bgUncertainty->getReleasedIndex();
 
             if (releasedIndex == 0) {
-                monteCarloStreaks();
-                return true;
+                managerMC->displayStreaks();
             } else if (releasedIndex == 1) {
-                monteCarloBoxPlots();
-                return true;
+                managerMC->displayBoxPlots();
             } else if (releasedIndex == 2) {
-                monteCarloErrorBands();
-                return true;
+                managerMC->displayErrorBands();
             } else if (releasedIndex == 3) {
-                monteCarloErrorBars();
-                return true;
+                managerMC->displayErrorBars();
             }
+
+            return true;
         }
     }
 
@@ -458,8 +454,8 @@ bool MyQGLWidget::mousePressButtons(float x, float y) {
             return true;
         }
 
-        for (unsigned int i = 0; i < monteCarloOtherButtons->size(); i++) {
-            if (monteCarloOtherButtons->at(i)->mousePressed(x, y)) {
+        for (unsigned int i = 0; i < monteCarloButtons->size(); i++) {
+            if (monteCarloButtons->at(i)->mousePressed(x, y)) {
                 return true;
             }
         }
@@ -531,7 +527,7 @@ bool MyQGLWidget::mouseMoveButtons(float x, float y) {
     }
 
     if (managerMC->getDisplay()) {
-        if (mouseMoveButtonHelper(monteCarloOtherButtons, x, y)) {
+        if (mouseMoveButtonHelper(monteCarloButtons, x, y)) {
             return true;
         }
 
@@ -710,7 +706,7 @@ void MyQGLWidget::initialize() {
     runMCButton = new Button("Run Simulation");
     runMCButton->setHeight(buttonHeight);
     runMCButton->setWidth(buttonWidth);
-    monteCarloOtherButtons->push_back(runMCButton);
+    monteCarloButtons->push_back(runMCButton);
 
     displayByGroup();
 }
@@ -877,42 +873,10 @@ void MyQGLWidget::toggleHarvest() {
         updateGL();
     }
 }
- 
-void MyQGLWidget::arcTypePredation() {
-    managerSpecies->displayPredation();
-}
-
-void MyQGLWidget::arcTypeInteraction() {       
-    managerSpecies->displayInteraction();
-}
-
-void MyQGLWidget::arcTypeBoth() {
-    managerSpecies->displayBothArcs();
-}
-
-void MyQGLWidget::arcTypeNone() {
-    managerSpecies->displayNoArcs();
-}
 
 void MyQGLWidget::setBaseline() {
     setSlidersBaseline();
     captureLastValues();
-}
-
-void MyQGLWidget::monteCarloStreaks() {
-    managerMC->displayStreaks();
-}
-
-void MyQGLWidget::monteCarloBoxPlots() {
-    managerMC->displayBoxPlots();
-}
-
-void MyQGLWidget::monteCarloErrorBands() {
-    managerMC->displayErrorBands();
-}
-
-void MyQGLWidget::monteCarloErrorBars() {
-    managerMC->displayErrorBars();
 }
 
 void MyQGLWidget::toggleDynamicArcs() {
