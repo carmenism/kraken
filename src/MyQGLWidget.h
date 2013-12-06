@@ -75,22 +75,10 @@ private:
     Button *runMCButton;
     Button *baselineButton;
     Button *resetAllButton;
-    Button *changeLineButton, *changeBlendButton, *changeOffButton;
-    ButtonGroup *bgView;
-    //Button *displayGroupButton, *displaySpeciesButton, *displayMCButton;
+    ButtonGroup *bgView, *bgChange, *bgArc, *bgUncertainty;
     ToggleButton *toggleAbsButton, *toggleChartsButton;
     ToggleButton *toggleHarvButton;
     ToggleButton *toggleArcsDynamicButton;
-    
-    Button *buttonArcTypeInter;
-    Button *buttonArcTypePred;
-    Button *buttonArcTypeBoth;
-    Button *buttonArcTypeNone;
-
-    Button *streaksButton;
-    Button *boxPlotsButton;
-    Button *errorBandsButton;
-    Button *errorBarsButton;
     
     MS_PROD_MainWindow *mainWindow;
 
@@ -98,12 +86,8 @@ private:
     std::vector<ChangeSlider *> *sliders;
     std::vector<SliderButton *> *sliderButtons;
     std::vector<Button *> *speciesButtons;
-    //std::vector<Button *> *displayButtons;
     std::vector<Button *> *speciesGroupButtons;
     std::vector<Button *> *monteCarloOtherButtons;
-    std::vector<Button *> *monteCarloTypeButtons;
-    std::vector<Button *> *changeTypeButtons;
-    std::vector<Button *> *arcTypeButtons;
 
     std::string labelSuffix;
 
@@ -157,9 +141,6 @@ private:
     void displayGhostOff();
     void displayGhostAsLine();
     void displayGhostAsBlend();
-
-    void drawBox(float x, float y, float w, float h);
-    float drawBoxedGroup(std::string label, float x, float y, float spacing, std::vector<Button *> *buttons);
 };
 
 #endif  /* _MYQGLWIDGET_H */

@@ -17,6 +17,8 @@ public:
     virtual bool mousePressed(float x, float y);
     virtual bool mouseReleased(float x, float y);
 
+    float getWidth() { return width; }
+
     float getX() { return x; }
     float getY() { return y; }
 
@@ -25,6 +27,10 @@ public:
     void setY(float y) { this->y = y; }
 
     int getReleasedIndex() { return releasedIndex; }
+
+    void setActive(int buttonIndex, bool a);
+
+    void activeOff();
 protected:
     std::string label;
 private:
