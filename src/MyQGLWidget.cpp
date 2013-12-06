@@ -39,33 +39,6 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     speciesGroupButtons = new std::vector<Button *>();
     monteCarloButtons = new std::vector<Button *>();
 
-    std::vector<std::string> viewLabels;
-    viewLabels.push_back("Four Panel");
-    viewLabels.push_back("Small Mult.");
-    viewLabels.push_back("Uncertainty");
-    bgView = new ButtonGroup("View", viewLabels, 0);
-
-    std::vector<std::string> changeLabels;
-    changeLabels.push_back("Line");
-    changeLabels.push_back("Blend");
-    changeLabels.push_back("Off");
-    bgChange = new ButtonGroup("Change", changeLabels, 1);
-
-    std::vector<std::string> arcLabels;
-    arcLabels.push_back("Interaction");
-    arcLabels.push_back("Predation");
-    arcLabels.push_back("Both");
-    arcLabels.push_back("Off");
-    bgArc = new ButtonGroup("Arcs", arcLabels, 2);
-    
-    std::vector<std::string> mcLabels;
-    mcLabels.push_back("Multi-Line");
-    mcLabels.push_back("Box Plots");
-    mcLabels.push_back("Error Bands");
-    mcLabels.push_back("Error Bars");
-    bgUncertainty = new ButtonGroup("Type", mcLabels, 0);
-    bgUncertainty->activeOff();
-
     paddingRight = 0;
     paddingLeft = 0;
     paddingBottom = 0;
@@ -170,26 +143,40 @@ void MyQGLWidget::paintGL() {
     if (!managerGroup->empty()) {
         float xPos = size().rwidth() - 100;
         float yPos = size().rheight() - 25;
-        float yOff = 30;
+        float panelTopY = size().rheight() - 30;
+        float panelBottomY = size().rheight() - 60;
+        float panelStartX = 5;
+        float spacing = 5;
         
         baselineButton->setLocation(280, yPos);
-        resetAllButton->setLocation(370, yPos);
+        resetAllButton->setLocation(355, yPos);
 
         if (managerSpecies->getDisplay() || managerGroup->getDisplay()) {
-            bgChange->setLocation(5, size().rheight() - 2 * yOff);
+            bgChange->setLocation(panelStartX, panelBottomY);
             bgChange->draw();
 
             float changeWidth = bgChange->getWidth();
 
             if (managerSpecies->getDisplay()) {
                 positionSlidersForSpecies();
+               
+                bgArc->setLocation(panelStartX + changeWidth + spacing, panelBottomY);
+                bgArc->draw();
+
+                float arcWidth = bgArc->getWidth();
+
+                float xPos = 445;
+                toggleAbsButton->setLocation(xPos, yPos);
+
+                xPos = xPos + toggleAbsButton->getWidth() + spacing;
+                toggleChartsButton->setLocation(xPos, yPos);
+                
+                xPos = xPos + toggleChartsButton->getWidth() + spacing;
+                toggleArcsDynamicButton->setLocation(xPos, yPos);
 
                 for (int i = 0; i < speciesButtons->size(); i++) {
                     speciesButtons->at(i)->draw();
                 }
-
-                bgArc->setLocation(changeWidth + 15, size().rheight() - 2 * yOff);
-                bgArc->draw();
             } else {
                 positionSlidersForGroups();
             }
@@ -209,11 +196,11 @@ void MyQGLWidget::paintGL() {
             runMCButton->setLocation(280, yPos);
             runMCButton->draw();
 
-            bgUncertainty->setLocation(5, size().rheight() - 2 * yOff);
+            bgUncertainty->setLocation(panelStartX, panelBottomY);
             bgUncertainty->draw();
         }
 
-        bgView->setLocation(5, size().rheight() - yOff);
+        bgView->setLocation(panelStartX, panelTopY);
         bgView->draw();
     }
 }
@@ -316,10 +303,10 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
             toggleAbsoluteSizes();
             return true;
         }
-        if (toggleHarvButton->mouseReleased(x, y)) {
+        /*if (toggleHarvButton->mouseReleased(x, y)) {
             toggleHarvest();
             return true;
-        }
+        }*/
     }
 
     if (managerMC->getDisplay()) {
@@ -681,32 +668,51 @@ void MyQGLWidget::initialize() {
 
     toggleAbsButton = new ToggleButton("Abs. Sizes", false);
     toggleAbsButton->setHeight(buttonHeight);
-    toggleAbsButton->setWidth(buttonWidth);
-    toggleAbsButton->setLocation(5, 5);
     speciesButtons->push_back(toggleAbsButton);
 
     toggleChartsButton = new ToggleButton("Biomass", true);
     toggleChartsButton->setHeight(buttonHeight);
-    toggleChartsButton->setWidth(buttonWidth);
-    toggleChartsButton->setLocation(5, 30);
     speciesButtons->push_back(toggleChartsButton);
 
-    toggleHarvButton = new ToggleButton("Harvest", false);
+    /*toggleHarvButton = new ToggleButton("Harvest", false);
     toggleHarvButton->setHeight(buttonHeight);
-    toggleHarvButton->setWidth(buttonWidth);
-    toggleHarvButton->setLocation(140, 30);
-    speciesButtons->push_back(toggleHarvButton);
+    speciesButtons->push_back(toggleHarvButton);*/
 
     toggleArcsDynamicButton = new ToggleButton("Dynamic Arcs", false);
     toggleArcsDynamicButton->setHeight(buttonHeight);
-    toggleArcsDynamicButton->setWidth(buttonWidth);
-    toggleArcsDynamicButton->setLocation(5, 80);
     speciesButtons->push_back(toggleArcsDynamicButton);
 
     runMCButton = new Button("Run Simulation");
     runMCButton->setHeight(buttonHeight);
     runMCButton->setWidth(buttonWidth);
     monteCarloButtons->push_back(runMCButton);
+    
+    std::vector<std::string> viewLabels;
+    viewLabels.push_back("Four Panel");
+    viewLabels.push_back("Small Mult.");
+    viewLabels.push_back("Uncertainty");
+    bgView = new ButtonGroup("View", viewLabels, 0);
+
+    std::vector<std::string> changeLabels;
+    changeLabels.push_back("Line");
+    changeLabels.push_back("Blend");
+    changeLabels.push_back("Off");
+    bgChange = new ButtonGroup("Change", changeLabels, 1);
+
+    std::vector<std::string> arcLabels;
+    arcLabels.push_back("Interaction");
+    arcLabels.push_back("Predation");
+    arcLabels.push_back("Both");
+    arcLabels.push_back("Off");
+    bgArc = new ButtonGroup("Arcs", arcLabels, 2);
+    
+    std::vector<std::string> mcLabels;
+    mcLabels.push_back("Multi-Line");
+    mcLabels.push_back("Box Plots");
+    mcLabels.push_back("Error Bands");
+    mcLabels.push_back("Error Bars");
+    bgUncertainty = new ButtonGroup("Type", mcLabels, 0);
+    bgUncertainty->activeOff();
 
     displayByGroup();
 }
@@ -851,7 +857,7 @@ void MyQGLWidget::toggleCharts() {
         if (toggleChartsButton->getValue()) {
             managerSpecies->displayChartsOn();
             managerSpecies->displayHarvestOff();
-            toggleHarvButton->setValue(false);
+            //toggleHarvButton->setValue(false);
         } else {
             managerSpecies->displayChartsOff();
         }
@@ -859,7 +865,7 @@ void MyQGLWidget::toggleCharts() {
         updateGL();
     }
 }
-
+/*
 void MyQGLWidget::toggleHarvest() {
     if (managerSpecies->getDisplay()) {
         if (toggleHarvButton->getValue()) {
@@ -872,7 +878,7 @@ void MyQGLWidget::toggleHarvest() {
 
         updateGL();
     }
-}
+}*/
 
 void MyQGLWidget::setBaseline() {
     setSlidersBaseline();

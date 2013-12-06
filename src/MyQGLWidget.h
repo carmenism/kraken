@@ -71,14 +71,11 @@ private:
     Picker *picker;    
     PlotByGroupManager *managerGroup;
     PlotBySpeciesWithArcsManager *managerSpecies;
-    MonteCarloPlotManager *managerMC;
-    Button *runMCButton;
-    Button *baselineButton;
-    Button *resetAllButton;
+    MonteCarloPlotManager *managerMC;    
+    Button *runMCButton, *baselineButton, *resetAllButton;
     ButtonGroup *bgView, *bgChange, *bgArc, *bgUncertainty;
-    ToggleButton *toggleAbsButton, *toggleChartsButton;
-    ToggleButton *toggleHarvButton;
-    ToggleButton *toggleArcsDynamicButton;
+    ToggleButton *toggleAbsButton, *toggleChartsButton, *toggleArcsDynamicButton;
+    //ToggleButton *toggleHarvButton;
     
     MS_PROD_MainWindow *mainWindow;
 

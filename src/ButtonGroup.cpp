@@ -10,7 +10,7 @@ ButtonGroup::ButtonGroup(std::string groupLabels, std::vector<std::string> butto
 
     for (unsigned int i = 0; i < buttonLabels.size(); i++) {
         Button *b = new Button(buttonLabels[i]);
-        b->setWidth(55);
+        b->setWidth(PrintText::strokeWidth(buttonLabels[i], 10) + 8);
         b->setHeight(18);
         
         if (i == inactiveIndex) {
