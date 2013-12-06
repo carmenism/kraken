@@ -23,6 +23,7 @@ class SliderButton;
 class ToggleButton;
 class UndoButton;
 class GroupReordering;
+class ButtonGroup;
 
 typedef std::vector<MultiSpeciesLineChart *> MSLineChartList;
 typedef std::vector<MultiSpeciesLineChart *>::const_iterator MSLineChartIterator;
@@ -75,12 +76,17 @@ private:
     Button *baselineButton;
     Button *resetAllButton;
     Button *changeLineButton, *changeBlendButton, *changeOffButton;
-    Button *displayGroupButton, *displaySpeciesButton, *displayMCButton;
+    ButtonGroup *bgView;
+    //Button *displayGroupButton, *displaySpeciesButton, *displayMCButton;
     ToggleButton *toggleAbsButton, *toggleChartsButton;
-    ToggleButton *togglePredButton, *toggleInterButton;
     ToggleButton *toggleHarvButton;
     ToggleButton *toggleArcsDynamicButton;
     
+    Button *buttonArcTypeInter;
+    Button *buttonArcTypePred;
+    Button *buttonArcTypeBoth;
+    Button *buttonArcTypeNone;
+
     Button *streaksButton;
     Button *boxPlotsButton;
     Button *errorBandsButton;
@@ -92,11 +98,12 @@ private:
     std::vector<ChangeSlider *> *sliders;
     std::vector<SliderButton *> *sliderButtons;
     std::vector<Button *> *speciesButtons;
-    std::vector<Button *> *displayButtons;
+    //std::vector<Button *> *displayButtons;
     std::vector<Button *> *speciesGroupButtons;
     std::vector<Button *> *monteCarloOtherButtons;
     std::vector<Button *> *monteCarloTypeButtons;
     std::vector<Button *> *changeTypeButtons;
+    std::vector<Button *> *arcTypeButtons;
 
     std::string labelSuffix;
 
@@ -121,8 +128,10 @@ private:
     void displayBySpecies();
     void displayMonteCarlo();
 
-    void togglePredation();
-    void toggleInteraction();
+    void arcTypePredation();
+    void arcTypeInteraction();
+    void arcTypeBoth();
+    void arcTypeNone();
 
     void positionSlidersForSpecies();
     void positionSlidersForGroups();
@@ -136,7 +145,7 @@ private:
     void setSliderFontSizes();
 
     void deleteButtonList(std::vector<Button *> *list);
-    Button *mouseMoveButtonHelper(std::vector<Button *> *list, float x, float y);
+    bool mouseMoveButtonHelper(std::vector<Button *> *list, float x, float y);
 
     void monteCarloStreaks();
     void monteCarloBoxPlots();
@@ -150,7 +159,7 @@ private:
     void displayGhostAsBlend();
 
     void drawBox(float x, float y, float w, float h);
-    void drawBoxedGroup(std::string label, float x, float y, float spacing, std::vector<Button *> *buttons);
+    float drawBoxedGroup(std::string label, float x, float y, float spacing, std::vector<Button *> *buttons);
 };
 
 #endif  /* _MYQGLWIDGET_H */

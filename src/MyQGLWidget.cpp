@@ -5,6 +5,7 @@
 #include "AbsoluteSizeIndicator.h"
 #include "BetweenSpeciesArc.h"
 #include "Button.h"
+#include "ButtonGroup.h"
 #include "ChangeSlider.h"
 #include "ChartPoint.h"
 #include "Color.h"
@@ -35,16 +36,23 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     sliders = new std::vector<ChangeSlider *>();
     sliderButtons = new std::vector<SliderButton *>();
     speciesButtons = new std::vector<Button *>();
-    displayButtons = new std::vector<Button *>();
+    //displayButtons = new std::vector<Button *>();
     speciesGroupButtons = new std::vector<Button *>();
     changeTypeButtons = new std::vector<Button *>();
     monteCarloTypeButtons = new std::vector<Button *>();
     monteCarloOtherButtons = new std::vector<Button *>();
+    arcTypeButtons = new std::vector<Button *>();
+
+    std::vector<std::string> viewLabels;
+    viewLabels.push_back("Four Panel");
+    viewLabels.push_back("Small Mult.");
+    viewLabels.push_back("Uncertainty");
+    bgView = new ButtonGroup("View", viewLabels, 0);
 
     paddingRight = 0;
     paddingLeft = 0;
     paddingBottom = 0;
-    paddingTop = 40;
+    paddingTop = 45;
 
     this->mainWindow = mainWindow;
 
@@ -83,7 +91,7 @@ MyQGLWidget::~MyQGLWidget() {
         delete s;
     }
 
-    deleteButtonList(displayButtons);
+    //deleteButtonList(displayButtons);
     deleteButtonList(speciesButtons);
     deleteButtonList(speciesGroupButtons);
     deleteButtonList(changeTypeButtons);
@@ -150,12 +158,16 @@ void MyQGLWidget::paintGL() {
         resetAllButton->setLocation(370, yPos);
 
         if (managerSpecies->getDisplay() || managerGroup->getDisplay()) {
+            float changeWidth = drawBoxedGroup("Change", 5, size().rheight() - 2 * yOff - 1, 5, changeTypeButtons);
+
             if (managerSpecies->getDisplay()) {
                 positionSlidersForSpecies();
 
                 for (int i = 0; i < speciesButtons->size(); i++) {
                     speciesButtons->at(i)->draw();
                 }
+
+                drawBoxedGroup("Arcs", changeWidth + 15, size().rheight() - 2 * yOff, 4, arcTypeButtons);
             } else {
                 positionSlidersForGroups();
             }
@@ -170,28 +182,27 @@ void MyQGLWidget::paintGL() {
 
             for (unsigned int i = 0; i < sliderButtons->size(); i++) {
                 sliderButtons->at(i)->draw();
-            }
-
-            drawBoxedGroup("Change", 5, size().rheight() - 2 * yOff - 1, 5, changeTypeButtons);
+            }         
         } else {
             runMCButton->setLocation(280, yPos);
             runMCButton->draw();
 
-            drawBoxedGroup("Type", 5, size().rheight() - 2 * yOff - 1, 5, monteCarloTypeButtons);
+            drawBoxedGroup("Type", 5, size().rheight() - 2 * yOff, 4, monteCarloTypeButtons);
         }
 
-        drawBoxedGroup("Display", 5, size().rheight() - yOff, 5, displayButtons);
+        bgView->setLocation(5, size().rheight() - yOff);
+        bgView->draw();
     }
 }
 
-void MyQGLWidget::drawBoxedGroup(std::string label, float x, float y, float spacing, std::vector<Button *> *buttons) {
+float MyQGLWidget::drawBoxedGroup(std::string label, float x, float y, float spacing, std::vector<Button *> *buttons) {
     float textWidth = int(PrintText::strokeWidth(label, 10)) + 1;
     
-    float xPos = 4 * spacing + textWidth;
+    float xPos = 2 * spacing + textWidth;
     float height = 0;
 
     for (int i = 0; i < buttons->size(); i++) {
-        buttons->at(i)->setLocation(xPos, y + spacing);
+        buttons->at(i)->setLocation(x + xPos, y + spacing);
 
         xPos = xPos + spacing + buttons->at(i)->getWidth();
         height = max(height, buttons->at(i)->getHeight());
@@ -203,8 +214,12 @@ void MyQGLWidget::drawBoxedGroup(std::string label, float x, float y, float spac
 
     glColor4f(0, 0, 0, 1);
     PrintText::drawStrokeText(label, x + spacing, y + spacing + height / 2, 10, HORIZ_LEFT, VERT_CENTER);
-    
-    drawBox(x, y, xPos - spacing, height + spacing * 2);
+
+    float finalWidth = xPos;
+
+    drawBox(x, y, finalWidth, height + spacing * 2);
+
+    return finalWidth;
 }
 
 void MyQGLWidget::drawBox(float x, float y, float w, float h) {
@@ -251,18 +266,20 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
     updateGL();
 }
 
-bool MyQGLWidget::mouseReleaseButtons(float x, float y) {         
-    if (displayGroupButton->mouseReleased(x, y)) {
-        displayByGroup();
-        return true;
-    }
-    if (displaySpeciesButton->mouseReleased(x, y)) {
-        displayBySpecies();
-        return true;
-    }
-    if (displayMCButton->mouseReleased(x, y)) {
-        displayMonteCarlo();
-        return true;
+bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
+    if (bgView->mouseReleased(x, y)) {
+        int releasedIndex = bgView->getReleasedIndex();
+
+        if (releasedIndex == 0) {
+            displayByGroup();
+            return true;
+        } else if (releasedIndex == 1) {
+            displayBySpecies();
+            return true;
+        } else if (releasedIndex == 2) {
+            displayMonteCarlo();
+            return true;
+        }
     }
 
     if (managerSpecies->getDisplay() || managerGroup->getDisplay()) {
@@ -289,12 +306,20 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
     }
 
     if (managerSpecies->getDisplay()) {
-        if (toggleInterButton->mouseReleased(x, y)) {
-            toggleInteraction();
+        if (buttonArcTypeInter->mouseReleased(x, y)) {
+            arcTypeInteraction();
             return true;
         }
-        if (togglePredButton->mouseReleased(x, y)) {
-            togglePredation();
+        if (buttonArcTypePred->mouseReleased(x, y)) {
+            arcTypePredation();
+            return true;
+        }
+        if (buttonArcTypeBoth->mouseReleased(x, y)) {
+            arcTypeBoth();
+            return true;
+        }
+        if (buttonArcTypeNone->mouseReleased(x, y)) {
+            arcTypeNone();
             return true;
         }
         if (toggleArcsDynamicButton->mouseReleased(x, y)) {
@@ -416,17 +441,23 @@ void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
 bool MyQGLWidget::mousePressButtons(float x, float y) {
     bool buttonPress = false; 
 
-    for (unsigned int i = 0; i < displayButtons->size(); i++) {
-        buttonPress = displayButtons->at(i)->mousePressed(x, y);
+    buttonPress = bgView->mousePressed(x, y);
 
-        if (buttonPress) {
-            return true;
-        }
+    if (buttonPress) {
+        return true;
     }
 
     if (managerSpecies->getDisplay()) {
         for (unsigned int i = 0; i < speciesButtons->size(); i++) {
             buttonPress = speciesButtons->at(i)->mousePressed(x, y);
+
+            if (buttonPress) {
+                return true;
+            }
+        }
+
+        for (unsigned int i = 0; i < arcTypeButtons->size(); i++) {
+            buttonPress = arcTypeButtons->at(i)->mousePressed(x, y);
 
             if (buttonPress) {
                 return true;
@@ -511,49 +542,60 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
 }
 
 bool MyQGLWidget::mouseMoveButtons(float x, float y) {
-    Button *moved = NULL;
+    bool moved = false;
 
-    moved = mouseMoveButtonHelper(displayButtons, x, y);
+    moved = bgView->mouseMoved(x, y);
 
-    if (moved != NULL) {
+    if (moved) {
         return true;
     }
 
     if (managerSpecies->getDisplay() || managerGroup->getDisplay()) {
         moved = mouseMoveButtonHelper(speciesGroupButtons, x, y);
+
+        if (moved) {
+            return true;
+        }
+
         moved = mouseMoveButtonHelper(changeTypeButtons, x, y);
     }
 
-    if (moved != NULL) {
+    if (moved) {
         return true;
     }
 
     if (managerSpecies->getDisplay()) {        
         moved = mouseMoveButtonHelper(speciesButtons, x, y);
+
+        if (moved) {
+            return true;
+        }
+
+        moved = mouseMoveButtonHelper(arcTypeButtons, x, y);
     }
 
-    if (moved != NULL) {
+    if (moved) {
         return true;
     }
 
     if (managerMC->getDisplay()) {
         moved = mouseMoveButtonHelper(monteCarloOtherButtons, x, y);
 
-        if (moved != NULL) {
+        if (moved) {
             return true;
         }
 
         moved = mouseMoveButtonHelper(monteCarloTypeButtons, x, y);
     }
 
-    if (moved != NULL) {
+    if (moved) {
         return true;
     }
 
     return false;
 }
 
-Button *MyQGLWidget::mouseMoveButtonHelper(std::vector<Button *> *list, float x, float y) {
+bool MyQGLWidget::mouseMoveButtonHelper(std::vector<Button *> *list, float x, float y) {
     Button *moved = NULL;
 
     for (unsigned int i = 0; i < list->size(); i++) {
@@ -564,7 +606,7 @@ Button *MyQGLWidget::mouseMoveButtonHelper(std::vector<Button *> *list, float x,
         }
     }
 
-    return moved;
+    return (moved != NULL);
 }
 
 bool MyQGLWidget::mouseMoveSliders(float x, float y) {
@@ -693,21 +735,6 @@ void MyQGLWidget::initialize() {
     resetAllButton->setWidth(buttonWidth);
     speciesGroupButtons->push_back(resetAllButton);
 
-    displayGroupButton = new Button("Group");
-    displayGroupButton->setHeight(buttonHeight);
-    displayGroupButton->setWidth(buttonWidth);
-    displayButtons->push_back(displayGroupButton);
-
-    displaySpeciesButton = new Button("Species");
-    displaySpeciesButton->setHeight(buttonHeight);
-    displaySpeciesButton->setWidth(buttonWidth);
-    displayButtons->push_back(displaySpeciesButton);
-
-    displayMCButton = new Button("Monte Carlo");
-    displayMCButton->setHeight(buttonHeight);
-    displayMCButton->setWidth(buttonWidth);
-    displayButtons->push_back(displayMCButton);
-
     changeLineButton = new Button("Line");
     changeLineButton->setHeight(buttonHeight);
     changeLineButton->setWidth(buttonWidth);
@@ -742,17 +769,26 @@ void MyQGLWidget::initialize() {
     toggleHarvButton->setLocation(140, 30);
     speciesButtons->push_back(toggleHarvButton);
 
-    togglePredButton = new ToggleButton("Predation", true);
-    togglePredButton->setHeight(buttonHeight);
-    togglePredButton->setWidth(buttonWidth);
-    togglePredButton->setLocation(5, 55);
-    speciesButtons->push_back(togglePredButton);
+    buttonArcTypeInter = new Button("Interaction");
+    buttonArcTypeInter->setHeight(buttonHeight);
+    buttonArcTypeInter->setWidth(buttonWidth);
+    arcTypeButtons->push_back(buttonArcTypeInter);
+    
+    buttonArcTypePred = new Button("Predation");
+    buttonArcTypePred->setHeight(buttonHeight);
+    buttonArcTypePred->setWidth(buttonWidth);
+    arcTypeButtons->push_back(buttonArcTypePred);
+    
+    buttonArcTypeBoth = new Button("Both");
+    buttonArcTypeBoth->setHeight(buttonHeight);
+    buttonArcTypeBoth->setWidth(buttonWidth);
+    arcTypeButtons->push_back(buttonArcTypeBoth);
+    buttonArcTypeBoth->activeOff();
 
-    toggleInterButton = new ToggleButton("Interaction", false);
-    toggleInterButton->setHeight(buttonHeight);
-    toggleInterButton->setWidth(buttonWidth);
-    toggleInterButton->setLocation(140, 55);
-    speciesButtons->push_back(toggleInterButton);
+    buttonArcTypeNone = new Button("Off");
+    buttonArcTypeNone->setHeight(buttonHeight);
+    buttonArcTypeNone->setWidth(buttonWidth);
+    arcTypeButtons->push_back(buttonArcTypeNone);
 
     toggleArcsDynamicButton = new ToggleButton("Dynamic Arcs", false);
     toggleArcsDynamicButton->setHeight(buttonHeight);
@@ -793,10 +829,6 @@ void MyQGLWidget::initialize() {
 }
 
 void MyQGLWidget::displayByGroup() {
-    displayGroupButton->activeOff();
-    displaySpeciesButton->activeOn();
-    displayMCButton->activeOn();
-
     managerGroup->displayOn();
     managerSpecies->displayOff();
     managerMC->displayOff();
@@ -806,10 +838,6 @@ void MyQGLWidget::displayByGroup() {
 }
 
 void MyQGLWidget::displayBySpecies() {
-    displaySpeciesButton->activeOff();
-    displayGroupButton->activeOn();
-    displayMCButton->activeOn();
-
     managerSpecies->displayOn();
     managerGroup->displayOff();
     managerMC->displayOff();
@@ -820,9 +848,6 @@ void MyQGLWidget::displayBySpecies() {
 
 void MyQGLWidget::displayMonteCarlo() {
     //kmc->run();
-    displaySpeciesButton->activeOn();
-    displayGroupButton->activeOn();
-    displayMCButton->activeOff();
 
     managerMC->displayOn();
     managerSpecies->displayOff();
@@ -966,22 +991,40 @@ void MyQGLWidget::toggleHarvest() {
     }
 }
  
-void MyQGLWidget::togglePredation() {
-    if (togglePredButton->getValue()) {
-        managerSpecies->displayPredation();
-        toggleInterButton->setValue(false);
-    } else {
-        managerSpecies->displayNoArcs();
-    }
+void MyQGLWidget::arcTypePredation() {
+    managerSpecies->displayPredation();
+
+    buttonArcTypeInter->activeOn();
+    buttonArcTypePred->activeOff();
+    buttonArcTypeBoth->activeOn();
+    buttonArcTypeNone->activeOn();
 }
 
-void MyQGLWidget::toggleInteraction() {
-    if (toggleInterButton->getValue()) {
-        managerSpecies->displayInteraction();
-        togglePredButton->setValue(false);
-    } else {
-        managerSpecies->displayNoArcs();
-    }
+void MyQGLWidget::arcTypeInteraction() {       
+    managerSpecies->displayInteraction();
+
+    buttonArcTypeInter->activeOff();
+    buttonArcTypePred->activeOn();
+    buttonArcTypeBoth->activeOn();
+    buttonArcTypeNone->activeOn();
+}
+
+void MyQGLWidget::arcTypeBoth() {
+    managerSpecies->displayBothArcs();
+
+    buttonArcTypeInter->activeOn();
+    buttonArcTypePred->activeOn();
+    buttonArcTypeBoth->activeOff();
+    buttonArcTypeNone->activeOn();
+}
+
+void MyQGLWidget::arcTypeNone() {
+    managerSpecies->displayNoArcs();
+
+    buttonArcTypeInter->activeOn();
+    buttonArcTypePred->activeOn();
+    buttonArcTypeBoth->activeOn();
+    buttonArcTypeNone->activeOff();
 }
 
 void MyQGLWidget::setBaseline() {
