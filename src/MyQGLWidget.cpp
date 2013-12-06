@@ -253,14 +253,13 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
 
         if (releasedIndex == 0) {
             displayByGroup();
-            return true;
         } else if (releasedIndex == 1) {
             displayBySpecies();
-            return true;
         } else if (releasedIndex == 2) {
             displayMonteCarlo();
-            return true;
         }
+
+        return true;
     }
 
     if (managerSpecies->getDisplay() || managerGroup->getDisplay()) {
@@ -269,14 +268,13 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
             
             if (releasedIndex == 0) {
                 displayGhostAsLine();
-                return true;
             } else if (releasedIndex == 1) {
                 displayGhostAsBlend();
-                return true;
             } else if (releasedIndex == 2) {
                 displayGhostOff();
-                return true;
             }
+
+            return true;
         }
 
         if (resetAllButton->mouseReleased(x, y)) {
@@ -426,58 +424,42 @@ void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 bool MyQGLWidget::mousePressButtons(float x, float y) {
-    bool buttonPress = false; 
-
-    buttonPress = bgView->mousePressed(x, y);
-
-    if (buttonPress) {
+    if (bgView->mousePressed(x, y)) {
         return true;
     }
 
 
     if (managerSpecies->getDisplay()) {
         for (unsigned int i = 0; i < speciesButtons->size(); i++) {
-            buttonPress = speciesButtons->at(i)->mousePressed(x, y);
-
-            if (buttonPress) {
+            if (speciesButtons->at(i)->mousePressed(x, y)) {
                 return true;
             }
         }
 
-        buttonPress = bgArc->mousePressed(x, y);
-
-        if (buttonPress) {
+        if (bgArc->mousePressed(x, y)) {
             return true;
         }
     }
 
     if (managerSpecies->getDisplay() || managerGroup->getDisplay()) {
-        buttonPress = bgChange->mousePressed(x, y);
-
-        if (buttonPress) {
+        if (bgChange->mousePressed(x, y)) {
             return true;
         }
 
         for (unsigned int i = 0; i < speciesGroupButtons->size(); i++) {
-            buttonPress = speciesGroupButtons->at(i)->mousePressed(x, y);
-
-            if (buttonPress) {
+            if (speciesGroupButtons->at(i)->mousePressed(x, y)) {
                 return true;
             }
         }
     }
 
     if (managerMC->getDisplay()) {
-        buttonPress = bgUncertainty->mousePressed(x, y);
-
-        if (buttonPress) {
+        if (bgUncertainty->mousePressed(x, y)) {
             return true;
         }
 
         for (unsigned int i = 0; i < monteCarloOtherButtons->size(); i++) {
-            buttonPress = monteCarloOtherButtons->at(i)->mousePressed(x, y);
-
-            if (buttonPress) {
+            if (monteCarloOtherButtons->at(i)->mousePressed(x, y)) {
                 return true;
             }
         }
@@ -524,54 +506,38 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
 }
 
 bool MyQGLWidget::mouseMoveButtons(float x, float y) {
-    bool moved = false;
-
-    moved = bgView->mouseMoved(x, y);
-
-    if (moved) {
+    if (bgView->mouseMoved(x, y)) {
         return true;
     }
 
     if (managerSpecies->getDisplay() || managerGroup->getDisplay()) {
-        moved = mouseMoveButtonHelper(speciesGroupButtons, x, y);
-
-        if (moved) {
+        if (mouseMoveButtonHelper(speciesGroupButtons, x, y)) {
             return true;
         }
 
-        moved = bgChange->mouseMoved(x, y);
-    }
-
-    if (moved) {
-        return true;
+        if (bgChange->mouseMoved(x, y)) {
+            return true;
+        }
     }
 
     if (managerSpecies->getDisplay()) {        
-        moved = mouseMoveButtonHelper(speciesButtons, x, y);
-
-        if (moved) {
+        if (mouseMoveButtonHelper(speciesButtons, x, y)) {
             return true;
         }
 
-        moved = bgArc->mouseMoved(x, y);
-    }
-
-    if (moved) {
-        return true;
+        if (bgArc->mouseMoved(x, y)) {
+            return true;
+        }
     }
 
     if (managerMC->getDisplay()) {
-        moved = mouseMoveButtonHelper(monteCarloOtherButtons, x, y);
-
-        if (moved) {
+        if (mouseMoveButtonHelper(monteCarloOtherButtons, x, y)) {
             return true;
         }
 
-        moved = bgUncertainty->mouseMoved(x, y);
-    }
-
-    if (moved) {
-        return true;
+        if (bgUncertainty->mouseMoved(x, y)) {
+            return true;
+        }
     }
 
     return false;
