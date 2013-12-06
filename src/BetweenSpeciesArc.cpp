@@ -103,7 +103,7 @@ void BetweenSpeciesArc::draw() {
     if (displayDynamically) {
         float multA = abs(speciesA->getPercentIncreaseOfLastPoint());
         float multB = abs(speciesB->getPercentIncreaseOfLastPoint());
-        float newThickness = thickness * multA;
+        float newThickness = min(30, thickness * multA);
 
         this->setThickness(newThickness);
 
