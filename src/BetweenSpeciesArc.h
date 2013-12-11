@@ -35,6 +35,8 @@ public:
 
     float getAdjustPercentage() { return adjustPercentage; }
     void setAdjustPercentage(float p) { adjustPercentage = p; }
+
+    float getDynamicThickness();
 protected:
     float coefficient;
 private:

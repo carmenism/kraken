@@ -98,29 +98,42 @@ void BetweenSpeciesArc::draw() {
         }
     }
 
-    float thickness = getThickness();
-
-    if (displayDynamically) {
-        float multA = abs(speciesA->getPercentIncreaseOfLastPoint());
-        float multB = abs(speciesB->getPercentIncreaseOfLastPoint());
-        float newThickness = min(30, thickness * multA);
-
+    if (displayDynamically) {       
+        float newThickness = getDynamicThickness();
         this->setThickness(newThickness);
 
-        if (multA != 0 && multB != 0 && newThickness > 1) { // && multB > 0.1
+        if (newThickness > 1) { // && multB > 0.1
             VerticalArc::draw();
 
             positionTriangles();
             drawTriangles();
         }
     } else {        
-        this->setThickness(thickness);
+        this->setThickness(getThickness());
 
         VerticalArc::draw();
 
         positionTriangles();
         drawTriangles();
     }
+}
+
+float BetweenSpeciesArc::getDynamicThickness() {
+    float thickness = getThickness();
+    float multA = abs(speciesA->getPercentIncreaseOfLastPoint());
+    float multB = abs(speciesB->getPercentIncreaseOfLastPoint());
+
+    if (multA == 0 || multB == 0) {
+        return 0;
+    }
+
+    float newThickness = min(30, thickness * multA);
+
+    if (newThickness < 1) {
+        return 0;
+    }
+
+    return newThickness;
 }
 
 void BetweenSpeciesArc::positionTriangles() {
@@ -130,8 +143,8 @@ void BetweenSpeciesArc::positionTriangles() {
     arrowB->setBorderColor(c);    
     arrowMiddle->setBorderColor(c);
 
-    arrowA->setBorderWidth(3);
-    arrowB->setBorderWidth(3);
+    arrowA->setBorderWidth(2);
+    arrowB->setBorderWidth(2);
     arrowMiddle->setBorderWidth(1.5);
 
     float shortEdge = getRadius() / 2;

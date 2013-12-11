@@ -137,3 +137,17 @@ void BetweenSpeciesArcCollection::addArcs(BetweenSpeciesArcCollection *otherArcs
 void BetweenSpeciesArcCollection::clear() {
     arcs->clear();
 }
+
+BetweenSpeciesArcList *BetweenSpeciesArcCollection::getVisibleArcs() {
+    BetweenSpeciesArcList *newList = new BetweenSpeciesArcList();
+
+    for (unsigned int i = 0; i < arcs->size(); i++) {
+        if (!arcs->at(i)->getDisplayDynamically()) {
+            newList->push_back(arcs->at(i));
+        } else if (arcs->at(i)->getDynamicThickness() > 1) {
+            newList->push_back(arcs->at(i));
+        }
+    }
+
+    return newList;
+}

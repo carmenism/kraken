@@ -35,7 +35,7 @@ public:
 
     void addArc(BetweenSpeciesArc *arc);
     void addArc(int type, float coeff, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB, bool setToLeft, Color *c = NULL);
-    BetweenSpeciesArcList *getArcs() { return arcs; }
+    BetweenSpeciesArcList *getVisibleArcs();// { return arcs; }
 
     void setDisplayDynamically(bool d);
     void displayDynamicallyOn();

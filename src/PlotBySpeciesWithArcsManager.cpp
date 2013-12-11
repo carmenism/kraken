@@ -220,7 +220,7 @@ BetweenSpeciesArcList *PlotBySpeciesWithArcsManager::getArcs() {
         return NULL;
     }
 
-    return arcsCurrent->getArcs();
+    return arcsCurrent->getVisibleArcs();
 }
 
 bool PlotBySpeciesWithArcsManager::getDisplayAbsoluteSizes() {
