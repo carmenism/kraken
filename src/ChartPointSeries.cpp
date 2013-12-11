@@ -228,8 +228,8 @@ void ChartPointSeries::drawGhostAsLine() {
    
     glPolygonMode(GL_FRONT, GL_LINE);
     glLineWidth(lineWidth);
-    //glColor4f(0.5, 0.5, 0.5, 1);
-    glColor4f(lineColor->r, lineColor->g, lineColor->b, 1);
+    glColor4f(0.5, 0.5, 0.5, 1);
+    //glColor4f(lineColor->r, lineColor->g, lineColor->b, 1);
 
     glPushAttrib(GL_ENABLE_BIT); 
     glLineStipple(1, 0xAAAA);

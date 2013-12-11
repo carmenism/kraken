@@ -144,7 +144,7 @@ void PlotBySpeciesWithArcsManager::initializePredationArcs(MS_PROD_MainWindow *m
 }
 
 void PlotBySpeciesWithArcsManager::initializeBothArcs(MS_PROD_MainWindow *mainWindow) {
-    arcsBoth = new BetweenSpeciesArcCollection("Red: Predation, Gray: Interaction");
+    arcsBoth = new BetweenSpeciesArcCollection("Orange: Predation, Gray: Interaction");
     initializeArcs(arcsBoth, ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix(), false);
     arcsBoth->adjustLarger();
     //arcsBoth->setAdjustPercentage(0.5);

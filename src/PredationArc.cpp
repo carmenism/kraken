@@ -3,7 +3,7 @@
 
 PredationArc::PredationArc(float coefficient, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB) 
 : BetweenSpeciesArc(coefficient, speciesA, speciesB, " predate on ") {    
-    color = &Color::darkRed;
+    color = &Color::orange;
 }
 
 PredationArc::~PredationArc() {

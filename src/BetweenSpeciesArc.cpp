@@ -17,17 +17,17 @@ BetweenSpeciesArc::BetweenSpeciesArc(float coefficient, SingleSpeciesLineChart *
 
     arrowA = new Triangle();
     arrowA->setBorderColor(new Color(0, 0, 0, .95));
-    arrowA->setFillColor(new Color(1, 1, 1, .45));
+    arrowA->setFillColor(new Color(1, 1, 1, .65));
     arrowA->setSize(10, 10);
 
     arrowB = new Triangle();
     arrowB->setBorderColor(new Color(0, 0, 0, .95));
-    arrowB->setFillColor(new Color(1, 1, 1, .45));
+    arrowB->setFillColor(new Color(1, 1, 1, .65));
     arrowB->setSize(10, 10);
     
     arrowMiddle = new Triangle();
     arrowMiddle->setBorderColor(new Color(0, 0, 0, .95));
-    arrowMiddle->setFillColor(new Color(1, 1, 1, .45));
+    arrowMiddle->setFillColor(new Color(1, 1, 1, .65));
     arrowMiddle->setSize(10, 10);
 
     displayDynamically = false;
@@ -129,6 +129,10 @@ void BetweenSpeciesArc::positionTriangles() {
     arrowA->setBorderColor(c);
     arrowB->setBorderColor(c);    
     arrowMiddle->setBorderColor(c);
+
+    arrowA->setBorderWidth(3);
+    arrowB->setBorderWidth(3);
+    arrowMiddle->setBorderWidth(1.5);
 
     float shortEdge = getRadius() / 2;
     float longEdge = shortEdge * sqrt(3.0f);
