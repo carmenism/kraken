@@ -29,6 +29,12 @@ public:
     void setDisplayErrorBands(bool d) { displayErrorBands = d; }
     void displayErrorBandsOn() { displayErrorBands = true; }
     void displayErrorBandsOff() { displayErrorBands = false; }
+
+    void useQuartiles();
+    void useStandardDeviations();
+
+    bool getUsingQuartiles();
+    bool getUsingStandardDeviations();
 private:
     bool displayBoxPlots, displayErrorBands;
     bool displayErrorBars;
@@ -49,6 +55,11 @@ private:
     QList<double> *meanPlus1SD; 
     QList<double> *meanMinus1SD;
     QList<double> *meanMinus2SD; 
+
+    QList<double> *insideTop;
+    QList<double> *insideBottom;
+    QList<double> *outsideTop;
+    QList<double> *outsideBottom;
 
     void drawErrorBars();
     void drawBoxPlots();

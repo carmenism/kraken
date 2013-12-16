@@ -177,3 +177,18 @@ void MonteCarloLineChart::displayErrorBarsOff() {
     stats->displayErrorBarsOff();
 }
     
+void MonteCarloLineChart::useQuartiles() {
+    stats->useQuartiles();
+}
+
+void MonteCarloLineChart::useStandardDeviations() {
+    stats->useStandardDeviations();
+}
+
+bool MonteCarloLineChart::getUsingQuartiles() {
+    return stats->getUsingQuartiles();
+}
+
+bool MonteCarloLineChart::getUsingStandardDeviations() {
+    return stats->getUsingStandardDeviations();
+}

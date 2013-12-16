@@ -58,6 +58,12 @@ public:
     void displayStreaks();
     void displayErrorBands();
     void displayErrorBars();
+    
+    void useQuartiles();
+    void useStandardDeviations();
+
+    bool getUsingQuartiles();
+    bool getUsingStandardDeviations();
 private:      
     std::vector<MonteCarloLineChart *> *charts;
 

@@ -85,6 +85,7 @@ MyQGLWidget::~MyQGLWidget() {
     deleteButtonList(speciesGroupButtons);
     deleteButtonList(monteCarloButtons);
 
+    delete bgUncertaintyStats;
     delete bgView;
     delete bgChange;
     delete bgArc;
@@ -198,6 +199,11 @@ void MyQGLWidget::paintGL() {
 
             bgUncertainty->setLocation(panelStartX, panelBottomY);
             bgUncertainty->draw();
+            
+            float xx = panelStartX + spacing + bgUncertainty->getWidth();
+
+            bgUncertaintyStats->setLocation(xx, panelBottomY);
+            bgUncertaintyStats->draw();
         }
 
         bgView->setLocation(panelStartX, panelTopY);
@@ -318,7 +324,19 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
             bgUncertainty->setActive(2, !managerMC->getDisplayErrorBars());
             bgUncertainty->setActive(3, !managerMC->getDisplayErrorBands());        
 
+            bgUncertaintyStats->setActive(0, !managerMC->getUsingQuartiles());
+            bgUncertaintyStats->setActive(1, !managerMC->getUsingStandardDeviations());
+
             return true;
+        }
+        if (bgUncertaintyStats->mouseReleased(x, y)) {
+            int releasedIndex = bgUncertaintyStats->getReleasedIndex();
+
+            if (releasedIndex == 0) {
+                managerMC->useQuartiles();
+            } else if (releasedIndex == 1) {
+                managerMC->useStandardDeviations();
+            }
         }
         if (bgUncertainty->mouseReleased(x, y)) {
             int releasedIndex = bgUncertainty->getReleasedIndex();
@@ -441,6 +459,10 @@ bool MyQGLWidget::mousePressButtons(float x, float y) {
             return true;
         }
 
+        if (bgUncertaintyStats->mousePressed(x, y)) {
+            return true;
+        }
+
         for (unsigned int i = 0; i < monteCarloButtons->size(); i++) {
             if (monteCarloButtons->at(i)->mousePressed(x, y)) {
                 return true;
@@ -519,6 +541,10 @@ bool MyQGLWidget::mouseMoveButtons(float x, float y) {
         }
 
         if (bgUncertainty->mouseMoved(x, y)) {
+            return true;
+        }
+
+        if (bgUncertaintyStats->mouseMoved(x, y)) {
             return true;
         }
     }
@@ -713,6 +739,12 @@ void MyQGLWidget::initialize() {
     mcLabels.push_back("Error Bars");
     bgUncertainty = new ButtonGroup("Type", mcLabels, 0);
     bgUncertainty->activeOff();
+
+    std::vector<std::string> statsType;
+    statsType.push_back("Quartiles");
+    statsType.push_back("Std Dev");
+    bgUncertaintyStats = new ButtonGroup("Stats Type", statsType, 0);
+    bgUncertaintyStats->activeOff();
 
     displayByGroup();
 }

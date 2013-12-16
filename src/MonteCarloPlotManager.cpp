@@ -248,3 +248,31 @@ void MonteCarloPlotManager::displayErrorBars() {
     displayErrorBandsOff();
     displayErrorBarsOn();
 }
+
+bool MonteCarloPlotManager::getUsingQuartiles() {
+    if (charts == NULL || charts->empty()) {
+        return false;
+    }
+
+    return charts->at(0)->getUsingQuartiles();
+}
+
+bool MonteCarloPlotManager::getUsingStandardDeviations() {
+    if (charts == NULL || charts->empty()) {
+        return false;
+    }
+
+    return charts->at(0)->getUsingStandardDeviations();
+}
+
+void MonteCarloPlotManager::useQuartiles() {
+    for (unsigned int i = 0; i < charts->size(); i++) {
+        charts->at(i)->useQuartiles();
+    }
+}
+
+void MonteCarloPlotManager::useStandardDeviations() {
+    for (unsigned int i = 0; i < charts->size(); i++) {
+        charts->at(i)->useStandardDeviations();
+    }
+}

@@ -54,6 +54,12 @@ public:
     void setDisplayErrorBands(bool d);
     void displayErrorBandsOn();
     void displayErrorBandsOff();
+
+    void useQuartiles();
+    void useStandardDeviations();
+    
+    bool getUsingQuartiles();
+    bool getUsingStandardDeviations();
 private:       
     bool displayOriginalLine;
     bool displayStreaks;

@@ -29,6 +29,8 @@ Statistics::Statistics(LineChart *chart) {
 
     startIndex = 5;
     interval = 5;
+
+    useQuartiles();
 }
 
 Statistics::~Statistics() {
@@ -39,6 +41,32 @@ Statistics::~Statistics() {
     delete median;
     delete q1;
     delete q3;
+    delete meanPlus2SD;
+    delete meanPlus1SD;
+    delete meanMinus2SD;
+    delete meanMinus1SD;
+}
+
+void Statistics::useQuartiles() {
+    insideTop = q3;
+    insideBottom = q1;
+    outsideTop = max;
+    outsideBottom = min;
+}
+
+void Statistics::useStandardDeviations() {
+    insideTop = meanPlus1SD;
+    insideBottom = meanMinus1SD;
+    outsideTop = meanPlus2SD;
+    outsideBottom = meanMinus2SD;
+}
+
+bool Statistics::getUsingQuartiles() {
+    return insideTop == q3;
+}
+
+bool Statistics::getUsingStandardDeviations() {
+    return insideTop == meanPlus1SD;
 }
 
 void Statistics::recalculate() {
@@ -170,8 +198,8 @@ void Statistics::draw() {
 void Statistics::drawErrorBands() {
     Color *color = chart->getSeriesList()->at(0)->getColor();
 
-    drawErrorBand(meanPlus2SD, meanMinus2SD, color, 0.3);
-    drawErrorBand(meanPlus1SD, meanMinus1SD, color, 0.6);
+    drawErrorBand(outsideTop, outsideBottom, color, 0.3);
+    drawErrorBand(insideTop, insideBottom, color, 0.6);
 
     drawLine(mean, 1);
 }
@@ -226,8 +254,8 @@ void Statistics::drawLine(QList<double> *list, double lineWidth) {
 void Statistics::drawBoxPlots() {   
     //drawLine(median, 2);
 
-    QList<double> *boxTop = q3;
-    QList<double> *boxBottom = q1;
+    QList<double> *boxTop = insideTop;
+    QList<double> *boxBottom = insideBottom;
     
     QList<double> *boxMiddle = median;
 
@@ -298,6 +326,9 @@ void Statistics::drawBoxPlots() {
 }
 
 void Statistics::drawErrorBars() {
+    QList<double> *top = insideTop;
+    QList<double> *bottom = insideBottom;
+
     int index = startIndex;
 
     glColor3f(0, 0, 0);
@@ -307,8 +338,8 @@ void Statistics::drawErrorBars() {
     
     while (index < meanPlus1SD->size()) {
         float xPos = calculateXLocation(index);
-        float yPosTop = calculateYLocation(meanPlus1SD->at(index));
-        float yPosBot = calculateYLocation(meanMinus1SD->at(index));
+        float yPosTop = calculateYLocation(top->at(index));
+        float yPosBot = calculateYLocation(bottom->at(index));
         
         glBegin(GL_LINES);
             glVertex2f(xPos, yPosTop);
