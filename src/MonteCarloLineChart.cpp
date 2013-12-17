@@ -69,14 +69,15 @@ void MonteCarloLineChart::drawAtOrigin() {
         }
     }
 
+    if (!displayStreaks) {
+        stats->draw();
+    }
+
     LineChart::drawAtOrigin();
     
     glColor4f(0, 0, 0, 1);
     PrintText::drawStrokeText(sideLabel, -10, offsetY + innerHeight / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER);
 
-    if (!displayStreaks) {
-        stats->draw();
-    }
 
     if (oc != NULL) {
         seriesList->at(seriesList->size() - 1)->setColor(oc);

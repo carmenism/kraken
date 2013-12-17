@@ -210,7 +210,7 @@ void Statistics::draw() {
 void Statistics::drawErrorBands() {
     Color *color = chart->getSeriesList()->at(0)->getColor();
 
-    drawErrorBand(outsideTop, outsideBottom, color, 0.3);
+    drawErrorBand(outsideTop, outsideBottom, color, 0.2);
     drawErrorBand(insideTop, insideBottom, color, 0.6);
 }
 
