@@ -5,6 +5,7 @@ class LineChart;
 class Color;
 
 #include <QList>
+#include <vector>
 
 class Statistics {
 public:
@@ -45,14 +46,22 @@ public:
     void setDisplayMeanLine(bool d) { displayMeanLine = d; }
     void displayMeanLineOn() { displayMeanLine = true; }
     void displayMeanLineOff() { displayMeanLine = false; }
+
+    bool getDisplayOriginalLine() { return displayOriginalLine; }
+    void setDisplayOriginalLine(bool d) { displayOriginalLine = d; }
+    void displayOriginalLineOn() { displayOriginalLine = true; }
+    void displayOriginalLineOff() { displayOriginalLine = false; }
+
+    void setOriginal(std::vector<float> *values);
 private:
-    bool displayBoxPlots, displayErrorBands;
-    bool displayErrorBars;
-    bool displayMeanLine, displayMedianLine;
+    bool displayBoxPlots, displayErrorBands, displayErrorBars;
+    bool displayMeanLine, displayMedianLine, displayOriginalLine;
     int startIndex;
     int interval;
 
     LineChart *chart;
+
+    QList<double> *original;
 
     QList<double> *mean;   // middle line
     QList<double> *stdDev; // box boundaries

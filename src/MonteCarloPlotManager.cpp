@@ -226,7 +226,6 @@ void MonteCarloPlotManager::displayErrorBarsOff() {
 }
 
 void MonteCarloPlotManager::displayBoxPlots() {
-    displayOriginalLineOn();
     displayBoxPlotsOn();
     displayStreaksOff();
     displayErrorBandsOff();
@@ -234,7 +233,6 @@ void MonteCarloPlotManager::displayBoxPlots() {
 }
     
 void MonteCarloPlotManager::displayStreaks() {
-    displayOriginalLineOff();
     displayBoxPlotsOff();
     displayStreaksOn();
     displayErrorBandsOff();
@@ -242,7 +240,6 @@ void MonteCarloPlotManager::displayStreaks() {
 }
 
 void MonteCarloPlotManager::displayErrorBands() {
-    displayOriginalLineOff();
     displayBoxPlotsOff();
     displayStreaksOff();
     displayErrorBandsOn();
@@ -250,7 +247,6 @@ void MonteCarloPlotManager::displayErrorBands() {
 }
 
 void MonteCarloPlotManager::displayErrorBars() {
-    displayOriginalLineOn();
     displayBoxPlotsOff();
     displayStreaksOff();
     displayErrorBandsOff();

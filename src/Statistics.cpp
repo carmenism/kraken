@@ -13,6 +13,7 @@ Statistics::Statistics(LineChart *chart) {
     displayErrorBars = false;
     displayMeanLine = true;
     displayMedianLine = false;
+    displayOriginalLine = false;
 
     this->chart = chart;
 
@@ -28,6 +29,8 @@ Statistics::Statistics(LineChart *chart) {
     meanPlus1SD = new QList<double>();
     meanMinus1SD = new QList<double>();
     meanMinus2SD = new QList<double>();
+
+    original = new QList<double>();
 
     startIndex = 5;
     interval = 5;
@@ -47,6 +50,15 @@ Statistics::~Statistics() {
     delete meanPlus1SD;
     delete meanMinus2SD;
     delete meanMinus1SD;
+    delete original;
+}
+
+void Statistics::setOriginal(std::vector<float> *values) {
+    original->clear();
+
+    for (int i = 0; i < values->size(); i++) {
+        original->push_back(values->at(i));
+    }
 }
 
 void Statistics::useQuartiles() {
@@ -198,6 +210,10 @@ void Statistics::draw() {
 
             if (displayMeanLine) {
                 drawLine(mean, 1);
+            }
+
+            if (displayOriginalLine) {
+                drawLine(original, 1);
             }
 
             if (displayMedianLine) {

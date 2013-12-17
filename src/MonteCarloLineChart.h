@@ -30,10 +30,10 @@ public:
 
     void updateStatistics();
 
-    bool getDisplayOriginalLine() { return displayOriginalLine; }
-    void setDisplayOriginalLine(bool d) { displayOriginalLine = d; }
-    void displayOriginalLineOn() { displayOriginalLine = true; }
-    void displayOriginalLineOff() { displayOriginalLine = false; }
+    bool getDisplayOriginalLine();
+    void setDisplayOriginalLine(bool d);
+    void displayOriginalLineOn();
+    void displayOriginalLineOff();
 
     bool getDisplayStreaks() { return displayStreaks; }
     void setDisplayStreaks(bool d) { displayStreaks = d; }
@@ -71,12 +71,12 @@ public:
     bool getUsingQuartiles();
     bool getUsingStandardDeviations();
 private:       
-    bool displayOriginalLine;
+    //bool displayOriginalLine;
     bool displayStreaks;
 
     Statistics *stats;
     Color *semiTransparentColor;
-    Color *originalLineColor;
+    //Color *originalLineColor;
     std::string sideLabel;
 
     virtual void calculateGlobalBounds();
