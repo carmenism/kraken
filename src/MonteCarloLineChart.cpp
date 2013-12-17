@@ -51,12 +51,22 @@ MonteCarloLineChart::~MonteCarloLineChart() {
 }
 
 void MonteCarloLineChart::drawAtOrigin() {
+    Color *oc = NULL;
+    //if (stats->getDisplayErrorBands()) {
+    //    oc = &Color::black;
+    //}
+
     if (!seriesList->empty()) {
         for (unsigned int i = 0; i < seriesList->size() - 1; i++) {
             seriesList->at(i)->setDisplay(displayStreaks);
         }
 
         seriesList->at(seriesList->size() - 1)->setDisplay(displayOriginalLine);
+
+        if (stats->getDisplayErrorBands()) {
+            oc = seriesList->at(seriesList->size() - 1)->getColor();
+            seriesList->at(seriesList->size() - 1)->setColor(&Color::black);
+        }
     }
 
     LineChart::drawAtOrigin();
@@ -64,7 +74,13 @@ void MonteCarloLineChart::drawAtOrigin() {
     glColor4f(0, 0, 0, 1);
     PrintText::drawStrokeText(sideLabel, -10, offsetY + innerHeight / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER);
 
-    stats->draw();
+    if (!displayStreaks) {
+        stats->draw();
+    }
+
+    if (oc != NULL) {
+        seriesList->at(seriesList->size() - 1)->setColor(oc);
+    }
 }
 
 void MonteCarloLineChart::addSemiTransparentPointSeries(int simNum, std::vector<float> *x, std::vector<float> *y) {
@@ -191,4 +207,36 @@ bool MonteCarloLineChart::getUsingQuartiles() {
 
 bool MonteCarloLineChart::getUsingStandardDeviations() {
     return stats->getUsingStandardDeviations();
+}
+
+bool MonteCarloLineChart::getDisplayMedianLine() {
+    return stats->getDisplayMedianLine();
+}
+
+void MonteCarloLineChart::setDisplayMedianLine(bool d) {
+    stats->setDisplayMedianLine(d);
+}
+
+void MonteCarloLineChart::displayMedianLineOn() {
+    setDisplayMedianLine(true);
+}
+
+void MonteCarloLineChart::displayMedianLineOff() {
+    setDisplayMedianLine(false);
+}
+
+bool MonteCarloLineChart::getDisplayMeanLine() {
+    return stats->getDisplayMeanLine();
+}
+
+void MonteCarloLineChart::setDisplayMeanLine(bool d) {
+    stats->setDisplayMeanLine(d);
+}
+
+void MonteCarloLineChart::displayMeanLineOn() {
+    setDisplayMeanLine(true);
+}
+
+void MonteCarloLineChart::displayMeanLineOff() {
+    setDisplayMeanLine(false);
 }

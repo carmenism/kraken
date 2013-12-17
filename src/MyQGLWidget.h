@@ -73,7 +73,8 @@ private:
     PlotBySpeciesWithArcsManager *managerSpecies;
     MonteCarloPlotManager *managerMC;    
     Button *runMCButton, *baselineButton, *resetAllButton;
-    ButtonGroup *bgView, *bgChange, *bgArc, *bgUncertainty, *bgUncertaintyStats;
+    ButtonGroup *bgView, *bgChange, *bgArc;
+    ButtonGroup *bgUncertainty, *bgUncertaintyStats, *bgUncertaintyLine;
     ToggleButton *toggleAbsButton, *toggleChartsButton, *toggleArcsDynamicButton;
     //ToggleButton *toggleHarvButton;
     

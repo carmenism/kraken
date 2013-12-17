@@ -35,9 +35,20 @@ public:
 
     bool getUsingQuartiles();
     bool getUsingStandardDeviations();
+
+    bool getDisplayMedianLine() { return displayMedianLine; }
+    void setDisplayMedianLine(bool d) { displayMedianLine = d; }
+    void displayMedianLineOn() { displayMedianLine = true; }
+    void displayMedianLineOff() { displayMedianLine = false; }
+
+    bool getDisplayMeanLine() { return displayMeanLine; }
+    void setDisplayMeanLine(bool d) { displayMeanLine = d; }
+    void displayMeanLineOn() { displayMeanLine = true; }
+    void displayMeanLineOff() { displayMeanLine = false; }
 private:
     bool displayBoxPlots, displayErrorBands;
     bool displayErrorBars;
+    bool displayMeanLine, displayMedianLine;
     int startIndex;
     int interval;
 
@@ -58,6 +69,7 @@ private:
 
     QList<double> *insideTop;
     QList<double> *insideBottom;
+    QList<double> *middle;
     QList<double> *outsideTop;
     QList<double> *outsideBottom;
 

@@ -35,6 +35,7 @@ public:
     void displayStreaksOn();
     void displayStreaksOff();
 
+    bool getDisplayOriginalLine();
     void setDisplayOriginalLine(bool d);
     void displayOriginalLineOn();
     void displayOriginalLineOff();
@@ -59,6 +60,16 @@ public:
     void displayErrorBands();
     void displayErrorBars();
     
+    bool getDisplayMedianLine();
+    void setDisplayMedianLine(bool d);
+    void displayMedianLineOn();
+    void displayMedianLineOff();
+
+    bool getDisplayMeanLine();
+    void setDisplayMeanLine(bool d);
+    void displayMeanLineOn();
+    void displayMeanLineOff();
+
     void useQuartiles();
     void useStandardDeviations();
 

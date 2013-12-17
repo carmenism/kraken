@@ -86,6 +86,7 @@ MyQGLWidget::~MyQGLWidget() {
     deleteButtonList(monteCarloButtons);
 
     delete bgUncertaintyStats;
+    delete bgUncertaintyLine;
     delete bgView;
     delete bgChange;
     delete bgArc;
@@ -200,10 +201,15 @@ void MyQGLWidget::paintGL() {
             bgUncertainty->setLocation(panelStartX, panelBottomY);
             bgUncertainty->draw();
             
-            float xx = panelStartX + spacing + bgUncertainty->getWidth();
+            if (bgUncertainty->getActive(0)) {
+                float xx = panelStartX + spacing + bgUncertainty->getWidth();
 
-            bgUncertaintyStats->setLocation(xx, panelBottomY);
-            bgUncertaintyStats->draw();
+                bgUncertaintyStats->setLocation(xx, panelBottomY);
+                bgUncertaintyStats->draw();
+                
+                bgUncertaintyLine->setLocation(xx + spacing + bgUncertaintyStats->getWidth(), panelBottomY);
+                bgUncertaintyLine->draw();
+            }
         }
 
         bgView->setLocation(panelStartX, panelTopY);
@@ -326,6 +332,29 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
 
             bgUncertaintyStats->setActive(0, !managerMC->getUsingQuartiles());
             bgUncertaintyStats->setActive(1, !managerMC->getUsingStandardDeviations());
+
+            bgUncertaintyLine->setActive(0, !managerMC->getDisplayOriginalLine());
+            bgUncertaintyLine->setActive(1, !managerMC->getDisplayMeanLine());
+            bgUncertaintyLine->setActive(2, !managerMC->getDisplayMedianLine());
+
+            return true;
+        }
+        if (bgUncertaintyLine->mouseReleased(x, y)) {
+            int releasedIndex = bgUncertaintyLine->getReleasedIndex();
+
+            if (releasedIndex == 0) {
+                managerMC->displayOriginalLineOn();
+                managerMC->displayMeanLineOff();
+                managerMC->displayMedianLineOff();
+            } else if (releasedIndex == 1) {
+                managerMC->displayMeanLineOn();
+                managerMC->displayMedianLineOff();
+                managerMC->displayOriginalLineOff();
+            } else if (releasedIndex == 2) {
+                managerMC->displayMedianLineOn();
+                managerMC->displayMeanLineOff();
+                managerMC->displayOriginalLineOff();
+            }
 
             return true;
         }
@@ -463,6 +492,10 @@ bool MyQGLWidget::mousePressButtons(float x, float y) {
             return true;
         }
 
+        if (bgUncertaintyLine->mousePressed(x, y)) {
+            return true;
+        }
+
         for (unsigned int i = 0; i < monteCarloButtons->size(); i++) {
             if (monteCarloButtons->at(i)->mousePressed(x, y)) {
                 return true;
@@ -545,6 +578,10 @@ bool MyQGLWidget::mouseMoveButtons(float x, float y) {
         }
 
         if (bgUncertaintyStats->mouseMoved(x, y)) {
+            return true;
+        }
+
+        if (bgUncertaintyLine->mouseMoved(x, y)) {
             return true;
         }
     }
@@ -745,6 +782,13 @@ void MyQGLWidget::initialize() {
     statsType.push_back("Std Dev");
     bgUncertaintyStats = new ButtonGroup("Stats Type", statsType, 0);
     bgUncertaintyStats->activeOff();
+
+    std::vector<std::string> lineType;
+    lineType.push_back("Original");
+    lineType.push_back("Mean");
+    lineType.push_back("Median");
+    bgUncertaintyLine = new ButtonGroup("Line Type", lineType, 1);
+    bgUncertaintyLine->activeOff();
 
     displayByGroup();
 }

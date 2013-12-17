@@ -137,6 +137,14 @@ void MonteCarloPlotManager::displayStreaksOff() {
     setDisplayStreaks(false);
 }
 
+bool MonteCarloPlotManager::getDisplayOriginalLine() {
+    if (charts == NULL || charts->empty()) {
+        return false;
+    }
+
+    return charts->at(0)->getDisplayOriginalLine();
+}
+
 void MonteCarloPlotManager::setDisplayOriginalLine(bool d) {
     for (unsigned int i = 0; i < charts->size(); i++) {
         charts->at(i)->setDisplayOriginalLine(d);
@@ -275,4 +283,48 @@ void MonteCarloPlotManager::useStandardDeviations() {
     for (unsigned int i = 0; i < charts->size(); i++) {
         charts->at(i)->useStandardDeviations();
     }
+}
+
+bool MonteCarloPlotManager::getDisplayMedianLine() {
+    if (charts == NULL || charts->empty()) {
+        return false;
+    }
+
+    return charts->at(0)->getDisplayMedianLine();
+}
+
+void MonteCarloPlotManager::setDisplayMedianLine(bool d) {
+    for (unsigned int i = 0; i < charts->size(); i++) {
+        charts->at(i)->setDisplayMedianLine(d);
+    }
+}
+
+void MonteCarloPlotManager::displayMedianLineOn() {
+    setDisplayMedianLine(true);
+}
+
+void MonteCarloPlotManager::displayMedianLineOff() {
+    setDisplayMedianLine(false);
+}
+
+bool MonteCarloPlotManager::getDisplayMeanLine() {
+    if (charts == NULL || charts->empty()) {
+        return false;
+    }
+
+    return charts->at(0)->getDisplayMeanLine();
+}
+
+void MonteCarloPlotManager::setDisplayMeanLine(bool d) {
+    for (unsigned int i = 0; i < charts->size(); i++) {
+        charts->at(i)->setDisplayMeanLine(d);
+    }
+}
+
+void MonteCarloPlotManager::displayMeanLineOn() {
+    setDisplayMeanLine(true);
+}
+
+void MonteCarloPlotManager::displayMeanLineOff() {
+    setDisplayMeanLine(false);
 }

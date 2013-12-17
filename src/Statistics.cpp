@@ -11,6 +11,8 @@ Statistics::Statistics(LineChart *chart) {
     displayErrorBands = false;
     displayBoxPlots = false;
     displayErrorBars = false;
+    displayMeanLine = true;
+    displayMedianLine = false;
 
     this->chart = chart;
 
@@ -48,16 +50,18 @@ Statistics::~Statistics() {
 }
 
 void Statistics::useQuartiles() {
-    insideTop = q3;
-    insideBottom = q1;
     outsideTop = max;
+    insideTop = q3;
+    middle = median;
+    insideBottom = q1;
     outsideBottom = min;
 }
 
 void Statistics::useStandardDeviations() {
-    insideTop = meanPlus1SD;
-    insideBottom = meanMinus1SD;
     outsideTop = meanPlus2SD;
+    insideTop = meanPlus1SD;
+    middle = mean;
+    insideBottom = meanMinus1SD;
     outsideBottom = meanMinus2SD;
 }
 
@@ -191,6 +195,14 @@ void Statistics::draw() {
             if (displayErrorBars) {
                 drawErrorBars();
             }
+
+            if (displayMeanLine) {
+                drawLine(mean, 1);
+            }
+
+            if (displayMedianLine) {
+                drawLine(median, 1);
+            }
         glPopMatrix();
     }
 }
@@ -200,8 +212,6 @@ void Statistics::drawErrorBands() {
 
     drawErrorBand(outsideTop, outsideBottom, color, 0.3);
     drawErrorBand(insideTop, insideBottom, color, 0.6);
-
-    drawLine(mean, 1);
 }
 
 void Statistics::drawErrorBand(QList<double> *top, QList<double> *bottom, Color *color, float alpha) {
@@ -233,7 +243,17 @@ void Statistics::drawErrorBand(QList<double> *top, QList<double> *bottom, Color 
 }
 
 void Statistics::drawLine(QList<double> *list, double lineWidth) {
-    glColor4f(0, 0, 0, 1);
+    if (displayErrorBands) {
+        glColor4f(0, 0, 0, 1);
+    } else {      
+        if (!chart->getSeriesList()->empty()) {
+            Color *c = chart->getSeriesList()->at(0)->getColor();
+            glColor4f(c->r, c->g, c->b, 1);
+        } else {
+            glColor4f(0, 0, 0, 1);
+        }
+    }
+    
     glLineWidth(lineWidth);
 
     //glPolygonMode(GL_FRONT, GL_LINE);
@@ -257,7 +277,7 @@ void Statistics::drawBoxPlots() {
     QList<double> *boxTop = insideTop;
     QList<double> *boxBottom = insideBottom;
     
-    QList<double> *boxMiddle = median;
+    QList<double> *boxMiddle = middle;
 
     int index = startIndex;
     float boxWidth = 20;

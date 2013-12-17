@@ -127,6 +127,14 @@ bool ButtonGroup::mouseReleased(float mouseX, float mouseY) {
     return false;
 }
 
+bool ButtonGroup::getActive(int buttonIndex) {
+    if (buttonIndex >= 0 && buttonIndex < buttons->size()) {
+        return buttons->at(buttonIndex)->isActive();
+    }
+
+    return false;
+}
+
 void ButtonGroup::setActive(int buttonIndex, bool a) {
     if (buttonIndex >= 0 && buttonIndex < buttons->size()) {
         buttons->at(buttonIndex)->setActive(a);

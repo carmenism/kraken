@@ -28,6 +28,7 @@ public:
 
     int getReleasedIndex() { return releasedIndex; }
 
+    bool getActive(int buttonIndex);
     void setActive(int buttonIndex, bool a);
 
     void activeOff();

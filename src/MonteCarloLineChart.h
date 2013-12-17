@@ -55,6 +55,16 @@ public:
     void displayErrorBandsOn();
     void displayErrorBandsOff();
 
+    bool getDisplayMedianLine();
+    void setDisplayMedianLine(bool d);
+    void displayMedianLineOn();
+    void displayMedianLineOff();
+
+    bool getDisplayMeanLine();
+    void setDisplayMeanLine(bool d);
+    void displayMeanLineOn();
+    void displayMeanLineOff();
+
     void useQuartiles();
     void useStandardDeviations();
     
