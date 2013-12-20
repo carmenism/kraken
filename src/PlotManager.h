@@ -27,6 +27,9 @@ class PlotManager : public Displayable {
         virtual std::vector<LineChart *> *getCharts() = 0;
         virtual void updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) = 0;
 
+        float getLargestValue();
+        float getLargestValueAtLastTime();
+
         void displayGhostOff();
         void displayGhostAsLine();
         void displayGhostAsBlend();

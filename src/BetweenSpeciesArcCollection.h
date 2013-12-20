@@ -4,6 +4,7 @@
 class BetweenSpeciesArc;
 class SingleSpeciesLineChart;
 class Color;
+class PlotManager;
 
 #include "Displayable.h"
 #include <vector>
@@ -21,7 +22,7 @@ typedef std::vector<BetweenSpeciesArc *>::const_iterator BetweenSpeciesArcIterat
 
 class BetweenSpeciesArcCollection : public Displayable {
 public:
-    BetweenSpeciesArcCollection(std::string title);
+    BetweenSpeciesArcCollection(PlotManager *pm, std::string title);
     ~BetweenSpeciesArcCollection();
 
     void draw();
@@ -51,6 +52,7 @@ public:
     void addArcs(BetweenSpeciesArcCollection *otherArcs);
     void clear();
 private:
+    PlotManager *plotManager;
     BetweenSpeciesArcList *arcs;
     BetweenSpeciesArc *selected;
     std::string title;

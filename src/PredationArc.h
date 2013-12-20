@@ -2,12 +2,13 @@
 #define _PREDATIONARC_H
 
 class SingleSpeciesLineChart;
+class PlotManager;
 
 #include "BetweenSpeciesArc.h"
 
 class PredationArc : public BetweenSpeciesArc {
 public:
-    PredationArc(float coefficient, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB);
+    PredationArc(PlotManager *pm, float coefficient, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB);
     ~PredationArc();
 
     virtual float getThickness();

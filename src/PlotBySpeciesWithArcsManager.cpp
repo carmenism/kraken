@@ -134,22 +134,22 @@ void PlotBySpeciesWithArcsManager::initializeCharts(QList<QList<double> *> *biom
 }
 
 void PlotBySpeciesWithArcsManager::initializeInteractionArcs(MS_PROD_MainWindow *mainWindow) {
-    arcsInter = new BetweenSpeciesArcCollection("Arcs Represent Species Interaction");
+    arcsInter = new BetweenSpeciesArcCollection(this, "Arcs Represent Species Interaction");
     initializeArcs(arcsInter, ARC_INTERACTION, mainWindow->getParameters()->getWithinGuildCompMatrix(), true);
 }
 
 void PlotBySpeciesWithArcsManager::initializePredationArcs(MS_PROD_MainWindow *mainWindow) {
-    arcsPred = new BetweenSpeciesArcCollection("Arcs Represent Species Predation");
+    arcsPred = new BetweenSpeciesArcCollection(this, "Arcs Represent Species Predation");
     initializeArcs(arcsPred, ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix(), true);
 }
 
 void PlotBySpeciesWithArcsManager::initializeBothArcs(MS_PROD_MainWindow *mainWindow) {
-    arcsBoth = new BetweenSpeciesArcCollection("Orange: Predation, Gray: Interaction");
+    arcsBoth = new BetweenSpeciesArcCollection(this, "Orange: Predation, Gray: Interaction");
     initializeArcs(arcsBoth, ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix(), false);
     arcsBoth->adjustLarger();
     //arcsBoth->setAdjustPercentage(0.5);
     
-    BetweenSpeciesArcCollection *tmp = new BetweenSpeciesArcCollection("TEMP");
+    BetweenSpeciesArcCollection *tmp = new BetweenSpeciesArcCollection(this, "TEMP");
     initializeArcs(tmp, ARC_INTERACTION, mainWindow->getParameters()->getWithinGuildCompMatrix(), false);
     tmp->adjustSmaller();
     

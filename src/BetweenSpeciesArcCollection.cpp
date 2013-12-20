@@ -5,11 +5,12 @@
 #include "PrintText.h"
 #include <QtOpenGL>
 
-BetweenSpeciesArcCollection::BetweenSpeciesArcCollection(std::string title) {
+BetweenSpeciesArcCollection::BetweenSpeciesArcCollection(PlotManager *pm, std::string title) {
     arcs = new BetweenSpeciesArcList();
     selected = NULL;
     this->title = title;
     fontHeight = 14;
+    this->plotManager = pm;
 }
 
 BetweenSpeciesArcCollection::~BetweenSpeciesArcCollection() {
@@ -74,9 +75,9 @@ void BetweenSpeciesArcCollection::addArc(int type, float coeff, SingleSpeciesLin
     BetweenSpeciesArc *arc;
 
     if (type == ARC_INTERACTION) {
-        arc = new InteractionArc(coeff, speciesA, speciesB);
+        arc = new InteractionArc(plotManager, coeff, speciesA, speciesB);
     } else {
-        arc = new PredationArc(coeff, speciesA, speciesB);
+        arc = new PredationArc(plotManager, coeff, speciesA, speciesB);
     }
 
     if (c != NULL) {

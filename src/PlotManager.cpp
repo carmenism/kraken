@@ -1,6 +1,7 @@
 #include "PlotManager.h"
 #include "Pickable.h"
 #include "ChartPoint.h"
+#include <limits>
 
 PlotManager::~PlotManager() {
 
@@ -94,3 +95,25 @@ void PlotManager::displayGhostAsBlend() {
         charts->at(j)->displayGhostAsABlend();
     }
 }
+
+float PlotManager::getLargestValue() {
+    std::vector<LineChart *> *charts = getCharts();
+    float maxValue = -1 * (std::numeric_limits<float>::max)();
+
+    for (unsigned int i = 0; i < charts->size(); i++) {
+        maxValue = std::max(maxValue, charts->at(i)->getGlobalMaxY());
+    }
+
+    return maxValue;
+}   
+
+float PlotManager::getLargestValueAtLastTime() {
+    std::vector<LineChart *> *charts = getCharts();
+    float maxValue = -1 * (std::numeric_limits<float>::max)();
+
+    for (unsigned int i = 0; i < charts->size(); i++) {
+        maxValue = std::max(maxValue, charts->at(i)->getLargestValueAtLastTime());
+    }
+
+    return maxValue;
+} 

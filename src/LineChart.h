@@ -94,6 +94,8 @@ public:
     void setDisplayGhostAsLine(bool d) { displayGhostAsLine = d; }
     void displayGhostAsALine() { displayGhostAsLine = true; }
     void displayGhostAsABlend() { displayGhostAsLine = false; }
+    
+    float getLargestValueAtLastTime();
 protected:
     bool adjustYAxisToData;
     bool displayGhost, displayGhostAsLine;

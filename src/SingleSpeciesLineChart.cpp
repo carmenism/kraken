@@ -142,3 +142,7 @@ void SingleSpeciesLineChart::setAbsLegendLocation(float x, float y) {
 float SingleSpeciesLineChart::getPercentIncreaseOfLastPoint() {
     return seriesList->front()->getPercentIncreaseOfLastPoint();
 }
+
+float SingleSpeciesLineChart::getLastPointValue() {
+    return seriesList->front()->getLastPointValue();
+}

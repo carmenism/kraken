@@ -3,6 +3,7 @@
 
 class SingleSpeciesLineChart;
 class Triangle;
+class PlotManager;
 
 #include "VerticalArc.h"
 
@@ -10,7 +11,7 @@ enum {ADJUST_NONE, ADJUST_LARGER, ADJUST_SMALLER};
 
 class BetweenSpeciesArc : public VerticalArc {
 public:
-    BetweenSpeciesArc(float coefficient, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB, std::string label);
+    BetweenSpeciesArc(PlotManager *pm, float coefficient, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB, std::string label);
     ~BetweenSpeciesArc();
 
     float getCoefficient() { return coefficient; }
@@ -40,6 +41,8 @@ public:
 protected:
     float coefficient;
 private:
+    PlotManager *plotManager;
+
     int adjustType;
     float adjustPercentage;
     bool displayDynamically;

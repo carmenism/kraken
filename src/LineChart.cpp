@@ -380,3 +380,13 @@ void LineChart::captureLastValues() {
 float LineChart::getLegendWidth() {
     return legend->getWidth();
 }
+
+float LineChart::getLargestValueAtLastTime() {
+    float maxValue = -1 * (std::numeric_limits<float>::max)();
+
+    for (unsigned int i = 0; i < seriesList->size(); i++) {
+        maxValue = max(maxValue, seriesList->at(i)->getLastPointValue());
+    }
+
+    return maxValue;
+}

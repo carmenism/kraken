@@ -5,9 +5,11 @@
 #include "PrintText.h"
 #include "Color.h"
 #include "Triangle.h"
+#include "PlotManager.h"
 
-BetweenSpeciesArc::BetweenSpeciesArc(float coefficient, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB, std::string label) 
+BetweenSpeciesArc::BetweenSpeciesArc(PlotManager *pm, float coefficient, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB, std::string label) 
 : VerticalArc(0, 0, 10) {
+    this->plotManager = pm;
     this->speciesA = speciesA;
     this->speciesB = speciesB;
     this->coefficient = coefficient;
@@ -122,7 +124,9 @@ float BetweenSpeciesArc::getDynamicThickness() {
     float thickness = getThickness();
     float multA = abs(speciesA->getPercentIncreaseOfLastPoint());
     float multB = abs(speciesB->getPercentIncreaseOfLastPoint());
-
+    float lastA = speciesA->getLastPointValue();
+    float lastB = speciesB->getLastPointValue();
+    
     if (multA == 0 || multB == 0) {
         return 0;
     }
