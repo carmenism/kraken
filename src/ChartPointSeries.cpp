@@ -270,7 +270,7 @@ void ChartPointSeries::drawGhostAsBlend() {
     ChartPoint *last = NULL;
 
     glPolygonMode( GL_FRONT, GL_FILL );
-    //glBegin( GL_POLYGON );
+
     FOREACH_POINTP(it, points) {   
         if (last != NULL) {
             float leftX = last->getPositionX();
@@ -284,24 +284,23 @@ void ChartPointSeries::drawGhostAsBlend() {
             float rightDiffY = endRightY - startRightY;
             float leftDiffY = endLeftY - startLeftY;
 
-            float rightY = rightDiffY / NUM_RECTS;
-            float leftY = leftDiffY / NUM_RECTS;
+            float rightY = rightDiffY / (NUM_RECTS - 1);
+            float leftY = leftDiffY / (NUM_RECTS - 1);
+
+            glBegin( GL_QUAD_STRIP );
 
             for (int i = 0; i < NUM_RECTS; i++) {
                 glColor4f(lineColor->r, lineColor->g, lineColor->b, START_ALPHA - i * D_ALPHA);
 
-                glBegin( GL_POLYGON );
-                    glVertex2f(leftX, startLeftY + i * leftY); // top
-                    glVertex2f(rightX, startRightY + i * rightY);
-                    glVertex2f(rightX, startRightY + (i+1) * rightY);//bottom   
-                    glVertex2f(leftX, startLeftY + (i+1) * leftY); 
-                glEnd();
+                glVertex2f(rightX, startRightY + i * rightY); // bottom right  
+                glVertex2f(leftX, startLeftY + i * leftY); // bottom left
             }
+
+            glEnd();
         }
         
         last = *it;
     }
-    //glEnd( );
     
     glDisable(GL_SCISSOR_TEST);
 }
