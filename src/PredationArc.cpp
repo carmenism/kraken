@@ -1,7 +1,7 @@
 #include "PredationArc.h"
 #include "Color.h"
 
-PredationArc::PredationArc(PlotManager *pm, float coefficient, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB) 
+PredationArc::PredationArc(PlotManager *pm, float coefficient, SmallMultiple *speciesA, SmallMultiple *speciesB) 
 : BetweenSpeciesArc(pm, coefficient, speciesA, speciesB, " predate on ") {    
     color = &Color::orange;
 }

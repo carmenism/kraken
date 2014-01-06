@@ -1,5 +1,5 @@
 #include "BetweenSpeciesArc.h"
-#include "SingleSpeciesLineChart.h"
+#include "SmallMultiple.h"
 #include <string>
 
 #include "PrintText.h"
@@ -7,7 +7,7 @@
 #include "Triangle.h"
 #include "PlotManager.h"
 
-BetweenSpeciesArc::BetweenSpeciesArc(PlotManager *pm, float coefficient, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB, std::string label) 
+BetweenSpeciesArc::BetweenSpeciesArc(PlotManager *pm, float coefficient, SmallMultiple *speciesA, SmallMultiple *speciesB, std::string label) 
 : VerticalArc(0, 0, 10) {
     this->plotManager = pm;
     this->speciesA = speciesA;

@@ -1,7 +1,7 @@
 #ifndef _BETWEENSPECIESARC_H
 #define _BETWEENSPECIESARC_H
 
-class SingleSpeciesLineChart;
+class SmallMultiple;
 class Triangle;
 class PlotManager;
 
@@ -11,7 +11,7 @@ enum {ADJUST_NONE, ADJUST_LARGER, ADJUST_SMALLER};
 
 class BetweenSpeciesArc : public VerticalArc {
 public:
-    BetweenSpeciesArc(PlotManager *pm, float coefficient, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB, std::string label);
+    BetweenSpeciesArc(PlotManager *pm, float coefficient, SmallMultiple *speciesA, SmallMultiple *speciesB, std::string label);
     ~BetweenSpeciesArc();
 
     float getCoefficient() { return coefficient; }
@@ -51,8 +51,8 @@ private:
     float adjustPercentage;
     bool displayDynamically;
     std::string betweenSpeciesLabel;
-    SingleSpeciesLineChart *speciesA;
-    SingleSpeciesLineChart *speciesB;
+    SmallMultiple *speciesA;
+    SmallMultiple *speciesB;
     float fontHeight;
     Triangle *arrowA, *arrowB, *arrowMiddle;
 

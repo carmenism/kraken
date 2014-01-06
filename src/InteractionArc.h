@@ -1,14 +1,14 @@
 #ifndef _INTERACTIONARC_H
 #define _INTERACTIONARC_H
 
-class SingleSpeciesLineChart;
+class SmallMultiple;
 class PlotManager;
 
 #include "BetweenSpeciesArc.h"
 
 class InteractionArc : public BetweenSpeciesArc {
 public:
-    InteractionArc(PlotManager *pm, float coefficient, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB);
+    InteractionArc(PlotManager *pm, float coefficient, SmallMultiple *speciesA, SmallMultiple *speciesB);
     ~InteractionArc();
 private:
 };

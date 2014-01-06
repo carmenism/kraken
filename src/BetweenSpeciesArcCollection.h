@@ -2,7 +2,7 @@
 #define _BETWEENSPECIESARCCOLLECTION_H
 
 class BetweenSpeciesArc;
-class SingleSpeciesLineChart;
+class SmallMultiple;
 class Color;
 class PlotManager;
 
@@ -35,7 +35,7 @@ public:
     void setFontHeight(float h) { fontHeight = h; }
 
     void addArc(BetweenSpeciesArc *arc);
-    void addArc(int type, float coeff, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB, bool setToLeft, Color *c = NULL);
+    void addArc(int type, float coeff, SmallMultiple *speciesA, SmallMultiple *speciesB, bool setToLeft, Color *c = NULL);
     BetweenSpeciesArcList *getVisibleArcs();// { return arcs; }
 
     void setDisplayDynamically(bool d);

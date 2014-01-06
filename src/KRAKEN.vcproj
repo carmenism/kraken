@@ -415,7 +415,7 @@
 							>
 						</File>
 						<File
-							RelativePath=".\SingleSpeciesLineChart.cpp"
+							RelativePath=".\SmallMultiple.cpp"
 							>
 						</File>
 					</Filter>
@@ -869,7 +869,7 @@
 							>
 						</File>
 						<File
-							RelativePath=".\SingleSpeciesLineChart.h"
+							RelativePath=".\SmallMultiple.h"
 							>
 						</File>
 					</Filter>

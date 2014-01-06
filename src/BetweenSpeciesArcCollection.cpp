@@ -71,7 +71,7 @@ void BetweenSpeciesArcCollection::addArc(BetweenSpeciesArc *arc) {
     arcs->push_back(arc);
 }
 
-void BetweenSpeciesArcCollection::addArc(int type, float coeff, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB, bool setToLeft, Color *c) {
+void BetweenSpeciesArcCollection::addArc(int type, float coeff, SmallMultiple *speciesA, SmallMultiple *speciesB, bool setToLeft, Color *c) {
     BetweenSpeciesArc *arc;
 
     if (type == ARC_INTERACTION) {

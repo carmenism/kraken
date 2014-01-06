@@ -1,5 +1,5 @@
-#ifndef SINGLESPECIESLINECHART_H_
-#define SINGLESPECIESLINECHART_H_
+#ifndef SMALLMULTIPLE_H_
+#define SMALLMULTIPLE_H_
 
 class Color;
 class AbsoluteSizesChart;
@@ -9,11 +9,11 @@ class AbsoluteSizeIndicator;
 #include <vector>
 #include <string>
 
-class SingleSpeciesLineChart : public LineChart {
+class SmallMultiple : public LineChart {
 public:
-    SingleSpeciesLineChart();
-    ~SingleSpeciesLineChart();
-    SingleSpeciesLineChart(std::vector<float> *x, std::vector<float> *yBiomass, std::vector<float> *yHarvest, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex);
+    SmallMultiple();
+    ~SmallMultiple();
+    SmallMultiple(std::vector<float> *x, std::vector<float> *yBiomass, std::vector<float> *yHarvest, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex);
     void setValues(std::vector<float> *x, std::vector<float> *yBiomass, std::vector<float> *yHarvest);
     void drawAtOrigin();
     virtual void draw();
@@ -52,4 +52,4 @@ private:
     LineChart *harvest;
 };
 
-#endif  SINGLESPECIESLINECHART_H_ 
+#endif SMALLMULTIPLE_H_ 

@@ -21,7 +21,7 @@
 #include "PlotBySpeciesWithArcsManager.h"
 #include "PrintText.h"
 #include "ResetButton.h"
-#include "SingleSpeciesLineChart.h"
+#include "SmallMultiple.h"
 #include "SliderButton.h"
 #include "UndoButton.h"
 #include "ToggleButton.h"

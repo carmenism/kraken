@@ -10,7 +10,7 @@
 #include "ChartPointSeries.h"
 
 class AbsoluteSizeIndicator;
-class SingleSpeciesLineChart;
+class SmallMultiple;
 class InteractionArc;
 class PredationArc;
 
@@ -56,7 +56,7 @@ public:
     void displayArcsDynamicallyOn();
     void displayArcsDynamicallyOff();
 
-    SingleSpeciesLineChart *getChartAt(int i) { return charts->at(i); }
+    SmallMultiple *getChartAt(int i) { return charts->at(i); }
 private:   
     QList<double> percentChangeInFinalBiomass;
 
@@ -65,7 +65,7 @@ private:
     BetweenSpeciesArcCollection *arcsBoth;
     BetweenSpeciesArcCollection *arcsCurrent;
 
-    std::vector<SingleSpeciesLineChart *> *charts;
+    std::vector<SmallMultiple *> *charts;
     
     void initializeCharts(QList<QList<double> *> *biomassMatrix, QList<QList<double> *> *harvestMatrix, MS_PROD_MainWindow *mainWindow);
     void initializeArcs(BetweenSpeciesArcCollection *arcs, int arcType, QList<QList<double>> matix, bool useColorOfChart);

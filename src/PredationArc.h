@@ -1,14 +1,14 @@
 #ifndef _PREDATIONARC_H
 #define _PREDATIONARC_H
 
-class SingleSpeciesLineChart;
+class SmallMultiple;
 class PlotManager;
 
 #include "BetweenSpeciesArc.h"
 
 class PredationArc : public BetweenSpeciesArc {
 public:
-    PredationArc(PlotManager *pm, float coefficient, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB);
+    PredationArc(PlotManager *pm, float coefficient, SmallMultiple *speciesA, SmallMultiple *speciesB);
     ~PredationArc();
 
     virtual float getCoefficent();

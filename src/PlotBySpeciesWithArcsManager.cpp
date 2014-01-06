@@ -1,5 +1,5 @@
 #include "PlotBySpeciesWithArcsManager.h"
-#include "SingleSpeciesLineChart.h"
+#include "SmallMultiple.h"
 #include "MS_PROD_MainWindow.h"
 #include "InteractionArc.h"
 #include "PredationArc.h"
@@ -12,12 +12,12 @@
 PlotBySpeciesWithArcsManager::PlotBySpeciesWithArcsManager() : charts() {
     arcsCurrent = NULL;
 
-    charts = new std::vector<SingleSpeciesLineChart *>();
+    charts = new std::vector<SmallMultiple *>();
 }
 
 PlotBySpeciesWithArcsManager::~PlotBySpeciesWithArcsManager() {
     while (!charts->empty()) {
-        SingleSpeciesLineChart *c = charts->back();
+        SmallMultiple *c = charts->back();
         charts->pop_back();
         delete c;
     }
@@ -120,7 +120,7 @@ void PlotBySpeciesWithArcsManager::initializeCharts(QList<QList<double> *> *biom
             yHarvest->push_back(harvestMatrix->at(i)->at(j));
         }
 
-        SingleSpeciesLineChart *chart = new SingleSpeciesLineChart(x, yBiomass, yHarvest, newLabels->at(i).toStdString(), displayXAxis, guilds.size(), guildIndex);
+        SmallMultiple *chart = new SmallMultiple(x, yBiomass, yHarvest, newLabels->at(i).toStdString(), displayXAxis, guilds.size(), guildIndex);
         chart->setTitle(newLabels->at(i).toStdString());        
         chart->setLineWidths(1);
         charts->push_back(chart);

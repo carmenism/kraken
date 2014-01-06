@@ -1,4 +1,4 @@
-#include "SingleSpeciesLineChart.h"
+#include "SmallMultiple.h"
 #include "LineChartAxis.h"
 #include "PrintText.h"
 #include "Color.h"
@@ -8,7 +8,7 @@
 #include <GL/glut.h>
 #include <iostream>
 
-SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> *x, std::vector<float> *yBiomass, std::vector<float> *yHarvest, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex) 
+SmallMultiple::SmallMultiple(std::vector<float> *x, std::vector<float> *yBiomass, std::vector<float> *yHarvest, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex) 
 : LineChart() {      
     sideLabel = label;
     ChartPointSeries *biomassSeries = new ChartPointSeries(this, label, x, yBiomass);
@@ -65,12 +65,12 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> *x, std::vecto
 }
 
 
-SingleSpeciesLineChart::~SingleSpeciesLineChart() {
+SmallMultiple::~SmallMultiple() {
     delete absChart;
     delete harvest;
 }
 
-ChartPointList *SingleSpeciesLineChart::getPoints() {
+ChartPointList *SmallMultiple::getPoints() {
     if (displayHarvest) {
         return harvest->getPoints();
     }
@@ -78,12 +78,12 @@ ChartPointList *SingleSpeciesLineChart::getPoints() {
     return LineChart::getPoints();
 }
 
-void SingleSpeciesLineChart::setValues(std::vector<float> *x, std::vector<float> *yBiomass, std::vector<float> *yHarvest) {
+void SmallMultiple::setValues(std::vector<float> *x, std::vector<float> *yBiomass, std::vector<float> *yHarvest) {
     seriesList->front()->setValues(x, yBiomass);
     harvest->getPointSeriesList()->front()->setValues(x, yHarvest);
 }
 
-void SingleSpeciesLineChart::draw() {
+void SmallMultiple::draw() {
     if (displayHarvest) {
         float w = harvest->getLeftAxis()->getSize();
         harvest->setLocation(xPos, yPos + offsetY);
@@ -106,7 +106,7 @@ void SingleSpeciesLineChart::draw() {
     LineChart::draw();
 }
 
-void SingleSpeciesLineChart::drawToPick() {
+void SmallMultiple::drawToPick() {
     LineChart::drawToPick();
     
     if (displayAbsoluteSizes && !displayChart) {
@@ -118,7 +118,7 @@ void SingleSpeciesLineChart::drawToPick() {
     }
 }
 
-void SingleSpeciesLineChart::drawAtOrigin() {
+void SmallMultiple::drawAtOrigin() {
     if (displayChart) {
         LineChart::drawAtOrigin();
     }
@@ -127,22 +127,22 @@ void SingleSpeciesLineChart::drawAtOrigin() {
     PrintText::drawStrokeText(sideLabel, -10, offsetY + innerHeight / 2, fontHeight, HORIZ_RIGHT, VERT_CENTER);
 }
 
-Color *SingleSpeciesLineChart::getColor() {
+Color *SmallMultiple::getColor() {
     return seriesList->front()->getColor();
 }
 
-std::vector<AbsoluteSizeIndicator *> *SingleSpeciesLineChart::getAbsPoints() {
+std::vector<AbsoluteSizeIndicator *> *SmallMultiple::getAbsPoints() {
     return absChart->getPoints();
 }
 
-void SingleSpeciesLineChart::setAbsLegendLocation(float x, float y) {
+void SmallMultiple::setAbsLegendLocation(float x, float y) {
     absChart->setLegendLocation(x, y);
 }
 
-float SingleSpeciesLineChart::getPercentIncreaseOfFinalValue() {
+float SmallMultiple::getPercentIncreaseOfFinalValue() {
     return seriesList->front()->getPercentIncreaseOfFinalValue();
 }
 
-float SingleSpeciesLineChart::getFinalValue() {
+float SmallMultiple::getFinalValue() {
     return seriesList->front()->getFinalValue();
 }
