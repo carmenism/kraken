@@ -41,8 +41,8 @@ ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vec
         }
     }
     
-    lastMin = min;
-    lastMax = max;
+    previousMin = min;
+    previousMax = max;
 
     lineColor = &Color::black;
     lineWidth = 1.0;
@@ -77,8 +77,8 @@ void ChartPointSeries::setValues(std::vector<float> *x, std::vector<float> *y) {
         throw "to change marker values you must specify one values for each marker";
     }
 
-    lastMin = NULL;
-    lastMax = NULL;
+    previousMin = NULL;
+    previousMax = NULL;
 
     max = NULL;
     min = NULL;
@@ -95,12 +95,12 @@ void ChartPointSeries::setValues(std::vector<float> *x, std::vector<float> *y) {
             min = points->at(i);
         }
 
-        if (lastMax == NULL || lastMax->getY() < points->at(i)->getPrevious()->getY()) { 
-            lastMax = points->at(i)->getPrevious();
+        if (previousMax == NULL || previousMax->getY() < points->at(i)->getPrevious()->getY()) { 
+            previousMax = points->at(i)->getPrevious();
         }
 
-        if (lastMin == NULL || lastMin->getY() > points->at(i)->getPrevious()->getY()) {
-            lastMin = points->at(i)->getPrevious();
+        if (previousMin == NULL || previousMin->getY() > points->at(i)->getPrevious()->getY()) {
+            previousMin = points->at(i)->getPrevious();
         }
     }
 }
@@ -322,12 +322,12 @@ float ChartPointSeries::getMaximumValueY() {
     return max->getY();
 }
 
-float ChartPointSeries::getLastMinimumValueY() {
-    return lastMin->getY();
+float ChartPointSeries::getPreviousMinimumValueY() {
+    return previousMin->getY();
 }
 
-float ChartPointSeries::getLastMaximumValueY() {
-    return lastMax->getY();
+float ChartPointSeries::getPreviousMaximumValueY() {
+    return previousMax->getY();
 }
 
 void ChartPointSeries::setMarkerShape(int shape) {
@@ -385,8 +385,8 @@ int ChartPointSeries::size() {
     return points->size();
 }
 
-float ChartPointSeries::getPercentIncreaseOfLastPoint() {
-    return points->back()->getPercentIncreaseFromLast();
+float ChartPointSeries::getPercentIncreaseOfFinalValue() {
+    return points->back()->getPercentIncreaseFromPrevious();
 }
 
 float ChartPointSeries::getFinalValue() {

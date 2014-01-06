@@ -21,7 +21,7 @@ private:
     bool display;
     int baselineIndex;
 
-    void determineColor(float value, float lastValue);
+    void determineColor(float value, float previousValue);
 };
 
 #endif /* CHANGESLIDER_H_ */

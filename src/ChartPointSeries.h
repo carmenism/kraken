@@ -38,8 +38,8 @@ public:
     float getMinimumValueX();
     float getMinimumValueY();
     
-    float getLastMinimumValueY();
-    float getLastMaximumValueY(); 
+    float getPreviousMinimumValueY();
+    float getPreviousMaximumValueY(); 
 
     void setDisplay(bool d) { display = d; }
     bool getDisplay() { return display; }
@@ -81,7 +81,7 @@ public:
 
     int size();
 
-    float getPercentIncreaseOfLastPoint();
+    float getPercentIncreaseOfFinalValue();
     float getFinalValue();
 private:
     LineChart *chart;
@@ -90,7 +90,7 @@ private:
     ChartPointList *points;
     ChartPoint *legendPoint;
     ChartPoint *min, *max;
-    Point *lastMin, *lastMax;
+    Point *previousMin, *previousMax;
     float lineWidth;
     Color *lineColor;
     bool display, displayMarkers, displayAsArea;

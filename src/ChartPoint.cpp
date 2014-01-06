@@ -229,10 +229,10 @@ void ChartPoint::capturePreviousValues() {
     previousPositionY = marker->getY();
 }
 
-float ChartPoint::getDifferenceFromLast() {
+float ChartPoint::getDifferenceFromPrevious() {
     return y - previousValues->getY();
 }
 
-float ChartPoint::getPercentIncreaseFromLast() {
-    return getDifferenceFromLast() / previousValues->getY();
+float ChartPoint::getPercentIncreaseFromPrevious() {
+    return getDifferenceFromPrevious() / previousValues->getY();
 }

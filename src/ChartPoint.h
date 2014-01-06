@@ -44,8 +44,8 @@ public:
     float getFontHeight() { return fontHeight; }
     void setFontHeight(float h) { fontHeight = h; }
 
-    float getDifferenceFromLast();
-    float getPercentIncreaseFromLast();
+    float getDifferenceFromPrevious();
+    float getPercentIncreaseFromPrevious();
 private:
     LineChart *chart;
     float previousPositionX, previousPositionY;

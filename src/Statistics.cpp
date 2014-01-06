@@ -234,27 +234,27 @@ void Statistics::drawErrorBand(QList<double> *top, QList<double> *bottom, Color 
     glColor4f(color->r, color->g, color->b, alpha);
     glPolygonMode(GL_FRONT, GL_FILL); 
 
-    double lastTop = -1;
-    double lastBot = -1;
-    double lastX = -1;
+    double previousTop = -1;
+    double previousBot = -1;
+    double previousX = -1;
 
     for (int i = 0; i < top->size(); i++) {
         float xLoc = calculateXLocation(i);
         float yTop = calculateYLocation(top->at(i));
         float yBot = calculateYLocation(bottom->at(i));
 
-        if (lastTop != -1) {
+        if (previousX != -1) {
             glBegin( GL_POLYGON );
-                glVertex2f(lastX, lastBot);
-                glVertex2f(lastX, lastTop);
+                glVertex2f(previousX, previousBot);
+                glVertex2f(previousX, previousTop);
                 glVertex2f(xLoc, yTop);
                 glVertex2f(xLoc, yBot);
             glEnd();
         }
 
-        lastX = xLoc;
-        lastTop = yTop;
-        lastBot = yBot;
+        previousX = xLoc;
+        previousTop = yTop;
+        previousBot = yBot;
     }
 }
 

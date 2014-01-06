@@ -23,16 +23,16 @@ void ChangeSlider::draw() {
         glColor4f(color->r, color->g, color->b, 0.5);
 
         float value = getValue();
-        float lastValue = getValue();
+        float previousValue = getValue();
 
         if (baselineIndex >= 0 && baselineIndex < valueHistory.size()) {
-            lastValue = valueHistory[baselineIndex]; //.back();
+            previousValue = valueHistory[baselineIndex]; //.back();
         }
         
-        determineColor(value, lastValue);
+        determineColor(value, previousValue);
 
         float valueX = valueToPosition(value);
-        float lastValueX = valueToPosition(lastValue);
+        float lastValueX = valueToPosition(previousValue);
 
         glRectf(main->getInnerX() + valueX,     main->getY() - labelFontHeight - 2*main->getBorder(),
                 main->getInnerX() + lastValueX, main->getY() + cursor->getHeight() - labelFontHeight - 2 *main->getBorder());
@@ -52,8 +52,8 @@ bool ChangeSlider::mouseMoved(float x, float y) {
     return ret;
 }
 
-void ChangeSlider::determineColor(float value, float lastValue) {
-    if (lastValue < value) {
+void ChangeSlider::determineColor(float value, float previousValue) {
+    if (previousValue < value) {
         color = increaseColor;
     } else {
         color = decreaseColor;

@@ -24,7 +24,7 @@ public:
     void draw(float windowWidth, float windowHeight);
     virtual void drawToPick();
 
-    void captureLastValues();
+    void capturePreviousValues();
     //ChartPointList *getPoints();
     BetweenSpeciesArcList *getArcs();    
     std::vector<LineChart *> *getCharts();

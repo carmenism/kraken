@@ -41,7 +41,7 @@ public:
 
     void setAbsLegendLocation(float x, float y);
 
-    float getPercentIncreaseOfLastPoint();
+    float getPercentIncreaseOfFinalValue();
     float getFinalValue();
 private:
     bool displayAbsoluteSizes;

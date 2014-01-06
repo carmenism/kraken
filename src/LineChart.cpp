@@ -196,15 +196,15 @@ void LineChart::calculateGlobalBounds() {
                 }
 
                 if (displayGhost) {
-                    float lastMinY = (*it)->getLastMinimumValueY();
-                    float lastMaxY = (*it)->getLastMaximumValueY();
+                    float prevMinY = (*it)->getPreviousMinimumValueY();
+                    float prevMaxY = (*it)->getPreviousMaximumValueY();
                 
-                    if (globalMinY > lastMinY) {
-                        globalMinY = lastMinY;
+                    if (globalMinY > prevMinY) {
+                        globalMinY = prevMinY;
                     }
 
-                    if (globalMaxY < lastMaxY) {
-                        globalMaxY = lastMaxY;
+                    if (globalMaxY < prevMaxY) {
+                        globalMaxY = prevMaxY;
                     }
                 }
             }

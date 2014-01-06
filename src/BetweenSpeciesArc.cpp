@@ -123,11 +123,11 @@ void BetweenSpeciesArc::draw() {
 float BetweenSpeciesArc::getDynamicThickness() {
     float thickness = getThickness();
 
-    float increaseA = abs(speciesA->getPercentIncreaseOfLastPoint());
-    float increaseB = abs(speciesB->getPercentIncreaseOfLastPoint());
+    float increaseA = abs(speciesA->getPercentIncreaseOfFinalValue());
+    float increaseB = abs(speciesB->getPercentIncreaseOfFinalValue());
 
-    float lastA = speciesA->getFinalValue();
-    float lastB = speciesB->getFinalValue();
+    float finalA = speciesA->getFinalValue();
+    float finalB = speciesB->getFinalValue();
 
     float largest = plotManager->getLargestFinalValue();
     
@@ -136,7 +136,7 @@ float BetweenSpeciesArc::getDynamicThickness() {
     }
 
     //float newThickness = min(30, thickness * increaseA);
-    float newThickness = min(30, thickness * increaseA * lastB / largest);
+    float newThickness = min(30, thickness * increaseA * finalB / largest);
 
     if (newThickness < 1) {
         return 0;

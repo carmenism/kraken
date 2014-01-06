@@ -22,7 +22,7 @@ public:
 
     void removeMarkers();
 
-    void captureLastValues();
+    void capturePreviousValues();
     virtual std::vector<LineChart *> *getCharts();
     virtual void updateCharts(Model *model, MS_PROD_MainWindow *mainWindow);
 
