@@ -104,14 +104,14 @@ void BetweenSpeciesArc::draw() {
         float newThickness = getDynamicThickness();
         this->setThickness(newThickness);
 
-        if (newThickness > 1) { // && multB > 0.1
+        if (newThickness != 0) { // && multB > 0.1
             VerticalArc::draw();
 
             positionTriangles();
             drawTriangles();
         }
     } else {        
-        this->setThickness(getThickness());
+        this->setThickness(30 * getCoefficent());
 
         VerticalArc::draw();
 
@@ -121,28 +121,33 @@ void BetweenSpeciesArc::draw() {
 }
 
 float BetweenSpeciesArc::getDynamicThickness() {
-    float thickness = getThickness();
+    float coef = getCoefficient();
 
-    float increaseA = abs(speciesA->getPercentIncreaseOfFinalValue());
-    float increaseB = abs(speciesB->getPercentIncreaseOfFinalValue());
+    float increaseA = speciesA->getPercentIncreaseOfFinalValue();
+    //float increaseB = speciesB->getPercentIncreaseOfFinalValue();
 
     float finalA = speciesA->getFinalValue();
     float finalB = speciesB->getFinalValue();
 
-    float largest = plotManager->getLargestFinalValue();
+    //float largest = plotManager->getLargestFinalValue();
     
-    if (increaseA == 0 || increaseB == 0) {
+    //if (increaseA == 0 || increaseB == 0) {
+    //    return 0;
+    //}
+
+    float thick = 10 * coef * increaseA * finalA / finalB;
+    
+    float maxThickness = 35;
+
+    if (thick > maxThickness) {
+        return maxThickness;
+    } else if (thick < -maxThickness) {
+        return -maxThickness;
+    } else if (thick < 1 && thick > -1) {
         return 0;
     }
 
-    //float newThickness = min(30, thickness * increaseA);
-    float newThickness = min(30, thickness * increaseA * finalB / largest);
-
-    if (newThickness < 1) {
-        return 0;
-    }
-
-    return newThickness;
+    return thick;
 }
 
 void BetweenSpeciesArc::positionTriangles() {

@@ -202,13 +202,7 @@ void ChartPointSeries::drawAsArea() {
     glEnd();
 }
 
-void ChartPointSeries::drawGhostAsLine() {
-    //glEnable(GL_SCISSOR_TEST);
-    //float startX = chart->getOffsetX() + chart->getXLocation();
-    //float startY = chart->getOffsetY() + chart->getYLocation();
-    //float w = chart->getInnerWidth();
-    //float h = chart->getInnerHeight();
-   
+void ChartPointSeries::drawGhostAsLine() {   
     glPolygonMode(GL_FRONT, GL_LINE);
     glLineWidth(lineWidth);
     glColor4f(0.5, 0.5, 0.5, 1);
@@ -227,23 +221,12 @@ void ChartPointSeries::drawGhostAsLine() {
 
     glDisable(GL_LINE_STIPPLE);
     glPopAttrib();
-
-    //glDisable(GL_SCISSOR_TEST);
 }
 
 void ChartPointSeries::drawGhostAsBlend() {
-    glEnable(GL_SCISSOR_TEST);
-    float startX = chart->getOffsetX() + chart->getXLocation();
-    float startY = chart->getOffsetY() + chart->getYLocation();
-    float w = chart->getInnerWidth();
-    float h = chart->getInnerHeight();
-
-    glScissor(startX, startY, w, h);
-
-    ChartPoint *last = NULL;
-
     glPolygonMode( GL_FRONT, GL_FILL );
-
+    
+    ChartPoint *last = NULL;
     FOREACH_POINTP(it, points) {   
         if (last != NULL) {
             float leftX = last->getPositionX();
@@ -265,8 +248,8 @@ void ChartPointSeries::drawGhostAsBlend() {
             for (int i = 0; i < NUM_RECTS; i++) {
                 glColor4f(lineColor->r, lineColor->g, lineColor->b, START_ALPHA - i * D_ALPHA);
 
-                glVertex2f(rightX, startRightY + i * rightY); // bottom right  
-                glVertex2f(leftX, startLeftY + i * leftY); // bottom left
+                glVertex2f(rightX, startRightY + i * rightY);   
+                glVertex2f(leftX, startLeftY + i * leftY); 
             }
 
             glEnd();
@@ -274,8 +257,21 @@ void ChartPointSeries::drawGhostAsBlend() {
         
         last = *it;
     }
-    
-    glDisable(GL_SCISSOR_TEST);
+
+    // more efficient code but draws weirdly?
+    /*glBegin( GL_QUAD_STRIP );
+    FOREACH_POINTP(it, points) {          
+        float x = (*it)->getPositionX();
+        float currentY = (*it)->getPositionY();
+        float previousY = (*it)->getPreviousPositionY();
+
+        glColor4f(lineColor->r, lineColor->g, lineColor->b, END_ALPHA);
+        glVertex2f(x, previousY);
+
+        glColor4f(lineColor->r, lineColor->g, lineColor->b, START_ALPHA);
+        glVertex2f(x, currentY);        
+    }
+    glEnd();*/
 }
 
 float ChartPointSeries::getMinimumValueX() {

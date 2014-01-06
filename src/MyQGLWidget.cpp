@@ -729,7 +729,7 @@ void MyQGLWidget::initialize() {
     resetAllButton->setWidth(buttonWidth);
     speciesGroupButtons->push_back(resetAllButton);
 
-    toggleAbsButton = new ToggleButton("Abs. Sizes", false);
+    toggleAbsButton = new ToggleButton("Abs. Sizes", true);
     toggleAbsButton->setHeight(buttonHeight);
     speciesButtons->push_back(toggleAbsButton);
 

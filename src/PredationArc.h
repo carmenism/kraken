@@ -11,7 +11,7 @@ public:
     PredationArc(PlotManager *pm, float coefficient, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB);
     ~PredationArc();
 
-    virtual float getThickness();
+    virtual float getCoefficent();
 private:
 };
 

@@ -21,7 +21,10 @@ public:
     void drawFaded();
     virtual void drawSelected();
 
-    virtual float getThickness() = 0;
+    //float getThickness() { return thickness; }
+    //void setThickness(float t) { thickness = t; }
+
+    virtual float getCoefficent() { return coefficient; }
 
     bool getDisplayDynamically() { return displayDynamically; }
     void setDisplayDynamically(bool d) { displayDynamically = d; }
@@ -40,6 +43,7 @@ public:
     float getDynamicThickness();
 protected:
     float coefficient;
+    //float thickness;
 private:
     PlotManager *plotManager;
 

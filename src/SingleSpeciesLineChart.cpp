@@ -39,7 +39,7 @@ SingleSpeciesLineChart::SingleSpeciesLineChart(std::vector<float> *x, std::vecto
     absChart = new AbsoluteSizesChart(this);
     absChart->setDisplayLegend(displayXAxisLabels);
 
-    displayAbsoluteSizes = false;
+    displayAbsoluteSizes = true;
 
     displayHarvest = false;
     

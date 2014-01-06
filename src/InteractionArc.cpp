@@ -3,13 +3,11 @@
 
 InteractionArc::InteractionArc(PlotManager *pm, float coefficient, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB) 
 : BetweenSpeciesArc(pm, coefficient, speciesA, speciesB, " interact with ") {    
-    color = &Color::gray;
+    color = &Color::skyblue;
 }
 
 InteractionArc::~InteractionArc() {
 
 }
 
-float InteractionArc::getThickness() {
-    return 30 * coefficient;
-}
+

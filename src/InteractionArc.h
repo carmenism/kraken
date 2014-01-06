@@ -10,8 +10,6 @@ class InteractionArc : public BetweenSpeciesArc {
 public:
     InteractionArc(PlotManager *pm, float coefficient, SingleSpeciesLineChart *speciesA, SingleSpeciesLineChart *speciesB);
     ~InteractionArc();
-
-    virtual float getThickness();
 private:
 };
 

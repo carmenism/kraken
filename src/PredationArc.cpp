@@ -10,6 +10,6 @@ PredationArc::~PredationArc() {
 
 }
 
-float PredationArc::getThickness() {
-    return 30 * (coefficient * 250000);
+float PredationArc::getCoefficent() {
+    return (coefficient * 250000);
 }
