@@ -169,22 +169,14 @@ float ChartPointSeries::drawInLegend(float x, float y, float lineLength, float s
     return PrintText::strokeWidth(label, h) + 3 * spacing + lineLength;
 }
 
-void ChartPointSeries::drawAsLines() {
-    ChartPoint *last = NULL;
-   
+void ChartPointSeries::drawAsLines() {   
     glPolygonMode(GL_FRONT, GL_LINE);
     glLineWidth(lineWidth);
     glColor4f(lineColor->r, lineColor->g, lineColor->b, lineColor->a);
     
-    glBegin(GL_LINES);
+    glBegin(GL_LINE_STRIP);
         FOREACH_POINTP(it, points) {      
-            if (last != NULL) {
-                // draw line to last
-                glVertex2f(last->getPositionX(), last->getPositionY());
-                glVertex2f((*it)->getPositionX(), (*it)->getPositionY());                
-            }
-
-            last = *it;
+            glVertex2f((*it)->getPositionX(), (*it)->getPositionY());
         }
     glEnd();    
     glLineWidth(1);
@@ -197,23 +189,17 @@ void ChartPointSeries::drawAsLines() {
 }
 
 void ChartPointSeries::drawAsArea() {
-    ChartPoint *last = NULL;
-
     glPolygonMode( GL_FRONT, GL_FILL );
     glColor4f(lineColor->r, lineColor->g, lineColor->b, lineColor->a);
     
+    glBegin( GL_QUAD_STRIP );
+
     FOREACH_POINTP(it, points) {   
-        if (last != NULL) {
-            glBegin( GL_POLYGON );
-                glVertex2f(last->getPositionX(), 0);
-                glVertex2f(last->getPositionX(), last->getPositionY());
-                glVertex2f((*it)->getPositionX(), (*it)->getPositionY()); 
-                glVertex2f((*it)->getPositionX(), 0);                 
-            glEnd();
-        }
-        
-        last = *it;
+        glVertex2f((*it)->getPositionX(), (*it)->getPositionY()); 
+        glVertex2f((*it)->getPositionX(), 0); 
     }
+
+    glEnd();
 }
 
 void ChartPointSeries::drawGhostAsLine() {
@@ -222,9 +208,6 @@ void ChartPointSeries::drawGhostAsLine() {
     //float startY = chart->getOffsetY() + chart->getYLocation();
     //float w = chart->getInnerWidth();
     //float h = chart->getInnerHeight();
-
-    float lastX = -1000;
-    float lastY = -1000;
    
     glPolygonMode(GL_FRONT, GL_LINE);
     glLineWidth(lineWidth);
@@ -235,19 +218,9 @@ void ChartPointSeries::drawGhostAsLine() {
     glLineStipple(1, 0xAAAA);
     glEnable(GL_LINE_STIPPLE);
     
-    glBegin(GL_LINES);
+    glBegin(GL_LINE_STRIP);
         FOREACH_POINTP(it, points) { 
-            float x = (*it)->getPreviousPositionX();
-            float y = (*it)->getPreviousPositionY();
-
-            if (lastX != -1000) {
-                // draw line to last       
-                glVertex2f(lastX, lastY);
-                glVertex2f(x, y);                
-            }
-
-            lastX = x;
-            lastY = y;
+            glVertex2f((*it)->getPreviousPositionX(), (*it)->getPreviousPositionY());    
         }
     glEnd();    
     glLineWidth(1);
