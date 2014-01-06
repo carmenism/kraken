@@ -389,6 +389,6 @@ float ChartPointSeries::getPercentIncreaseOfLastPoint() {
     return points->back()->getPercentIncreaseFromLast();
 }
 
-float ChartPointSeries::getLastPointValue() {
+float ChartPointSeries::getFinalValue() {
     return points->back()->getY();
 }

@@ -82,7 +82,7 @@ public:
     int size();
 
     float getPercentIncreaseOfLastPoint();
-    float getLastPointValue();
+    float getFinalValue();
 private:
     LineChart *chart;
 

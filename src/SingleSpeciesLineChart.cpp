@@ -143,6 +143,6 @@ float SingleSpeciesLineChart::getPercentIncreaseOfLastPoint() {
     return seriesList->front()->getPercentIncreaseOfLastPoint();
 }
 
-float SingleSpeciesLineChart::getLastPointValue() {
-    return seriesList->front()->getLastPointValue();
+float SingleSpeciesLineChart::getFinalValue() {
+    return seriesList->front()->getFinalValue();
 }

@@ -42,7 +42,7 @@ public:
     void setAbsLegendLocation(float x, float y);
 
     float getPercentIncreaseOfLastPoint();
-    float getLastPointValue();
+    float getFinalValue();
 private:
     bool displayAbsoluteSizes;
     bool displayChart;

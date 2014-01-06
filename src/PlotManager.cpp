@@ -107,12 +107,12 @@ float PlotManager::getLargestValue() {
     return maxValue;
 }   
 
-float PlotManager::getLargestValueAtLastTime() {
+float PlotManager::getLargestFinalValue() {
     std::vector<LineChart *> *charts = getCharts();
     float maxValue = -1 * (std::numeric_limits<float>::max)();
 
     for (unsigned int i = 0; i < charts->size(); i++) {
-        maxValue = std::max(maxValue, charts->at(i)->getLargestValueAtLastTime());
+        maxValue = std::max(maxValue, charts->at(i)->getLargestFinalValue());
     }
 
     return maxValue;
