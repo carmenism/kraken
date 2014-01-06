@@ -100,7 +100,7 @@ private:
 
     void setBaseline();
 
-    void captureLastValues();
+    void capturePreviousValues();
 
     void toggleAbsoluteSizes();
     void toggleCharts();

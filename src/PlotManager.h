@@ -19,7 +19,7 @@ class PlotManager : public Displayable {
      
         virtual void draw(float windowWidth, float windowHeight);
         virtual void drawToPick();
-        void captureLastValues();
+        void capturePreviousValues();
         std::vector<Pickable *> *getPickables();
         
         bool empty() { return getCharts()->empty(); }

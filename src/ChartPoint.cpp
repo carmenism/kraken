@@ -10,7 +10,7 @@
 
 ChartPoint::ChartPoint(LineChart *chart, std::string label, float valueX, float valueY, int shape)
  : Point(valueX, valueY), Pickable() {
-    last = new Point(valueX, valueY);
+    previousValues = new Point(valueX, valueY);
     this->chart = chart;
     this->label = label;
 
@@ -38,7 +38,7 @@ ChartPoint::ChartPoint(LineChart *chart, std::string label, float valueX, float 
 
 ChartPoint::~ChartPoint() {
     delete marker;
-    delete last;
+    delete previousValues;
 }
 
 void ChartPoint::calculateLocation() {
@@ -47,8 +47,8 @@ void ChartPoint::calculateLocation() {
 
     marker->setLocation(posX, posY);
 
-    lastPositionX = last->getX() * chart->getInnerWidth() / chart->getGlobalMaxX();
-    lastPositionY = last->getY() * chart->getInnerHeight() / chart->getGlobalMaxY();
+    previousPositionX = previousValues->getX() * chart->getInnerWidth() / chart->getGlobalMaxX();
+    previousPositionY = previousValues->getY() * chart->getInnerHeight() / chart->getGlobalMaxY();
 }
 
 void ChartPoint::draw() {
@@ -97,7 +97,7 @@ void ChartPoint::drawSelected() {
 std::string ChartPoint::makeLabel() {
     std::string newLabel = label + ": " + toStr(y);
 
-    float diff = y - last->getY();
+    float diff = y - previousValues->getY();
 
     if (diff > 0) {
         newLabel = newLabel + " (+" + toStr(diff) + ")";
@@ -122,7 +122,7 @@ void ChartPoint::drawHistoryLine() {
     glLineWidth(3);
     glBegin(GL_LINES);
         glVertex3f(marker->getX(), marker->getY(), 0);
-        glVertex3f(lastPositionX, lastPositionY, 0);
+        glVertex3f(previousPositionX, previousPositionY, 0);
     glEnd();
     glLineWidth(1);
 
@@ -130,13 +130,13 @@ void ChartPoint::drawHistoryLine() {
 }
 
 void ChartPoint::drawLineToXAxis() {
-    float diff = y - last->getY();
+    float diff = y - previousValues->getY();
 
     glColor4f(0, 0, 0, 0.3);    
 
     if (diff > 0) {
         glBegin(GL_LINES);
-            glVertex3f(lastPositionX, lastPositionY, 0);
+            glVertex3f(previousPositionX, previousPositionY, 0);
             glVertex3f(marker->getX(), 0, 0);
         glEnd();
     } else {
@@ -144,7 +144,7 @@ void ChartPoint::drawLineToXAxis() {
 
         glBegin(GL_LINES);
             glVertex3f(marker->getX(), marker->getY() - f, 0);
-            glVertex3f(lastPositionX, 0, 0);
+            glVertex3f(previousPositionX, 0, 0);
         glEnd();
     }
 }
@@ -223,16 +223,16 @@ void ChartPoint::setPositionY(float y) {
     marker->setLocation(marker->getX(), y);
 }
 
-void ChartPoint::captureLastValues() {
-    last->setValues(x, y);
-    lastPositionX = marker->getX();
-    lastPositionY = marker->getY();
+void ChartPoint::capturePreviousValues() {
+    previousValues->setValues(x, y);
+    previousPositionX = marker->getX();
+    previousPositionY = marker->getY();
 }
 
 float ChartPoint::getDifferenceFromLast() {
-    return y - last->getY();
+    return y - previousValues->getY();
 }
 
 float ChartPoint::getPercentIncreaseFromLast() {
-    return getDifferenceFromLast() / last->getY();
+    return getDifferenceFromLast() / previousValues->getY();
 }

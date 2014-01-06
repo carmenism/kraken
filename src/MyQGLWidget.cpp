@@ -673,9 +673,9 @@ void MyQGLWidget::updateCharts(Model *model) {
 }
 
 
-void MyQGLWidget::captureLastValues() {
+void MyQGLWidget::capturePreviousValues() {
     for (unsigned int i = 0; i < plotManagers->size(); i++) {
-        plotManagers->at(i)->captureLastValues();
+        plotManagers->at(i)->capturePreviousValues();
     }
 }
 
@@ -958,7 +958,7 @@ void MyQGLWidget::toggleHarvest() {
 
 void MyQGLWidget::setBaseline() {
     setSlidersBaseline();
-    captureLastValues();
+    capturePreviousValues();
 }
 
 void MyQGLWidget::toggleDynamicArcs() {

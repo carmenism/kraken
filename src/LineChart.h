@@ -33,7 +33,7 @@ public:
     void drawToPickAtOrigin();
     void drawToPickLines();
 
-    void captureLastValues();
+    void capturePreviousValues();
 
     void addPointSeries(ChartPointSeries *s);
     ChartPointSeriesList *getPointSeriesList() { return seriesList; }

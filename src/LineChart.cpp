@@ -371,9 +371,9 @@ void LineChart::setRightAxisDisplay(bool d) {
     axes->at(AXIS_RIGHT)->setDisplay(d);
 }
 
-void LineChart::captureLastValues() {
+void LineChart::capturePreviousValues() {
     FOREACH_POINTSERIESP(it, seriesList) {
-        (*it)->captureLastValues();
+        (*it)->capturePreviousValues();
     }
 }
 

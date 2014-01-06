@@ -95,12 +95,12 @@ void ChartPointSeries::setValues(std::vector<float> *x, std::vector<float> *y) {
             min = points->at(i);
         }
 
-        if (lastMax == NULL || lastMax->getY() < points->at(i)->getLast()->getY()) { 
-            lastMax = points->at(i)->getLast();
+        if (lastMax == NULL || lastMax->getY() < points->at(i)->getPrevious()->getY()) { 
+            lastMax = points->at(i)->getPrevious();
         }
 
-        if (lastMin == NULL || lastMin->getY() > points->at(i)->getLast()->getY()) {
-            lastMin = points->at(i)->getLast();
+        if (lastMin == NULL || lastMin->getY() > points->at(i)->getPrevious()->getY()) {
+            lastMin = points->at(i)->getPrevious();
         }
     }
 }
@@ -237,8 +237,8 @@ void ChartPointSeries::drawGhostAsLine() {
     
     glBegin(GL_LINES);
         FOREACH_POINTP(it, points) { 
-            float x = (*it)->getLastPositionX();
-            float y = (*it)->getLastPositionY();
+            float x = (*it)->getPreviousPositionX();
+            float y = (*it)->getPreviousPositionY();
 
             if (lastX != -1000) {
                 // draw line to last       
@@ -278,8 +278,8 @@ void ChartPointSeries::drawGhostAsBlend() {
 
             float startLeftY = last->getPositionY();
             float startRightY = (*it)->getPositionY();
-            float endRightY = (*it)->getLastPositionY();
-            float endLeftY = last->getLastPositionY();
+            float endRightY = (*it)->getPreviousPositionY();
+            float endLeftY = last->getPreviousPositionY();
 
             float rightDiffY = endRightY - startRightY;
             float leftDiffY = endLeftY - startLeftY;
@@ -372,12 +372,12 @@ Color *ChartPointSeries::getColor() {
     return lineColor;
 }
 
-void ChartPointSeries::captureLastValues() {
+void ChartPointSeries::capturePreviousValues() {
     //lastMin = min;
     //lastMax = max;
 
     FOREACH_POINTP(it, points) {
-        (*it)->captureLastValues();
+        (*it)->capturePreviousValues();
     }
 }
 

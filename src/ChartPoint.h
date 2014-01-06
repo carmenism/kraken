@@ -30,10 +30,10 @@ public:
     void setFillColor(Color *color);
     void setBorderWidth(float width);
 
-    void captureLastValues();
-    Point *getLast() { return last; }
-    float getLastPositionX() { return lastPositionX; }
-    float getLastPositionY() { return lastPositionY; }
+    void capturePreviousValues();
+    Point *getPrevious() { return previousValues; }
+    float getPreviousPositionX() { return previousPositionX; }
+    float getPreviousPositionY() { return previousPositionY; }
 
     void setPositionX(float x);  
     float getPositionX();
@@ -48,8 +48,8 @@ public:
     float getPercentIncreaseFromLast();
 private:
     LineChart *chart;
-    float lastPositionX, lastPositionY;
-    Point *last;
+    float previousPositionX, previousPositionY;
+    Point *previousValues;
 
     Shape *marker;
     std::string label;

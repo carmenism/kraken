@@ -36,11 +36,11 @@ std::vector<Pickable *> *PlotManager::getPickables() {
     return allPicks;
 }
 
-void PlotManager::captureLastValues() {
+void PlotManager::capturePreviousValues() {
     std::vector<LineChart *> *charts = getCharts();
 
     for (unsigned int j = 0; j < charts->size(); j++) {
-        charts->at(j)->captureLastValues();
+        charts->at(j)->capturePreviousValues();
     }
 }
 

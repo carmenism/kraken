@@ -72,7 +72,7 @@ public:
 
     ChartPointList *getPoints() { return points; }
 
-    void captureLastValues();
+    void capturePreviousValues();
 
     //void drawGhost();
     
