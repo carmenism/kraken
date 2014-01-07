@@ -3,7 +3,7 @@
 #include "MS_PROD_MainWindow.h"
 #include "InteractionArc.h"
 #include "PredationArc.h"
-#include "BetweenSpeciesArcCollection.h"
+#include "InterSpeciesArcCollection.h"
 #include "LineChartAxis.h"
 #include "GroupReordering.h"
 #include <QList>
@@ -134,22 +134,22 @@ void SmallMultiplesWithArcsManager::initializeCharts(QList<QList<double> *> *bio
 }
 
 void SmallMultiplesWithArcsManager::initializeInteractionArcs(MS_PROD_MainWindow *mainWindow) {
-    arcsInter = new BetweenSpeciesArcCollection(this, "Arcs Represent Species Interaction");
+    arcsInter = new InterSpeciesArcCollection(this, "Arcs Represent Species Interaction");
     initializeArcs(arcsInter, ARC_INTERACTION, mainWindow->getParameters()->getWithinGuildCompMatrix(), true);
 }
 
 void SmallMultiplesWithArcsManager::initializePredationArcs(MS_PROD_MainWindow *mainWindow) {
-    arcsPred = new BetweenSpeciesArcCollection(this, "Arcs Represent Species Predation");
+    arcsPred = new InterSpeciesArcCollection(this, "Arcs Represent Species Predation");
     initializeArcs(arcsPred, ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix(), true);
 }
 
 void SmallMultiplesWithArcsManager::initializeBothArcs(MS_PROD_MainWindow *mainWindow) {
-    arcsBoth = new BetweenSpeciesArcCollection(this, "Orange: Predation, Gray: Interaction");
+    arcsBoth = new InterSpeciesArcCollection(this, "Orange: Predation, Gray: Interaction");
     initializeArcs(arcsBoth, ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix(), false);
     arcsBoth->adjustLarger();
     //arcsBoth->setAdjustPercentage(0.5);
     
-    BetweenSpeciesArcCollection *tmp = new BetweenSpeciesArcCollection(this, "TEMP");
+    InterSpeciesArcCollection *tmp = new InterSpeciesArcCollection(this, "TEMP");
     initializeArcs(tmp, ARC_INTERACTION, mainWindow->getParameters()->getWithinGuildCompMatrix(), false);
     tmp->adjustSmaller();
     
@@ -159,7 +159,7 @@ void SmallMultiplesWithArcsManager::initializeBothArcs(MS_PROD_MainWindow *mainW
     delete tmp;
 }
 
-void SmallMultiplesWithArcsManager::initializeArcs(BetweenSpeciesArcCollection *arcs, int arcType, QList<QList<double>> matrix, bool useColorOfChart) {
+void SmallMultiplesWithArcsManager::initializeArcs(InterSpeciesArcCollection *arcs, int arcType, QList<QList<double>> matrix, bool useColorOfChart) {
     QList<QList<double> *> *newMatrix = groupReordering->getNewSquareMatrix(matrix);
 
     for (int i = 0; i < newMatrix->size(); i++) {
@@ -215,7 +215,7 @@ void SmallMultiplesWithArcsManager::drawToPick() {
     }
 }
 
-BetweenSpeciesArcList *SmallMultiplesWithArcsManager::getArcs() {
+InterSpeciesArcList *SmallMultiplesWithArcsManager::getArcs() {
     if (arcsCurrent == NULL) {
         return NULL;
     }

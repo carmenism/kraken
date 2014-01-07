@@ -3,7 +3,7 @@
 #include "stdio.h"
 
 #include "AbsoluteSizeIndicator.h"
-#include "BetweenSpeciesArc.h"
+#include "InterSpeciesArc.h"
 #include "Button.h"
 #include "ButtonGroup.h"
 #include "ChangeSlider.h"
@@ -634,7 +634,7 @@ void MyQGLWidget::mouseMovePickables(int x, int y) {
             }
         }
 
-        BetweenSpeciesArcList *allArcs = managerSmallMult->getArcs();
+        InterSpeciesArcList *allArcs = managerSmallMult->getArcs();
         if (allArcs != NULL) {
             allPickables->insert(allPickables->end(), allArcs->begin(), allArcs->end());
         }

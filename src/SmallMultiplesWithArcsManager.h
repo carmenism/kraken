@@ -14,7 +14,7 @@ class SmallMultiple;
 class InteractionArc;
 class PredationArc;
 
-#include "BetweenSpeciesArcCollection.h"
+#include "InterSpeciesArcCollection.h"
 
 class SmallMultiplesWithArcsManager : public SmallMultiplesManager {
 public:
@@ -26,7 +26,7 @@ public:
 
     void capturePreviousValues();
     //ChartPointList *getPoints();
-    BetweenSpeciesArcList *getArcs();    
+    InterSpeciesArcList *getArcs();    
     std::vector<LineChart *> *getCharts();
     void updateCharts(Model *model, MS_PROD_MainWindow *mainWindow);
 
@@ -60,15 +60,15 @@ public:
 private:   
     QList<double> percentChangeInFinalBiomass;
 
-    BetweenSpeciesArcCollection *arcsInter;
-    BetweenSpeciesArcCollection *arcsPred;
-    BetweenSpeciesArcCollection *arcsBoth;
-    BetweenSpeciesArcCollection *arcsCurrent;
+    InterSpeciesArcCollection *arcsInter;
+    InterSpeciesArcCollection *arcsPred;
+    InterSpeciesArcCollection *arcsBoth;
+    InterSpeciesArcCollection *arcsCurrent;
 
     std::vector<SmallMultiple *> *charts;
     
     void initializeCharts(QList<QList<double> *> *biomassMatrix, QList<QList<double> *> *harvestMatrix, MS_PROD_MainWindow *mainWindow);
-    void initializeArcs(BetweenSpeciesArcCollection *arcs, int arcType, QList<QList<double>> matix, bool useColorOfChart);
+    void initializeArcs(InterSpeciesArcCollection *arcs, int arcType, QList<QList<double>> matix, bool useColorOfChart);
     void initializeInteractionArcs(MS_PROD_MainWindow *mainWindow);
     void initializePredationArcs(MS_PROD_MainWindow *mainWindow);
     void initializeBothArcs(MS_PROD_MainWindow *mainWindow);

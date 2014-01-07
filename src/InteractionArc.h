@@ -4,9 +4,9 @@
 class SmallMultiple;
 class PlotManager;
 
-#include "BetweenSpeciesArc.h"
+#include "InterSpeciesArc.h"
 
-class InteractionArc : public BetweenSpeciesArc {
+class InteractionArc : public InterSpeciesArc {
 public:
     InteractionArc(PlotManager *pm, float coefficient, SmallMultiple *source, SmallMultiple *recipient);
     ~InteractionArc();

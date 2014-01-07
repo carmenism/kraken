@@ -297,10 +297,6 @@
 				Name="GUI"
 				>
 				<File
-					RelativePath=".\BetweenSpeciesArcCollection.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\Color.cpp"
 					>
 				</File>
@@ -424,6 +420,10 @@
 					Name="Managers"
 					>
 					<File
+						RelativePath=".\FourPanelManager.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\GroupReordering.cpp"
 						>
 					</File>
@@ -432,7 +432,7 @@
 						>
 					</File>
 					<File
-						RelativePath=".\FourPanelManager.cpp"
+						RelativePath=".\PlotManager.cpp"
 						>
 					</File>
 					<File
@@ -441,10 +441,6 @@
 					</File>
 					<File
 						RelativePath=".\SmallMultiplesWithArcsManager.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\PlotManager.cpp"
 						>
 					</File>
 				</Filter>
@@ -459,15 +455,19 @@
 						Name="Arcs"
 						>
 						<File
-							RelativePath=".\BetweenSpeciesArc.cpp"
-							>
-						</File>
-						<File
 							RelativePath=".\CenteredArc.cpp"
 							>
 						</File>
 						<File
 							RelativePath=".\InteractionArc.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\InterSpeciesArc.cpp"
+							>
+						</File>
+						<File
+							RelativePath=".\InterSpeciesArcCollection.cpp"
 							>
 						</File>
 						<File
@@ -634,20 +634,16 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
+				RelativePath="ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<File
-				RelativePath="ui_ms_prod_mainwindow.h"
+				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<Filter
 				Name="GUI"
 				>
-				<File
-					RelativePath=".\BetweenSpeciesArcCollection.h"
-					>
-				</File>
 				<File
 					RelativePath=".\Color.h"
 					>
@@ -733,15 +729,19 @@
 						Name="Arcs"
 						>
 						<File
-							RelativePath=".\BetweenSpeciesArc.h"
-							>
-						</File>
-						<File
 							RelativePath=".\CenteredArc.h"
 							>
 						</File>
 						<File
 							RelativePath=".\InteractionArc.h"
+							>
+						</File>
+						<File
+							RelativePath=".\InterSpeciesArc.h"
+							>
+						</File>
+						<File
+							RelativePath=".\InterSpeciesArcCollection.h"
 							>
 						</File>
 						<File
@@ -782,6 +782,10 @@
 					Name="Managers"
 					>
 					<File
+						RelativePath=".\FourPanelManager.h"
+						>
+					</File>
+					<File
 						RelativePath=".\GroupReordering.h"
 						>
 					</File>
@@ -790,7 +794,7 @@
 						>
 					</File>
 					<File
-						RelativePath=".\FourPanelManager.h"
+						RelativePath=".\PlotManager.h"
 						>
 					</File>
 					<File
@@ -799,10 +803,6 @@
 					</File>
 					<File
 						RelativePath=".\SmallMultiplesWithArcsManager.h"
-						>
-					</File>
-					<File
-						RelativePath=".\PlotManager.h"
 						>
 					</File>
 				</Filter>
