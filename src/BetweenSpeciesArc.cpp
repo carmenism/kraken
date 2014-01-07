@@ -111,7 +111,7 @@ void BetweenSpeciesArc::draw() {
             drawTriangles();
         }
     } else {        
-        this->setThickness(30 * getCoefficent());
+        this->setThickness(min(30, 30 * getCoefficent()));
 
         VerticalArc::draw();
 
@@ -137,7 +137,7 @@ float BetweenSpeciesArc::getDynamicThickness() {
 
     float thick = 10 * coef * increaseA * finalA / finalB;
     
-    float maxThickness = 35;
+    float maxThickness = 30;
 
     if (thick > maxThickness) {
         return maxThickness;

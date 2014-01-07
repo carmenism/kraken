@@ -1,12 +1,12 @@
-#ifndef _PLOTBYSPECIESWITHARCSMANAGER_H
-#define _PLOTBYSPECIESWITHARCSMANAGER_H
+#ifndef _SMALLMULTIPLESWITHARCSMANAGER_H
+#define _SMALLMULTIPLESWITHARCSMANAGER_H
 
 #include <QtOpenGL/QGLWidget>
 #include <vector>
 #include <QList>
 #include <string>
 #include <QStringList>
-#include "PlotBySpeciesManager.h"
+#include "SmallMultiplesManager.h"
 #include "ChartPointSeries.h"
 
 class AbsoluteSizeIndicator;
@@ -16,10 +16,10 @@ class PredationArc;
 
 #include "BetweenSpeciesArcCollection.h"
 
-class PlotBySpeciesWithArcsManager : public PlotBySpeciesManager {
+class SmallMultiplesWithArcsManager : public SmallMultiplesManager {
 public:
-    PlotBySpeciesWithArcsManager(); 
-    ~PlotBySpeciesWithArcsManager();
+    SmallMultiplesWithArcsManager(); 
+    ~SmallMultiplesWithArcsManager();
 
     void draw(float windowWidth, float windowHeight);
     virtual void drawToPick();
@@ -74,4 +74,4 @@ private:
     void initializeBothArcs(MS_PROD_MainWindow *mainWindow);
 };
 
-#endif  /* _PLOTBYSPECIESWITHARCSMANAGER_H */
+#endif  /* _SMALLMULTIPLESWITHARCSMANAGER_H */

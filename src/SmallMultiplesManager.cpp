@@ -1,19 +1,19 @@
-#include "PlotBySpeciesManager.h"
+#include "SmallMultiplesManager.h"
 #include "GroupReordering.h"
 #include "LineChartAxis.h"
 #include "LineChart.h"
 
-PlotBySpeciesManager::PlotBySpeciesManager() {
+SmallMultiplesManager::SmallMultiplesManager() {
     spacing = 10;
     topSpace = 10;
     leftSpace = 180;
 }
 
-PlotBySpeciesManager::~PlotBySpeciesManager() {
+SmallMultiplesManager::~SmallMultiplesManager() {
     delete groupReordering;
 }
 
-void PlotBySpeciesManager::setChartLocations(float windowWidth, float windowHeight) {
+void SmallMultiplesManager::setChartLocations(float windowWidth, float windowHeight) {
     std::vector<LineChart *> *charts = getCharts();
     int numCharts = charts->size();
     float bottomAxisHeight = charts->at(0)->getBottomAxis()->getSize();

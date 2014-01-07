@@ -18,7 +18,7 @@
 #include "Picker.h"
 #include "PlotManager.h"
 #include "PlotByGroupManager.h"
-#include "PlotBySpeciesWithArcsManager.h"
+#include "SmallMultiplesWithArcsManager.h"
 #include "PrintText.h"
 #include "ResetButton.h"
 #include "SmallMultiple.h"
@@ -54,7 +54,7 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     
     managerGroup = new PlotByGroupManager();
     managerGroup->displayOff();
-    managerSpecies = new PlotBySpeciesWithArcsManager();
+    managerSpecies = new SmallMultiplesWithArcsManager();
 
     managerMC = new MonteCarloPlotManager();
     managerMC->displayOff();
@@ -133,16 +133,16 @@ void MyQGLWidget::resizeGL(int w, int h) {
 void MyQGLWidget::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glPushMatrix();
-        glTranslatef(paddingLeft, paddingBottom, 0);
-        for (unsigned int i = 0; i < plotManagers->size(); i++) {
-            if (plotManagers->at(i)->getDisplay()) {
-                plotManagers->at(i)->draw(size().rwidth() - paddingRight - paddingLeft, size().rheight() - paddingTop - paddingBottom);
-            }
-        }
-    glPopMatrix();
-
     if (!managerGroup->empty()) {
+        glPushMatrix();
+            glTranslatef(paddingLeft, paddingBottom, 0);
+            for (unsigned int i = 0; i < plotManagers->size(); i++) {
+                if (plotManagers->at(i)->getDisplay()) {
+                    plotManagers->at(i)->draw(size().rwidth() - paddingRight - paddingLeft, size().rheight() - paddingTop - paddingBottom);
+                }
+            }
+        glPopMatrix();
+
         float xPos = size().rwidth() - 100;
         float yPos = size().rheight() - 25;
         float panelTopY = size().rheight() - 30;

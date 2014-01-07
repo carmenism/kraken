@@ -6,13 +6,13 @@
 #include <QList>
 #include <string>
 #include <QStringList>
-#include "PlotBySpeciesManager.h"
+#include "SmallMultiplesManager.h"
 #include "ChartPointSeries.h"
 
 class LineChart;
 class MonteCarloLineChart;
 
-class MonteCarloPlotManager : public PlotBySpeciesManager {
+class MonteCarloPlotManager : public SmallMultiplesManager {
 public:
     MonteCarloPlotManager(); 
     ~MonteCarloPlotManager();

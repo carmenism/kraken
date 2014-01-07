@@ -14,7 +14,7 @@ class Parameters;
 class Picker;
 class PlotManager;
 class PlotByGroupManager;
-class PlotBySpeciesWithArcsManager;
+class SmallMultiplesWithArcsManager;
 class MonteCarloPlotManager;
 class KrakenMonteCarlo;
 class ResetButton;
@@ -70,7 +70,7 @@ private:
     KrakenMonteCarlo *kmc;
     Picker *picker;    
     PlotByGroupManager *managerGroup;
-    PlotBySpeciesWithArcsManager *managerSpecies;
+    SmallMultiplesWithArcsManager *managerSpecies;
     MonteCarloPlotManager *managerMC;    
     Button *runMCButton, *baselineButton, *resetAllButton;
     ButtonGroup *bgView, *bgChange, *bgArc;

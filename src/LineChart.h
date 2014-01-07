@@ -35,7 +35,7 @@ public:
 
     void capturePreviousValues();
 
-    void addPointSeries(ChartPointSeries *s);
+    virtual void addPointSeries(ChartPointSeries *s);
     ChartPointSeriesList *getPointSeriesList() { return seriesList; }
 
     void setLineWidths(float w);

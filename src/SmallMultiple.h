@@ -22,6 +22,8 @@ public:
     
     std::vector<AbsoluteSizeIndicator *> *getAbsPoints();
 
+    //virtual void addPointSeries(ChartPointSeries *s) {}
+
     bool getDisplayChart() { return displayChart; }
     void setDisplayChart(bool d) { displayChart = d; }
     void displayChartOn() { displayChart = true; }

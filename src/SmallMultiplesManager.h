@@ -1,5 +1,5 @@
-#ifndef _PLOTBYSPECIESMANAGER_H
-#define _PLOTBYSPECIESMANAGER_H
+#ifndef _SMALLMULTIPLESMANAGER_H
+#define _SMALLMULTIPLESMANAGER_H
 
 #include "PlotManager.h"
 #include "LineChart.h"
@@ -7,12 +7,11 @@
 #include <vector>
 
 class GroupReordering;
-class SingleSpeciesLineChart;
 
-class PlotBySpeciesManager : public PlotManager {
+class SmallMultiplesManager : public PlotManager {
     public:
-        PlotBySpeciesManager();
-        ~PlotBySpeciesManager();
+        SmallMultiplesManager();
+        ~SmallMultiplesManager();
         
         void setGroupReordering(GroupReordering *gr) { groupReordering = gr; }
 
@@ -28,4 +27,4 @@ class PlotBySpeciesManager : public PlotManager {
         void setChartLocations(float windowWidth, float windowHeight);
 };
 
-#endif  /* _PLOTBYSPECIESMANAGER_H */
+#endif  /* _SMALLMULTIPLESMANAGER_H */
