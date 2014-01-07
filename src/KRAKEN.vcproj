@@ -432,7 +432,7 @@
 						>
 					</File>
 					<File
-						RelativePath=".\PlotByGroupManager.cpp"
+						RelativePath=".\FourPanelManager.cpp"
 						>
 					</File>
 					<File
@@ -790,7 +790,7 @@
 						>
 					</File>
 					<File
-						RelativePath=".\PlotByGroupManager.h"
+						RelativePath=".\FourPanelManager.h"
 						>
 					</File>
 					<File

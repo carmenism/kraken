@@ -1,5 +1,5 @@
-#ifndef _PLOTBYGROUPMANAGER_H
-#define _PLOTBYGROUPMANAGER_H
+#ifndef _FOURPANELMANAGER_H
+#define _FOURPANELMANAGER_H
 
 #include <QtOpenGL/QGLWidget>
 #include <vector>
@@ -10,10 +10,10 @@ class MultiSpeciesLineChart;
 
 #include "ChartPointSeries.h"
 
-class PlotByGroupManager : public PlotManager {
+class FourPanelManager : public PlotManager {
 public:
-    PlotByGroupManager();
-    ~PlotByGroupManager();
+    FourPanelManager();
+    ~FourPanelManager();
 
     void draw(float windowWidth, float windowHeight);
     void updateCharts(Model *model, MS_PROD_MainWindow *mainWindow);
@@ -29,4 +29,4 @@ private:
     void initializeCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow);
 };
 
-#endif  /* _PLOTBYGROUPMANAGER_H */
+#endif /* _FOURPANELMANAGER_H */

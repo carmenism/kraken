@@ -17,7 +17,7 @@
 #include "Pickable.h"
 #include "Picker.h"
 #include "PlotManager.h"
-#include "PlotByGroupManager.h"
+#include "FourPanelManager.h"
 #include "SmallMultiplesWithArcsManager.h"
 #include "PrintText.h"
 #include "ResetButton.h"
@@ -52,17 +52,18 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
 
     labelSuffix = " harvest effort";
     
-    managerGroup = new PlotByGroupManager();
-    managerGroup->displayOff();
-    managerSpecies = new SmallMultiplesWithArcsManager();
+    managerPanel = new FourPanelManager();
+    managerPanel->displayOff();
+
+    managerSmallMult = new SmallMultiplesWithArcsManager();
 
     managerMC = new MonteCarloPlotManager();
     managerMC->displayOff();
 
     kmc = new KrakenMonteCarlo(mainWindow, managerMC);
 
-    plotManagers->push_back(managerGroup);
-    plotManagers->push_back(managerSpecies);
+    plotManagers->push_back(managerPanel);
+    plotManagers->push_back(managerSmallMult);
     plotManagers->push_back(managerMC);
 
     picker = new Picker(this);
@@ -133,7 +134,7 @@ void MyQGLWidget::resizeGL(int w, int h) {
 void MyQGLWidget::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    if (!managerGroup->empty()) {
+    if (!managerPanel->empty()) {
         glPushMatrix();
             glTranslatef(paddingLeft, paddingBottom, 0);
             for (unsigned int i = 0; i < plotManagers->size(); i++) {
@@ -153,13 +154,13 @@ void MyQGLWidget::paintGL() {
         baselineButton->setLocation(280, yPos);
         resetAllButton->setLocation(355, yPos);
 
-        if (managerSpecies->getDisplay() || managerGroup->getDisplay()) {
+        if (managerSmallMult->getDisplay() || managerPanel->getDisplay()) {
             bgChange->setLocation(panelStartX, panelBottomY);
             bgChange->draw();
 
             float changeWidth = bgChange->getWidth();
 
-            if (managerSpecies->getDisplay()) {
+            if (managerSmallMult->getDisplay()) {
                 positionSlidersForSpecies();
                
                 bgArc->setLocation(panelStartX + changeWidth + spacing, panelBottomY);
@@ -226,7 +227,7 @@ void MyQGLWidget::drawToPick() {
 }
 
 void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
-    if (managerGroup->empty()) {
+    if (managerPanel->empty()) {
         return;
     }
 
@@ -261,7 +262,7 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
         return true;
     }
 
-    if (managerSpecies->getDisplay() || managerGroup->getDisplay()) {
+    if (managerSmallMult->getDisplay() || managerPanel->getDisplay()) {
         if (bgChange->mouseReleased(x, y)) {
             int releasedIndex = bgChange->getReleasedIndex();
             
@@ -286,18 +287,18 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
         } 
     }
 
-    if (managerSpecies->getDisplay()) {
+    if (managerSmallMult->getDisplay()) {
         if (bgArc->mouseReleased(x, y)) {
             int releasedIndex = bgArc->getReleasedIndex();
 
             if (releasedIndex == 0) {      
-                managerSpecies->displayInteraction();
+                managerSmallMult->displayInteraction();
             } else if (releasedIndex == 1) {
-                managerSpecies->displayPredation();
+                managerSmallMult->displayPredation();
             } else if (releasedIndex == 2) {
-                managerSpecies->displayBothArcs();
+                managerSmallMult->displayBothArcs();
             } else if (releasedIndex == 3) {              
-                managerSpecies->displayNoArcs();
+                managerSmallMult->displayNoArcs();
             }
                 
             return true;
@@ -435,7 +436,7 @@ void MyQGLWidget::runModel() {
 }
 
 void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
-    if (managerGroup->empty()) {
+    if (managerPanel->empty()) {
         return;
     }
 
@@ -459,7 +460,7 @@ bool MyQGLWidget::mousePressButtons(float x, float y) {
     }
 
 
-    if (managerSpecies->getDisplay()) {
+    if (managerSmallMult->getDisplay()) {
         for (unsigned int i = 0; i < speciesButtons->size(); i++) {
             if (speciesButtons->at(i)->mousePressed(x, y)) {
                 return true;
@@ -471,7 +472,7 @@ bool MyQGLWidget::mousePressButtons(float x, float y) {
         }
     }
 
-    if (managerSpecies->getDisplay() || managerGroup->getDisplay()) {
+    if (managerSmallMult->getDisplay() || managerPanel->getDisplay()) {
         if (bgChange->mousePressed(x, y)) {
             return true;
         }
@@ -522,7 +523,7 @@ bool MyQGLWidget::mousePressSliders(float x, float y) {
 }
 
 void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
-    if (managerGroup->empty()) {
+    if (managerPanel->empty()) {
         return;
     }
 
@@ -548,7 +549,7 @@ bool MyQGLWidget::mouseMoveButtons(float x, float y) {
         return true;
     }
 
-    if (managerSpecies->getDisplay() || managerGroup->getDisplay()) {
+    if (managerSmallMult->getDisplay() || managerPanel->getDisplay()) {
         if (mouseMoveButtonHelper(speciesGroupButtons, x, y)) {
             return true;
         }
@@ -558,7 +559,7 @@ bool MyQGLWidget::mouseMoveButtons(float x, float y) {
         }
     }
 
-    if (managerSpecies->getDisplay()) {        
+    if (managerSmallMult->getDisplay()) {        
         if (mouseMoveButtonHelper(speciesButtons, x, y)) {
             return true;
         }
@@ -624,7 +625,7 @@ bool MyQGLWidget::mouseMoveSliders(float x, float y) {
 }
 
 void MyQGLWidget::mouseMovePickables(int x, int y) {
-    if (!managerGroup->empty()) {
+    if (!managerPanel->empty()) {
         std::vector<Pickable *> *allPickables = new std::vector<Pickable *>();
         for (unsigned int i = 0; i < plotManagers->size(); i++) {
             if (plotManagers->at(i)->getDisplay()) {
@@ -633,15 +634,15 @@ void MyQGLWidget::mouseMovePickables(int x, int y) {
             }
         }
 
-        BetweenSpeciesArcList *allArcs = managerSpecies->getArcs();
+        BetweenSpeciesArcList *allArcs = managerSmallMult->getArcs();
         if (allArcs != NULL) {
             allPickables->insert(allPickables->end(), allArcs->begin(), allArcs->end());
         }
 
-        if (managerSpecies->getDisplay() 
-            && managerSpecies->getDisplayAbsoluteSizes() 
-            && !managerSpecies->getDisplayCharts()) {
-            std::vector<AbsoluteSizeIndicator *> *absPoints = managerSpecies->getAbsPoints();
+        if (managerSmallMult->getDisplay() 
+            && managerSmallMult->getDisplayAbsoluteSizes() 
+            && !managerSmallMult->getDisplayCharts()) {
+            std::vector<AbsoluteSizeIndicator *> *absPoints = managerSmallMult->getAbsPoints();
             allPickables->insert(allPickables->end(), absPoints->begin(), absPoints->end());
         }
 
@@ -681,7 +682,7 @@ void MyQGLWidget::capturePreviousValues() {
 
 void MyQGLWidget::initialize() {
     gr = new GroupReordering(mainWindow);
-    managerSpecies->setGroupReordering(gr);
+    managerSmallMult->setGroupReordering(gr);
     managerMC->setGroupReordering(gr);
 
     while (!sliders->empty()) {
@@ -794,8 +795,8 @@ void MyQGLWidget::initialize() {
 }
 
 void MyQGLWidget::displayByGroup() {
-    managerGroup->displayOn();
-    managerSpecies->displayOff();
+    managerPanel->displayOn();
+    managerSmallMult->displayOff();
     managerMC->displayOff();
 
     positionSlidersForGroups();
@@ -803,8 +804,8 @@ void MyQGLWidget::displayByGroup() {
 }
 
 void MyQGLWidget::displayBySpecies() {
-    managerSpecies->displayOn();
-    managerGroup->displayOff();
+    managerSmallMult->displayOn();
+    managerPanel->displayOff();
     managerMC->displayOff();
 
     positionSlidersForSpecies();
@@ -815,8 +816,8 @@ void MyQGLWidget::displayMonteCarlo() {
     //kmc->run();
 
     managerMC->displayOn();
-    managerSpecies->displayOff();
-    managerGroup->displayOff();
+    managerSmallMult->displayOff();
+    managerPanel->displayOff();
 }
 
 void MyQGLWidget::positionSlidersForSpecies() {
@@ -824,7 +825,7 @@ void MyQGLWidget::positionSlidersForSpecies() {
         sliders->at(i)->titlePositionAbove();
     }
     
-    std::vector<LineChart *> *charts = managerSpecies->getCharts();
+    std::vector<LineChart *> *charts = managerSmallMult->getCharts();
     //float width = max(charts->at(0)->getInnerWidth() * 0.50, 220);
 
     for (unsigned int i = 0; i < sliders->size(); i++) {
@@ -893,12 +894,12 @@ void MyQGLWidget::setSliderFontSizes() {
 }
 
 void MyQGLWidget::positionSlidersForGroups() {  
-    if (managerGroup->empty()) {
+    if (managerPanel->empty()) {
         return;
     }   
 
     for (unsigned int i = 0; i < sliders->size(); i++) {
-        MultiSpeciesLineChart *chart = managerGroup->getChartAt(i);
+        MultiSpeciesLineChart *chart = managerPanel->getChartAt(i);
         float width = min(chart->getInnerWidth() * 0.65, 220);
         sliders->at(i)->setLocation(chart->getXLocation() + 55, chart->getYLocation() - 30);
         sliders->at(i)->titlePositionRight();
@@ -917,11 +918,11 @@ void MyQGLWidget::positionSliderButtons() {
 }
 
 void MyQGLWidget::toggleAbsoluteSizes() {
-    if (managerSpecies->getDisplay()) {
+    if (managerSmallMult->getDisplay()) {
         if (toggleAbsButton->getValue()) {
-            managerSpecies->displayAbsoluteSizesOn();            
+            managerSmallMult->displayAbsoluteSizesOn();            
         } else {
-            managerSpecies->displayAbsoluteSizesOff();
+            managerSmallMult->displayAbsoluteSizesOff();
         }
 
         updateGL();
@@ -929,13 +930,13 @@ void MyQGLWidget::toggleAbsoluteSizes() {
 }
 
 void MyQGLWidget::toggleCharts() {
-    if (managerSpecies->getDisplay()) {
+    if (managerSmallMult->getDisplay()) {
         if (toggleChartsButton->getValue()) {
-            managerSpecies->displayChartsOn();
-            managerSpecies->displayHarvestOff();
+            managerSmallMult->displayChartsOn();
+            managerSmallMult->displayHarvestOff();
             //toggleHarvButton->setValue(false);
         } else {
-            managerSpecies->displayChartsOff();
+            managerSmallMult->displayChartsOff();
         }
 
         updateGL();
@@ -963,26 +964,26 @@ void MyQGLWidget::setBaseline() {
 
 void MyQGLWidget::toggleDynamicArcs() {
     if (toggleArcsDynamicButton->getValue()) {
-       managerSpecies->displayArcsDynamicallyOn();
+       managerSmallMult->displayArcsDynamicallyOn();
     } else {
-       managerSpecies->displayArcsDynamicallyOff();
+       managerSmallMult->displayArcsDynamicallyOff();
     }
 }
 
 void MyQGLWidget::displayGhostOff() {
-    managerGroup->displayGhostOff();
-    managerSpecies->displayGhostOff();
+    managerPanel->displayGhostOff();
+    managerSmallMult->displayGhostOff();
     managerMC->displayGhostOff();
 }
 
 void MyQGLWidget::displayGhostAsLine() {
-    managerGroup->displayGhostAsLine();
-    managerSpecies->displayGhostAsLine();
+    managerPanel->displayGhostAsLine();
+    managerSmallMult->displayGhostAsLine();
     managerMC->displayGhostOff();
 }
 
 void MyQGLWidget::displayGhostAsBlend() {
-    managerGroup->displayGhostAsBlend();
-    managerSpecies->displayGhostAsBlend();
+    managerPanel->displayGhostAsBlend();
+    managerSmallMult->displayGhostAsBlend();
     managerMC->displayGhostOff();
 }

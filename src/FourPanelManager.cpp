@@ -1,14 +1,14 @@
-#include "PlotByGroupManager.h"
+#include "FourPanelManager.h"
 #include "MultiSpeciesLineChart.h"
 #include "MS_PROD_MainWindow.h"
 #include <QList>
 #include <QStringList>
 
-PlotByGroupManager::PlotByGroupManager() {
+FourPanelManager::FourPanelManager() {
     charts = new std::vector<MultiSpeciesLineChart *>();
 }
 
-PlotByGroupManager::~PlotByGroupManager() {
+FourPanelManager::~FourPanelManager() {
     while (!charts->empty()) {
         MultiSpeciesLineChart *c = charts->back();
         charts->pop_back();
@@ -18,7 +18,7 @@ PlotByGroupManager::~PlotByGroupManager() {
     delete charts;
 }
 
-void PlotByGroupManager::draw(float windowWidth, float windowHeight) {
+void FourPanelManager::draw(float windowWidth, float windowHeight) {
     if (charts != NULL && !charts->empty()) {
         float legendFontSize = getFontSize(windowWidth, windowHeight);   
 
@@ -57,7 +57,7 @@ void PlotByGroupManager::draw(float windowWidth, float windowHeight) {
     }
 }
 
-void PlotByGroupManager::updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) {
+void FourPanelManager::updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) {
     QList<QList<double>> matrix = mainWindow->getParameters()->getBiomassMatrix();
     QStringList labels = mainWindow->getParameters()->getSpeciesList();
 
@@ -82,7 +82,7 @@ void PlotByGroupManager::updateCharts(Model *model, MS_PROD_MainWindow *mainWind
     }
 }
 
-void PlotByGroupManager::initializeCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) {
+void FourPanelManager::initializeCharts(QList<QList<double>> matrix, QStringList labels, MS_PROD_MainWindow *mainWindow) {
     QStringList guilds = mainWindow->getParameters()->getGuildList();
     
     for (int i = 0; i < guilds.size(); i++) {
@@ -109,7 +109,7 @@ void PlotByGroupManager::initializeCharts(QList<QList<double>> matrix, QStringLi
 
 }
 
-std::vector<LineChart *> *PlotByGroupManager::getCharts() {
+std::vector<LineChart *> *FourPanelManager::getCharts() {
     std::vector<LineChart *> *lineCharts = new std::vector<LineChart *>();
 
     for (int i = 0; i < charts->size(); i++) {
