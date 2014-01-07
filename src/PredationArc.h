@@ -8,7 +8,7 @@ class PlotManager;
 
 class PredationArc : public BetweenSpeciesArc {
 public:
-    PredationArc(PlotManager *pm, float coefficient, SmallMultiple *speciesA, SmallMultiple *speciesB);
+    PredationArc(PlotManager *pm, float coefficient, SmallMultiple *source, SmallMultiple *recipient);
     ~PredationArc();
 
     virtual float getCoefficent();

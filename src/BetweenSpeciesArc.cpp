@@ -7,11 +7,11 @@
 #include "Triangle.h"
 #include "PlotManager.h"
 
-BetweenSpeciesArc::BetweenSpeciesArc(PlotManager *pm, float coefficient, SmallMultiple *speciesA, SmallMultiple *speciesB, std::string label) 
+BetweenSpeciesArc::BetweenSpeciesArc(PlotManager *pm, float coefficient, SmallMultiple *source, SmallMultiple *recipient, std::string label) 
 : VerticalArc(0, 0, 10) {
     this->plotManager = pm;
-    this->speciesA = speciesA;
-    this->speciesB = speciesB;
+    this->source = source;
+    this->recipient = recipient;
     this->coefficient = coefficient;
     this->betweenSpeciesLabel = label;
     this->fontHeight = 12;
@@ -72,15 +72,15 @@ void BetweenSpeciesArc::drawFaded() {
 
 void BetweenSpeciesArc::draw() {
     if (arcToRight()) {
-        this->x = speciesA->getXLocation() + speciesA->getWidth();
+        this->x = source->getXLocation() + source->getWidth();
     } else {
-        this->x = speciesA->getXLocation() + speciesA->getOffsetX();
+        this->x = source->getXLocation() + source->getOffsetX();
     }
 
-    this->yA = speciesA->getYLocation() + speciesA->getOffsetY() + speciesA->getInnerHeight() / 2;
-    this->yB = speciesB->getYLocation() + speciesB->getOffsetY() + speciesB->getInnerHeight() / 2;
+    this->yA = source->getYLocation() + source->getOffsetY() + source->getInnerHeight() / 2;
+    this->yB = recipient->getYLocation() + recipient->getOffsetY() + recipient->getInnerHeight() / 2;
     
-    float adjustOffset = (speciesA->getInnerHeight() / 2) * adjustPercentage;
+    float adjustOffset = (source->getInnerHeight() / 2) * adjustPercentage;
 
     if (adjustType == ADJUST_LARGER) {
         if (this->yA > this->yB) {
@@ -123,11 +123,11 @@ void BetweenSpeciesArc::draw() {
 float BetweenSpeciesArc::getDynamicThickness() {
     float coef = getCoefficient();
 
-    float increaseA = speciesA->getPercentIncreaseOfFinalValue();
-    //float increaseB = speciesB->getPercentIncreaseOfFinalValue();
+    float increaseSource = source->getPercentIncreaseOfFinalValue();
+    //float increaseRecipient = speciesB->getPercentIncreaseOfFinalValue();
 
-    float finalA = speciesA->getFinalValue();
-    float finalB = speciesB->getFinalValue();
+    float finalSource = source->getFinalValue();
+    float finalRecipient = recipient->getFinalValue();
 
     //float largest = plotManager->getLargestFinalValue();
     
@@ -135,7 +135,7 @@ float BetweenSpeciesArc::getDynamicThickness() {
     //    return 0;
     //}
 
-    float thick = 10 * coef * increaseA * finalA / finalB;
+    float thick = 10 * coef * increaseSource * finalSource / finalRecipient;
     
     float maxThickness = 30;
 
@@ -214,7 +214,7 @@ void BetweenSpeciesArc::drawSelected() {
         
         drawTriangles();
       
-        std::string label = speciesA->getTitle() + betweenSpeciesLabel + speciesB->getTitle() + " (" + toStr(coefficient) + ")";
+        std::string label = source->getTitle() + betweenSpeciesLabel + recipient->getTitle() + " (" + toStr(coefficient) + ")";
 
         float xPos = this->x + radius / 2;
 

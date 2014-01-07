@@ -11,7 +11,7 @@ enum {ADJUST_NONE, ADJUST_LARGER, ADJUST_SMALLER};
 
 class BetweenSpeciesArc : public VerticalArc {
 public:
-    BetweenSpeciesArc(PlotManager *pm, float coefficient, SmallMultiple *speciesA, SmallMultiple *speciesB, std::string label);
+    BetweenSpeciesArc(PlotManager *pm, float coefficient, SmallMultiple *source, SmallMultiple *recipient, std::string label);
     ~BetweenSpeciesArc();
 
     float getCoefficient() { return coefficient; }
@@ -51,8 +51,7 @@ private:
     float adjustPercentage;
     bool displayDynamically;
     std::string betweenSpeciesLabel;
-    SmallMultiple *speciesA;
-    SmallMultiple *speciesB;
+    SmallMultiple *source, *recipient;
     float fontHeight;
     Triangle *arrowA, *arrowB, *arrowMiddle;
 

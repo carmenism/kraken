@@ -8,7 +8,7 @@ class PlotManager;
 
 class InteractionArc : public BetweenSpeciesArc {
 public:
-    InteractionArc(PlotManager *pm, float coefficient, SmallMultiple *speciesA, SmallMultiple *speciesB);
+    InteractionArc(PlotManager *pm, float coefficient, SmallMultiple *source, SmallMultiple *recipient);
     ~InteractionArc();
 private:
 };
