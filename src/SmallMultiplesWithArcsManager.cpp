@@ -332,3 +332,21 @@ void SmallMultiplesWithArcsManager::displayArcsDynamicallyOn() {
 void SmallMultiplesWithArcsManager::displayArcsDynamicallyOff() {
     setDisplayArcsDynamically(false);
 }
+
+bool SmallMultiplesWithArcsManager::getArcsAnimated() {
+    return arcsBoth->getAnimated();
+}
+
+void SmallMultiplesWithArcsManager::setArcsAnimated(bool a) {
+    arcsInter->setAnimated(a);
+    arcsPred->setAnimated(a);
+    arcsBoth->setAnimated(a);
+}
+
+void SmallMultiplesWithArcsManager::arcsAnimatedOn() {
+    setArcsAnimated(true);
+}
+
+void SmallMultiplesWithArcsManager::arcsAnimatedOff() {
+    setArcsAnimated(false);
+}

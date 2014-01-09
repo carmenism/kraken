@@ -12,6 +12,8 @@ CenteredArc::CenteredArc() : Point(0, 0), Pickable() {
     color = new Color(0, 0, 0, 0.25);
     num_segments = 360;//CW_CODE
 
+    animated = false;
+
     fadingAlpha = false;
     startAlpha = 0.6;
     finalAlpha = 0.15;
@@ -299,7 +301,10 @@ void CenteredArc::drawPolygonArc(float radius, float thickness, float startAngle
 
 	float tc;
 
-	glEnable(GL_TEXTURE_2D);
+    if (animated) {
+	    glEnable(GL_TEXTURE_2D);
+    }
+ 
     glPolygonMode(GL_FRONT, GL_FILL);
 
 	glBegin(GL_TRIANGLE_STRIP);
@@ -310,10 +315,17 @@ void CenteredArc::drawPolygonArc(float radius, float thickness, float startAngle
 
         //CW_CODE 
         //*
+        if (animated) {
             glTexCoord2f(tc, 0.3);
-            glVertex2f(xxOuter, yyOuter);
+        }
+
+        glVertex2f(xxOuter, yyOuter);
+
+        if (animated) {
             glTexCoord2f(tc,0.3);
-            glVertex2f(xxInner,yyInner);		
+        }
+        
+        glVertex2f(xxInner,yyInner);		
         //glEnd();
         //glDisable(GL_TEXTURE_2D);
         //*/
@@ -339,29 +351,34 @@ void CenteredArc::drawPolygonArc(float radius, float thickness, float startAngle
         yyInner *= radial_factor; 
     }
     glEnd();
-    glDisable(GL_TEXTURE_2D);
+
+    if (animated) {
+        glDisable(GL_TEXTURE_2D);
+    }
 
     // CW_CODE now draw +s
 
-    glLineWidth(2.0);
-    int t;
+    if (animated) {
+        glLineWidth(2.0);
+        int t;
 
-    glColor3f(0.0,0.0,0.0);
-    for(int i=0;i<5;++i) {
-        t = num_segments-(timer+num_segments/5*i)%num_segments-1;
-        glPushMatrix();
-            if(startAngle > 2) glRotatef(180.0,0.0,0.0,1.0);
+        glColor3f(0.0,0.0,0.0);
+        for(int i=0;i<5;++i) {
+            t = num_segments-(timer+num_segments/5*i)%num_segments-1;
+            glPushMatrix();
+                if(startAngle > 2) glRotatef(180.0,0.0,0.0,1.0);
 
-            glTranslatef(xArc[t]*radius,yArc[t]*radius,0.0);
-            glBegin(GL_LINES); 
-                glVertex2f(5.0,0.0);	 
-                glVertex2f(-5.0,0.0);
+                glTranslatef(xArc[t]*radius,yArc[t]*radius,0.0);
+                glBegin(GL_LINES); 
+                    glVertex2f(5.0,0.0);	 
+                    glVertex2f(-5.0,0.0);
 
-                if(thickness < 0) {
-                    glVertex2f(0.0,-5.0);
-                    glVertex2f(0.0,5.0);	
-                }		
-            glEnd();
-        glPopMatrix();
+                    if(thickness < 0) {
+                        glVertex2f(0.0,-5.0);
+                        glVertex2f(0.0,5.0);	
+                    }		
+                glEnd();
+            glPopMatrix();
+        }
     }
 }

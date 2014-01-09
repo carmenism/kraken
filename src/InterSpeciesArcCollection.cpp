@@ -157,3 +157,29 @@ InterSpeciesArcList *InterSpeciesArcCollection::getVisibleArcs() {
 
     return newList;
 }
+
+bool InterSpeciesArcCollection::isAnimated() {
+    if (!arcs->empty()) {
+        return arcs->front()->isAnimated();
+    }
+
+    return false;
+}
+
+bool InterSpeciesArcCollection::getAnimated() {
+    return isAnimated();
+}
+
+void InterSpeciesArcCollection::setAnimated(bool a) {
+    for (unsigned int i = 0; i < arcs->size(); i++) {
+        arcs->at(i)->setAnimated(a);
+    }
+}
+
+void InterSpeciesArcCollection::animatedOn() {
+    setAnimated(true);
+}
+
+void InterSpeciesArcCollection::animatedOff() {
+    setAnimated(false);
+}

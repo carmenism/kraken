@@ -56,6 +56,11 @@ public:
     void displayArcsDynamicallyOn();
     void displayArcsDynamicallyOff();
 
+    bool getArcsAnimated();
+    void setArcsAnimated(bool a);
+    void arcsAnimatedOn();
+    void arcsAnimatedOff();
+
     SmallMultiple *getChartAt(int i) { return charts->at(i); }
 private:   
     QList<double> percentChangeInFinalBiomass;

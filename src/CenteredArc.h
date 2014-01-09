@@ -37,7 +37,14 @@ public:
     void setFadingAlpha(bool f) { fadingAlpha = f; }
     void fadingAlphaOn() { fadingAlpha = true; }
     void fadingAlphaOff() { fadingAlpha = false; }
+
+    bool isAnimated() { return animated; }
+    bool getAnimated() { return animated; }
+    void setAnimated(bool a) { animated = a; }
+    void animatedOn() { animated = true; }
+    void animatedOff() { animated = false; }
 protected:
+    bool animated;
     float startAngle, arcAngle;
     float radius;
     float thickness;

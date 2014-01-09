@@ -76,7 +76,7 @@ private:
     SmallMultiplesWithArcsManager *managerSmallMult;
     MonteCarloPlotManager *managerMC;    
     Button *runMCButton, *baselineButton, *resetAllButton;
-    ButtonGroup *bgView, *bgChange, *bgArc;
+    ButtonGroup *bgView, *bgChange, *bgArc, *bgArcAnimate;
     ButtonGroup *bgUncertainty, *bgUncertaintyStats, *bgUncertaintyLine;
     ToggleButton *toggleAbsButton, *toggleChartsButton, *toggleArcsDynamicButton;
     //ToggleButton *toggleHarvButton;

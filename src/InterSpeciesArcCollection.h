@@ -51,6 +51,12 @@ public:
 
     void addArcs(InterSpeciesArcCollection *otherArcs);
     void clear();
+
+    bool isAnimated();
+    bool getAnimated();
+    void setAnimated(bool a);
+    void animatedOn();
+    void animatedOff();
 private:
     PlotManager *plotManager;
     InterSpeciesArcList *arcs;

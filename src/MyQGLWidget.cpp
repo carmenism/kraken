@@ -97,6 +97,7 @@ MyQGLWidget::~MyQGLWidget() {
     delete bgView;
     delete bgChange;
     delete bgArc;
+    delete bgArcAnimate;
     delete bgUncertainty;
     delete sliders;
     delete plotManagers;
@@ -181,6 +182,9 @@ void MyQGLWidget::paintGL() {
                
                 bgArc->setLocation(panelStartX + changeWidth + spacing, panelBottomY);
                 bgArc->draw();
+
+                bgArcAnimate->setLocation(bgArc->getX() + bgArc->getWidth() + spacing, bgArc->getY());
+                bgArcAnimate->draw();
 
                 float arcWidth = bgArc->getWidth();
 
@@ -317,6 +321,18 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
                 managerSmallMult->displayNoArcs();
             }
                 
+            return true;
+        }
+
+        if (bgArcAnimate->mouseReleased(x, y)) {
+            int releasedIndex = bgArcAnimate->getReleasedIndex();
+
+            if (releasedIndex == 0) {
+                managerSmallMult->arcsAnimatedOn();
+            } else if (releasedIndex == 1) {
+                managerSmallMult->arcsAnimatedOff();    
+            }
+
             return true;
         }
 
@@ -486,6 +502,10 @@ bool MyQGLWidget::mousePressButtons(float x, float y) {
         if (bgArc->mousePressed(x, y)) {
             return true;
         }
+
+        if (bgArcAnimate->mousePressed(x, y)) {
+            return true;
+        }
     }
 
     if (managerSmallMult->getDisplay() || managerPanel->getDisplay()) {
@@ -581,6 +601,10 @@ bool MyQGLWidget::mouseMoveButtons(float x, float y) {
         }
 
         if (bgArc->mouseMoved(x, y)) {
+            return true;
+        }
+
+        if (bgArcAnimate->mouseMoved(x, y)) {
             return true;
         }
     }
@@ -785,6 +809,11 @@ void MyQGLWidget::initialize() {
     arcLabels.push_back("Both");
     arcLabels.push_back("Off");
     bgArc = new ButtonGroup("Arcs", arcLabels, 2);
+
+    std::vector<std::string> arcAnimation;
+    arcAnimation.push_back("On");
+    arcAnimation.push_back("Off");
+    bgArcAnimate = new ButtonGroup("Animation", arcAnimation, 1);
     
     std::vector<std::string> mcLabels;
     mcLabels.push_back("Multi-Line");
