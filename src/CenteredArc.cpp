@@ -256,29 +256,19 @@ void CenteredArc::drawLineArc(float radius, float thickness, float startAngle, f
 
     glLineWidth(thickness);
 
-    float prevXX = -1;
-    float prevYY = -1;
+    glBegin(GL_LINE_STRIP);
 
-    for(int ii = 0; ii < num_segments; ii++) 
-    { 
+    for(int ii = 0; ii < num_segments; ii++) { 
         glColor4f( color->r, color->g, color->b, startAlpha - ii * alphaStep );
-        if (prevXX != -1) {
-            glBegin(GL_LINE_STRIP);
-                glVertex2f(prevXX, prevYY);
-                glVertex2f(xx, yy);
-            glEnd();
-        }
-
+        glVertex2f(xx, yy);
+        
         //calculate the tangential vector 
         //remember, the radial vector is (x, y) 
         //to get the tangential vector we flip those coordinates and negate one of them 
 
         float tx = -yy; 
         float ty = xx; 
-
-        prevXX = xx;
-        prevYY = yy;
-
+        
         //add the tangential vector 
 
         xx += tx * tangetial_factor; 
@@ -289,6 +279,8 @@ void CenteredArc::drawLineArc(float radius, float thickness, float startAngle, f
         xx *= radial_factor; 
         yy *= radial_factor; 
     }
+
+    glEnd();
 
     glLineWidth(1);
     glDisable(GL_POLYGON_SMOOTH);
@@ -310,11 +302,6 @@ void CenteredArc::drawPolygonArc(float radius, float thickness, float startAngle
     float diff = startAlpha - finalAlpha;
     float alphaStep = diff / num_segments;
     
-    float prevXXOuter = -1;
-    float prevYYOuter = -1;
-    float prevXXInner = -1;
-    float prevYYInner = -1;
-
     //CW_CODE
 
 	float timeval;
@@ -328,8 +315,6 @@ void CenteredArc::drawPolygonArc(float radius, float thickness, float startAngle
 	glBegin(GL_TRIANGLE_STRIP);
     for(int ii = 0; ii < num_segments; ii++) { 
         glColor4f( color->r, color->g, color->b, startAlpha - ii * alphaStep);
-        //glVertex2f(xxOuter, yyOuter);
-        //glVertex2f(xxInner,yyInner);
 
         tc = 1.5*(float(ii)/num_segments+timeval);
 
@@ -352,11 +337,6 @@ void CenteredArc::drawPolygonArc(float radius, float thickness, float startAngle
         float tyInner =  xxInner; 
 
         //add the tangential vector 
-        prevXXOuter = xxOuter;
-        prevYYOuter = yyOuter;
-        prevXXInner = xxInner;
-        prevYYInner = yyInner;
-
         xxOuter += txOuter * tangetial_factor; 
         yyOuter += tyOuter * tangetial_factor; 
         xxInner += txInner * tangetial_factor; 
