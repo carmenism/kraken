@@ -146,3 +146,7 @@ float SmallMultiple::getPercentIncreaseOfFinalValue() {
 float SmallMultiple::getFinalValue() {
     return seriesList->front()->getFinalValue();
 }
+
+float SmallMultiple::getPreviousFinalValue() {
+    return seriesList->front()->getPreviousFinalValue();
+}

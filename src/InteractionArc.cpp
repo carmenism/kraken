@@ -10,4 +10,7 @@ InteractionArc::~InteractionArc() {
 
 }
 
+float InteractionArc::getDynamicConstant() {
+    return 0.001;
+}
 

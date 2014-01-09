@@ -13,3 +13,7 @@ PredationArc::~PredationArc() {
 float PredationArc::getCoefficent() {
     return (coefficient * 250000);
 }
+
+float PredationArc::getDynamicConstant() {
+    return 100;
+}

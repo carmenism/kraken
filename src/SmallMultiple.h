@@ -45,6 +45,7 @@ public:
 
     float getPercentIncreaseOfFinalValue();
     float getFinalValue();
+    float getPreviousFinalValue();
 private:
     bool displayAbsoluteSizes;
     bool displayChart;

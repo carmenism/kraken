@@ -12,6 +12,8 @@ public:
     ~PredationArc();
 
     virtual float getCoefficent();
+    
+    virtual float getDynamicConstant();
 private:
 };
 

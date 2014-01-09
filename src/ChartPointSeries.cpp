@@ -360,3 +360,7 @@ float ChartPointSeries::getPercentIncreaseOfFinalValue() {
 float ChartPointSeries::getFinalValue() {
     return points->back()->getY();
 }
+
+float ChartPointSeries::getPreviousFinalValue() {
+    return points->back()->getPreviousValue();
+}

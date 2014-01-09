@@ -236,3 +236,7 @@ float ChartPoint::getDifferenceFromPrevious() {
 float ChartPoint::getPercentIncreaseFromPrevious() {
     return getDifferenceFromPrevious() / previousValues->getY();
 }
+
+float ChartPoint::getPreviousValue() {
+    return previousValues->getY();
+}

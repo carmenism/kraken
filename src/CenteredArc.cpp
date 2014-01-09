@@ -37,7 +37,7 @@ void CenteredArc::draw() {
             finalA = color->a;
         }
 
-        if (thickness < 3) {
+        if (abs(thickness) < 3) {
             drawLineArc(radius, thickness, startAngle, arcAngle, color, startA, finalA);
         } else {
             drawPolygonArc(radius, thickness, startAngle, arcAngle, color, startA, finalA);

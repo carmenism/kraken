@@ -83,6 +83,7 @@ public:
 
     float getPercentIncreaseOfFinalValue();
     float getFinalValue();
+    float getPreviousFinalValue();
 private:
     LineChart *chart;
 

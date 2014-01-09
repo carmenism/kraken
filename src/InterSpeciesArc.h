@@ -17,6 +17,8 @@ public:
     float getCoefficient() { return coefficient; }
     void setCoefficient(float c) { coefficient = c; }
 
+    virtual float getDynamicConstant() = 0;
+
     void draw();
     void drawFaded();
     virtual void drawSelected();
@@ -55,6 +57,7 @@ private:
     float fontHeight;
     Triangle *arrowA, *arrowB, *arrowMiddle;
 
+    void drawSign(bool positive);
     void positionTriangles();
     void drawTriangles();
 };

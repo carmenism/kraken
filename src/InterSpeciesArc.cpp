@@ -105,10 +105,14 @@ void InterSpeciesArc::draw() {
         this->setThickness(newThickness);
 
         if (newThickness != 0) { // && multB > 0.1
+            //if (newThickness < 0) {
+            //    this->setColor(&Color::black);
+            //}
             VerticalArc::draw();
 
             positionTriangles();
             drawTriangles();
+            drawSign(newThickness > 0);
         }
     } else {        
         this->setThickness(min(30, 30 * getCoefficent()));
@@ -120,6 +124,26 @@ void InterSpeciesArc::draw() {
     }
 }
 
+
+void InterSpeciesArc::drawSign(bool positive) {
+    float xLoc;
+    float yLoc = getY(); 
+
+    if (arcToRight()) {
+        xLoc = getX() + getRadius();
+    } else {        
+        xLoc = getX() - getRadius();  
+    }
+    
+    if (positive) {
+        glColor3f(0, 0.75, 0);
+        PrintText::drawStrokeText("+", xLoc, yLoc, 10, HORIZ_CENTER, VERT_CENTER);
+    } else {
+        glColor3f(1, 0, 0);
+        PrintText::drawStrokeText("-", xLoc, yLoc, 10, HORIZ_CENTER, VERT_CENTER);
+    }
+}
+
 float InterSpeciesArc::getDynamicThickness() {
     float coef = getCoefficient();
 
@@ -127,15 +151,11 @@ float InterSpeciesArc::getDynamicThickness() {
     //float increaseRecipient = speciesB->getPercentIncreaseOfFinalValue();
 
     float finalSource = source->getFinalValue();
-    float finalRecipient = recipient->getFinalValue();
+    float prevSource = source->getPreviousFinalValue();
+    //float finalRecipient = recipient->getFinalValue();
 
-    //float largest = plotManager->getLargestFinalValue();
-    
-    //if (increaseA == 0 || increaseB == 0) {
-    //    return 0;
-    //}
-
-    float thick = 10 * coef * increaseSource * finalSource / finalRecipient;
+    float mult = getDynamicConstant();
+    float thick = mult * coef * increaseSource * prevSource;// / finalRecipient;
     
     float maxThickness = 30;
 

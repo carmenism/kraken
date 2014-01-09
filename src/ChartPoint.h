@@ -32,6 +32,7 @@ public:
 
     void capturePreviousValues();
     Point *getPrevious() { return previousValues; }
+    float getPreviousValue();
     float getPreviousPositionX() { return previousPositionX; }
     float getPreviousPositionY() { return previousPositionY; }
 

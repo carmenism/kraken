@@ -10,6 +10,8 @@ class InteractionArc : public InterSpeciesArc {
 public:
     InteractionArc(PlotManager *pm, float coefficient, SmallMultiple *source, SmallMultiple *recipient);
     ~InteractionArc();
+
+    virtual float getDynamicConstant();
 private:
 };
 
