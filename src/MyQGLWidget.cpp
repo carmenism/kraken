@@ -97,6 +97,7 @@ MyQGLWidget::~MyQGLWidget() {
     delete bgView;
     delete bgChange;
     delete bgArc;
+    delete bgArcStyle;
     delete bgArcAnimate;
     delete bgUncertainty;
     delete sliders;
@@ -183,8 +184,13 @@ void MyQGLWidget::paintGL() {
                 bgArc->setLocation(panelStartX + changeWidth + spacing, panelBottomY);
                 bgArc->draw();
 
-                bgArcAnimate->setLocation(bgArc->getX() + bgArc->getWidth() + spacing, bgArc->getY());
-                bgArcAnimate->draw();
+                if (bgArc->getActive(3)) {
+                    bgArcStyle->setLocation(bgArc->getX() + bgArc->getWidth() + spacing, bgArc->getY());
+                    bgArcStyle->draw();
+
+                    bgArcAnimate->setLocation(bgArcStyle->getX() + bgArcStyle->getWidth() + spacing, bgArcStyle->getY());
+                    bgArcAnimate->draw();
+                }
 
                 float arcWidth = bgArc->getWidth();
 
@@ -194,9 +200,6 @@ void MyQGLWidget::paintGL() {
                 xPos = xPos + toggleAbsButton->getWidth() + spacing;
                 toggleChartsButton->setLocation(xPos, yPos);
                 
-                xPos = xPos + toggleChartsButton->getWidth() + spacing;
-                toggleArcsDynamicButton->setLocation(xPos, yPos);
-
                 for (int i = 0; i < speciesButtons->size(); i++) {
                     speciesButtons->at(i)->draw();
                 }
@@ -324,22 +327,32 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
             return true;
         }
 
-        if (bgArcAnimate->mouseReleased(x, y)) {
-            int releasedIndex = bgArcAnimate->getReleasedIndex();
+        if (bgArc->getActive(3)) {
+            if (bgArcStyle->mouseReleased(x, y)) {
+                int releasedIndex = bgArcStyle->getReleasedIndex();
 
-            if (releasedIndex == 0) {
-                managerSmallMult->arcsAnimatedOn();
-            } else if (releasedIndex == 1) {
-                managerSmallMult->arcsAnimatedOff();    
+                if (releasedIndex == 0) {
+                    managerSmallMult->displayArcsDynamicallyOff();
+                } else if (releasedIndex == 1) {
+                    managerSmallMult->displayArcsDynamicallyOn();
+                }
+
+                return true;
             }
 
-            return true;
-        }
+            if (bgArcAnimate->mouseReleased(x, y)) {
+                int releasedIndex = bgArcAnimate->getReleasedIndex();
 
-        if (toggleArcsDynamicButton->mouseReleased(x, y)) {
-            toggleDynamicArcs();
-            return true;
+                if (releasedIndex == 0) {
+                    managerSmallMult->arcsAnimatedOn();
+                } else if (releasedIndex == 1) {
+                    managerSmallMult->arcsAnimatedOff();    
+                }
+
+                return true;
+            }
         }
+        
         if (toggleChartsButton->mouseReleased(x, y)) {
             toggleCharts();
             return true;
@@ -503,8 +516,14 @@ bool MyQGLWidget::mousePressButtons(float x, float y) {
             return true;
         }
 
-        if (bgArcAnimate->mousePressed(x, y)) {
-            return true;
+        if (bgArc->getActive(3)) {
+            if (bgArcStyle->mousePressed(x, y)) {
+                return true;
+            }
+
+            if (bgArcAnimate->mousePressed(x, y)) {
+                return true;
+            }
         }
     }
 
@@ -590,8 +609,14 @@ bool MyQGLWidget::mouseMoveButtons(float x, float y) {
             return true;
         }
 
-        if (bgChange->mouseMoved(x, y)) {
-            return true;
+        if (bgArc->getActive(3)) {
+            if (bgArcStyle->mouseMoved(x, y)) {
+                return true;
+            }
+
+            if (bgChange->mouseMoved(x, y)) {
+                return true;
+            }
         }
     }
 
@@ -781,11 +806,7 @@ void MyQGLWidget::initialize() {
     /*toggleHarvButton = new ToggleButton("Harvest", false);
     toggleHarvButton->setHeight(buttonHeight);
     speciesButtons->push_back(toggleHarvButton);*/
-
-    toggleArcsDynamicButton = new ToggleButton("Dynamic Arcs", false);
-    toggleArcsDynamicButton->setHeight(buttonHeight);
-    speciesButtons->push_back(toggleArcsDynamicButton);
-
+    
     runMCButton = new Button("Run Simulation");
     runMCButton->setHeight(buttonHeight);
     runMCButton->setWidth(buttonWidth);
@@ -813,8 +834,13 @@ void MyQGLWidget::initialize() {
     std::vector<std::string> arcAnimation;
     arcAnimation.push_back("On");
     arcAnimation.push_back("Off");
-    bgArcAnimate = new ButtonGroup("Animation", arcAnimation, 1);
+    bgArcAnimate = new ButtonGroup("Arc Animation", arcAnimation, 1);
     
+    std::vector<std::string> arcStyle;
+    arcStyle.push_back("Static");
+    arcStyle.push_back("Dynamic");
+    bgArcStyle = new ButtonGroup("Arc Style", arcStyle, 0);
+
     std::vector<std::string> mcLabels;
     mcLabels.push_back("Multi-Line");
     mcLabels.push_back("Box Plots");
@@ -1005,14 +1031,6 @@ void MyQGLWidget::toggleHarvest() {
 void MyQGLWidget::setBaseline() {
     setSlidersBaseline();
     capturePreviousValues();
-}
-
-void MyQGLWidget::toggleDynamicArcs() {
-    if (toggleArcsDynamicButton->getValue()) {
-       managerSmallMult->displayArcsDynamicallyOn();
-    } else {
-       managerSmallMult->displayArcsDynamicallyOff();
-    }
 }
 
 void MyQGLWidget::displayGhostOff() {

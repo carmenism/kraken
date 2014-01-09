@@ -147,7 +147,7 @@ void SmallMultiplesWithArcsManager::initializePredationArcs(MS_PROD_MainWindow *
 }
 
 void SmallMultiplesWithArcsManager::initializeBothArcs(MS_PROD_MainWindow *mainWindow) {
-    arcsBoth = new InterSpeciesArcCollection(this, "Orange: Predation, Blue: Interaction");
+    arcsBoth = new InterSpeciesArcCollection(this, "ARCS - Orange: Predation, Blue: Interaction");
     initializeArcs(arcsBoth, ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix(), false);
     arcsBoth->adjustLarger();
     //arcsBoth->setAdjustPercentage(0.5);
@@ -186,7 +186,8 @@ void SmallMultiplesWithArcsManager::initializeArcs(InterSpeciesArcCollection *ar
 
 void SmallMultiplesWithArcsManager::draw(float windowWidth, float windowHeight) {
     if (arcsCurrent != NULL) {
-        arcsCurrent->setTitleLocation(windowWidth - 5, windowHeight - 5);
+        arcsCurrent->setTitleLocation(5, 5);
+        //arcsCurrent->setTitleLocation(windowWidth - 5, windowHeight - 5);
     
         if (windowWidth < 900) {
             arcsCurrent->setFontHeight(12);

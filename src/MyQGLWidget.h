@@ -76,9 +76,9 @@ private:
     SmallMultiplesWithArcsManager *managerSmallMult;
     MonteCarloPlotManager *managerMC;    
     Button *runMCButton, *baselineButton, *resetAllButton;
-    ButtonGroup *bgView, *bgChange, *bgArc, *bgArcAnimate;
+    ButtonGroup *bgView, *bgChange, *bgArc, *bgArcStyle, *bgArcAnimate;
     ButtonGroup *bgUncertainty, *bgUncertaintyStats, *bgUncertaintyLine;
-    ToggleButton *toggleAbsButton, *toggleChartsButton, *toggleArcsDynamicButton;
+    ToggleButton *toggleAbsButton, *toggleChartsButton;
     //ToggleButton *toggleHarvButton;
     
     MS_PROD_MainWindow *mainWindow;
@@ -126,8 +126,6 @@ private:
 
     void deleteButtonList(std::vector<Button *> *list);
     bool mouseMoveButtonHelper(std::vector<Button *> *list, float x, float y);
-
-    void toggleDynamicArcs();
 
     void displayGhostOff();
     void displayGhostAsLine();

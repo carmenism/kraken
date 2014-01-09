@@ -57,7 +57,7 @@ void InterSpeciesArcCollection::draw() {
     }
 
     glColor4f(0, 0, 0, 1);
-    PrintText::drawStrokeText(title, titleX, titleY, fontHeight, HORIZ_RIGHT, VERT_TOP, false, 0);
+    PrintText::drawStrokeText(title, titleX, titleY, fontHeight, HORIZ_LEFT, VERT_BOTTOM, false, 0);
 }
 
 void InterSpeciesArcCollection::drawSelected() {
