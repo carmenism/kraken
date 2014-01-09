@@ -9,8 +9,11 @@
 #include <QList>
 #include <QStringList>
 
+int timer;
+
 SmallMultiplesWithArcsManager::SmallMultiplesWithArcsManager() : charts() {
     arcsCurrent = NULL;
+    timer = 0;
 
     charts = new std::vector<SmallMultiple *>();
 }
@@ -194,6 +197,7 @@ void SmallMultiplesWithArcsManager::draw(float windowWidth, float windowHeight) 
         }
 
         arcsCurrent->draw();
+        ++timer; //CW_CODE
     }
 
     if (charts != NULL && !charts->empty()) {

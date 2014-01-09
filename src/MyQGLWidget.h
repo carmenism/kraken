@@ -56,6 +56,7 @@ protected:
     void initializeGL();
     void resizeGL(int w, int h);
     void paintGL();
+    void timerEvent(QTimerEvent *);
     void mouseReleaseEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
@@ -65,6 +66,8 @@ private:
     int paddingBottom;
     int paddingRight;
     int paddingLeft;
+
+    int timer;
 
     GroupReordering *gr;
     KrakenMonteCarlo *kmc;

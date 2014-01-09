@@ -4,6 +4,9 @@
 #include "PredationArc.h"
 #include "PrintText.h"
 #include <QtOpenGL>
+#include <iostream>
+
+extern int timer;
 
 InterSpeciesArcCollection::InterSpeciesArcCollection(PlotManager *pm, std::string title) {
     arcs = new InterSpeciesArcList();
@@ -30,6 +33,8 @@ void InterSpeciesArcCollection::setTitleLocation(float x, float y) {
 
 void InterSpeciesArcCollection::draw() {
     selected = NULL;
+
+    //std::cerr << timer << "\n";
 
     for (unsigned int i = 0; i < arcs->size(); i++) {
         if (arcs->at(i)->getSelected()){

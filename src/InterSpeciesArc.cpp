@@ -104,10 +104,7 @@ void InterSpeciesArc::draw() {
         float newThickness = getDynamicThickness();
         this->setThickness(newThickness);
 
-        if (newThickness != 0) { // && multB > 0.1
-            //if (newThickness < 0) {
-            //    this->setColor(&Color::black);
-            //}
+        if (newThickness != 0) { 
             VerticalArc::draw();
 
             positionTriangles();

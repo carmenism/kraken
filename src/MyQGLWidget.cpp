@@ -30,6 +30,7 @@
 
 #include <QList>
 #include <QStringList>
+#include <iostream>
 
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
     plotManagers = new std::vector<PlotManager *>();
@@ -39,10 +40,15 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     speciesGroupButtons = new std::vector<Button *>();
     monteCarloButtons = new std::vector<Button *>();
 
+    //CW_CODE this triggers timerEvent callback
+	startTimer(0); //QT_Timer has the effect of glutIdle timer is called whenever widget is inactive
+
     paddingRight = 0;
     paddingLeft = 0;
     paddingBottom = 0;
     paddingTop = 45;
+
+    timer = 0;
 
     this->mainWindow = mainWindow;
 
@@ -131,7 +137,17 @@ void MyQGLWidget::resizeGL(int w, int h) {
     glLoadIdentity();
 }
 
+void MyQGLWidget::timerEvent(QTimerEvent *) {
+    //CW_CODE  This is called when startTimer(0); has been initialized
+
+    updateGL(); 
+
+    //std::cerr << "TT " << timer << "\n";
+}
+
 void MyQGLWidget::paintGL() {
+    ++timer; //CW_CODE for animation
+
     glClear(GL_COLOR_BUFFER_BIT);
 
     if (!managerPanel->empty()) {

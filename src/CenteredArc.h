@@ -45,14 +45,20 @@ protected:
     bool fadingAlpha;
     float startAlpha, finalAlpha;
 
-    static void drawPolygonArc(float x, float y, float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
-    static void drawLineArc(float x, float y, float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
+    void drawPolygonArc(float x, float y, float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
+    void drawLineArc(float x, float y, float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
 
-    static void drawPolygonArc(float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
-    static void drawLineArc(float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
+    void drawPolygonArc(float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
+    void drawLineArc(float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
 private:
     void drawToPickAsLineStrips();
     void drawToPickAsPolygons();
+
+    //CW_CODE
+	unsigned char checker[64][64][4];
+	unsigned int texName;
+	int num_segments;
+	float *xArc, *yArc;
 };
 
 #endif /* CENTERED_ARC_H */
