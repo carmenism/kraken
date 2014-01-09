@@ -182,23 +182,16 @@ void CenteredArc::drawToPickAsPolygons() {
     float xxInner = radiusInner * cosf(startAngle);//we start at angle = 0 
     float yyInner = radiusInner * sinf(startAngle);  
     
-    float prevXXOuter = -1;
-    float prevYYOuter = -1;
-    float prevXXInner = -1;
-    float prevYYInner = -1;
-
     glPolygonMode(GL_FRONT, GL_FILL);
+
+    glBegin(GL_TRIANGLE_STRIP);
+
     for(int ii = 0; ii < num_segments; ii++) 
     { 
         glColor3ub(pickR, pickG, pickB);
-        if (prevXXOuter != -1) {
-            glBegin(GL_POLYGON);
-                glVertex2f(prevXXOuter, prevYYOuter);
-                glVertex2f(xxOuter,     yyOuter);
-                glVertex2f(xxInner,     yyInner);
-                glVertex2f(prevXXInner, prevYYInner);
-            glEnd();
-        }
+
+        glVertex2f(xxOuter, yyOuter);
+        glVertex2f(xxInner, yyInner);
 		
         //calculate the tangential vector 
         //remember, the radial vector is (x, y) 
@@ -211,11 +204,6 @@ void CenteredArc::drawToPickAsPolygons() {
         
         //add the tangential vector 
 
-        prevXXOuter = xxOuter;
-        prevYYOuter = yyOuter;
-        prevXXInner = xxInner;
-        prevYYInner = yyInner;
-
         xxOuter += txOuter * tangetial_factor; 
         yyOuter += tyOuter * tangetial_factor; 
         xxInner += txInner * tangetial_factor; 
@@ -227,6 +215,8 @@ void CenteredArc::drawToPickAsPolygons() {
         xxInner *= radial_factor; 
         yyInner *= radial_factor; 
     }
+
+    glEnd();
 }
 
 void CenteredArc::drawSelected() {
