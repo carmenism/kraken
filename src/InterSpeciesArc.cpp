@@ -109,7 +109,10 @@ void InterSpeciesArc::draw() {
 
             positionTriangles();
             drawTriangles();
-            drawSign(newThickness > 0);
+
+            if (!animated) {
+                drawSign(newThickness < 0);
+            }
         }
     } else {        
         this->setThickness(min(30, 30 * getCoefficent()));
@@ -149,7 +152,7 @@ float InterSpeciesArc::getDynamicThickness() {
 
     float finalSource = source->getFinalValue();
     float prevSource = source->getPreviousFinalValue();
-    //float finalRecipient = recipient->getFinalValue();
+    float finalRecipient = recipient->getFinalValue();
 
     float mult = getDynamicConstant();
     float thick = mult * coef * increaseSource * prevSource;// / finalRecipient;
