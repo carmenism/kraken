@@ -4,41 +4,56 @@
 #include "Color.h"
 #include "PrintText.h"
 
-Slider::Slider(std::string title, float min, float max, float start) {
-    this->title = title;
+
+Slider::Slider(std::string myTitle, std::vector<float> *values, int startIndex) {
+    valueType = CUSTOM;
+    this->values = values;
+
+    initialize(myTitle, values->at(startIndex));
+}
+
+Slider::Slider(std::string myTitle, float min, float max, float start) {
+    valueType = LINEAR;
     this->minValue = min;
     this->maxValue = max;
+
+    initialize(myTitle, start);
+}
+
+void Slider::initialize(std::string myTitle, float startValue) {
+    this->title = myTitle;
+
     main = new ShadowedRectangle();
     main->setBorder(2);
     main->setWidth(100);
     main->setHeight(12 + 2 * main->getBorder());
-    
+
     cursor = new ShadowedRectangle();
     cursor->setWidth(20);
     cursor->setHeight(12);
     cursor->setBorder(2);
+
     Color *curColor = cursor->getColor();
     curColor->r = 0.65;
     curColor->g = 0.65;
-    curColor->b = 0.65;
-
-    displayTitle = true;
+    curColor->b = 0.65;    displayTitle = true;
     titleFontHeight = 12;
     titlePosition = POS_RIGHT;
 
     displayLabels = false;
     labelsBelow = true;
     labelFontHeight = 10;
-
-    setValue(start);
+    
+    setValue(startValue);
     cursor->setLocation(main->getInnerX() + curX, main->getInnerY());
 
-    valueHistory.push_back(start);
+    valueHistory.push_back(startValue);
 }
 
 Slider::~Slider() {
     delete main;
     delete cursor;
+    delete values;
 }
 
 void Slider::undo() {
@@ -171,37 +186,117 @@ void Slider::drawTitle() {
 }
 
 void Slider::drawLabels() {
-    float value = minValue;
-
-    while (value <= maxValue) {
-        std::string label = toStr(value);
-        float x = main->getInnerX() + valueToPosition(value);
-        float y = main->getY() - main->getBorder();
-        int vertPos = VERT_TOP;
-
-        if (!labelsBelow) {
-            y = main->getY() + main->getHeight() + main->getBorder();
-            vertPos = VERT_BOTTOM;
-        }
-
-        glColor4f(0.0, 0.0, 0.0, 1.0);        
-        PrintText::drawStrokeText(label, x, y, labelFontHeight, HORIZ_CENTER, vertPos);
+    if (valueType == LINEAR) {
+        float value = minValue;
         
-        value = value + labelInterval;
+        while (value <= maxValue) {
+            std::string label = toStr(value);
+            
+            float x = main->getInnerX() + valueToPosition(value);
+            float y = main->getY() - main->getBorder();
+            int vertPos = VERT_TOP;
+
+            if (!labelsBelow) {
+                y = main->getY() + main->getHeight() + main->getBorder();
+                vertPos = VERT_BOTTOM;
+            }
+
+            glColor4f(0.0, 0.0, 0.0, 1.0);        
+            PrintText::drawStrokeText(label, x, y, labelFontHeight, HORIZ_CENTER, vertPos);
+            
+            value = value + labelInterval;
+        }
+    } else {
+        float width = main->getInnerWidth() - cursor->getWidth();
+        float intervalPercentage = 1.0 / (values->size() - 1);
+        float intervalSize = width * intervalPercentage;
+
+        for (unsigned int i = 0; i < values->size(); i++) {
+            std::string label = toStr(values->at(i));
+
+            float x = main->getInnerX() + intervalSize * i;
+            float y = main->getY() - main->getBorder();
+
+            int vertPos = VERT_TOP;
+
+            if (!labelsBelow) {
+                y = main->getY() + main->getHeight() + main->getBorder();
+                vertPos = VERT_BOTTOM;
+            }
+
+            glColor4f(0.0, 0.0, 0.0, 1.0);        
+            PrintText::drawStrokeText(label, x, y, labelFontHeight, HORIZ_CENTER, vertPos);            
+        }
     }
 }
 
 float Slider::valueToPosition(float value) {
-    float range = maxValue - minValue;
-    float distToStart = value - minValue;
-    float percentage = distToStart / range;
+    if (valueType == LINEAR) {
+        float range = maxValue - minValue;
+        float distToStart = value - minValue;
+        float percentage = distToStart / range;
+        
+        return percentage * (main->getInnerWidth() - cursor->getWidth());
+    }
+
+    // CUSTOM
+
+    if (value == values->front()) {
+        return 0;
+    } else if (value == values->back()) {
+        return (main->getInnerWidth() - cursor->getWidth());
+    }
+
+    int indexLow = -1;
+    int indexHigh = -1;
     
-    return percentage * (main->getInnerWidth() - cursor->getWidth());
+    for (int i = 0; i < values->size() - 1; i++) {
+        indexLow = i;
+        indexHigh = i + 1;
+        
+        if (values->at(indexHigh) > value) {
+            break;
+        }
+    }
+
+    float valueLow = values->at(indexLow);
+    float valueHigh = values->at(indexHigh);
+
+    float distToLow = value - valueLow;
+    float percentageToLow = distToLow / (valueHigh - valueLow);
+    percentageToLow = std::min(1.0f, percentageToLow);
+    
+    float intervalSize = 1.0 / (values->size() - 1);
+    float percentage = intervalSize * (indexLow + percentageToLow);
+
+    return percentage * (main->getInnerWidth() - cursor->getWidth()); 
 }
 
 float Slider::positionToValue(float position) {
-    float InnerWidth = main->getInnerWidth() - cursor->getWidth();
-    float percent = position / InnerWidth;
+    float myInnerWidth = main->getInnerWidth() - cursor->getWidth();
+    float percent = position / myInnerWidth;
 
-    return minValue + percent * (maxValue - minValue);
+    if (valueType == LINEAR) {
+        return minValue + percent * (maxValue - minValue);
+    }
+
+    // CUSTOM
+    if (percent == 0) {
+        return values->front();
+    } else if (percent == 1) {
+        return values->back();
+    }
+
+    float intervalSize = 1.0 / (values->size() - 1);
+    //float percentDivByInt = percent / intervalSize;
+    int indexLow = int(percent / intervalSize);
+    int indexHigh = indexLow + 1;
+   
+    float distFromLow = (percent - (indexLow * intervalSize)) / intervalSize;
+    distFromLow = std::min(1.0f, distFromLow);
+
+    float valueLow = values->at(indexLow);
+    float valueHigh = values->at(indexHigh);    
+
+    return valueLow + distFromLow * (valueHigh - valueLow);
 }

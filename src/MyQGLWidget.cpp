@@ -473,6 +473,9 @@ void MyQGLWidget::updateEffortToSlider(Slider *slider) {
 }
 
 void MyQGLWidget::setEffort(float value, std::string guildName) {
+    /*std::cout << guildName << " ";
+    std::cout << value;
+    std::cout << "\n";*/
     mainWindow->getParameters()->setEffortForGuild(guildName, value);
 }
 
@@ -759,10 +762,25 @@ void MyQGLWidget::initialize() {
     sliders->clear();
 
     QStringList guilds = mainWindow->getParameters()->getGuildList();
+    std::vector<float> *values = new std::vector<float>();
+    values->push_back(0);
+    values->push_back(0.25);
+    values->push_back(0.5);
+    values->push_back(0.75);
+    values->push_back(1.0);
+    //values->push_back(1.25);
+    values->push_back(1.5);
+    //values->push_back(1.75);
+    values->push_back(2.0);
+    values->push_back(3);
+    values->push_back(4);
 
     for (int i = 0; i < guilds.size(); i++) {
         std::string guild = guilds.at(i).toStdString();
-        ChangeSlider *slider = new ChangeSlider(guild + labelSuffix, 0, 10, 1);
+        
+        //ChangeSlider *slider = new ChangeSlider(guild + labelSuffix, 0, 10, 1);
+        ChangeSlider *slider = new ChangeSlider(guild + labelSuffix, values, 4);
+        
         slider->setWidth(220);
         slider->setHeight(18);
         slider->displayLabelsOn();

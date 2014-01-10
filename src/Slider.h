@@ -14,9 +14,11 @@ enum {POS_ABOVE, POS_BELOW, POS_LEFT, POS_RIGHT};
 #include <string>
 #include <vector>
 
-class Slider : public MouseEventItem
-{
+enum ValueType {LINEAR, CUSTOM};
+
+class Slider : public MouseEventItem {
 public:
+    Slider(std::string title, std::vector<float> *values, int startIndex);
     Slider(std::string title, float min, float max, float start);
     ~Slider();
 
@@ -64,13 +66,17 @@ public:
     void setDisplayLabels(bool d) { displayLabels = d; }
     void displayLabelsOn() { displayLabels = true; }
     void displayLabelsOff() { displayLabels = false; }
+
     float getLabelInteveral() { return labelInterval; }
     void setLabelInterval(float i) { labelInterval = i; }
+
     void displayLabelsBelow() { labelsBelow = true; }
     void displayLabelsAbove() { labelsBelow = false; }
+
     float getLabelFontHeight() { return labelFontHeight; }
     void setLabelFontHeight(float h) { labelFontHeight = h; }
 protected:
+    ValueType valueType;
     ShadowedRectangle *main, *cursor;
     float minValue, maxValue;
     float startCurX, curX;
@@ -79,6 +85,7 @@ protected:
 
     float valueToPosition(float value);
 private:
+    std::vector<float> *values;
 
     bool displayTitle;
     std::string title;
@@ -95,6 +102,9 @@ private:
     void drawLabels();
     void drawTitle();
     float positionToValue(float position);
+
+    void initialize(std::string myTitle, float startValue);
+
 };
 
 #endif /* SLIDER_H_ */

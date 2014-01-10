@@ -2,9 +2,11 @@
 #define CHANGESLIDER_H_
 
 #include "Slider.h"
+#include <vector>
 
 class ChangeSlider : public Slider {
 public:
+    ChangeSlider(std::string label, std::vector<float> *values, int startIndex);
     ChangeSlider(std::string label, float min, float max, float start);
     ~ChangeSlider();
 
@@ -22,6 +24,8 @@ private:
     int baselineIndex;
 
     void determineColor(float value, float previousValue);
+
+    void initialize();
 };
 
 #endif /* CHANGESLIDER_H_ */

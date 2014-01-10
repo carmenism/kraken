@@ -2,19 +2,28 @@
 #include "Color.h"
 #include <GL/glut.h>
 
+ChangeSlider::ChangeSlider(std::string label, std::vector<float> *values, int startIndex)
+    : Slider(label, values, startIndex) {
+    initialize();
+}
+
 ChangeSlider::ChangeSlider(std::string title, float min, float max, float start) 
     : Slider(title, min, max, start) {
+    initialize();
+}
+
+ChangeSlider::~ChangeSlider() {
+    delete increaseColor;
+    delete decreaseColor;
+}
+
+void ChangeSlider::initialize() {
     decreaseColor = &Color::red;
     increaseColor = &Color::skyblue;
 
     color = increaseColor;
     display = false;
     baselineIndex = 0;
-}
-
-ChangeSlider::~ChangeSlider() {
-    delete increaseColor;
-    delete decreaseColor;
 }
 
 void ChangeSlider::draw() {
