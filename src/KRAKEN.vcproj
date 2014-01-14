@@ -474,10 +474,6 @@
 							RelativePath=".\PredationArc.cpp"
 							>
 						</File>
-						<File
-							RelativePath=".\VerticalArc.cpp"
-							>
-						</File>
 					</Filter>
 					<Filter
 						Name="Shapes"
@@ -746,10 +742,6 @@
 						</File>
 						<File
 							RelativePath=".\PredationArc.h"
-							>
-						</File>
-						<File
-							RelativePath=".\VerticalArc.h"
 							>
 						</File>
 					</Filter>

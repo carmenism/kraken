@@ -14,11 +14,6 @@ public:
     InterSpeciesArc(PlotManager *pm, float coefficient, SmallMultiple *source, SmallMultiple *recipient, std::string label);
     ~InterSpeciesArc();
 
-    void setArcToLeft();
-    void setArcToRight();
-
-    bool arcToRight();
-
     float getCoefficient() { return coefficient; }
     void setCoefficient(float c) { coefficient = c; }
 

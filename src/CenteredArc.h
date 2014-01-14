@@ -11,19 +11,18 @@ class Color;
 class CenteredArc : public Point, public Pickable {
 public:
     CenteredArc();
-    CenteredArc(float radius, float centerX, float centerY, float startAngle, float arcAngle);
+    CenteredArc(float radius, float centerX, float centerY);
     ~CenteredArc();
+    
+    void setArcToLeft();
+    void setArcToRight();
+
+    bool isArcToRight();
 
     void draw();
     virtual void drawToPick();
     virtual void drawSelected();
 
-    float getStartAngle() { return startAngle; }
-    void setStartAngle(float a) { startAngle = a; }
-    
-    float getArcAngle() { return arcAngle; }
-    void setArcAngle(float a) { arcAngle = a; }
-    
     float getRadius() { return radius; }
     void setRadius(float r) { radius = r; }
 
@@ -44,19 +43,19 @@ public:
     void animatedOn() { animated = true; }
     void animatedOff() { animated = false; }
 protected:
+    bool arcToRight;
     bool animated;
-    float startAngle, arcAngle;
     float radius;
     float thickness;
     Color *color;
     bool fadingAlpha;
     float startAlpha, finalAlpha;
 
-    void drawPolygonArc(float x, float y, float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
-    void drawLineArc(float x, float y, float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
+    //void drawPolygonArc(float x, float y, float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
+    //void drawLineArc(float x, float y, float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
 
-    void drawPolygonArc(float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
-    void drawLineArc(float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
+    void drawPolygonArc();
+    void drawLineArc();
 private:
     void drawToPickAsLineStrips();
     void drawToPickAsPolygons();

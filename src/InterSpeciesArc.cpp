@@ -12,7 +12,6 @@ InterSpeciesArc::InterSpeciesArc(PlotManager *pm, float coefficient, SmallMultip
     this->yA = yA;
     this->yB = yB;
 
-    arcAngle = -M_PI;
     setArcToRight();
 
     this->plotManager = pm;
@@ -98,7 +97,7 @@ void InterSpeciesArc::drawToPick() {
 }
 
 void InterSpeciesArc::setUpForDrawing() {
-    if (arcToRight()) {
+    if (isArcToRight()) {
         this->x = source->getXLocation() + source->getWidth();
     } else {
         this->x = source->getXLocation() + source->getOffsetX();
@@ -147,7 +146,7 @@ void InterSpeciesArc::drawSign(bool positive) {
     float xLoc;
     float yLoc = getY(); 
 
-    if (arcToRight()) {
+    if (isArcToRight()) {
         xLoc = getX() + getRadius();
     } else {        
         xLoc = getX() - getRadius();  
@@ -203,7 +202,7 @@ void InterSpeciesArc::positionTriangles() {
     float longEdge = shortEdge * sqrt(3.0f);
     float size = max(4, getThickness() / 2);
 
-    if (arcToRight()) {
+    if (isArcToRight()) {
         arrowA->setLocation(getX() + longEdge, getY() + shortEdge);
         arrowA->setSize(size, size * 2);
         arrowA->setRotation(210);
@@ -246,8 +245,8 @@ void InterSpeciesArc::drawSelected() {
         float radiusOffset = thickness / 2 + highlightThickness / 2;
         float innerRadius = radius - radiusOffset;
         float outerRadius = radius + radiusOffset;
-        this->drawLineArc(x, y, innerRadius, highlightThickness, startAngle, arcAngle, &white, 0.75, 0.75);
-        this->drawLineArc(x, y, outerRadius, highlightThickness, startAngle, arcAngle, &white, 0.75, 0.75);
+ //       this->drawLineArc(x, y, innerRadius, highlightThickness, startAngle, arcAngle, &white, 0.75, 0.75);
+ //       this->drawLineArc(x, y, outerRadius, highlightThickness, startAngle, arcAngle, &white, 0.75, 0.75);
         CenteredArc::drawSelected();
         
         drawTriangles();
@@ -256,7 +255,7 @@ void InterSpeciesArc::drawSelected() {
 
         float xPos = this->x + radius / 2;
 
-        if (!this->arcToRight()) {
+        if (!this->isArcToRight()) {
             xPos = this->x - radius / 2;
         }
 
@@ -270,16 +269,4 @@ void InterSpeciesArc::drawSelected() {
 void InterSpeciesArc::determineCenterLocation() {
     radius = fabs(yA - yB) / 2;
     y = min(yA, yB) + radius;
-}
-
-void InterSpeciesArc::setArcToLeft() {
-    startAngle = 3 * M_PI / 2.0;
-}
-
-void InterSpeciesArc::setArcToRight() {
-    startAngle = M_PI / 2.0;
-}
-
-bool InterSpeciesArc::arcToRight() {
-    return (startAngle < M_PI);
 }

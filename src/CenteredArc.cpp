@@ -7,10 +7,9 @@ extern int timer;
 CenteredArc::CenteredArc() : Point(0, 0), Pickable() {
     radius = 10;
     thickness = 1;
-    startAngle = 3.0 * M_PI / 2.0;
-    arcAngle = M_PI;
     color = new Color(0, 0, 0, 0.25);
     num_segments = 360;//CW_CODE
+    arcToRight = true;
 
     animated = false;
 
@@ -20,21 +19,17 @@ CenteredArc::CenteredArc() : Point(0, 0), Pickable() {
 
     //CW_CODE
 	unsigned int grey;
-	int i,j;
-	double a;
-
+	
 	xArc = new float[num_segments];
 	yArc = new float[num_segments];
-	for(i=0;i<num_segments;++i)
-	{
-		a = M_PI*float(i)/(num_segments-1);
+    for(int i = 0; i < num_segments; i++) {
+		double a = M_PI * float(i) / (num_segments - 1);
 		xArc[i] = sin(a);
 		yArc[i] = -cos(a);
 	}
 
-	for(i=0;i<64;++i)
-		for(j=0;j<64;++j)
-		{
+    for(int i = 0; i < 64; i++) {
+		for(int j = 0; j < 64; j++) {
 			grey = (sin(4.0*3.14159*float(j)/64.0)+1.0)*128.0;
 
 			checker[i][j][0] = grey;
@@ -42,6 +37,7 @@ CenteredArc::CenteredArc() : Point(0, 0), Pickable() {
 			checker[i][j][2] = grey;
 			checker[i][j][3] = 125;		
 		}
+    }
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	glGenTextures(1, &texName);
@@ -63,11 +59,9 @@ CenteredArc::~CenteredArc() {
     delete color;
 }
 
-CenteredArc::CenteredArc(float radius, float centerX, float centerY, float startAngle, float arcAngle) 
+CenteredArc::CenteredArc(float radius, float centerX, float centerY) 
 : Point(centerX, centerY) {
     this->radius = radius;
-    this->startAngle = startAngle;
-    this->arcAngle = arcAngle;
 }
 
 void CenteredArc::draw() {
@@ -83,15 +77,15 @@ void CenteredArc::draw() {
         }
 
         if (fabs(thickness) < 3) {
-            drawLineArc(radius, thickness, startAngle, arcAngle, color, startA, finalA);
+            drawLineArc();
         } else {
-            drawPolygonArc(radius, thickness, startAngle, arcAngle, color, startA, finalA);
+            drawPolygonArc();
         }
         
     glPopMatrix();
 }
 
-void CenteredArc::drawLineArc(float x, float y, float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha) {
+/*void CenteredArc::drawLineArc(float x, float y, float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha) {
     glPushMatrix();
         glTranslatef(x, y, 0);
         drawLineArc(radius, thickness, startAngle, arcAngle, color, startAlpha, finalAlpha);        
@@ -103,13 +97,13 @@ void CenteredArc::drawPolygonArc(float x, float y, float radius, float thickness
         glTranslatef(x, y, 0);
         drawPolygonArc(radius, thickness, startAngle, arcAngle, color, startAlpha, finalAlpha);        
     glPopMatrix();
-}
+}*/
 
 void CenteredArc::drawToPick() {
     glPushMatrix();
         glTranslatef(x, y, 0);
 
-        if (fabs(thickness) < 5) {
+        if (fabs(thickness) < 3) {
             drawToPickAsLineStrips();
         } else {
             drawToPickAsPolygons();
@@ -119,52 +113,24 @@ void CenteredArc::drawToPick() {
 }
 
 void CenteredArc::drawToPickAsLineStrips() {
-    glEnable(GL_POLYGON_SMOOTH);
-    float num_segments = 360.0;
+    float mult = 1;
 
-    float theta = arcAngle / num_segments; 
-    float tangetial_factor = tanf(theta);//calculate the tangential factor 
-
-    float radial_factor = cosf(theta);//calculate the radial factor 
-
-    float xx = radius * cosf(startAngle);//we start at angle = 0 
-    float yy = radius * sinf(startAngle); 
-
-    glLineWidth(thickness);
-
-    float prevXX = -1;
-    float prevYY = -1;
-
-    for(int ii = 0; ii < num_segments; ii++) 
-    { 
-        glColor3ub(pickR, pickG, pickB);
-        if (prevXX != -1) {
-            glBegin(GL_LINE_STRIP);
-                glVertex2f(prevXX, prevYY);
-                glVertex2f(xx, yy);
-            glEnd();
-        }
-
-        //calculate the tangential vector 
-        //remember, the radial vector is (x, y) 
-        //to get the tangential vector we flip those coordinates and negate one of them 
-
-        float tx = -yy; 
-        float ty = xx; 
-
-        prevXX = xx;
-        prevYY = yy;
-
-        //add the tangential vector 
-
-        xx += tx * tangetial_factor; 
-        yy += ty * tangetial_factor; 
-
-        //correct using the radial factor 
-
-        xx *= radial_factor; 
-        yy *= radial_factor; 
+    if (!arcToRight) {
+        mult = -1;
     }
+
+    glEnable(GL_POLYGON_SMOOTH);
+        
+    glLineWidth(thickness);
+    glColor3ub(pickR, pickG, pickB);
+
+    glBegin(GL_LINE_STRIP);
+        
+    for(int ii = 0; ii < num_segments; ii++) { 
+        glVertex2f(mult * xArc[ii] * radius, yArc[ii] * radius);
+    }
+
+    glEnd();
 
     glLineWidth(1);
     glDisable(GL_POLYGON_SMOOTH);
@@ -173,48 +139,21 @@ void CenteredArc::drawToPickAsLineStrips() {
 void CenteredArc::drawToPickAsPolygons() {
     float radiusOuter = radius + thickness / 2;
     float radiusInner = radius - thickness / 2;
-    float theta = arcAngle / num_segments; 
-    float tangetial_factor = tanf(theta);//calculate the tangential factor 
-
-    float radial_factor = cosf(theta);//calculate the radial factor 
-	
-    float xxOuter = radiusOuter * cosf(startAngle);//we start at angle = 0 
-    float yyOuter = radiusOuter * sinf(startAngle);
-    float xxInner = radiusInner * cosf(startAngle);//we start at angle = 0 
-    float yyInner = radiusInner * sinf(startAngle);  
     
+    float mult = 1;
+
+    if (!arcToRight) {
+        mult = -1;
+    }
+
     glPolygonMode(GL_FRONT, GL_FILL);
 
     glBegin(GL_TRIANGLE_STRIP);
+    glColor3ub(pickR, pickG, pickB);
 
-    for(int ii = 0; ii < num_segments; ii++) 
-    { 
-        glColor3ub(pickR, pickG, pickB);
-
-        glVertex2f(xxOuter, yyOuter);
-        glVertex2f(xxInner, yyInner);
-		
-        //calculate the tangential vector 
-        //remember, the radial vector is (x, y) 
-        //to get the tangential vector we flip those coordinates and negate one of them 
-
-        float txOuter = -yyOuter; 
-        float tyOuter =  xxOuter; 
-        float txInner = -yyInner; 
-        float tyInner =  xxInner; 
-        
-        //add the tangential vector 
-
-        xxOuter += txOuter * tangetial_factor; 
-        yyOuter += tyOuter * tangetial_factor; 
-        xxInner += txInner * tangetial_factor; 
-        yyInner += tyInner * tangetial_factor; 
-        
-        //correct using the radial factor 
-        xxOuter *= radial_factor; 
-        yyOuter *= radial_factor; 
-        xxInner *= radial_factor; 
-        yyInner *= radial_factor; 
+    for(int ii = 0; ii < num_segments; ii++) { 
+		glVertex2f(mult * xArc[ii]*radiusOuter,yArc[ii]*radiusOuter);        
+        glVertex2f(mult * xArc[ii]*radiusInner, yArc[ii]*radiusInner);
     }
 
     glEnd();
@@ -232,18 +171,17 @@ void CenteredArc::drawSelected() {
     }
 }
 
-void CenteredArc::drawLineArc(float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha) {
+void CenteredArc::drawLineArc() {
     glEnable(GL_POLYGON_SMOOTH);
-    float theta = arcAngle / num_segments; 
-    float tangetial_factor = tanf(theta);//calculate the tangential factor 
-
-    float radial_factor = cosf(theta);//calculate the radial factor 
-
+    
     float diff = startAlpha - finalAlpha;
     float alphaStep = diff / num_segments;
 
-    float xx = radius * cosf(startAngle);//we start at angle = 0 
-    float yy = radius * sinf(startAngle); 
+    float mult = 1;
+
+    if (!arcToRight) {
+        mult = -1;
+    }
 
     glLineWidth(thickness);
 
@@ -251,24 +189,7 @@ void CenteredArc::drawLineArc(float radius, float thickness, float startAngle, f
 
     for(int ii = 0; ii < num_segments; ii++) { 
         glColor4f( color->r, color->g, color->b, startAlpha - ii * alphaStep );
-        glVertex2f(xx, yy);
-        
-        //calculate the tangential vector 
-        //remember, the radial vector is (x, y) 
-        //to get the tangential vector we flip those coordinates and negate one of them 
-
-        float tx = -yy; 
-        float ty = xx; 
-        
-        //add the tangential vector 
-
-        xx += tx * tangetial_factor; 
-        yy += ty * tangetial_factor; 
-
-        //correct using the radial factor 
-
-        xx *= radial_factor; 
-        yy *= radial_factor; 
+        glVertex2f(mult * xArc[ii] * radius, yArc[ii] * radius);
     }
 
     glEnd();
@@ -277,18 +198,9 @@ void CenteredArc::drawLineArc(float radius, float thickness, float startAngle, f
     glDisable(GL_POLYGON_SMOOTH);
 }
 
-void CenteredArc::drawPolygonArc(float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha) {
+void CenteredArc::drawPolygonArc() {
     float radiusOuter = radius + thickness / 2;
     float radiusInner = radius - thickness / 2;
-    float theta = arcAngle / num_segments; 
-    float tangetial_factor = tanf(theta);//calculate the tangential factor 
-
-    float radial_factor = cosf(theta);//calculate the radial factor 
-	
-    float xxOuter = radiusOuter * cosf(startAngle);//we start at angle = 0 
-    float yyOuter = radiusOuter * sinf(startAngle);
-    float xxInner = radiusInner * cosf(startAngle);//we start at angle = 0 
-    float yyInner = radiusInner * sinf(startAngle);  
 
     float diff = startAlpha - finalAlpha;
     float alphaStep = diff / num_segments;
@@ -303,6 +215,12 @@ void CenteredArc::drawPolygonArc(float radius, float thickness, float startAngle
     if (animated) {
 	    glEnable(GL_TEXTURE_2D);
     }
+
+    float mult = 1;
+
+    if (!arcToRight) {
+        mult = -1;
+    }   
  
     glPolygonMode(GL_FRONT, GL_FILL);
 
@@ -318,36 +236,13 @@ void CenteredArc::drawPolygonArc(float radius, float thickness, float startAngle
             glTexCoord2f(tc, 0.3);
         }
 
-        glVertex2f(xxOuter, yyOuter);
+        glVertex2f(mult * xArc[ii]*radiusOuter,yArc[ii]*radiusOuter);
 
         if (animated) {
             glTexCoord2f(tc,0.3);
         }
         
-        glVertex2f(xxInner,yyInner);		
-        //glEnd();
-        //glDisable(GL_TEXTURE_2D);
-        //*/
-        //calculate the tangential vector 
-        //remember, the radial vector is (x, y) 
-        //to get the tangential vector we flip those coordinates and negate one of them 
-
-        float txOuter = -yyOuter; 
-        float tyOuter =  xxOuter; 
-        float txInner = -yyInner; 
-        float tyInner =  xxInner; 
-
-        //add the tangential vector 
-        xxOuter += txOuter * tangetial_factor; 
-        yyOuter += tyOuter * tangetial_factor; 
-        xxInner += txInner * tangetial_factor; 
-        yyInner += tyInner * tangetial_factor; 
-
-        //correct using the radial factor 
-        xxOuter *= radial_factor; 
-        yyOuter *= radial_factor; 
-        xxInner *= radial_factor; 
-        yyInner *= radial_factor; 
+        glVertex2f(mult * xArc[ii]*radiusInner, yArc[ii]*radiusInner);
     }
     glEnd();
 
@@ -362,10 +257,10 @@ void CenteredArc::drawPolygonArc(float radius, float thickness, float startAngle
         int t;
 
         glColor3f(0.0,0.0,0.0);
-        for(int i=0;i<5;++i) {
+        for (int i = 0; i < 5; i++) {
             t = num_segments-(timer+num_segments/5*i)%num_segments-1;
             glPushMatrix();
-                if(startAngle > 2) glRotatef(180.0,0.0,0.0,1.0);
+                if(!arcToRight) glRotatef(180.0,0.0,0.0,1.0);
 
                 glTranslatef(xArc[t]*radius,yArc[t]*radius,0.0);
                 glBegin(GL_LINES); 
@@ -380,4 +275,16 @@ void CenteredArc::drawPolygonArc(float radius, float thickness, float startAngle
             glPopMatrix();
         }
     }
+}
+
+void CenteredArc::setArcToLeft() {
+    arcToRight = false;
+}
+
+void CenteredArc::setArcToRight() {
+    arcToRight = true;
+}
+
+bool CenteredArc::isArcToRight() {
+    return arcToRight;
 }

@@ -150,7 +150,7 @@ InterSpeciesArcList *InterSpeciesArcCollection::getVisibleArcs() {
     for (unsigned int i = 0; i < arcs->size(); i++) {
         if (!arcs->at(i)->getDisplayDynamically()) {
             newList->push_back(arcs->at(i));
-        } else if (arcs->at(i)->getDynamicThickness() > 1) {
+        } else if (arcs->at(i)->getDynamicThickness() != 0) {
             newList->push_back(arcs->at(i));
         }
     }
