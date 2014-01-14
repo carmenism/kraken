@@ -78,6 +78,11 @@ void CenteredArc::draw() {
             finalA = color->a;
         }
 
+        if (!arcToRight) {
+            glPushMatrix();
+            glRotatef(180.0,0.0,0.0,1.0);
+        }
+
         if (fabs(thickness) < 3) {
             drawLineArc();
         } else {
@@ -86,7 +91,11 @@ void CenteredArc::draw() {
 
         if (selected) {
             drawHighlight();
-        }        
+        }
+
+        if (!arcToRight) {
+            glPopMatrix();
+        }
     glPopMatrix();
 }
 
@@ -94,22 +103,24 @@ void CenteredArc::drawToPick() {
     glPushMatrix();
         glTranslatef(x, y, 0);
 
+        if (!arcToRight) {
+            glPushMatrix();
+            glRotatef(180.0,0.0,0.0,1.0);
+        }
+
         if (fabs(thickness) < 3) {
             drawToPickAsLineStrips();
         } else {
             drawToPickAsPolygons();
         }
         
+        if (!arcToRight) {
+            glPopMatrix();
+        }
     glPopMatrix();
 }
 
 void CenteredArc::drawToPickAsLineStrips() {
-    float mult = 1;
-
-    if (!arcToRight) {
-        mult = -1;
-    }
-
     glEnable(GL_POLYGON_SMOOTH);
         
     glLineWidth(thickness);
@@ -118,7 +129,7 @@ void CenteredArc::drawToPickAsLineStrips() {
     glBegin(GL_LINE_STRIP);
         
     for(int ii = 0; ii < num_segments; ii++) { 
-        glVertex2f(mult * xArc[ii] * radius, yArc[ii] * radius);
+        glVertex2f(xArc[ii] * radius, yArc[ii] * radius);
     }
 
     glEnd();
@@ -131,20 +142,14 @@ void CenteredArc::drawToPickAsPolygons() {
     float radiusOuter = radius + thickness / 2;
     float radiusInner = radius - thickness / 2;
     
-    float mult = 1;
-
-    if (!arcToRight) {
-        mult = -1;
-    }
-
     glPolygonMode(GL_FRONT, GL_FILL);
 
     glBegin(GL_TRIANGLE_STRIP);
     glColor3ub(pickR, pickG, pickB);
 
     for(int ii = 0; ii < num_segments; ii++) { 
-		glVertex2f(mult * xArc[ii]*radiusOuter,yArc[ii]*radiusOuter);        
-        glVertex2f(mult * xArc[ii]*radiusInner, yArc[ii]*radiusInner);
+		glVertex2f(xArc[ii]*radiusOuter,yArc[ii]*radiusOuter);        
+        glVertex2f(xArc[ii]*radiusInner, yArc[ii]*radiusInner);
     }
 
     glEnd();
@@ -179,8 +184,8 @@ void CenteredArc::drawLineArc() {
     glBegin(GL_LINE_STRIP);
 
     for(int ii = 0; ii < num_segments; ii++) { 
-        glColor4f( color->r, color->g, color->b, startAlpha - ii * alphaStep );
-        glVertex2f(mult * xArc[ii] * radius, yArc[ii] * radius);
+        glColor4f( color->r, color->g, color->b, finalAlpha + ii * alphaStep );
+        glVertex2f(xArc[ii] * radius, yArc[ii] * radius);
     }
 
     glEnd();
@@ -205,19 +210,13 @@ void CenteredArc::drawPolygonArc() {
 
     if (animated) {
 	    glEnable(GL_TEXTURE_2D);
-    }
-
-    float mult = 1;
-
-    if (!arcToRight) {
-        mult = -1;
     }   
  
     glPolygonMode(GL_FRONT, GL_FILL);
 
 	glBegin(GL_TRIANGLE_STRIP);
     for(int ii = 0; ii < num_segments; ii++) { 
-        glColor4f( color->r, color->g, color->b, startAlpha - ii * alphaStep);
+        glColor4f( color->r, color->g, color->b, finalAlpha + ii * alphaStep);
 
         tc = 1.5*(float(ii)/num_segments+timeval);
 
@@ -227,13 +226,13 @@ void CenteredArc::drawPolygonArc() {
             glTexCoord2f(tc, 0.3);
         }
 
-        glVertex2f(mult * xArc[ii]*radiusOuter,yArc[ii]*radiusOuter);
+        glVertex2f(xArc[ii]*radiusOuter,yArc[ii]*radiusOuter);
 
         if (animated) {
             glTexCoord2f(tc,0.3);
         }
         
-        glVertex2f(mult * xArc[ii]*radiusInner, yArc[ii]*radiusInner);
+        glVertex2f(xArc[ii]*radiusInner, yArc[ii]*radiusInner);
     }
     glEnd();
 
@@ -251,7 +250,7 @@ void CenteredArc::drawPolygonArc() {
         for (int i = 0; i < 5; i++) {
             t = num_segments-(timer+num_segments/5*i)%num_segments-1;
             glPushMatrix();
-                if(!arcToRight) glRotatef(180.0,0.0,0.0,1.0);
+                //if(!arcToRight) glRotatef(180.0,0.0,0.0,1.0);
 
                 glTranslatef(xArc[t]*radius,yArc[t]*radius,0.0);
                 glBegin(GL_LINES); 
@@ -274,24 +273,18 @@ void CenteredArc::drawHighlight() {
     float highlightOuter = radiusOuter + highlightThickness / 2;
     float highlightInner = radiusInner - highlightThickness / 2;
 
-    float mult = 1;
-
-    if (!arcToRight) {
-        mult = -1;
-    }
-
     glLineWidth(highlightThickness);
     glColor4f( highlightColor->r, highlightColor->g, highlightColor->b, highlightColor->a );   
     
     glBegin(GL_LINE_STRIP);
     for(int ii = 0; ii < num_segments; ii++) { 
-        glVertex2f(mult * xArc[ii] * highlightOuter, yArc[ii] * highlightOuter);
+        glVertex2f(xArc[ii] * highlightOuter, yArc[ii] * highlightOuter);
     }
     glEnd();
 
     glBegin(GL_LINE_STRIP);
     for(int ii = 0; ii < num_segments; ii++) { 
-        glVertex2f(mult * xArc[ii] * highlightInner, yArc[ii] * highlightInner);
+        glVertex2f(xArc[ii] * highlightInner, yArc[ii] * highlightInner);
     }
     glEnd();
 
