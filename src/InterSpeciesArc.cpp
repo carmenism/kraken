@@ -8,7 +8,13 @@
 #include "PlotManager.h"
 
 InterSpeciesArc::InterSpeciesArc(PlotManager *pm, float coefficient, SmallMultiple *source, SmallMultiple *recipient, std::string label) 
-: VerticalArc(0, 0, 10) {
+: CenteredArc() {
+    this->yA = yA;
+    this->yB = yB;
+
+    arcAngle = -M_PI;
+    setArcToRight();
+
     this->plotManager = pm;
     this->source = source;
     this->recipient = recipient;
@@ -71,6 +77,27 @@ void InterSpeciesArc::drawFaded() {
 }
 
 void InterSpeciesArc::draw() {
+    setUpForDrawing();
+
+    if (thickness != 0) {
+        CenteredArc::draw();        
+        drawTriangles();
+
+        if (!animated) {
+            drawSign(thickness < 0);
+        }
+    }
+}
+
+void InterSpeciesArc::drawToPick() {
+    setUpForDrawing();
+
+    if (thickness != 0) {
+        CenteredArc::drawToPick();
+    }
+}
+
+void InterSpeciesArc::setUpForDrawing() {
     if (arcToRight()) {
         this->x = source->getXLocation() + source->getWidth();
     } else {
@@ -80,6 +107,21 @@ void InterSpeciesArc::draw() {
     this->yA = source->getYLocation() + source->getOffsetY() + source->getInnerHeight() / 2;
     this->yB = recipient->getYLocation() + recipient->getOffsetY() + recipient->getInnerHeight() / 2;
     
+    adjustPositions();             
+    determineCenterLocation();
+    determineThickness(); 
+    positionTriangles();
+}
+
+void InterSpeciesArc::determineThickness() {
+    if (displayDynamically) {     
+        this->setThickness(getDynamicThickness());        
+    } else {        
+        this->setThickness(min(30, 30 * getCoefficent()));
+    }
+}
+
+void InterSpeciesArc::adjustPositions() {
     float adjustOffset = (source->getInnerHeight() / 2) * adjustPercentage;
 
     if (adjustType == ADJUST_LARGER) {
@@ -99,31 +141,7 @@ void InterSpeciesArc::draw() {
             this->yB = this->yB - adjustOffset;
         }
     }
-
-    if (displayDynamically) {       
-        float newThickness = getDynamicThickness();
-        this->setThickness(newThickness);
-
-        if (newThickness != 0) { 
-            VerticalArc::draw();
-
-            positionTriangles();
-            drawTriangles();
-
-            if (!animated) {
-                drawSign(newThickness < 0);
-            }
-        }
-    } else {        
-        this->setThickness(min(30, 30 * getCoefficent()));
-
-        VerticalArc::draw();
-
-        positionTriangles();
-        drawTriangles();
-    }
 }
-
 
 void InterSpeciesArc::drawSign(bool positive) {
     float xLoc;
@@ -149,7 +167,7 @@ float InterSpeciesArc::getDynamicThickness() {
 
     float increaseSource = source->getPercentIncreaseOfFinalValue();
     //float increaseRecipient = speciesB->getPercentIncreaseOfFinalValue();
-
+    
     float finalSource = source->getFinalValue();
     float prevSource = source->getPreviousFinalValue();
     float finalRecipient = recipient->getFinalValue();
@@ -247,4 +265,21 @@ void InterSpeciesArc::drawSelected() {
         glColor4f(0, 0, 0, 1);
         PrintText::drawStrokeText(label, xPos, yPos, fontHeight, HORIZ_CENTER, VERT_CENTER, true);
     }
+}
+
+void InterSpeciesArc::determineCenterLocation() {
+    radius = fabs(yA - yB) / 2;
+    y = min(yA, yB) + radius;
+}
+
+void InterSpeciesArc::setArcToLeft() {
+    startAngle = 3 * M_PI / 2.0;
+}
+
+void InterSpeciesArc::setArcToRight() {
+    startAngle = M_PI / 2.0;
+}
+
+bool InterSpeciesArc::arcToRight() {
+    return (startAngle < M_PI);
 }

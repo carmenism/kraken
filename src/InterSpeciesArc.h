@@ -5,26 +5,29 @@ class SmallMultiple;
 class Triangle;
 class PlotManager;
 
-#include "VerticalArc.h"
+#include "CenteredArc.h"
 
 enum {ADJUST_NONE, ADJUST_LARGER, ADJUST_SMALLER};
 
-class InterSpeciesArc : public VerticalArc {
+class InterSpeciesArc : public CenteredArc {
 public:
     InterSpeciesArc(PlotManager *pm, float coefficient, SmallMultiple *source, SmallMultiple *recipient, std::string label);
     ~InterSpeciesArc();
+
+    void setArcToLeft();
+    void setArcToRight();
+
+    bool arcToRight();
 
     float getCoefficient() { return coefficient; }
     void setCoefficient(float c) { coefficient = c; }
 
     virtual float getDynamicConstant() = 0;
 
+    virtual void drawToPick();
     void draw();
     void drawFaded();
     virtual void drawSelected();
-
-    //float getThickness() { return thickness; }
-    //void setThickness(float t) { thickness = t; }
 
     virtual float getCoefficent() { return coefficient; }
 
@@ -45,9 +48,9 @@ public:
     float getDynamicThickness();
 protected:
     float coefficient;
-    //float thickness;
 private:
     PlotManager *plotManager;
+    float yA, yB;
 
     int adjustType;
     float adjustPercentage;
@@ -60,6 +63,11 @@ private:
     void drawSign(bool positive);
     void positionTriangles();
     void drawTriangles();
+    
+    void setUpForDrawing();
+    void determineThickness();
+    void determineCenterLocation();
+    void adjustPositions();
 };
 
 #endif /* _INTERSPECIESARC_H */

@@ -109,8 +109,7 @@ void CenteredArc::drawToPick() {
     glPushMatrix();
         glTranslatef(x, y, 0);
 
-
-        if (thickness < 5) {
+        if (fabs(thickness) < 5) {
             drawToPickAsLineStrips();
         } else {
             drawToPickAsPolygons();

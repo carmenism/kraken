@@ -81,6 +81,8 @@ public:
 
     int size();
 
+    float getStartValue();
+
     float getPercentIncreaseOfFinalValue();
     float getFinalValue();
     float getPreviousFinalValue();

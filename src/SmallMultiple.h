@@ -43,6 +43,8 @@ public:
 
     void setAbsLegendLocation(float x, float y);
 
+    float getStartValue();
+
     float getPercentIncreaseOfFinalValue();
     float getFinalValue();
     float getPreviousFinalValue();

@@ -150,3 +150,7 @@ float SmallMultiple::getFinalValue() {
 float SmallMultiple::getPreviousFinalValue() {
     return seriesList->front()->getPreviousFinalValue();
 }
+
+float SmallMultiple::getStartValue() {
+    return seriesList->front()->getStartValue();
+}

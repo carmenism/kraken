@@ -364,3 +364,7 @@ float ChartPointSeries::getFinalValue() {
 float ChartPointSeries::getPreviousFinalValue() {
     return points->back()->getPreviousValue();
 }
+
+float ChartPointSeries::getStartValue() {
+    return points->front()->getY();
+}
