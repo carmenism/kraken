@@ -7,7 +7,8 @@ extern int timer;
 CenteredArc::CenteredArc() : Point(0, 0), Pickable() {
     radius = 10;
     thickness = 1;
-    color = new Color(0, 0, 0, 0.25);
+    highlightThickness = 4;
+    highlightColor = &Color::white;
     num_segments = 360;//CW_CODE
     arcToRight = true;
 
@@ -57,6 +58,7 @@ CenteredArc::CenteredArc() : Point(0, 0), Pickable() {
 
 CenteredArc::~CenteredArc() {
     delete color;
+    delete highlightColor;
 }
 
 CenteredArc::CenteredArc(float radius, float centerX, float centerY) 
@@ -81,23 +83,12 @@ void CenteredArc::draw() {
         } else {
             drawPolygonArc();
         }
-        
+
+        if (selected) {
+            drawHighlight();
+        }        
     glPopMatrix();
 }
-
-/*void CenteredArc::drawLineArc(float x, float y, float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha) {
-    glPushMatrix();
-        glTranslatef(x, y, 0);
-        drawLineArc(radius, thickness, startAngle, arcAngle, color, startAlpha, finalAlpha);        
-    glPopMatrix();
-}
-
-void CenteredArc::drawPolygonArc(float x, float y, float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha) {
-    glPushMatrix();
-        glTranslatef(x, y, 0);
-        drawPolygonArc(radius, thickness, startAngle, arcAngle, color, startAlpha, finalAlpha);        
-    glPopMatrix();
-}*/
 
 void CenteredArc::drawToPick() {
     glPushMatrix();
@@ -275,6 +266,36 @@ void CenteredArc::drawPolygonArc() {
             glPopMatrix();
         }
     }
+}
+
+void CenteredArc::drawHighlight() {    
+    float radiusOuter = radius + thickness / 2;
+    float radiusInner = radius - thickness / 2;
+    float highlightOuter = radiusOuter + highlightThickness / 2;
+    float highlightInner = radiusInner - highlightThickness / 2;
+
+    float mult = 1;
+
+    if (!arcToRight) {
+        mult = -1;
+    }
+
+    glLineWidth(highlightThickness);
+    glColor4f( highlightColor->r, highlightColor->g, highlightColor->b, highlightColor->a );   
+    
+    glBegin(GL_LINE_STRIP);
+    for(int ii = 0; ii < num_segments; ii++) { 
+        glVertex2f(mult * xArc[ii] * highlightOuter, yArc[ii] * highlightOuter);
+    }
+    glEnd();
+
+    glBegin(GL_LINE_STRIP);
+    for(int ii = 0; ii < num_segments; ii++) { 
+        glVertex2f(mult * xArc[ii] * highlightInner, yArc[ii] * highlightInner);
+    }
+    glEnd();
+
+    glLineWidth(1);
 }
 
 void CenteredArc::setArcToLeft() {

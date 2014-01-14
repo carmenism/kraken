@@ -240,13 +240,6 @@ void InterSpeciesArc::drawTriangles() {
 
 void InterSpeciesArc::drawSelected() {
     if (selected) {
-        Color white = Color::white;
-        float highlightThickness = 4;
-        float radiusOffset = thickness / 2 + highlightThickness / 2;
-        float innerRadius = radius - radiusOffset;
-        float outerRadius = radius + radiusOffset;
- //       this->drawLineArc(x, y, innerRadius, highlightThickness, startAngle, arcAngle, &white, 0.75, 0.75);
- //       this->drawLineArc(x, y, outerRadius, highlightThickness, startAngle, arcAngle, &white, 0.75, 0.75);
         CenteredArc::drawSelected();
         
         drawTriangles();

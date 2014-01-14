@@ -46,16 +46,14 @@ protected:
     bool arcToRight;
     bool animated;
     float radius;
-    float thickness;
-    Color *color;
+    float thickness, highlightThickness;
+    Color *color, *highlightColor;
     bool fadingAlpha;
     float startAlpha, finalAlpha;
 
-    //void drawPolygonArc(float x, float y, float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
-    //void drawLineArc(float x, float y, float radius, float thickness, float startAngle, float arcAngle, Color *color, float startAlpha, float finalAlpha);
-
     void drawPolygonArc();
     void drawLineArc();
+    void drawHighlight();
 private:
     void drawToPickAsLineStrips();
     void drawToPickAsPolygons();
