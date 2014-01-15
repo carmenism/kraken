@@ -8,7 +8,7 @@ class SplineCurve
 {
 public:
     SplineCurve(int n, Point *pointA, Point *pointB, Point *controlA, Point *controlB);
-    virtual ~SplineCurve();
+    ~SplineCurve();
 
     virtual void construct();
     void draw();

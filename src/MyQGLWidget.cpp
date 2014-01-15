@@ -73,6 +73,8 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     plotManagers->push_back(managerMC);
 
     picker = new Picker(this);
+
+    splinesUninitialized = true;
 }
 
 MyQGLWidget::~MyQGLWidget() {
@@ -734,6 +736,11 @@ void MyQGLWidget::keyPressEvent(QKeyEvent* event) {
 void MyQGLWidget::updateCharts(Model *model) {
     for (unsigned int i = 0; i < plotManagers->size(); i++) {
         plotManagers->at(i)->updateCharts(model, mainWindow);
+    }
+
+    if (splinesUninitialized) {
+        managerSmallMult->initializeSplines(mainWindow, sliders, labelSuffix);
+        splinesUninitialized = false;
     }
 
     updateGL();    

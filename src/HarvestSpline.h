@@ -9,7 +9,7 @@ class Slider;
 class HarvestSpline : public SplineCurve {
 public:
     HarvestSpline(Slider *slider, SmallMultiple *chart);
-    virtual ~HarvestSpline();
+    ~HarvestSpline();
 
     virtual void construct();
 protected:

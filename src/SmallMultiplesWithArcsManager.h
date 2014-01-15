@@ -13,6 +13,9 @@ class AbsoluteSizeIndicator;
 class SmallMultiple;
 class InteractionArc;
 class PredationArc;
+class Slider;
+class ChangeSlider;
+class HarvestSpline;
 
 #include "InterSpeciesArcCollection.h"
 
@@ -23,6 +26,8 @@ public:
 
     void draw(float windowWidth, float windowHeight);
     virtual void drawToPick();
+
+    void initializeSplines(MS_PROD_MainWindow *mainWindow, std::vector<ChangeSlider *> *sliders, std::string labelSuffix);
 
     void capturePreviousValues();
     //ChartPointList *getPoints();
@@ -62,7 +67,7 @@ public:
     void arcsAnimatedOff();
 
     SmallMultiple *getChartAt(int i) { return charts->at(i); }
-private:   
+private:
     QList<double> percentChangeInFinalBiomass;
 
     InterSpeciesArcCollection *arcsInter;
@@ -71,6 +76,7 @@ private:
     InterSpeciesArcCollection *arcsCurrent;
 
     std::vector<SmallMultiple *> *charts;
+    std::vector<HarvestSpline *> *splines;
     
     void initializeCharts(QList<QList<double> *> *biomassMatrix, QList<QList<double> *> *harvestMatrix, MS_PROD_MainWindow *mainWindow);
     void initializeArcs(InterSpeciesArcCollection *arcs, int arcType, QList<QList<double>> matix, bool useColorOfChart);

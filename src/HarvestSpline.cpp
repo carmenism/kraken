@@ -9,7 +9,7 @@ HarvestSpline::HarvestSpline(Slider *slider, SmallMultiple *chart)
     this->slider = slider;
     this->chart = chart;
 
-    setColor(new Color(0, 0, 0, 0.5));
+    setColor(new Color(0, 0, 0, 0.65));
 }
 
 HarvestSpline::~HarvestSpline() {
@@ -30,7 +30,7 @@ void HarvestSpline::construct() {
     float diffX = chartX - sliderX;
     
     controlA->setValues(sliderX + diffX / 3.0, sliderY);
-    controlB->setValues(chartX  - diffX / 3.0, chartY);
+    controlB->setValues((chartX + sliderX) / 2, (chartY + sliderY) / 2);
 
     SplineCurve::construct();
 }

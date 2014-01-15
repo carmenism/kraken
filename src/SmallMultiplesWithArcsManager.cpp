@@ -6,8 +6,13 @@
 #include "InterSpeciesArcCollection.h"
 #include "LineChartAxis.h"
 #include "GroupReordering.h"
+#include "ChangeSlider.h"
+#include "Slider.h"
+#include "HarvestSpline.h"
 #include <QList>
 #include <QStringList>
+#include <string>
+#include <iostream>
 
 int timer;
 
@@ -16,9 +21,16 @@ SmallMultiplesWithArcsManager::SmallMultiplesWithArcsManager() : charts() {
     timer = 0;
 
     charts = new std::vector<SmallMultiple *>();
+    splines = new std::vector<HarvestSpline *>();
 }
 
 SmallMultiplesWithArcsManager::~SmallMultiplesWithArcsManager() {
+    while (!splines->empty()) {
+        HarvestSpline *s = splines->back();
+        splines->pop_back();
+        delete s;
+    }
+
     while (!charts->empty()) {
         SmallMultiple *c = charts->back();
         charts->pop_back();
@@ -29,6 +41,7 @@ SmallMultiplesWithArcsManager::~SmallMultiplesWithArcsManager() {
     delete arcsPred;
     delete arcsBoth;
     delete charts;
+    delete splines;
 }
 
 void SmallMultiplesWithArcsManager::updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) {
@@ -186,6 +199,11 @@ void SmallMultiplesWithArcsManager::initializeArcs(InterSpeciesArcCollection *ar
 
 void SmallMultiplesWithArcsManager::draw(float windowWidth, float windowHeight) {
     if (arcsCurrent != NULL) {
+        for (int i = 0; i < splines->size(); i++) {
+            splines->at(i)->construct();
+            splines->at(i)->draw();
+        }
+
         arcsCurrent->setTitleLocation(5, 5);
         //arcsCurrent->setTitleLocation(windowWidth - 5, windowHeight - 5);
     
@@ -350,4 +368,24 @@ void SmallMultiplesWithArcsManager::arcsAnimatedOn() {
 
 void SmallMultiplesWithArcsManager::arcsAnimatedOff() {
     setArcsAnimated(false);
+}
+
+void SmallMultiplesWithArcsManager::initializeSplines(MS_PROD_MainWindow *mainWindow, std::vector<ChangeSlider *> *sliders, std::string labelSuffix) {
+    QStringList *newLabels = groupReordering->getNewLabels();
+    QStringList guilds = mainWindow->getParameters()->getGuildList();
+
+    for (unsigned int j = 0; j < charts->size(); j++) {
+        SmallMultiple *chart = charts->at(j);
+        QString speciesGuild = mainWindow->getParameters()->getGuildMembership(newLabels->at(j));
+
+        for (unsigned int i = 0; i < guilds.size(); i++) {
+            QString guild = guilds.at(i);
+
+            if (QString::compare(guild, speciesGuild) == 0) {            
+                splines->push_back(new HarvestSpline(sliders->at(i), chart));
+
+                break;
+            } 
+        }            
+    }
 }

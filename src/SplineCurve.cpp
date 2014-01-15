@@ -33,7 +33,7 @@ SplineCurve::~SplineCurve() {
 }
 
 void SplineCurve::construct() {
-	float wid = 0.2;
+	float wid = 5;
 
 	float dx = pointB->x - pointA->x; 
 	float dy = pointB->y - pointA->y; 
