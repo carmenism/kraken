@@ -169,10 +169,13 @@ float InterSpeciesArc::getDynamicThickness() {
     
     float finalSource = source->getFinalValue();
     float prevSource = source->getPreviousFinalValue();
+    float startRecipient = recipient->getStartValue();
     float finalRecipient = recipient->getFinalValue();
 
+    float recipWeight = 100000.0 / (startRecipient + 100000.0);
+
     float mult = getDynamicConstant();
-    float thick = mult * coef * increaseSource * prevSource;// / finalRecipient;
+    float thick = mult * coef * increaseSource * prevSource * recipWeight * 0.3;
     
     float maxThickness = 30;
 

@@ -15,5 +15,5 @@ float PredationArc::getCoefficent() {
 }
 
 float PredationArc::getDynamicConstant() {
-    return 100;
+    return 500;
 }
