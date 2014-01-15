@@ -4,12 +4,14 @@
 
 extern int timer;
 
+float *CenteredArc::xArc = new float[NUM_SEGMENTS];
+float *CenteredArc::yArc = new float[NUM_SEGMENTS];
+
 CenteredArc::CenteredArc() : Point(0, 0), Pickable() {
     radius = 10;
     thickness = 1;
     highlightThickness = 4;
     highlightColor = &Color::white;
-    num_segments = 360;//CW_CODE
     arcToRight = true;
 
     animated = false;
@@ -19,19 +21,16 @@ CenteredArc::CenteredArc() : Point(0, 0), Pickable() {
     finalAlpha = 0.15;
 
     //CW_CODE
-	unsigned int grey;
 	
-	xArc = new float[num_segments];
-	yArc = new float[num_segments];
-    for(int i = 0; i < num_segments; i++) {
-		double a = M_PI * float(i) / (num_segments - 1);
+    for(int i = 0; i < NUM_SEGMENTS; i++) {
+		double a = M_PI * float(i) / (NUM_SEGMENTS - 1);
 		xArc[i] = sin(a);
 		yArc[i] = -cos(a);
 	}
 
     for(int i = 0; i < 64; i++) {
 		for(int j = 0; j < 64; j++) {
-			grey = (sin(4.0*3.14159*float(j)/64.0)+1.0)*128.0;
+			unsigned int grey = (sin(4.0*3.14159*float(j)/64.0)+1.0)*128.0;
 
 			checker[i][j][0] = grey;
 			checker[i][j][1] = grey;
@@ -134,7 +133,7 @@ void CenteredArc::drawToPickAsLineStrips() {
 
     glBegin(GL_LINE_STRIP);
         
-    for(int i = 0; i < num_segments; i++) { 
+    for(int i = 0; i < NUM_SEGMENTS; i++) { 
         glVertex2f(xArc[i] * radius, yArc[i] * radius);
     }
 
@@ -153,7 +152,7 @@ void CenteredArc::drawToPickAsPolygons() {
     glBegin(GL_TRIANGLE_STRIP);
     glColor3ub(pickR, pickG, pickB);
 
-    for (int i = 0; i < num_segments; i++) { 
+    for (int i = 0; i < NUM_SEGMENTS; i++) { 
 		glVertex2f(xArc[i] * radiusOuter, yArc[i] * radiusOuter);        
         glVertex2f(xArc[i] * radiusInner, yArc[i] * radiusInner);
     }
@@ -177,7 +176,7 @@ void CenteredArc::drawLineArc() {
     glEnable(GL_POLYGON_SMOOTH);
     
     float diff = startAlpha - finalAlpha;
-    float alphaStep = diff / num_segments;
+    float alphaStep = diff / NUM_SEGMENTS;
 
     float mult = 1;
 
@@ -189,7 +188,7 @@ void CenteredArc::drawLineArc() {
 
     glBegin(GL_LINE_STRIP);
 
-    for(int i = 0; i < num_segments; i++) { 
+    for(int i = 0; i < NUM_SEGMENTS; i++) { 
         glColor4f( color->r, color->g, color->b, finalAlpha + i * alphaStep );
         glVertex2f(xArc[i] * radius, yArc[i] * radius);
     }
@@ -205,12 +204,12 @@ void CenteredArc::drawPolygonArc() {
     float radiusInner = radius - thickness / 2;
 
     float diff = startAlpha - finalAlpha;
-    float alphaStep = diff / num_segments;
+    float alphaStep = diff / NUM_SEGMENTS;
     
     //CW_CODE
 
 	float timeval;
-	timeval = 1.0 - float(timer%num_segments)/float(num_segments);
+	timeval = 1.0 - float(timer % NUM_SEGMENTS)/float(NUM_SEGMENTS);
 
 	float tc;
 
@@ -221,10 +220,10 @@ void CenteredArc::drawPolygonArc() {
     glPolygonMode(GL_FRONT, GL_FILL);
 
 	glBegin(GL_TRIANGLE_STRIP);
-    for(int i = 0; i < num_segments; i++) { 
+    for(int i = 0; i < NUM_SEGMENTS; i++) { 
         glColor4f( color->r, color->g, color->b, finalAlpha + i * alphaStep);
 
-        tc = 1.5*((num_segments - float(i))/num_segments+timeval);
+        tc = 1.5*((NUM_SEGMENTS - float(i))/NUM_SEGMENTS+timeval);
 
         //CW_CODE 
         //*
@@ -253,7 +252,7 @@ void CenteredArc::drawSigns() {
 
     glColor3f(0.0,0.0,0.0);
     for (int i = 0; i < 5; i++) {
-        t = num_segments-(timer+num_segments/5*i)%num_segments-1;
+        t = NUM_SEGMENTS-(timer+NUM_SEGMENTS/5*i)%NUM_SEGMENTS-1;
         glPushMatrix();
             //if(!arcToRight) glRotatef(180.0,0.0,0.0,1.0);
 
@@ -281,13 +280,13 @@ void CenteredArc::drawHighlight() {
     glColor4f( highlightColor->r, highlightColor->g, highlightColor->b, highlightColor->a );   
     
     glBegin(GL_LINE_STRIP);
-    for (int i = 0; i < num_segments; i++) { 
+    for (int i = 0; i < NUM_SEGMENTS; i++) { 
         glVertex2f(xArc[i] * highlightOuter, yArc[i] * highlightOuter);
     }
     glEnd();
 
     glBegin(GL_LINE_STRIP);
-    for (int i = 0; i < num_segments; i++) { 
+    for (int i = 0; i < NUM_SEGMENTS; i++) { 
         glVertex2f(xArc[i] * highlightInner, yArc[i] * highlightInner);
     }
     glEnd();

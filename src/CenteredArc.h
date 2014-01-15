@@ -61,8 +61,8 @@ private:
     //CW_CODE
 	unsigned char checker[64][64][4];
 	unsigned int texName;
-	int num_segments;
-	float *xArc, *yArc;
+	static const int NUM_SEGMENTS = 360;
+	static float *xArc, *yArc;
     
     void drawSigns();
 };
