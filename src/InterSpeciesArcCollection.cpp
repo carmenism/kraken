@@ -110,7 +110,7 @@ void InterSpeciesArcCollection::displayDynamicallyOff() {
     setDisplayDynamically(false);
 }
 
-void InterSpeciesArcCollection::setAdjustType(int t) {
+void InterSpeciesArcCollection::setAdjustType(AdjustType t) {
     for (unsigned int i = 0; i < arcs->size(); i++) {
         arcs->at(i)->setAdjustType(t);
     }

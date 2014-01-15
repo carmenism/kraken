@@ -749,6 +749,8 @@ void MyQGLWidget::capturePreviousValues() {
 }
 
 void MyQGLWidget::initialize() {
+    this->show();
+
     gr = new GroupReordering(mainWindow);
     managerSmallMult->setGroupReordering(gr);
     managerMC->setGroupReordering(gr);
@@ -768,9 +770,7 @@ void MyQGLWidget::initialize() {
     values->push_back(0.5);
     values->push_back(0.75);
     values->push_back(1.0);
-    //values->push_back(1.25);
     values->push_back(1.5);
-    //values->push_back(1.75);
     values->push_back(2.0);
     values->push_back(3);
     values->push_back(4);
@@ -778,7 +778,6 @@ void MyQGLWidget::initialize() {
     for (int i = 0; i < guilds.size(); i++) {
         std::string guild = guilds.at(i).toStdString();
         
-        //ChangeSlider *slider = new ChangeSlider(guild + labelSuffix, 0, 10, 1);
         ChangeSlider *slider = new ChangeSlider(guild + labelSuffix, values, 4);
         
         slider->setWidth(220);

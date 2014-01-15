@@ -11,8 +11,7 @@ int main(int argc, char *argv[])
 
     MyQGLWidget *window = new MyQGLWidget(&w);
     window->resize(800,600);
-    window->show();
-
+    
     w.setGLWidget(window);
     //window->setParameters(w.getParameters());
 

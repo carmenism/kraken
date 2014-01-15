@@ -7,7 +7,7 @@ class PlotManager;
 
 #include "CenteredArc.h"
 
-enum {ADJUST_NONE, ADJUST_LARGER, ADJUST_SMALLER};
+enum AdjustType {ADJUST_NONE, ADJUST_LARGER, ADJUST_SMALLER};
 
 class InterSpeciesArc : public CenteredArc {
 public:
@@ -31,8 +31,8 @@ public:
     void displayDynamicallyOn() { displayDynamically = true; }
     void displayDynamicallyOff() { displayDynamically = false; }
 
-    int getAdjustType() { return adjustType; }
-    void setAdjustType(int t) { adjustType = t; }
+    AdjustType getAdjustType() { return adjustType; }
+    void setAdjustType(AdjustType t) { adjustType = t; }
     void adjustNone() { adjustType = ADJUST_NONE; }
     void adjustSmaller() { adjustType = ADJUST_SMALLER; }
     void adjustLarger() { adjustType = ADJUST_LARGER; }
@@ -47,12 +47,13 @@ private:
     PlotManager *plotManager;
     float yA, yB;
 
-    int adjustType;
+    AdjustType adjustType;
+    
+    float fontHeight;
     float adjustPercentage;
     bool displayDynamically;
     std::string betweenSpeciesLabel;
     SmallMultiple *source, *recipient;
-    float fontHeight;
     Triangle *arrowA, *arrowB, *arrowMiddle;
 
     void drawSign(bool positive);

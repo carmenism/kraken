@@ -63,6 +63,8 @@ private:
 	unsigned int texName;
 	int num_segments;
 	float *xArc, *yArc;
+    
+    void drawSigns();
 };
 
 #endif /* CENTERED_ARC_H */

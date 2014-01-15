@@ -82,7 +82,7 @@ void InterSpeciesArc::draw() {
         CenteredArc::draw();        
         drawTriangles();
 
-        if (!animated) {
+        if (!animated && displayDynamically) {
             drawSign(thickness < 0);
         }
     }
@@ -200,7 +200,7 @@ void InterSpeciesArc::positionTriangles() {
 
     float shortEdge = getRadius() / 2;
     float longEdge = shortEdge * sqrt(3.0f);
-    float size = max(4, getThickness() / 2);
+    float size = max(4, fabs(getThickness() / 2));
 
     if (isArcToRight()) {
         arrowA->setLocation(getX() + longEdge, getY() + shortEdge);

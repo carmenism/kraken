@@ -1,7 +1,7 @@
 #ifndef _INTERSPECIESARCCOLLECTION_H
 #define _INTERSPECIESARCCOLLECTION_H
 
-class InterSpeciesArc;
+#include "InterSpeciesArc.h"
 class SmallMultiple;
 class Color;
 class PlotManager;
@@ -42,7 +42,7 @@ public:
     void displayDynamicallyOn();
     void displayDynamicallyOff();
 
-    void setAdjustType(int t);
+    void setAdjustType(AdjustType t);
     void adjustNone();
     void adjustSmaller();
     void adjustLarger();
