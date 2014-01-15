@@ -71,7 +71,7 @@ void CenteredArc::draw() {
         glTranslatef(x, y, 0);
 
         float startA = startAlpha;
-        float finalA = finalAlpha;
+        float finalA = finalAlpha;               
 
         if (!fadingAlpha) {
             startA = color->a;
@@ -83,15 +83,16 @@ void CenteredArc::draw() {
             glRotatef(180.0,0.0,0.0,1.0);
         }
 
+        if (selected) {
+            drawHighlight();
+        }
+
         if (fabs(thickness) < 3) {
             drawLineArc();
         } else {
             drawPolygonArc();
         }
 
-        if (selected) {
-            drawHighlight();
-        }
 
         if (!arcToRight) {
             glPopMatrix();
@@ -268,8 +269,8 @@ void CenteredArc::drawPolygonArc() {
 }
 
 void CenteredArc::drawHighlight() {    
-    float radiusOuter = radius + thickness / 2;
-    float radiusInner = radius - thickness / 2;
+    float radiusOuter = radius + fabs(thickness / 2);
+    float radiusInner = radius - fabs(thickness / 2);
     float highlightOuter = radiusOuter + highlightThickness / 2;
     float highlightInner = radiusInner - highlightThickness / 2;
 

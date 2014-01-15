@@ -240,6 +240,8 @@ void InterSpeciesArc::drawTriangles() {
 
 void InterSpeciesArc::drawSelected() {
     if (selected) {
+        setUpForDrawing();
+
         CenteredArc::drawSelected();
         
         drawTriangles();
