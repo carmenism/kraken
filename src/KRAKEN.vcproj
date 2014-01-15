@@ -301,6 +301,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\HarvestSpline.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\KrakenMonteCarlo.cpp"
 					>
 				</File>
@@ -322,6 +326,10 @@
 				</File>
 				<File
 					RelativePath=".\PrintText.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SplineCurve.cpp"
 					>
 				</File>
 				<File
@@ -630,11 +638,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
+				RelativePath="ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<File
-				RelativePath="ui_ms_prod_mainwindow.h"
+				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<Filter
@@ -646,6 +654,10 @@
 				</File>
 				<File
 					RelativePath=".\Displayable.h"
+					>
+				</File>
+				<File
+					RelativePath=".\HarvestSpline.h"
 					>
 				</File>
 				<File
@@ -696,6 +708,10 @@
 				</File>
 				<File
 					RelativePath=".\PrintText.h"
+					>
+				</File>
+				<File
+					RelativePath=".\SplineCurve.h"
 					>
 				</File>
 				<File

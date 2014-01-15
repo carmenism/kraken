@@ -16,7 +16,7 @@ public:
     
     void setY(float y) { this->y = y; }
     float getY() { return y; }
-protected:
+//protected:
     float x, y;
 };
 
