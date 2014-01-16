@@ -83,17 +83,13 @@ void InterSpeciesArcCollection::addArc(InterSpeciesArc *arc) {
     arcs->push_back(arc);
 }
 
-void InterSpeciesArcCollection::addArc(int type, float coeff, SmallMultiple *source, SmallMultiple *recipient, bool setToLeft, Color *c) {
+void InterSpeciesArcCollection::addArc(int type, float coeff, SmallMultiple *source, SmallMultiple *recipient, bool setToLeft) {
     InterSpeciesArc *arc;
 
     if (type == ARC_INTERACTION) {
         arc = new InteractionArc(plotManager, coeff, source, recipient);
     } else {
         arc = new PredationArc(plotManager, coeff, source, recipient);
-    }
-
-    if (c != NULL) {
-        arc->setColor(c);
     }
 
     if (setToLeft) {

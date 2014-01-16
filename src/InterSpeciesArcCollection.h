@@ -36,7 +36,7 @@ public:
     void setFontHeight(float h) { fontHeight = h; }
 
     void addArc(InterSpeciesArc *arc);
-    void addArc(int type, float coeff, SmallMultiple *source, SmallMultiple *recipient, bool setToLeft, Color *c = NULL);
+    void addArc(int type, float coeff, SmallMultiple *source, SmallMultiple *recipient, bool setToLeft);
     InterSpeciesArcList *getVisibleArcs();// { return arcs; }
 
     void setDisplayDynamically(bool d);

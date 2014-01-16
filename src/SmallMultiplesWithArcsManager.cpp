@@ -153,15 +153,11 @@ void SmallMultiplesWithArcsManager::initializeCharts(QList<QList<double> *> *bio
 
 void SmallMultiplesWithArcsManager::initializeInteractionArcs(MS_PROD_MainWindow *mainWindow) {
     arcsInter = new InterSpeciesArcCollection(this, "Arcs Represent Species Interaction");
-    initializeArcs(arcsInter, ARC_INTERACTION, mainWindow->getParameters()->getWithinGuildCompMatrix(), true);
+    initializeArcs(arcsInter, ARC_INTERACTION, mainWindow->getParameters()->getWithinGuildCompMatrix());
 
     ColorLegend *legend = new ColorLegend();
     QStringList guilds = mainWindow->getParameters()->getGuildList();
-    for (int i = 0; i < guilds.size(); i++) {
-        QString guild = guilds.at(i);
-        Color *color = Color::getEvenlyDistributedColor(guilds.size(), i);
-        legend->addColorLegendItem(new ColorLegendItem(color, guild.toStdString() + " Interactor"));
-    }
+    legend->addColorLegendItem(new ColorLegendItem(&Color::skyblue, "Interaction"));
     legend->addColorLegendItem(new ColorLegendItem(new Color(0.9, 0.9, 0, 0.45), "Harvest"));
     legend->setLocation(5, 5);
 
@@ -170,15 +166,10 @@ void SmallMultiplesWithArcsManager::initializeInteractionArcs(MS_PROD_MainWindow
 
 void SmallMultiplesWithArcsManager::initializePredationArcs(MS_PROD_MainWindow *mainWindow) {
     arcsPred = new InterSpeciesArcCollection(this, "Arcs Represent Species Predation");
-    initializeArcs(arcsPred, ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix(), true);
+    initializeArcs(arcsPred, ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix());
     
     ColorLegend *legend = new ColorLegend();
-    QStringList guilds = mainWindow->getParameters()->getGuildList();
-    for (int i = 0; i < guilds.size(); i++) {
-        QString guild = guilds.at(i);
-        Color *color = Color::getEvenlyDistributedColor(guilds.size(), i);
-        legend->addColorLegendItem(new ColorLegendItem(color, guild.toStdString() + " Predator"));
-    }
+    legend->addColorLegendItem(new ColorLegendItem(&Color::orange, "Predation"));
     legend->addColorLegendItem(new ColorLegendItem(new Color(0.9, 0.9, 0, 0.45), "Harvest"));
     legend->setLocation(5, 5);
 
@@ -187,12 +178,12 @@ void SmallMultiplesWithArcsManager::initializePredationArcs(MS_PROD_MainWindow *
 
 void SmallMultiplesWithArcsManager::initializeBothArcs(MS_PROD_MainWindow *mainWindow) {
     arcsBoth = new InterSpeciesArcCollection(this, "ARCS - Orange: Predation, Blue: Interaction");
-    initializeArcs(arcsBoth, ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix(), false);
+    initializeArcs(arcsBoth, ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix());
     arcsBoth->adjustLarger();
     //arcsBoth->setAdjustPercentage(0.5);
     
     InterSpeciesArcCollection *tmp = new InterSpeciesArcCollection(this, "TEMP");
-    initializeArcs(tmp, ARC_INTERACTION, mainWindow->getParameters()->getWithinGuildCompMatrix(), false);
+    initializeArcs(tmp, ARC_INTERACTION, mainWindow->getParameters()->getWithinGuildCompMatrix());
     tmp->adjustSmaller();
     
     arcsBoth->addArcs(tmp);
@@ -209,7 +200,7 @@ void SmallMultiplesWithArcsManager::initializeBothArcs(MS_PROD_MainWindow *mainW
     arcsBoth->setLegend(legend);
 }
 
-void SmallMultiplesWithArcsManager::initializeArcs(InterSpeciesArcCollection *arcs, int arcType, QList<QList<double>> matrix, bool useColorOfChart) {
+void SmallMultiplesWithArcsManager::initializeArcs(InterSpeciesArcCollection *arcs, int arcType, QList<QList<double>> matrix) {
     QList<QList<double> *> *newMatrix = groupReordering->getNewSquareMatrix(matrix);
 
     for (int i = 0; i < newMatrix->size(); i++) {
@@ -217,13 +208,7 @@ void SmallMultiplesWithArcsManager::initializeArcs(InterSpeciesArcCollection *ar
             double coeff = newMatrix->at(i)->at(j);
 
             if (coeff != 0) {
-                Color *color = NULL;
-
-                if (useColorOfChart) {
-                    color = charts->at(j)->getColor();
-                }
-
-                arcs->addArc(arcType, coeff, charts->at(j), charts->at(i), j < i, color);
+                arcs->addArc(arcType, coeff, charts->at(j), charts->at(i), j < i);
             }
         }        
     }   
@@ -241,23 +226,28 @@ void SmallMultiplesWithArcsManager::draw(float windowWidth, float windowHeight) 
         arcsCurrent->setTitleLocation(5, 5);
         //arcsCurrent->setTitleLocation(windowWidth - 5, windowHeight - 5);
     
+        ColorLegend *legend = arcsCurrent->getLegend();
+        if (legend != NULL) {
+            legend->setLocation(windowWidth - 5 - legend->getWidth(), windowHeight - 5 - legend->getHeight() + 25);
+        }
+
         if (windowWidth < 900) {
             arcsCurrent->setFontHeight(12);
 
-            if (arcsCurrent->getLegend() != NULL) {
-                arcsCurrent->getLegend()->setFontHeight(8);
+            if (legend != NULL) {
+                legend->setFontHeight(9);
             }
         } else if (windowWidth < 1000) {
             arcsCurrent->setFontHeight(13);
             
-            if (arcsCurrent->getLegend() != NULL) {
-                arcsCurrent->getLegend()->setFontHeight(10);
+            if (legend != NULL) {
+                legend->setFontHeight(10);
             }
         } else {
             arcsCurrent->setFontHeight(14);
 
-            if (arcsCurrent->getLegend() != NULL) {
-                arcsCurrent->getLegend()->setFontHeight(12);
+            if (legend != NULL) {
+                legend->setFontHeight(12);
             }
         }
 

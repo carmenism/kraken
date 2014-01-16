@@ -79,7 +79,7 @@ private:
     std::vector<HarvestSpline *> *splines;
     
     void initializeCharts(QList<QList<double> *> *biomassMatrix, QList<QList<double> *> *harvestMatrix, MS_PROD_MainWindow *mainWindow);
-    void initializeArcs(InterSpeciesArcCollection *arcs, int arcType, QList<QList<double>> matix, bool useColorOfChart);
+    void initializeArcs(InterSpeciesArcCollection *arcs, int arcType, QList<QList<double>> matix);
     void initializeInteractionArcs(MS_PROD_MainWindow *mainWindow);
     void initializePredationArcs(MS_PROD_MainWindow *mainWindow);
     void initializeBothArcs(MS_PROD_MainWindow *mainWindow);
