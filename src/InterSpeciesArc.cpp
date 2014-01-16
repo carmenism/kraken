@@ -100,7 +100,7 @@ void InterSpeciesArc::setUpForDrawing() {
     if (isArcToRight()) {
         this->x = source->getXLocation() + source->getWidth();
     } else {
-        this->x = source->getXLocation() + source->getOffsetX();
+        this->x = source->getXLocation();// + source->getOffsetX();
     }
 
     this->yA = source->getYLocation() + source->getOffsetY() + source->getInnerHeight() / 2;

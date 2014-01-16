@@ -27,13 +27,16 @@ public:
 
     void setColor(Color *c) { color = c; }
     Color *getColor() { return color; }
+
+    float getWidth() { return width; }
+    void setWidth(float w) { width = w; }
 protected:
     Color *color;
-    //float *xPoints, *yPoints;
     int numberPoints;
     Point *pointA, *pointB;
     Point *controlA, *controlB;
     Point **middle, **left, **right;
+    float width;
     
 	float _ax, _bx, _cx, _dx, _ay, _by, _cy, _dy;
 };

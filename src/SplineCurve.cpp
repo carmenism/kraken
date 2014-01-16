@@ -20,6 +20,8 @@ SplineCurve::SplineCurve(int n, Point *pointA, Point *pointB, Point *controlA, P
         left[i] = new Point(0, 0);
         right[i] = new Point(0, 0);
     }
+
+    width = 5;
 }
 
 SplineCurve::~SplineCurve() {
@@ -33,8 +35,6 @@ SplineCurve::~SplineCurve() {
 }
 
 void SplineCurve::construct() {
-	float wid = 5;
-
 	float dx = pointB->x - pointA->x; 
 	float dy = pointB->y - pointA->y; 
 	float length = sqrt(dx * dx + dy * dy);
@@ -42,8 +42,8 @@ void SplineCurve::construct() {
 	float dxA = (controlA->x - pointA->x) * 3.0f;
 	float dyA = (controlA->y - pointA->y) * 3.0f;
 
-	float dxB = (controlB->x - pointB->x) * 3.0f;
-	float dyB = (controlB->y - pointB->y) * 3.0f;
+	float dxB = (pointB->x - controlB->x) * 3.0f;
+	float dyB = (pointB->y - controlB->y) * 3.0f;
 
 	_ax = pointA->x;
 	_bx = dxA;
@@ -65,7 +65,7 @@ void SplineCurve::construct() {
 	}
 
     for (int i = 1; i < numberPoints; i++) {
-		float w = 0.03 + wid * float(i) / numberPoints;
+		float w = 0.03 + width * float(i) / numberPoints;
 
 		dx = middle[i]->x - middle[i - 1]->x;
 		dy = middle[i]->y - middle[i - 1]->y;
@@ -78,13 +78,17 @@ void SplineCurve::construct() {
         right[i]->setValues(-dy, dx);
 
         if (i == 1) {		
-            left[0]->setValues(dy, -dy);
-            right[0]->setValues(-dx, dx);
+            left[0]->setValues(dy, -dx);
+            right[0]->setValues(-dy, dx);
 		}
 	}
 }
 
 void SplineCurve::draw() {
+    if (fabs(width) < 1) {
+        return;
+    }
+
 	glBegin(GL_QUAD_STRIP); 
 	for (int i = 0; i < numberPoints; i++) {
 		glColor4f(color->r, color->g, color->b, color->a);
@@ -99,4 +103,16 @@ void SplineCurve::draw() {
 		glVertex2f(middle[i]->x + right[i]->x, middle[i]->y + right[i]->y);
 	}
 	glEnd();	
+    
+    /*glColor3f(1, 0, 0);
+    glPushMatrix();
+    glTranslatef(controlA->x, controlA->y, 0);
+    glutSolidSphere(3, 10, 10);
+    glPopMatrix();
+    
+    glColor3f(0, 1, 0);
+    glPushMatrix();
+    glTranslatef(controlB->x, controlB->y, 0);
+    glutSolidSphere(3, 10, 10);
+    glPopMatrix();*/
 }
