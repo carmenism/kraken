@@ -297,6 +297,10 @@
 				Name="GUI"
 				>
 				<File
+					RelativePath=".\Animatable.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Color.cpp"
 					>
 				</File>
@@ -656,6 +660,10 @@
 			<Filter
 				Name="GUI"
 				>
+				<File
+					RelativePath=".\Animatable.h"
+					>
+				</File>
 				<File
 					RelativePath=".\Color.h"
 					>

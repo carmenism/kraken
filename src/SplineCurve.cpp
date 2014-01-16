@@ -4,8 +4,11 @@
 #include <math.h>
 #include <GL/glut.h>
 
-SplineCurve::SplineCurve(int n, Point *pointA, Point *pointB, Point *controlA, Point *controlB) {
-    numberPoints = n;
+extern int timer;
+
+SplineCurve::SplineCurve(Point *pointA, Point *pointB, Point *controlA, Point *controlB) 
+: Animatable() {
+    numberPoints = 250;
     this->pointA = pointA;
     this->pointB = pointB;
     this->controlA = controlA;
@@ -15,7 +18,7 @@ SplineCurve::SplineCurve(int n, Point *pointA, Point *pointB, Point *controlA, P
     left = new Point*[numberPoints];
     right = new Point*[numberPoints];
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < numberPoints; i++) {
         middle[i] = new Point(0, 0);
         left[i] = new Point(0, 0);
         right[i] = new Point(0, 0);
@@ -88,22 +91,72 @@ void SplineCurve::draw() {
     if (fabs(width) < 1) {
         return;
     }
+    	
+    float timeval;
+	timeval = float(timer % numberPoints)/float(numberPoints);
+
+	float tc;
+
+    if (animated) {
+	    glEnable(GL_TEXTURE_2D);
+    } 
 
     glPolygonMode(GL_FRONT, GL_FILL); 
 
 	glBegin(GL_QUAD_STRIP); 
 	for (int i = 0; i < numberPoints; i++) {
+        tc = 1.5*((numberPoints - float(i))/numberPoints+timeval);
+
 		glColor4f(color->r, color->g, color->b, color->a);
+
+        if (animated) {
+            glTexCoord2f(tc,0.3);
+        }
+
 		glVertex2f(middle[i]->x + left[i]->x, middle[i]->y + left[i]->y);
-		glVertex2f(middle[i]->x, middle[i]->y);
+		
+        if (animated) {
+            glTexCoord2f(tc,0.3);
+        }
+
+        glVertex2f(middle[i]->x, middle[i]->y);
 	}
 	glEnd();
 
 	glBegin(GL_QUAD_STRIP);
 	for (int i = 0; i < numberPoints; i++) {
+        tc = 1.5*((numberPoints - float(i))/numberPoints+timeval);
+
 		glColor4f(color->r, color->g, color->b, color->a);
+        
+        if (animated) {
+            glTexCoord2f(tc,0.3);
+        }
+
 		glVertex2f(middle[i]->x, middle[i]->y);
+        
+        if (animated) {
+            glTexCoord2f(tc,0.3);
+        }
+
 		glVertex2f(middle[i]->x + right[i]->x, middle[i]->y + right[i]->y);
 	}
-	glEnd();    
+	glEnd();   
+
+    if (animated) {
+        glDisable(GL_TEXTURE_2D);
+        drawSigns();
+    }
+}
+
+void SplineCurve::drawSigns() {
+    glColor3f(0.0,0.0,0.0);
+    for (int i = 0; i < 5; i++) {
+        int t = numberPoints-(timer+numberPoints/5*i)%numberPoints-1;
+        glPushMatrix();
+            glTranslatef(middle[numberPoints - t - 1]->x, middle[numberPoints - t - 1]->y, 0.0);
+            
+            Animatable::drawSigns(width < 0);
+        glPopMatrix();
+    }
 }

@@ -2,6 +2,7 @@
 #include "SmallMultiple.h"
 #include <string>
 
+#include <QtOpenGL>
 #include "PrintText.h"
 #include "Color.h"
 #include "Triangle.h"

@@ -1,6 +1,8 @@
 #include "CenteredArc.h"
 #include "Color.h"
 #include <math.h>
+#include <GL/glut.h>
+#include <QtOpenGL>
 
 extern int timer;
 
@@ -257,30 +259,9 @@ void CenteredArc::drawSigns() {
             //if(!arcToRight) glRotatef(180.0,0.0,0.0,1.0);
             glTranslatef(xArc[t]*radius,yArc[t]*radius,0.0);
             
-            if (thickness < 0) {
-                drawPlus();
-            } else {
-                drawMinus();
-            }
+            Animatable::drawSigns(thickness < 0);
         glPopMatrix();
     }
-}
-
-void CenteredArc::drawPlus() {
-    glBegin(GL_LINES); 
-        glVertex2f(5.0,0.0);	 
-        glVertex2f(-5.0,0.0);
-
-        glVertex2f(0.0,-5.0);
-        glVertex2f(0.0,5.0);	
-    glEnd();
-}
-
-void CenteredArc::drawMinus() {
-    glBegin(GL_LINES); 
-        glVertex2f(5.0,0.0);	 
-        glVertex2f(-5.0,0.0);	
-    glEnd();
 }
 
 void CenteredArc::drawHighlight() {    

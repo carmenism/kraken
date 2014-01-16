@@ -4,10 +4,11 @@
 class Color;
 class Point;
 
-class SplineCurve
-{
+#include "Animatable.h"
+
+class SplineCurve : public Animatable {
 public:
-    SplineCurve(int n, Point *pointA, Point *pointB, Point *controlA, Point *controlB);
+    SplineCurve(Point *pointA, Point *pointB, Point *controlA, Point *controlB);
     ~SplineCurve();
 
     virtual void construct();
@@ -39,6 +40,8 @@ protected:
     float width;
     
 	float _ax, _bx, _cx, _dx, _ay, _by, _cy, _dy;
+    
+    void drawSigns();
 };
 
 #endif /*SPLINECURVE_H_*/

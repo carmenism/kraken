@@ -396,6 +396,10 @@ void SmallMultiplesWithArcsManager::setArcsAnimated(bool a) {
     arcsInter->setAnimated(a);
     arcsPred->setAnimated(a);
     arcsBoth->setAnimated(a);
+    
+    for (unsigned int i = 0; i < splines->size(); i++) {
+        splines->at(i)->setAnimated(a);
+    }
 }
 
 void SmallMultiplesWithArcsManager::arcsAnimatedOn() {

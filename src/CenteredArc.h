@@ -3,12 +3,11 @@
 
 class Color;
 
+#include "Animatable.h"
 #include "Point.h"
-#include <QtOpenGL>
-#include <GL/glut.h>
 #include "Pickable.h"
 
-class CenteredArc : public Point, public Pickable {
+class CenteredArc : public Point, public Pickable, public Animatable {
 public:
     CenteredArc();
     CenteredArc(float radius, float centerX, float centerY);
@@ -36,15 +35,8 @@ public:
     void setFadingAlpha(bool f) { fadingAlpha = f; }
     void fadingAlphaOn() { fadingAlpha = true; }
     void fadingAlphaOff() { fadingAlpha = false; }
-
-    bool isAnimated() { return animated; }
-    bool getAnimated() { return animated; }
-    void setAnimated(bool a) { animated = a; }
-    void animatedOn() { animated = true; }
-    void animatedOff() { animated = false; }
 protected:
     bool arcToRight;
-    bool animated;
     float radius;
     float thickness, highlightThickness;
     Color *color, *highlightColor;
@@ -62,11 +54,9 @@ private:
 	unsigned char checker[64][64][4];
 	unsigned int texName;
 	static const int NUM_SEGMENTS = 360;
-	static float *xArc, *yArc;
-    
+	static float *xArc, *yArc;    
+
     void drawSigns();
-    void drawPlus();
-    void drawMinus();
 };
 
 #endif /* CENTERED_ARC_H */

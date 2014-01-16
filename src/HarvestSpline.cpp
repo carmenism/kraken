@@ -5,7 +5,7 @@
 #include "SmallMultiple.h"
 
 HarvestSpline::HarvestSpline(ChangeSlider *slider, SmallMultiple *chart)
-: SplineCurve(100, new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)) {
+: SplineCurve(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)) {
     this->slider = slider;
     this->chart = chart;
 
