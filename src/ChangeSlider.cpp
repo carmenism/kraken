@@ -31,13 +31,9 @@ void ChangeSlider::draw() {
         glPolygonMode(GL_FRONT, GL_FILL);
         glColor4f(color->r, color->g, color->b, 0.5);
 
-        float value = getValue();
-        float previousValue = getValue();
+        float value = getValue();        
+        float previousValue = getPreviousValue();
 
-        if (baselineIndex >= 0 && baselineIndex < valueHistory.size()) {
-            previousValue = valueHistory[baselineIndex]; //.back();
-        }
-        
         determineColor(value, previousValue);
 
         float valueX = valueToPosition(value);
@@ -49,6 +45,14 @@ void ChangeSlider::draw() {
     }
 
     Slider::draw();
+}
+
+float ChangeSlider::getPreviousValue() {
+    if (baselineIndex >= 0 && baselineIndex < valueHistory.size()) {
+        return valueHistory[baselineIndex]; 
+    }
+
+    return getValue();
 }
 
 bool ChangeSlider::mouseMoved(float x, float y) {

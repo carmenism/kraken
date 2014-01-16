@@ -2,18 +2,18 @@
 #define HARVESTSPLINE_H_
 
 class SmallMultiple;
-class Slider;
+class ChangeSlider;
 
 #include "SplineCurve.h"
 
 class HarvestSpline : public SplineCurve {
 public:
-    HarvestSpline(Slider *slider, SmallMultiple *chart);
+    HarvestSpline(ChangeSlider *slider, SmallMultiple *chart);
     ~HarvestSpline();
 
     virtual void construct();
 protected:
-    Slider *slider;
+    ChangeSlider *slider;
     SmallMultiple *chart;
 };
 

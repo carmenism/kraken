@@ -89,6 +89,8 @@ void SplineCurve::draw() {
         return;
     }
 
+    glPolygonMode(GL_FRONT, GL_FILL); 
+
 	glBegin(GL_QUAD_STRIP); 
 	for (int i = 0; i < numberPoints; i++) {
 		glColor4f(color->r, color->g, color->b, color->a);
@@ -96,23 +98,12 @@ void SplineCurve::draw() {
 		glVertex2f(middle[i]->x, middle[i]->y);
 	}
 	glEnd();
+
 	glBegin(GL_QUAD_STRIP);
 	for (int i = 0; i < numberPoints; i++) {
 		glColor4f(color->r, color->g, color->b, color->a);
 		glVertex2f(middle[i]->x, middle[i]->y);
 		glVertex2f(middle[i]->x + right[i]->x, middle[i]->y + right[i]->y);
 	}
-	glEnd();	
-    
-    /*glColor3f(1, 0, 0);
-    glPushMatrix();
-    glTranslatef(controlA->x, controlA->y, 0);
-    glutSolidSphere(3, 10, 10);
-    glPopMatrix();
-    
-    glColor3f(0, 1, 0);
-    glPushMatrix();
-    glTranslatef(controlB->x, controlB->y, 0);
-    glutSolidSphere(3, 10, 10);
-    glPopMatrix();*/
+	glEnd();    
 }

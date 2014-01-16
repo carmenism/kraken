@@ -1,10 +1,10 @@
 #include "HarvestSpline.h"
 #include "Color.h"
 #include "Point.h"
-#include "Slider.h"
+#include "ChangeSlider.h"
 #include "SmallMultiple.h"
 
-HarvestSpline::HarvestSpline(Slider *slider, SmallMultiple *chart)
+HarvestSpline::HarvestSpline(ChangeSlider *slider, SmallMultiple *chart)
 : SplineCurve(100, new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)) {
     this->slider = slider;
     this->chart = chart;
@@ -18,7 +18,9 @@ HarvestSpline::~HarvestSpline() {
 }
 
 void HarvestSpline::construct() {
-    float newWidth = slider->getValue() * 5.25;
+    float currentValue = slider->getValue();
+    float previousValue = slider->getPreviousValue();
+    float newWidth = (currentValue - previousValue) * 8;
 
     float sliderX = slider->getX() + slider->getWidth();
     float sliderY = slider->getY() + slider->getHeight() / 2.0;

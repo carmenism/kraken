@@ -16,6 +16,8 @@ public:
 
     void clearDisplay() { display = false; }
     void setBaseline();
+
+    float getPreviousValue();
 private:
     Color *decreaseColor;
     Color *increaseColor;
