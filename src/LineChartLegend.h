@@ -10,13 +10,13 @@ public:
     LineChartLegend(LineChart *c);
     ~LineChartLegend();
 
-    virtual void drawAtOrigin();
-
     float getLineLength() { return lineLength; }
     void setLineLength(float len) { lineLength = len; }
 private:
     float lineLength;
     LineChart *chart;
+    
+    virtual void drawAtOrigin();
 };
 
 #endif /* LINECHARTLEGEND_H_ */

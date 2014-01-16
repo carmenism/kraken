@@ -65,6 +65,8 @@ private:
 	static float *xArc, *yArc;
     
     void drawSigns();
+    void drawPlus();
+    void drawMinus();
 };
 
 #endif /* CENTERED_ARC_H */

@@ -9,8 +9,8 @@ HarvestSpline::HarvestSpline(Slider *slider, SmallMultiple *chart)
     this->slider = slider;
     this->chart = chart;
 
-    setColor(new Color(0.5, 0.5, 0.5, 0.5));
-    //setColor(new Color(0.93, 0.93, 0, 0.5));
+    //setColor(new Color(0.5, 0.5, 0.5, 0.5));
+    setColor(new Color(0.9, 0.9, 0, 0.45));
 }
 
 HarvestSpline::~HarvestSpline() {

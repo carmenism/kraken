@@ -3,6 +3,7 @@
 #include "InteractionArc.h"
 #include "PredationArc.h"
 #include "PrintText.h"
+#include "ColorLegend.h"
 #include <QtOpenGL>
 #include <iostream>
 
@@ -14,6 +15,7 @@ InterSpeciesArcCollection::InterSpeciesArcCollection(PlotManager *pm, std::strin
     this->title = title;
     fontHeight = 14;
     this->plotManager = pm;
+    legend = NULL;
 }
 
 InterSpeciesArcCollection::~InterSpeciesArcCollection() {
@@ -24,6 +26,7 @@ InterSpeciesArcCollection::~InterSpeciesArcCollection() {
     }
 
     delete arcs;
+    delete legend;
 }
 
 void InterSpeciesArcCollection::setTitleLocation(float x, float y) {
@@ -33,6 +36,13 @@ void InterSpeciesArcCollection::setTitleLocation(float x, float y) {
 
 void InterSpeciesArcCollection::draw() {
     selected = NULL;
+
+    if (legend != NULL) {
+        legend->draw();
+    } else {
+        glColor4f(0, 0, 0, 1);
+        PrintText::drawStrokeText(title, titleX, titleY, fontHeight, HORIZ_LEFT, VERT_BOTTOM, false, 0);
+    }
 
     //std::cerr << timer << "\n";
 
@@ -55,9 +65,6 @@ void InterSpeciesArcCollection::draw() {
             arcs->at(i)->draw();
         }
     }
-
-    glColor4f(0, 0, 0, 1);
-    PrintText::drawStrokeText(title, titleX, titleY, fontHeight, HORIZ_LEFT, VERT_BOTTOM, false, 0);
 }
 
 void InterSpeciesArcCollection::drawSelected() {

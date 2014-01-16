@@ -255,19 +255,32 @@ void CenteredArc::drawSigns() {
         t = NUM_SEGMENTS-(timer+NUM_SEGMENTS/5*i)%NUM_SEGMENTS-1;
         glPushMatrix();
             //if(!arcToRight) glRotatef(180.0,0.0,0.0,1.0);
-
             glTranslatef(xArc[t]*radius,yArc[t]*radius,0.0);
-            glBegin(GL_LINES); 
-                glVertex2f(5.0,0.0);	 
-                glVertex2f(-5.0,0.0);
-
-                if(thickness < 0) {
-                    glVertex2f(0.0,-5.0);
-                    glVertex2f(0.0,5.0);	
-                }		
-            glEnd();
+            
+            if (thickness < 0) {
+                drawPlus();
+            } else {
+                drawMinus();
+            }
         glPopMatrix();
     }
+}
+
+void CenteredArc::drawPlus() {
+    glBegin(GL_LINES); 
+        glVertex2f(5.0,0.0);	 
+        glVertex2f(-5.0,0.0);
+
+        glVertex2f(0.0,-5.0);
+        glVertex2f(0.0,5.0);	
+    glEnd();
+}
+
+void CenteredArc::drawMinus() {
+    glBegin(GL_LINES); 
+        glVertex2f(5.0,0.0);	 
+        glVertex2f(-5.0,0.0);	
+    glEnd();
 }
 
 void CenteredArc::drawHighlight() {    

@@ -368,6 +368,14 @@
 						>
 					</File>
 					<File
+						RelativePath=".\ColorLegend.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ColorLegendItem.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\Legend.cpp"
 						>
 					</File>
@@ -823,6 +831,14 @@
 					</File>
 					<File
 						RelativePath=".\Chart2D.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ColorLegend.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ColorLegendItem.h"
 						>
 					</File>
 					<File

@@ -2,6 +2,7 @@
 #define LEGEND_H_
 
 #include "Displayable.h"
+#include <string>
 
 class Legend : public Displayable {
 public:
@@ -9,7 +10,6 @@ public:
     ~Legend();
 
     void draw();
-    virtual void drawAtOrigin() = 0;
 
     void setLocation(float x, float y) { this->x = x; this->y = y; }
     float getX() { return x; }
@@ -25,7 +25,9 @@ protected:
     float x, y;
     float width, height;
     float padding;
+    std::string title;
 
+    virtual void drawAtOrigin() = 0;
     void drawBoundary();
 };
 

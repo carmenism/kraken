@@ -4,6 +4,7 @@
 #include "InterSpeciesArc.h"
 class SmallMultiple;
 class Color;
+class ColorLegend;
 class PlotManager;
 
 #include "Displayable.h"
@@ -57,6 +58,9 @@ public:
     void setAnimated(bool a);
     void animatedOn();
     void animatedOff();
+
+    void setLegend(ColorLegend *legend) { this->legend = legend; }
+    ColorLegend *getLegend() { return legend; }
 private:
     PlotManager *plotManager;
     InterSpeciesArcList *arcs;
@@ -64,6 +68,8 @@ private:
     std::string title;
     float titleX, titleY;
     float fontHeight;
+
+    ColorLegend *legend;
 };
 
 #endif /* _INTERSPECIESARCCOLLECTION_H */

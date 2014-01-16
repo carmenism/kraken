@@ -202,14 +202,14 @@ void MyQGLWidget::paintGL() {
                 xPos = xPos + toggleAbsButton->getWidth() + spacing;
                 toggleChartsButton->setLocation(xPos, yPos);
                 
-                for (int i = 0; i < speciesButtons->size(); i++) {
+                for (unsigned int i = 0; i < speciesButtons->size(); i++) {
                     speciesButtons->at(i)->draw();
                 }
             } else {
                 positionSlidersForGroups();
             }
 
-            for (int i = 0; i < speciesGroupButtons->size(); i++) {
+            for (unsigned int i = 0; i < speciesGroupButtons->size(); i++) {
                 speciesGroupButtons->at(i)->draw();
             }
 
