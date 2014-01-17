@@ -153,10 +153,7 @@ void SplineCurve::drawSigns() {
     glColor3f(0.0,0.0,0.0);
     for (int i = 0; i < 5; i++) {
         int t = numberPoints-(timer+numberPoints/5*i)%numberPoints-1;
-        glPushMatrix();
-            glTranslatef(middle[numberPoints - t - 1]->x, middle[numberPoints - t - 1]->y, 0.0);
             
-            Animatable::drawSigns(width < 0);
-        glPopMatrix();
+        drawSign(middle[numberPoints - t - 1]->x, middle[numberPoints - t - 1]->y, 1.0, width < 0);
     }
 }

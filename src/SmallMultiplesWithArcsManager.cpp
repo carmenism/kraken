@@ -418,7 +418,7 @@ void SmallMultiplesWithArcsManager::initializeSplines(MS_PROD_MainWindow *mainWi
         SmallMultiple *chart = charts->at(j);
         QString speciesGuild = mainWindow->getParameters()->getGuildMembership(newLabels->at(j));
 
-        for (unsigned int i = 0; i < guilds.size(); i++) {
+        for (int i = 0; i < guilds.size(); i++) {
             QString guild = guilds.at(i);
 
             if (QString::compare(guild, speciesGuild) == 0) {            

@@ -3,7 +3,7 @@
 
 class Animatable {
 public:
-    Animatable() { animated = false; }
+    Animatable();
     ~Animatable() {}
 
     bool isAnimated() { return animated; }
@@ -14,9 +14,14 @@ public:
 protected:
     bool animated;
     
-    void drawSigns(bool positive);
-    void drawPlus();
-    void drawMinus();
+    void drawSign(float x, float y, float alpha, bool positive);
+private:
+    void drawSign(float alpha, bool positive);
+    void drawPlus(float alpha);
+    void drawMinus(float alpha);
+    
+	unsigned char checker[64][64][4];
+	unsigned int texName;
 };
 
 #endif /* _ANIMATABLE_H */

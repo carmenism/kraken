@@ -56,7 +56,6 @@ private:
     SmallMultiple *source, *recipient;
     Triangle *arrowA, *arrowB, *arrowMiddle;
 
-    void drawSign(bool positive);
     void positionTriangles();
     void drawTriangles();
     

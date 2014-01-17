@@ -21,6 +21,7 @@ CenteredArc::CenteredArc() : Point(0, 0), Pickable() {
     fadingAlpha = false;
     startAlpha = 0.6;
     finalAlpha = 0.15;
+    signAlpha = 0.75;
 
     //CW_CODE
 	
@@ -29,32 +30,6 @@ CenteredArc::CenteredArc() : Point(0, 0), Pickable() {
 		xArc[i] = sin(a);
 		yArc[i] = -cos(a);
 	}
-
-    for(int i = 0; i < 64; i++) {
-		for(int j = 0; j < 64; j++) {
-			unsigned int grey = (sin(4.0*3.14159*float(j)/64.0)+1.0)*128.0;
-
-			checker[i][j][0] = grey;
-			checker[i][j][1] = grey;
-			checker[i][j][2] = grey;
-			checker[i][j][3] = 125;		
-		}
-    }
-
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, &texName);
-
-	glEnable(GL_TEXTURE_2D);
-
-	glBindTexture(GL_TEXTURE_2D, texName);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexEnvi(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 64,64,0, GL_RGBA, GL_UNSIGNED_BYTE, checker);
-
-	glDisable(GL_TEXTURE_2D);
 }
 
 CenteredArc::~CenteredArc() {
@@ -93,10 +68,6 @@ void CenteredArc::draw() {
                 drawLineArc();
             } else {
                 drawPolygonArc();
-            }
-
-            if (animated) {
-                drawSigns();
             }
         }
 
@@ -166,11 +137,14 @@ void CenteredArc::drawSelected() {
     if (selected) {
         float oldStart = startAlpha;
         float oldFinal = finalAlpha;
+        float oldSignAlpha = signAlpha;
         startAlpha = 0.4;
         finalAlpha = 0.0;
+        signAlpha = 1.0;
         draw();
         startAlpha = oldStart;
         finalAlpha = oldFinal;
+        signAlpha = oldSignAlpha;
     }
 }
 
@@ -249,19 +223,28 @@ void CenteredArc::drawPolygonArc() {
 }
 
 void CenteredArc::drawSigns() {
-    glLineWidth(2.0);
-    int t;
+    glPushMatrix();
+        glTranslatef(x, y, 0);
 
-    glColor3f(0.0,0.0,0.0);
-    for (int i = 0; i < 5; i++) {
-        t = NUM_SEGMENTS-(timer+NUM_SEGMENTS/5*i)%NUM_SEGMENTS-1;
-        glPushMatrix();
-            //if(!arcToRight) glRotatef(180.0,0.0,0.0,1.0);
-            glTranslatef(xArc[t]*radius,yArc[t]*radius,0.0);
-            
-            Animatable::drawSigns(thickness < 0);
-        glPopMatrix();
-    }
+        if (!arcToRight) {
+            //glPushMatrix();
+            glRotatef(180.0,0.0,0.0,1.0);
+        }
+
+        if (animated) {
+            for (int i = 0; i < 5; i++) {
+                int t = NUM_SEGMENTS-(timer+NUM_SEGMENTS/5*i)%NUM_SEGMENTS-1;
+                
+                drawSign(xArc[t]*radius, yArc[t]*radius, signAlpha, thickness < 0);
+            }
+        } else {
+            int oneSixth = NUM_SEGMENTS / 6;
+            drawSign(xArc[oneSixth]*radius, yArc[oneSixth]*radius, signAlpha, thickness < 0);
+            drawSign(xArc[2 * oneSixth]*radius, yArc[2 * oneSixth]*radius, signAlpha, thickness < 0);
+            drawSign(xArc[4 * oneSixth]*radius, yArc[4 * oneSixth]*radius, signAlpha, thickness < 0);
+            drawSign(xArc[5 * oneSixth]*radius, yArc[5 * oneSixth]*radius, signAlpha, thickness < 0);
+        }
+    glPopMatrix();
 }
 
 void CenteredArc::drawHighlight() {    

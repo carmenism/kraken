@@ -41,22 +41,21 @@ protected:
     float thickness, highlightThickness;
     Color *color, *highlightColor;
     bool fadingAlpha;
-    float startAlpha, finalAlpha;
+    float startAlpha, finalAlpha;    
+    float signAlpha;
 
     void drawPolygonArc();
     void drawLineArc();
     void drawHighlight();
+    void drawSigns();
+
+	static float *xArc, *yArc;   
+	static const int NUM_SEGMENTS = 360; 
 private:
     void drawToPickAsLineStrips();
     void drawToPickAsPolygons();
 
     //CW_CODE
-	unsigned char checker[64][64][4];
-	unsigned int texName;
-	static const int NUM_SEGMENTS = 360;
-	static float *xArc, *yArc;    
-
-    void drawSigns();
 };
 
 #endif /* CENTERED_ARC_H */

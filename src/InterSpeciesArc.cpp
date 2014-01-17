@@ -51,8 +51,10 @@ InterSpeciesArc::~InterSpeciesArc() {
 void InterSpeciesArc::drawFaded() {
     float oldStart = startAlpha;
     float oldFinal = finalAlpha;
+    float oldSignAlpha = signAlpha;
     startAlpha = 0.3;
     finalAlpha = 0.05;
+    signAlpha = 0.3;
 
     float oldArrowBord = arrowA->getBorderColor()->a;
     float oldArrowFill = arrowA->getFillColor()->a;
@@ -67,6 +69,7 @@ void InterSpeciesArc::drawFaded() {
 
     startAlpha = oldStart;
     finalAlpha = oldFinal;
+    signAlpha = oldSignAlpha;
 
     arrowA->getBorderColor()->a = oldArrowBord;
     arrowA->getFillColor()->a = oldArrowFill;
@@ -80,11 +83,15 @@ void InterSpeciesArc::draw() {
     setUpForDrawing();
 
     if (thickness != 0) {
-        CenteredArc::draw();        
-        drawTriangles();
+        CenteredArc::draw();    
 
-        if (!animated && displayDynamically) {
-            drawSign(thickness < 0);
+        //if (!displayDynamically 
+        //    || (displayDynamically && !animated)) {
+            drawTriangles();
+        //}
+
+        if (displayDynamically && !selected) {
+            drawSigns();
         }
     }
 }
@@ -143,7 +150,7 @@ void InterSpeciesArc::adjustPositions() {
     }
 }
 
-void InterSpeciesArc::drawSign(bool positive) {
+/*void InterSpeciesArc::drawSign(bool positive) {
     float xLoc;
     float yLoc = getY(); 
 
@@ -160,7 +167,7 @@ void InterSpeciesArc::drawSign(bool positive) {
         glColor3f(1, 0, 0);
         PrintText::drawStrokeText("-", xLoc, yLoc, 10, HORIZ_CENTER, VERT_CENTER);
     }
-}
+}*/
 
 float InterSpeciesArc::getDynamicThickness() {
     float coef = getCoefficient();
@@ -202,44 +209,39 @@ void InterSpeciesArc::positionTriangles() {
     arrowB->setBorderWidth(2);
     arrowMiddle->setBorderWidth(1.5);
 
-    float shortEdge = getRadius() / 2;
-    float longEdge = shortEdge * sqrt(3.0f);
-    float size = max(4, fabs(getThickness() / 2));
+    float size = max(6, fabs(getThickness() / 2));
 
-    if (isArcToRight()) {
-        arrowA->setLocation(getX() + longEdge, getY() + shortEdge);
-        arrowA->setSize(size, size * 2);
-        arrowA->setRotation(210);
+    int oneFourth = NUM_SEGMENTS / 4;
 
-        arrowB->setLocation(getX() + longEdge, getY() - shortEdge);
-        arrowB->setSize(size, size * 2);
-        arrowB->setRotation(150);
+    arrowA->setLocation(xArc[oneFourth]*radius, yArc[oneFourth]*radius);
+    arrowA->setSize(size, size * 2);
+    arrowA->setRotation(135);
 
-        arrowMiddle->setLocation(getX() + getRadius(), getY() - size / 3);
-        arrowMiddle->setSize(size, size * 2);
-        arrowMiddle->setRotation(180);
-    } else {
-        arrowA->setLocation(getX() - longEdge, getY() - shortEdge);
-        arrowA->setSize(size, size * 2);
-        arrowA->setRotation(30);
-        
-        arrowB->setLocation(getX() - longEdge, getY() + shortEdge);
-        arrowB->setSize(size, size * 2);
-        arrowB->setRotation(330);
-        
-        arrowMiddle->setLocation(getX() - getRadius(), getY() + size / 3);
-        arrowMiddle->setSize(size, size * 2);
-        arrowMiddle->setRotation(0);
-    }
+    arrowB->setLocation(xArc[3 * oneFourth]*radius, yArc[3 * oneFourth]*radius);
+    arrowB->setSize(size, size * 2);
+    arrowB->setRotation(225);
+
+    arrowMiddle->setLocation(xArc[2 * oneFourth]*radius, yArc[2 * oneFourth]*radius);
+    arrowMiddle->setSize(size, size * 2);
+    arrowMiddle->setRotation(180);    
 }
 
 void InterSpeciesArc::drawTriangles() {
+    glPushMatrix();
+    glTranslatef(x, y, 0);
+
+    if (!arcToRight) {
+        glRotatef(180.0,0.0,0.0,1.0);
+    }
+
     if (selected) {
         arrowA->draw();
         arrowB->draw();
     } else {
         arrowMiddle->draw();
     }
+    
+    glPopMatrix();
 }
 
 void InterSpeciesArc::drawSelected() {
@@ -249,6 +251,10 @@ void InterSpeciesArc::drawSelected() {
         CenteredArc::drawSelected();
         
         drawTriangles();
+
+        if (displayDynamically) {
+            drawSigns();
+        }
       
         std::string label = source->getTitle() + betweenSpeciesLabel + recipient->getTitle() + " (" + toStr(coefficient) + ")";
 
@@ -260,6 +266,7 @@ void InterSpeciesArc::drawSelected() {
 
         float yPos = this->y;
 
+        glLineWidth(1.0);
         glColor4f(0, 0, 0, 1);
         PrintText::drawStrokeText(label, xPos, yPos, fontHeight, HORIZ_CENTER, VERT_CENTER, true);
     }
