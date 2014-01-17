@@ -190,8 +190,10 @@ void MyQGLWidget::paintGL() {
                     bgArcStyle->setLocation(bgArc->getX() + bgArc->getWidth() + spacing, bgArc->getY());
                     bgArcStyle->draw();
 
-                    bgArcAnimate->setLocation(bgArcStyle->getX() + bgArcStyle->getWidth() + spacing, bgArcStyle->getY());
-                    bgArcAnimate->draw();
+                    if (bgArcStyle->getActive(0)) {
+                        bgArcAnimate->setLocation(bgArcStyle->getX() + bgArcStyle->getWidth() + spacing, bgArcStyle->getY());
+                        bgArcAnimate->draw();
+                    }
                 }
 
                 float arcWidth = bgArc->getWidth();
@@ -342,16 +344,18 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
                 return true;
             }
 
-            if (bgArcAnimate->mouseReleased(x, y)) {
-                int releasedIndex = bgArcAnimate->getReleasedIndex();
+            if (bgArcStyle->getActive(0)) {
+                if (bgArcAnimate->mouseReleased(x, y)) {
+                    int releasedIndex = bgArcAnimate->getReleasedIndex();
 
-                if (releasedIndex == 0) {
-                    managerSmallMult->arcsAnimatedOn();
-                } else if (releasedIndex == 1) {
-                    managerSmallMult->arcsAnimatedOff();    
+                    if (releasedIndex == 0) {
+                        managerSmallMult->arcsAnimatedOn();
+                    } else if (releasedIndex == 1) {
+                        managerSmallMult->arcsAnimatedOff();    
+                    }
+
+                    return true;
                 }
-
-                return true;
             }
         }
         
@@ -526,8 +530,10 @@ bool MyQGLWidget::mousePressButtons(float x, float y) {
                 return true;
             }
 
-            if (bgArcAnimate->mousePressed(x, y)) {
-                return true;
+            if (bgArcStyle->getActive(0)) {
+                if (bgArcAnimate->mousePressed(x, y)) {
+                    return true;
+                }
             }
         }
     }
@@ -614,15 +620,9 @@ bool MyQGLWidget::mouseMoveButtons(float x, float y) {
             return true;
         }
 
-        if (bgArc->getActive(3)) {
-            if (bgArcStyle->mouseMoved(x, y)) {
-                return true;
-            }
-
-            if (bgChange->mouseMoved(x, y)) {
-                return true;
-            }
-        }
+        if (bgChange->mouseMoved(x, y)) {
+            return true;
+        }        
     }
 
     if (managerSmallMult->getDisplay()) {        
@@ -630,12 +630,21 @@ bool MyQGLWidget::mouseMoveButtons(float x, float y) {
             return true;
         }
 
+
         if (bgArc->mouseMoved(x, y)) {
             return true;
-        }
+        }        
 
-        if (bgArcAnimate->mouseMoved(x, y)) {
-            return true;
+        if (bgArc->getActive(3)) {
+            if (bgArcStyle->mouseMoved(x, y)) {
+                return true;
+            }            
+
+            if (bgArcStyle->getActive(0)) {
+                if (bgArcAnimate->mouseMoved(x, y)) {
+                    return true;
+                }
+            }
         }
     }
 
