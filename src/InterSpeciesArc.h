@@ -2,7 +2,6 @@
 #define _INTERSPECIESARC_H
 
 class SmallMultiple;
-class Triangle;
 class PlotManager;
 
 #include "CenteredArc.h"
@@ -26,11 +25,6 @@ public:
 
     virtual float getCoefficent() { return coefficient; }
 
-    bool getDisplayDynamically() { return displayDynamically; }
-    void setDisplayDynamically(bool d) { displayDynamically = d; }
-    void displayDynamicallyOn() { displayDynamically = true; }
-    void displayDynamicallyOff() { displayDynamically = false; }
-
     AdjustType getAdjustType() { return adjustType; }
     void setAdjustType(AdjustType t) { adjustType = t; }
     void adjustNone() { adjustType = ADJUST_NONE; }
@@ -51,13 +45,9 @@ private:
     
     float fontHeight;
     float adjustPercentage;
-    bool displayDynamically;
     std::string betweenSpeciesLabel;
     SmallMultiple *source, *recipient;
-    Triangle *arrowA, *arrowB, *arrowMiddle;
 
-    void positionTriangles();
-    void drawTriangles();
     
     void setUpForDrawing();
     void determineThickness();

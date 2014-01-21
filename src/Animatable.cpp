@@ -50,11 +50,11 @@ void Animatable::drawSign(float alpha, bool positive) {
 }
 
 void Animatable::drawPlus(float alpha) {
-    float size = 8; 
+    float size = 10; 
     float thickness = 2.0;
 
     glLineWidth(thickness);
-    glColor4f(0.0, 0.0, 0.0, alpha);
+    glColor4f(0.2, 0.2, 0.2, alpha);
 
     glBegin(GL_LINES); 
         glVertex2f(size / 2.0, 0.0);	 
@@ -78,7 +78,7 @@ void Animatable::drawMinus(float alpha) {
     glEnd();
     
     glLineWidth(1.0);
-    glColor4f(0.0, 0.0, 0.0, alpha);
+    glColor4f(0.2, 0.2, 0.2, alpha);
     
     glBegin(GL_LINE_LOOP); 
         glVertex2f(width / 2.0, thickness / 2.0);	 

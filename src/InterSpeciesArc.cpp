@@ -2,10 +2,10 @@
 #include "SmallMultiple.h"
 #include <string>
 
+#include "Triangle.h"
 #include <QtOpenGL>
 #include "PrintText.h"
 #include "Color.h"
-#include "Triangle.h"
 #include "PlotManager.h"
 
 InterSpeciesArc::InterSpeciesArc(PlotManager *pm, float coefficient, SmallMultiple *source, SmallMultiple *recipient, std::string label) 
@@ -21,24 +21,7 @@ InterSpeciesArc::InterSpeciesArc(PlotManager *pm, float coefficient, SmallMultip
     this->coefficient = coefficient;
     this->betweenSpeciesLabel = label;
     this->fontHeight = 12;
-    fadingAlpha = true;
 
-    arrowA = new Triangle();
-    arrowA->setBorderColor(new Color(0, 0, 0, .95));
-    arrowA->setFillColor(new Color(1, 1, 1, .65));
-    arrowA->setSize(10, 10);
-
-    arrowB = new Triangle();
-    arrowB->setBorderColor(new Color(0, 0, 0, .95));
-    arrowB->setFillColor(new Color(1, 1, 1, .65));
-    arrowB->setSize(10, 10);
-    
-    arrowMiddle = new Triangle();
-    arrowMiddle->setBorderColor(new Color(0, 0, 0, .95));
-    arrowMiddle->setFillColor(new Color(1, 1, 1, .65));
-    arrowMiddle->setSize(10, 10);
-
-    displayDynamically = false;
 
     adjustType = ADJUST_NONE;
     adjustPercentage = 0.4;
@@ -87,7 +70,7 @@ void InterSpeciesArc::draw() {
 
         //if (!displayDynamically 
         //    || (displayDynamically && !animated)) {
-            drawTriangles();
+            
         //}
 
         if (displayDynamically && !selected) {
@@ -150,25 +133,6 @@ void InterSpeciesArc::adjustPositions() {
     }
 }
 
-/*void InterSpeciesArc::drawSign(bool positive) {
-    float xLoc;
-    float yLoc = getY(); 
-
-    if (isArcToRight()) {
-        xLoc = getX() + getRadius();
-    } else {        
-        xLoc = getX() - getRadius();  
-    }
-    
-    if (positive) {
-        glColor3f(0, 0.75, 0);
-        PrintText::drawStrokeText("+", xLoc, yLoc, 10, HORIZ_CENTER, VERT_CENTER);
-    } else {
-        glColor3f(1, 0, 0);
-        PrintText::drawStrokeText("-", xLoc, yLoc, 10, HORIZ_CENTER, VERT_CENTER);
-    }
-}*/
-
 float InterSpeciesArc::getDynamicThickness() {
     float coef = getCoefficient();
 
@@ -198,60 +162,12 @@ float InterSpeciesArc::getDynamicThickness() {
     return thick;
 }
 
-void InterSpeciesArc::positionTriangles() {
-    Color *c = this->getColor();
-
-    arrowA->setBorderColor(c);
-    arrowB->setBorderColor(c);    
-    arrowMiddle->setBorderColor(c);
-
-    arrowA->setBorderWidth(2);
-    arrowB->setBorderWidth(2);
-    arrowMiddle->setBorderWidth(1.5);
-
-    float size = max(6, fabs(getThickness() / 2));
-
-    int oneFourth = NUM_SEGMENTS / 4;
-
-    arrowA->setLocation(xArc[oneFourth]*radius, yArc[oneFourth]*radius);
-    arrowA->setSize(size, size * 2);
-    arrowA->setRotation(135);
-
-    arrowB->setLocation(xArc[3 * oneFourth]*radius, yArc[3 * oneFourth]*radius);
-    arrowB->setSize(size, size * 2);
-    arrowB->setRotation(225);
-
-    arrowMiddle->setLocation(xArc[2 * oneFourth]*radius, yArc[2 * oneFourth]*radius);
-    arrowMiddle->setSize(size, size * 2);
-    arrowMiddle->setRotation(180);    
-}
-
-void InterSpeciesArc::drawTriangles() {
-    glPushMatrix();
-    glTranslatef(x, y, 0);
-
-    if (!arcToRight) {
-        glRotatef(180.0,0.0,0.0,1.0);
-    }
-
-    if (selected) {
-        arrowA->draw();
-        arrowB->draw();
-    } else {
-        arrowMiddle->draw();
-    }
-    
-    glPopMatrix();
-}
-
 void InterSpeciesArc::drawSelected() {
     if (selected) {
         setUpForDrawing();
 
         CenteredArc::drawSelected();
         
-        drawTriangles();
-
         if (displayDynamically) {
             drawSigns();
         }

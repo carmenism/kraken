@@ -2,6 +2,7 @@
 #define CENTERED_ARC_H
 
 class Color;
+class Triangle;
 
 #include "Animatable.h"
 #include "Point.h"
@@ -35,25 +36,32 @@ public:
     void setFadingAlpha(bool f) { fadingAlpha = f; }
     void fadingAlphaOn() { fadingAlpha = true; }
     void fadingAlphaOff() { fadingAlpha = false; }
+    
+    bool getDisplayDynamically() { return displayDynamically; }
+    void setDisplayDynamically(bool d) { displayDynamically = d; }
+    void displayDynamicallyOn() { displayDynamically = true; }
+    void displayDynamicallyOff() { displayDynamically = false; }
 protected:
-    bool arcToRight;
-    float radius;
-    float thickness, highlightThickness;
+    bool displayDynamically, arcToRight, fadingAlpha;
+    float radius, thickness, highlightThickness;
+    float startAlpha, finalAlpha, signAlpha;
     Color *color, *highlightColor;
-    bool fadingAlpha;
-    float startAlpha, finalAlpha;    
-    float signAlpha;
+    Triangle *arrowA, *arrowB, *arrowMiddle;
 
     void drawPolygonArc();
     void drawLineArc();
     void drawHighlight();
     void drawSigns();
+    void drawTriangles();
+    void positionTriangles();
 
 	static float *xArc, *yArc;   
 	static const int NUM_SEGMENTS = 360; 
 private:
     void drawToPickAsLineStrips();
     void drawToPickAsPolygons();
+
+
 
     //CW_CODE
 };

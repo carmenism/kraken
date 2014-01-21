@@ -1,5 +1,6 @@
 #include "CenteredArc.h"
 #include "Color.h"
+#include "Triangle.h"
 #include <math.h>
 #include <GL/glut.h>
 #include <QtOpenGL>
@@ -14,11 +15,12 @@ CenteredArc::CenteredArc() : Point(0, 0), Pickable() {
     thickness = 1;
     highlightThickness = 4;
     highlightColor = &Color::white;
+
     arcToRight = true;
-
+    displayDynamically = false;
     animated = false;
+    fadingAlpha = true;
 
-    fadingAlpha = false;
     startAlpha = 0.6;
     finalAlpha = 0.15;
     signAlpha = 0.75;
@@ -30,11 +32,30 @@ CenteredArc::CenteredArc() : Point(0, 0), Pickable() {
 		xArc[i] = sin(a);
 		yArc[i] = -cos(a);
 	}
+
+    
+    arrowA = new Triangle();
+    arrowA->setBorderColor(new Color(0, 0, 0, .95));
+    arrowA->setFillColor(new Color(1, 1, 1, .65));
+    arrowA->setSize(10, 10);
+
+    arrowB = new Triangle();
+    arrowB->setBorderColor(new Color(0, 0, 0, .95));
+    arrowB->setFillColor(new Color(1, 1, 1, .65));
+    arrowB->setSize(10, 10);
+    
+    arrowMiddle = new Triangle();
+    arrowMiddle->setBorderColor(new Color(0, 0, 0, .95));
+    arrowMiddle->setFillColor(new Color(1, 1, 1, .65));
+    arrowMiddle->setSize(10, 10);
 }
 
 CenteredArc::~CenteredArc() {
     delete color;
     delete highlightColor;
+    delete arrowA;
+    delete arrowB;
+    delete arrowMiddle;
 }
 
 CenteredArc::CenteredArc(float radius, float centerX, float centerY) 
@@ -55,7 +76,6 @@ void CenteredArc::draw() {
         }
 
         if (!arcToRight) {
-            glPushMatrix();
             glRotatef(180.0,0.0,0.0,1.0);
         }
 
@@ -69,10 +89,8 @@ void CenteredArc::draw() {
             } else {
                 drawPolygonArc();
             }
-        }
 
-        if (!arcToRight) {
-            glPopMatrix();
+            drawTriangles();
         }
     glPopMatrix();
 }
@@ -189,7 +207,7 @@ void CenteredArc::drawPolygonArc() {
 
 	float tc;
 
-    if (animated) {
+    if (displayDynamically && animated) {
 	    glEnable(GL_TEXTURE_2D);
     }   
  
@@ -203,13 +221,13 @@ void CenteredArc::drawPolygonArc() {
 
         //CW_CODE 
         //*
-        if (animated) {
+        if (displayDynamically && animated) {
             glTexCoord2f(tc, 0.3);
         }
 
         glVertex2f(xArc[i]*radiusOuter,yArc[i]*radiusOuter);
 
-        if (animated) {
+        if (displayDynamically && animated) {
             glTexCoord2f(tc,0.3);
         }
         
@@ -217,7 +235,7 @@ void CenteredArc::drawPolygonArc() {
     }
     glEnd();
 
-    if (animated) {
+    if (displayDynamically && animated) {
         glDisable(GL_TEXTURE_2D);
     }
 }
@@ -227,11 +245,10 @@ void CenteredArc::drawSigns() {
         glTranslatef(x, y, 0);
 
         if (!arcToRight) {
-            //glPushMatrix();
             glRotatef(180.0,0.0,0.0,1.0);
         }
 
-        if (animated) {
+        if (displayDynamically && animated) {
             for (int i = 0; i < 5; i++) {
                 int t = NUM_SEGMENTS-(timer+NUM_SEGMENTS/5*i)%NUM_SEGMENTS-1;
                 
@@ -281,4 +298,41 @@ void CenteredArc::setArcToRight() {
 
 bool CenteredArc::isArcToRight() {
     return arcToRight;
+}
+
+void CenteredArc::drawTriangles() {
+    if (selected) {
+        arrowA->draw();
+        arrowB->draw();
+    } else {
+        arrowMiddle->draw();
+    }
+}
+
+void CenteredArc::positionTriangles() {
+    Color *c = this->getColor();
+
+    arrowA->setBorderColor(c);
+    arrowB->setBorderColor(c);    
+    arrowMiddle->setBorderColor(c);
+
+    arrowA->setBorderWidth(2);
+    arrowB->setBorderWidth(2);
+    arrowMiddle->setBorderWidth(1.5);
+
+    float size = max(6, fabs(getThickness() / 2));
+
+    int oneFourth = NUM_SEGMENTS / 4;
+
+    arrowA->setLocation(xArc[oneFourth]*radius, yArc[oneFourth]*radius);
+    arrowA->setSize(size, size * 2);
+    arrowA->setRotation(135);
+
+    arrowB->setLocation(xArc[3 * oneFourth]*radius, yArc[3 * oneFourth]*radius);
+    arrowB->setSize(size, size * 2);
+    arrowB->setRotation(225);
+
+    arrowMiddle->setLocation(xArc[2 * oneFourth]*radius, yArc[2 * oneFourth]*radius);
+    arrowMiddle->setSize(size, size * 2);
+    arrowMiddle->setRotation(180);    
 }
