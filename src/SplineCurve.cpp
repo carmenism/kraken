@@ -154,6 +154,6 @@ void SplineCurve::drawSigns() {
     for (int i = 0; i < 5; i++) {
         int t = numberPoints-(timer+numberPoints/5*i)%numberPoints-1;
             
-        drawSign(middle[numberPoints - t - 1]->x, middle[numberPoints - t - 1]->y, 1.0, width < 0);
+        drawSign(middle[numberPoints - t - 1]->x, middle[numberPoints - t - 1]->y, 0.8, 1.0, width < 0);
     }
 }

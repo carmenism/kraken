@@ -241,6 +241,14 @@ void CenteredArc::drawPolygonArc() {
 }
 
 void CenteredArc::drawSigns() {
+	float grey = 0.2;
+	float signA = signAlpha;
+	
+	if (selected) {
+		grey = 0;
+		signAlpha = 1.0;
+	}
+
     glPushMatrix();
         glTranslatef(x, y, 0);
 
@@ -252,14 +260,14 @@ void CenteredArc::drawSigns() {
             for (int i = 0; i < 5; i++) {
                 int t = NUM_SEGMENTS-(timer+NUM_SEGMENTS/5*i)%NUM_SEGMENTS-1;
                 
-                drawSign(xArc[t]*radius, yArc[t]*radius, signAlpha, thickness < 0);
+                drawSign(xArc[t]*radius, yArc[t]*radius, grey, signA, thickness < 0);
             }
         } else {
             int oneSixth = NUM_SEGMENTS / 6;
-            drawSign(xArc[oneSixth]*radius, yArc[oneSixth]*radius, signAlpha, thickness < 0);
-            drawSign(xArc[2 * oneSixth]*radius, yArc[2 * oneSixth]*radius, signAlpha, thickness < 0);
-            drawSign(xArc[4 * oneSixth]*radius, yArc[4 * oneSixth]*radius, signAlpha, thickness < 0);
-            drawSign(xArc[5 * oneSixth]*radius, yArc[5 * oneSixth]*radius, signAlpha, thickness < 0);
+            drawSign(xArc[oneSixth]*radius, yArc[oneSixth]*radius, grey, signA, thickness < 0);
+            drawSign(xArc[2 * oneSixth]*radius, yArc[2 * oneSixth]*radius, grey, signA, thickness < 0);
+            drawSign(xArc[4 * oneSixth]*radius, yArc[4 * oneSixth]*radius, grey, signA, thickness < 0);
+            drawSign(xArc[5 * oneSixth]*radius, yArc[5 * oneSixth]*radius, grey, signA, thickness < 0);
         }
     glPopMatrix();
 }

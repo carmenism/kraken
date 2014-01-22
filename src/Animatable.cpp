@@ -34,27 +34,27 @@ Animatable::Animatable() {
 	glDisable(GL_TEXTURE_2D);
 }
 
-void Animatable::drawSign(float x, float y, float alpha, bool positive) {
+void Animatable::drawSign(float x, float y, float grey, float alpha, bool positive) {
     glPushMatrix();
         glTranslatef(x, y, 0.0);
-        drawSign(alpha, positive);
+        drawSign(grey, alpha, positive);
     glPopMatrix();
 }
 
-void Animatable::drawSign(float alpha, bool positive) {
+void Animatable::drawSign(float grey, float alpha, bool positive) {
     if (positive) {
-        drawPlus(alpha);
+        drawPlus(grey, alpha);
     } else {
-        drawMinus(alpha);
+        drawMinus(grey, alpha);
     }
 }
 
-void Animatable::drawPlus(float alpha) {
+void Animatable::drawPlus(float grey, float alpha) {
     float size = 10; 
     float thickness = 2.0;
 
     glLineWidth(thickness);
-    glColor4f(0.2, 0.2, 0.2, alpha);
+    glColor4f(grey, grey, grey, alpha);
 
     glBegin(GL_LINES); 
         glVertex2f(size / 2.0, 0.0);	 
@@ -65,12 +65,12 @@ void Animatable::drawPlus(float alpha) {
     glEnd();
 }
 
-void Animatable::drawMinus(float alpha) {
+void Animatable::drawMinus(float grey, float alpha) {
     float width = 9;
     float thickness = 3;
 
     glLineWidth(thickness);
-    glColor4f(1.0, 1.0, 1.0, alpha);
+    glColor4f(1, 1, 1, alpha);
 
     glBegin(GL_LINE_LOOP); 
         glVertex2f(width / 2.0, 0.0);	 
@@ -78,7 +78,7 @@ void Animatable::drawMinus(float alpha) {
     glEnd();
     
     glLineWidth(1.0);
-    glColor4f(0.2, 0.2, 0.2, alpha);
+    glColor4f(grey, grey, grey, alpha);
     
     glBegin(GL_LINE_LOOP); 
         glVertex2f(width / 2.0, thickness / 2.0);	 
