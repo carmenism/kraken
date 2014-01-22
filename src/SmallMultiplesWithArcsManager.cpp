@@ -11,6 +11,7 @@
 #include "HarvestSpline.h"
 #include "ColorLegend.h"
 #include "ColorLegendItem.h"
+#include "Link.h"
 #include <QList>
 #include <QStringList>
 #include <string>
@@ -274,12 +275,25 @@ void SmallMultiplesWithArcsManager::drawToPick() {
     }
 }
 
-InterSpeciesArcList *SmallMultiplesWithArcsManager::getArcs() {
+std::vector<Link *> *SmallMultiplesWithArcsManager::getLinks() {
     if (arcsCurrent == NULL) {
         return NULL;
     }
 
-    return arcsCurrent->getVisibleArcs();
+	std::vector<Link *> *list = new std::vector<Link *>();
+	InterSpeciesArcList *arclist = arcsCurrent->getVisibleArcs();
+	
+	for (int i = 0; i < arclist->size(); i++) {
+		list->push_back(arclist->at(i));
+	}
+
+	for (int i = 0; i < splines->size(); i++) {
+		if (fabs(splines->at(i)->getWidth()) > 0) {
+			list->push_back(splines->at(i));
+		}
+	}
+
+    return list;
 }
 
 bool SmallMultiplesWithArcsManager::getDisplayAbsoluteSizes() {

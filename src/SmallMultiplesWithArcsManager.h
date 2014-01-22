@@ -16,6 +16,7 @@ class PredationArc;
 class Slider;
 class ChangeSlider;
 class HarvestSpline;
+class Link;
 
 #include "InterSpeciesArcCollection.h"
 
@@ -30,8 +31,7 @@ public:
     void initializeSplines(MS_PROD_MainWindow *mainWindow, std::vector<ChangeSlider *> *sliders, std::string labelSuffix);
 
     void capturePreviousValues();
-    //ChartPointList *getPoints();
-    InterSpeciesArcList *getArcs();    
+    std::vector<Link *> *getLinks();    
     std::vector<LineChart *> *getCharts();
     void updateCharts(Model *model, MS_PROD_MainWindow *mainWindow);
 

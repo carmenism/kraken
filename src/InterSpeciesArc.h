@@ -1,14 +1,16 @@
 #ifndef _INTERSPECIESARC_H
 #define _INTERSPECIESARC_H
 
+class Color;
 class SmallMultiple;
 class PlotManager;
+class Triangle;
 
-#include "CenteredArc.h"
+#include "Link.h"
 
 enum AdjustType {ADJUST_NONE, ADJUST_LARGER, ADJUST_SMALLER};
 
-class InterSpeciesArc : public CenteredArc {
+class InterSpeciesArc : public Link {
 public:
     InterSpeciesArc(PlotManager *pm, float coefficient, SmallMultiple *source, SmallMultiple *recipient, std::string label);
     ~InterSpeciesArc();
@@ -18,10 +20,10 @@ public:
 
     virtual float getDynamicConstant() = 0;
 
-    virtual void drawToPick();
     void draw();
     void drawFaded();
-    virtual void drawSelected();
+    virtual void drawSelected();	
+    virtual void drawToPick();
 
     virtual float getCoefficent() { return coefficient; }
 
@@ -35,24 +37,63 @@ public:
     void setAdjustPercentage(float p) { adjustPercentage = p; }
 
     float getDynamicThickness();
+	
+	void setArcToLeft() { arcToRight = false; }
+	void setArcToRight() { arcToRight = true; }
+	bool isArcToRight() { return arcToRight; }
+
+	float getRadius() { return radius; }
+    void setRadius(float r) { radius = r; }
+
+    float getThickness() { return thickness; }
+    void setThickness(float t) { thickness = t; }
+
+    Color *getColor() { return color; }
+    void setColor(Color *c) { color = c; }
+
+    bool getFadingAlpha() { return fadingAlpha; }
+    void setFadingAlpha(bool f) { fadingAlpha = f; }
+    void fadingAlphaOn() { fadingAlpha = true; }
+    void fadingAlphaOff() { fadingAlpha = false; }
+    
+    bool getDisplayDynamically() { return displayDynamically; }
+    void setDisplayDynamically(bool d) { displayDynamically = d; }
+    void displayDynamicallyOn() { displayDynamically = true; }
+    void displayDynamicallyOff() { displayDynamically = false; }
 protected:
-    float coefficient;
+	float coefficient;
+	Color *color;
 private:
-    PlotManager *plotManager;
-    float yA, yB;
+    bool displayDynamically, arcToRight, fadingAlpha;
+    float radius, thickness, highlightThickness;
+    float startAlpha, finalAlpha, signAlpha, yA, yB;
+    float fontHeight, adjustPercentage;
 
     AdjustType adjustType;
-    
-    float fontHeight;
-    float adjustPercentage;
     std::string betweenSpeciesLabel;
-    SmallMultiple *source, *recipient;
 
+    Color *highlightColor;
+    Triangle *arrowA, *arrowB, *arrowMiddle;
+    PlotManager *plotManager;
+    SmallMultiple *source, *recipient;
     
     void setUpForDrawing();
     void determineThickness();
     void determineCenterLocation();
     void adjustPositions();
+    void positionTriangles();
+	
+    void drawPolygonArc();
+    void drawLineArc();
+    void drawHighlight();
+    void drawSigns();
+    void drawTriangles();
+	
+    void drawToPickAsLineStrips();
+    void drawToPickAsPolygons();
+	
+	static float *xArc, *yArc;   
+	static const int NUM_SEGMENTS = 360; 
 };
 
 #endif /* _INTERSPECIESARC_H */
