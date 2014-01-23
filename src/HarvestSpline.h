@@ -13,9 +13,12 @@ public:
     ~HarvestSpline();
 
     virtual void construct();
+
     void draw();
+    //void drawFaded();
+    virtual void drawSelected();	
     virtual void drawToPick();
-	virtual void drawSelected();
+	virtual void setPickColor(unsigned char r, unsigned char g, unsigned char b);
 	
     void setPointA(Point *p) { pointA = p; }
     Point *getPointA() { return pointA; }
@@ -28,21 +31,13 @@ public:
 
     void setControlB(Point *p) { controlB = p; }
     Point *getControlB() { return controlB; }
-
-    void setColor(Color *c) { color = c; }
-    Color *getColor() { return color; }
-
-    float getWidth() { return width; }
-    void setWidth(float w) { width = w; }
 private:	
-    Color *color;
     Point *pointA, *pointB, *controlA, *controlB;
     Point **middle, **left, **right;
     ChangeSlider *slider;
     SmallMultiple *chart;
 	
-    int numberPoints;
-    float width;   
+    int numberPoints;  
 	
     void drawSigns();
 	void splineConstruct();

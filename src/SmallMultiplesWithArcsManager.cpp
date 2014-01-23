@@ -264,6 +264,10 @@ void SmallMultiplesWithArcsManager::draw(float windowWidth, float windowHeight) 
 
     if (arcsCurrent != NULL) {
         arcsCurrent->drawSelected();
+	
+		for (int i = 0; i < splines->size(); i++) {
+			splines->at(i)->drawSelected();
+		}
     }
 }
 
@@ -272,6 +276,10 @@ void SmallMultiplesWithArcsManager::drawToPick() {
 
     if (arcsCurrent != NULL) {
         arcsCurrent->drawToPick();
+
+		for (int i = 0; i < splines->size(); i++) {
+			splines->at(i)->drawToPick();
+		}
     }
 }
 
@@ -281,14 +289,18 @@ std::vector<Link *> *SmallMultiplesWithArcsManager::getLinks() {
     }
 
 	std::vector<Link *> *list = new std::vector<Link *>();
-	InterSpeciesArcList *arclist = arcsCurrent->getVisibleArcs();
+	//InterSpeciesArcList *arclist = arcsCurrent->getVisibleArcs();
 	
-	for (int i = 0; i < arclist->size(); i++) {
-		list->push_back(arclist->at(i));
-	}
+    for (unsigned int i = 0; i < arcsCurrent->size(); i++) {
+        if (!arcsCurrent->at(i)->getDisplayDynamically()) {
+            list->push_back(arcsCurrent->at(i));
+        } else if (arcsCurrent->at(i)->getDynamicThickness() != 0) {
+            list->push_back(arcsCurrent->at(i));
+        }
+    }
 
 	for (int i = 0; i < splines->size(); i++) {
-		if (fabs(splines->at(i)->getWidth()) > 0) {
+		if (fabs(splines->at(i)->getThickness()) > 0) {
 			list->push_back(splines->at(i));
 		}
 	}
@@ -392,6 +404,10 @@ void SmallMultiplesWithArcsManager::setDisplayArcsDynamically(bool d) {
     arcsInter->setDisplayDynamically(d);
     arcsPred->setDisplayDynamically(d);
     arcsBoth->setDisplayDynamically(d);
+
+	for (unsigned int i = 0; i < splines->size(); i++) {
+        splines->at(i)->setDisplayDynamically(d);
+    }
 }
 
 void SmallMultiplesWithArcsManager::displayArcsDynamicallyOn() {

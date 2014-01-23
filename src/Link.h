@@ -12,8 +12,21 @@ public:
 
     virtual void drawToPick() = 0;
     virtual void drawSelected() = 0;
+	
+    bool getDisplayDynamically() { return displayDynamically; }
+    void setDisplayDynamically(bool d) { displayDynamically = d; }
+    void displayDynamicallyOn() { displayDynamically = true; }
+    void displayDynamicallyOff() { displayDynamically = false; }
+	
+    Color *getColor() { return color; }
+    void setColor(Color *c) { color = c; }
+	
+    float getThickness() { return thickness; }
+    void setThickness(float t) { thickness = t; }
 protected:
-
+    bool displayDynamically;
+	Color *color;
+	float thickness;
 };
 
 #endif /* _LINK_H */

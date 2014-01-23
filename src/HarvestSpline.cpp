@@ -5,6 +5,7 @@
 #include "SmallMultiple.h"
 #include <math.h>
 #include <GL/glut.h>
+#include <iostream>
 
 extern int timer;
 
@@ -15,6 +16,8 @@ HarvestSpline::HarvestSpline(ChangeSlider *slider, SmallMultiple *chart)
 	pointB = new Point(0, 0);
 	controlA = new Point(0, 0);
 	controlB = new Point(0, 0);
+
+	displayDynamically = false;
 
     this->slider = slider;
     this->chart = chart;
@@ -29,7 +32,7 @@ HarvestSpline::HarvestSpline(ChangeSlider *slider, SmallMultiple *chart)
         right[i] = new Point(0, 0);
     }
 
-    width = 5;
+    thickness = 5;
 	
     setColor(new Color(0.9, 0.9, 0, 0.45));
 }
@@ -47,7 +50,7 @@ HarvestSpline::~HarvestSpline() {
 void HarvestSpline::construct() {
     float currentValue = slider->getValue();
     float previousValue = slider->getPreviousValue();
-    float newWidth = (currentValue - previousValue) * 8;
+    float newThickness = (currentValue - previousValue) * 8;
 
     float sliderX = slider->getX() + slider->getWidth();
     float sliderY = slider->getY() + slider->getHeight() / 2.0;
@@ -55,10 +58,10 @@ void HarvestSpline::construct() {
     float chartX = chart->getXLocation();
     float chartY = chart->getYLocation() + chart->getHeight() / 2.0;
 
-    if (getWidth() != newWidth 
+    if (getThickness() != newThickness 
         || pointA->x != sliderX || pointA->y != sliderY
         || pointB->x != chartX || pointB->y != chartY) {
-        setWidth(newWidth);
+        setThickness(newThickness);
             
         pointA->setValues(sliderX, sliderY);
         pointB->setValues(chartX, chartY);
@@ -101,7 +104,7 @@ void HarvestSpline::splineConstruct() {
 	}
 
     for (int i = 1; i < numberPoints; i++) {
-		float w = 0.03 + width * float(i) / numberPoints;
+		float w = 0.03 + thickness * float(i) / numberPoints;
 
 		dx = middle[i]->x - middle[i - 1]->x;
 		dy = middle[i]->y - middle[i - 1]->y;
@@ -121,7 +124,7 @@ void HarvestSpline::splineConstruct() {
 }
 
 void HarvestSpline::draw() {
-    if (fabs(width) < 1) {
+    if (fabs(thickness) < 1) {
         return;
     }
     	
@@ -155,12 +158,19 @@ void HarvestSpline::draw() {
 
     if (animated) {
         glDisable(GL_TEXTURE_2D);
+    }
+
+	if (displayDynamically) {
         drawSigns();
     }
 }
 
+void HarvestSpline::setPickColor(unsigned char r, unsigned char g, unsigned char b) {
+	Pickable::setPickColor(r, g, b);
+}
+
 void HarvestSpline::drawToPick() {
-    if (fabs(width) < 1) {
+    if (fabs(thickness) < 1) {
         return;
     }
 
@@ -177,14 +187,30 @@ void HarvestSpline::drawToPick() {
 }
 
 void HarvestSpline::drawSigns() {
-    glColor3f(0.0,0.0,0.0);
-    for (int i = 0; i < 5; i++) {
-        int t = numberPoints-(timer+numberPoints/5*i)%numberPoints-1;
-            
-        drawSign(middle[numberPoints - t - 1]->x, middle[numberPoints - t - 1]->y, 0.2, 1.0, width < 0);
-    }
+	if (animated) {
+		for (int i = 0; i < 5; i++) {
+			int t = numberPoints-(timer+numberPoints/5*i)%numberPoints-1;
+	            
+			drawSign(middle[numberPoints - t - 1]->x, middle[numberPoints - t - 1]->y, 0.2, 1.0, thickness < 0);
+		}
+	} else {
+		int oneFourth = numberPoints / 4;
+		drawSign(middle[oneFourth]->x, middle[oneFourth]->y, 0.2, 1.0, thickness < 0);
+		drawSign(middle[oneFourth * 2]->x, middle[oneFourth * 2]->y, 0.2, 1.0, thickness < 0);
+		drawSign(middle[oneFourth * 3]->x, middle[oneFourth * 3]->y, 0.2, 1.0, thickness < 0);
+	}
 }
 
 void HarvestSpline::drawSelected() {
+	if (selected) {
+		//std::cout << "selected spline";
+		//Color *color = getColor();
+		//float oldAlpha = color->a;
 
+		//color->a = 1.0;
+
+		draw();
+		
+		//color->a = oldAlpha;
+	}
 }

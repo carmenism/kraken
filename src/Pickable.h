@@ -17,7 +17,7 @@ public:
     float getMouseY() { return mouseY; }
     void setMouseY(float y) { mouseY = y; }
 
-    void setPickColor(unsigned char r, unsigned char g, unsigned char b)
+    virtual void setPickColor(unsigned char r, unsigned char g, unsigned char b)
         { pickR = r; pickG = g; pickB = b; }
 
     virtual void drawToPick() = 0;

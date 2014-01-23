@@ -186,3 +186,11 @@ void InterSpeciesArcCollection::animatedOn() {
 void InterSpeciesArcCollection::animatedOff() {
     setAnimated(false);
 }
+
+int InterSpeciesArcCollection::size() {
+	return arcs->size();
+}
+
+InterSpeciesArc *InterSpeciesArcCollection::at(int i) {
+	return arcs->at(i);
+}

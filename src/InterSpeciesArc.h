@@ -45,27 +45,15 @@ public:
 	float getRadius() { return radius; }
     void setRadius(float r) { radius = r; }
 
-    float getThickness() { return thickness; }
-    void setThickness(float t) { thickness = t; }
-
-    Color *getColor() { return color; }
-    void setColor(Color *c) { color = c; }
-
     bool getFadingAlpha() { return fadingAlpha; }
     void setFadingAlpha(bool f) { fadingAlpha = f; }
     void fadingAlphaOn() { fadingAlpha = true; }
     void fadingAlphaOff() { fadingAlpha = false; }
-    
-    bool getDisplayDynamically() { return displayDynamically; }
-    void setDisplayDynamically(bool d) { displayDynamically = d; }
-    void displayDynamicallyOn() { displayDynamically = true; }
-    void displayDynamicallyOff() { displayDynamically = false; }
 protected:
 	float coefficient;
-	Color *color;
 private:
-    bool displayDynamically, arcToRight, fadingAlpha;
-    float radius, thickness, highlightThickness;
+    bool arcToRight, fadingAlpha;
+    float radius, highlightThickness;
     float startAlpha, finalAlpha, signAlpha, yA, yB;
     float fontHeight, adjustPercentage;
 

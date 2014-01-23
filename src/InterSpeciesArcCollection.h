@@ -35,6 +35,9 @@ public:
     float getFontHeight() { return fontHeight; }
     void setFontHeight(float h) { fontHeight = h; }
 
+	int size();
+	InterSpeciesArc *at(int i);
+
     void addArc(InterSpeciesArc *arc);
     void addArc(int type, float coeff, SmallMultiple *source, SmallMultiple *recipient, bool setToLeft);
     InterSpeciesArcList *getVisibleArcs();// { return arcs; }

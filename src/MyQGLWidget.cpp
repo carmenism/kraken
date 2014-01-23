@@ -713,10 +713,14 @@ void MyQGLWidget::mouseMovePickables(int x, int y) {
             }
         }
 
-		std::vector<Link *> *allLinks = managerSmallMult->getLinks();
-        if (allLinks != NULL) {
-            allPickables->insert(allPickables->end(), allLinks->begin(), allLinks->end());
-        }
+		std::vector<Link *> *allLinks = NULL;
+		if (managerSmallMult->getDisplay()) {
+			allLinks = managerSmallMult->getLinks();
+
+			if (allLinks != NULL) {
+				allPickables->insert(allPickables->end(), allLinks->begin(), allLinks->end());
+			}
+		}
 
         if (managerSmallMult->getDisplay() 
             && managerSmallMult->getDisplayAbsoluteSizes() 
@@ -728,7 +732,10 @@ void MyQGLWidget::mouseMovePickables(int x, int y) {
         picker->pick(allPickables, x, y);   
 
         delete allPickables;
-		delete allLinks;
+
+		//if (allLinks != NULL) {
+		//	delete allLinks;
+		//}
     }
 }
 
