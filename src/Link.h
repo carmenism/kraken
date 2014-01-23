@@ -24,10 +24,13 @@ public:
 	
     float getThickness() { return thickness; }
     void setThickness(float t) { thickness = t; }
+
+    float getHighlightThickness() { return highlightThickness; }
+    void setHighlightThickness(float t) { highlightThickness = t; }
 protected:
     bool displayDynamically;
 	Color *color;
-	float thickness;
+	float thickness, highlightThickness;
 };
 
 #endif /* _LINK_H */

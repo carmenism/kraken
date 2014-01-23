@@ -53,7 +53,7 @@ protected:
 	float coefficient;
 private:
     bool arcToRight, fadingAlpha;
-    float radius, highlightThickness;
+    float radius;
     float startAlpha, finalAlpha, signAlpha, yA, yB;
     float fontHeight, adjustPercentage;
 

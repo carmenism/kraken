@@ -33,6 +33,7 @@ HarvestSpline::HarvestSpline(ChangeSlider *slider, SmallMultiple *chart)
     }
 
     thickness = 5;
+    highlightThickness = 4;
 	
     setColor(new Color(0.9, 0.9, 0, 0.45));
 }
@@ -117,7 +118,7 @@ void HarvestSpline::splineConstruct() {
         right[i]->setValues(-dy, dx);
 
         if (i == 1) {		
-            left[0]->setValues(dy, -dx);
+            left[0]->setValues(dy , -dx);
             right[0]->setValues(-dy, dx);
 		}
 	}
@@ -213,9 +214,33 @@ void HarvestSpline::drawSelected() {
 
 		//color->a = 1.0;
 
-		drawHelper(0.9);
+		drawHelper(0.5);
 		
 		//color->a = oldAlpha;
+
+        glPolygonMode(GL_FRONT, GL_FILL); 
+        glColor4f(1, 1, 1, 1);
+
+	    glBegin(GL_QUAD_STRIP); 
+	    for (int i = 0; i < numberPoints; i++) {    
+		    glVertex2f(middle[i]->x + left[i]->x, middle[i]->y + left[i]->y);
+            float t = highlightThickness;
+            if (left[i]->y < 0) {
+                t = -t;
+            }
+            glVertex2f(middle[i]->x + left[i]->x, middle[i]->y + left[i]->y + t);    
+	    }
+	    glEnd();
+        glBegin(GL_QUAD_STRIP); 
+	    for (int i = 0; i < numberPoints; i++) {    
+		    glVertex2f(middle[i]->x + right[i]->x, middle[i]->y + right[i]->y);
+            float t = highlightThickness;
+            if (right[i]->y < 0) {
+                t = -t;
+            }
+            glVertex2f(middle[i]->x + right[i]->x, middle[i]->y + right[i]->y + t);    
+	    }
+	    glEnd();
 	} else {
 		drawHelper(0.25);
 	}
