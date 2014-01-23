@@ -41,6 +41,8 @@ private:
 	
     void drawSigns();
 	void splineConstruct();
+
+	void drawHelper(float alpha);
 };
 
 #endif /*HARVESTSPLINE_H_*/

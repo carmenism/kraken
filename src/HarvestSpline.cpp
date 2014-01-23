@@ -124,6 +124,10 @@ void HarvestSpline::splineConstruct() {
 }
 
 void HarvestSpline::draw() {
+    drawHelper(color->a);
+}
+
+void HarvestSpline::drawHelper(float alpha) {
     if (fabs(thickness) < 1) {
         return;
     }
@@ -136,7 +140,7 @@ void HarvestSpline::draw() {
     } 
 
     glPolygonMode(GL_FRONT, GL_FILL); 
-    glColor4f(color->r, color->g, color->b, color->a);
+    glColor4f(color->r, color->g, color->b, alpha);
 
 	glBegin(GL_QUAD_STRIP); 
 	for (int i = 0; i < numberPoints; i++) {
@@ -209,8 +213,10 @@ void HarvestSpline::drawSelected() {
 
 		//color->a = 1.0;
 
-		draw();
+		drawHelper(0.9);
 		
 		//color->a = oldAlpha;
+	} else {
+		drawHelper(0.25);
 	}
 }

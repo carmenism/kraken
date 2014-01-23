@@ -26,8 +26,8 @@ public:
     InterSpeciesArcCollection(PlotManager *pm, std::string title);
     ~InterSpeciesArcCollection();
 
+    void findSelected();
     void draw();
-    void drawSelected();
     void drawToPick();
 
     void setTitleLocation(float x, float y);
@@ -64,10 +64,13 @@ public:
 
     void setLegend(ColorLegend *legend) { this->legend = legend; }
     ColorLegend *getLegend() { return legend; }
+
+	Link *getSelected() { return selected; }
+	void setSelected(Link *s) { selected = s; }
 private:
     PlotManager *plotManager;
     InterSpeciesArcList *arcs;
-    InterSpeciesArc *selected;
+    Link *selected;
     std::string title;
     float titleX, titleY;
     float fontHeight;

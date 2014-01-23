@@ -10,6 +10,7 @@ public:
 	Link() : Point(0, 0) { }
     ~Link() { }
 
+	virtual void draw() = 0;
     virtual void drawToPick() = 0;
     virtual void drawSelected() = 0;
 	

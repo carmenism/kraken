@@ -34,7 +34,7 @@ void InterSpeciesArcCollection::setTitleLocation(float x, float y) {
     titleY = y;
 }
 
-void InterSpeciesArcCollection::draw() {
+void InterSpeciesArcCollection::findSelected() {
     selected = NULL;
 
     if (legend != NULL) {
@@ -51,8 +51,10 @@ void InterSpeciesArcCollection::draw() {
             selected = arcs->at(i);
         }
     }
+}
 
-    if (selected != NULL) {
+void InterSpeciesArcCollection::draw() {
+	if (selected != NULL) {
         for (unsigned int i = 0; i < arcs->size(); i++) {
             if (!arcs->at(i)->getSelected()){
                 arcs->at(i)->drawFaded();
@@ -60,17 +62,11 @@ void InterSpeciesArcCollection::draw() {
         }
         
         selected->draw();
-    } else {
-        for (unsigned int i = 0; i < arcs->size(); i++) {
+	} else {
+		for (unsigned int i = 0; i < arcs->size(); i++) {
             arcs->at(i)->draw();
         }
-    }
-}
-
-void InterSpeciesArcCollection::drawSelected() {
-    if (selected != NULL) {
-        selected->drawSelected();
-    }
+	}
 }
 
 void InterSpeciesArcCollection::drawToPick() {
