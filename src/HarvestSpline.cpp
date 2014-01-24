@@ -53,6 +53,10 @@ void HarvestSpline::construct() {
     float previousValue = slider->getPreviousValue();
     float newThickness = (currentValue - previousValue) * 8;
 
+	if (!displayDynamically) {
+		newThickness = currentValue * 4;
+	}
+
     float sliderX = slider->getX() + slider->getWidth();
     float sliderY = slider->getY() + slider->getHeight() / 2.0;
     

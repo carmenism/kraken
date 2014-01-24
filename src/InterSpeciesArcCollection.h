@@ -40,7 +40,7 @@ public:
 
     void addArc(InterSpeciesArc *arc);
     void addArc(int type, float coeff, SmallMultiple *source, SmallMultiple *recipient, bool setToLeft);
-    InterSpeciesArcList *getVisibleArcs();// { return arcs; }
+    InterSpeciesArcList *getVisibleArcs();
 
     void setDisplayDynamically(bool d);
     void displayDynamicallyOn();
