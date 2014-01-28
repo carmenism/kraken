@@ -217,18 +217,34 @@ void SmallMultiplesWithArcsManager::initializeArcs(InterSpeciesArcCollection *ar
     delete newMatrix;
 }
 
-void SmallMultiplesWithArcsManager::draw(float windowWidth, float windowHeight) {
+void SmallMultiplesWithArcsManager::findSelectedLink() {
     if (arcsCurrent != NULL) {
-		Link *selected = NULL;
+        Link *selected = NULL;
 
         for (int i = 0; i < splines->size(); i++) {			
-            splines->at(i)->construct();
-
-			if (splines->at(i)->getSelected()) {
+            if (splines->at(i)->getSelected()) {
 				selected = splines->at(i);
 			}
-            //splines->at(i)->draw();
         }
+
+        if (selected != NULL) {
+		    arcsCurrent->setSelected(selected);
+	    } else {
+            arcsCurrent->findSelected();
+		    selected = arcsCurrent->getSelected();
+	    }
+    }
+}
+
+void SmallMultiplesWithArcsManager::draw(float windowWidth, float windowHeight) {
+    Link *selected = NULL;
+    
+    if (arcsCurrent != NULL) {
+        for (int i = 0; i < splines->size(); i++) {			
+            splines->at(i)->construct();
+        }
+
+        findSelectedLink();
 
         arcsCurrent->setTitleLocation(5, 5);
         //arcsCurrent->setTitleLocation(windowWidth - 5, windowHeight - 5);
@@ -258,28 +274,23 @@ void SmallMultiplesWithArcsManager::draw(float windowWidth, float windowHeight) 
             }
         }
 
-        arcsCurrent->findSelected();
-
-		if (selected != NULL) {
-			arcsCurrent->setSelected(selected);
-		} else {
-			selected = arcsCurrent->getSelected();
-		}
-
 		arcsCurrent->draw();
+        selected = arcsCurrent->getSelected();
 	
 		if (selected == NULL) {
 			for (int i = 0; i < splines->size(); i++) {			
 				splines->at(i)->draw();
 			}
 		} else {
-			for (int i = 0; i < splines->size(); i++) {			
-				splines->at(i)->drawSelected();
+			for (int i = 0; i < splines->size(); i++) {
+                if (!splines->at(i)->getSelected()) {
+				    splines->at(i)->drawFaded();
+                }
 			}
 		}
 
 		++timer; //CW_CODE 		
-    }
+    }     
 
     if (charts != NULL && !charts->empty()) {
         setChartLocations(windowWidth, windowHeight);
@@ -287,7 +298,9 @@ void SmallMultiplesWithArcsManager::draw(float windowWidth, float windowHeight) 
         PlotManager::draw(windowWidth, windowHeight);        
     }
 
-     
+    if (selected != NULL) {
+        selected->drawSelected();
+    }
 }
 
 void SmallMultiplesWithArcsManager::drawToPick() {

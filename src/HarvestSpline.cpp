@@ -211,41 +211,40 @@ void HarvestSpline::drawSigns() {
 }
 
 void HarvestSpline::drawSelected() {
-	if (selected) {
-		//std::cout << "selected spline";
-		//Color *color = getColor();
-		//float oldAlpha = color->a;
+	//std::cout << "selected spline";
+	//Color *color = getColor();
+	//float oldAlpha = color->a;
 
-		//color->a = 1.0;
+	//color->a = 1.0;
 
-		drawHelper(0.5);
-		
-		//color->a = oldAlpha;
+	drawHelper(0.5);
+	
+	//color->a = oldAlpha;
 
-        glPolygonMode(GL_FRONT, GL_FILL); 
-        glColor4f(1, 1, 1, 1);
+    glPolygonMode(GL_FRONT, GL_FILL); 
+    glColor4f(1, 1, 1, 1);
 
-	    glBegin(GL_QUAD_STRIP); 
-	    for (int i = 0; i < numberPoints; i++) {    
-		    glVertex2f(middle[i]->x + left[i]->x, middle[i]->y + left[i]->y);
-            float t = highlightThickness;
-            if (left[i]->y < 0) {
-                t = -t;
-            }
-            glVertex2f(middle[i]->x + left[i]->x, middle[i]->y + left[i]->y + t);    
-	    }
-	    glEnd();
-        glBegin(GL_QUAD_STRIP); 
-	    for (int i = 0; i < numberPoints; i++) {    
-		    glVertex2f(middle[i]->x + right[i]->x, middle[i]->y + right[i]->y);
-            float t = highlightThickness;
-            if (right[i]->y < 0) {
-                t = -t;
-            }
-            glVertex2f(middle[i]->x + right[i]->x, middle[i]->y + right[i]->y + t);    
-	    }
-	    glEnd();
-	} else {
-		drawHelper(0.25);
-	}
+    glBegin(GL_QUAD_STRIP); 
+    for (int i = 0; i < numberPoints; i++) {    
+	    glVertex2f(middle[i]->x + left[i]->x, middle[i]->y + left[i]->y);
+        float t = highlightThickness;
+        if (left[i]->y < 0) {
+            t = -t;
+        }
+        glVertex2f(middle[i]->x + left[i]->x, middle[i]->y + left[i]->y + t);    
+    }
+    glEnd();
+    glBegin(GL_QUAD_STRIP); 
+    for (int i = 0; i < numberPoints; i++) {    
+	    glVertex2f(middle[i]->x + right[i]->x, middle[i]->y + right[i]->y);
+        float t = highlightThickness;
+        if (right[i]->y < 0) {
+            t = -t;
+        }
+        glVertex2f(middle[i]->x + right[i]->x, middle[i]->y + right[i]->y + t);    
+    }
+    glEnd();
+}
+void HarvestSpline::drawFaded() {
+    drawHelper(0.25);
 }

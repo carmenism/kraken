@@ -13,6 +13,7 @@ public:
 	virtual void draw() = 0;
     virtual void drawToPick() = 0;
     virtual void drawSelected() = 0;
+    virtual void drawFaded() = 0;
 	
     bool getDisplayDynamically() { return displayDynamically; }
     void setDisplayDynamically(bool d) { displayDynamically = d; }

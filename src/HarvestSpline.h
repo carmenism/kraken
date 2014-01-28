@@ -15,9 +15,10 @@ public:
     virtual void construct();
 
     void draw();
-    //void drawFaded();
     virtual void drawSelected();	
     virtual void drawToPick();
+    virtual void drawFaded();
+
 	virtual void setPickColor(unsigned char r, unsigned char g, unsigned char b);
 	
     void setPointA(Point *p) { pointA = p; }

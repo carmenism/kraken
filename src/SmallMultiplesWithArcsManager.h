@@ -83,6 +83,8 @@ private:
     void initializeInteractionArcs(MS_PROD_MainWindow *mainWindow);
     void initializePredationArcs(MS_PROD_MainWindow *mainWindow);
     void initializeBothArcs(MS_PROD_MainWindow *mainWindow);
+
+    void findSelectedLink();
 };
 
 #endif  /* _SMALLMULTIPLESWITHARCSMANAGER_H */

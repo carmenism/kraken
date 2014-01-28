@@ -145,6 +145,7 @@ void InterSpeciesArc::draw() {
 
 			if (selected) {
 				drawHighlight();
+                //drawSelected();
 			}
 
 			if (fabs(thickness) < 3) {

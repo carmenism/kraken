@@ -37,12 +37,12 @@ void InterSpeciesArcCollection::setTitleLocation(float x, float y) {
 void InterSpeciesArcCollection::findSelected() {
     selected = NULL;
 
-    if (legend != NULL) {
+    /*if (legend != NULL) {
         legend->draw();
     } else {
         glColor4f(0, 0, 0, 1);
         PrintText::drawStrokeText(title, titleX, titleY, fontHeight, HORIZ_LEFT, VERT_BOTTOM, false, 0);
-    }
+    }*/
 
     //std::cerr << timer << "\n";
 
@@ -67,6 +67,13 @@ void InterSpeciesArcCollection::draw() {
             arcs->at(i)->draw();
         }
 	}
+
+    if (legend != NULL) {
+        legend->draw();
+    } else {
+        glColor4f(0, 0, 0, 1);
+        PrintText::drawStrokeText(title, titleX, titleY, fontHeight, HORIZ_LEFT, VERT_BOTTOM, false, 0);
+    }
 }
 
 void InterSpeciesArcCollection::drawToPick() {
