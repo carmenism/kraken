@@ -28,15 +28,17 @@ void Slider::initialize(std::string myTitle, float startValue) {
     main->setWidth(100);
     main->setHeight(12 + 2 * main->getBorder());
 
-    cursor = new ShadowedRectangle();
-    cursor->setWidth(20);
+    cursor = new Cursor();
+    cursor->setWidth(12);
     cursor->setHeight(12);
     cursor->setBorder(2);
 
     Color *curColor = cursor->getColor();
     curColor->r = 0.65;
     curColor->g = 0.65;
-    curColor->b = 0.65;    displayTitle = true;
+    curColor->b = 0.65;    
+    
+    displayTitle = true;
     titleFontHeight = 12;
     titlePosition = POS_RIGHT;
 
@@ -124,8 +126,8 @@ bool Slider::mouseMoved(float x, float y) {
             curX = 0;
         }
 
-        if (curX > main->getInnerWidth() - cursor->getWidth()) {
-            curX = main->getInnerWidth() - cursor->getWidth();
+        if (curX > main->getInnerWidth()) {
+            curX = main->getInnerWidth();
         }
 
         return true;
@@ -207,9 +209,8 @@ void Slider::drawLabels() {
             value = value + labelInterval;
         }
     } else {
-        float width = main->getInnerWidth() - cursor->getWidth();
         float intervalPercentage = 1.0 / (values->size() - 1);
-        float intervalSize = width * intervalPercentage;
+        float intervalSize = main->getInnerWidth() * intervalPercentage;
 
         for (unsigned int i = 0; i < values->size(); i++) {
             std::string label = toStr(values->at(i));
@@ -236,7 +237,7 @@ float Slider::valueToPosition(float value) {
         float distToStart = value - minValue;
         float percentage = distToStart / range;
         
-        return percentage * (main->getInnerWidth() - cursor->getWidth());
+        return percentage * main->getInnerWidth();
     }
 
     // CUSTOM
@@ -244,7 +245,7 @@ float Slider::valueToPosition(float value) {
     if (value == values->front()) {
         return 0;
     } else if (value == values->back()) {
-        return (main->getInnerWidth() - cursor->getWidth());
+        return main->getInnerWidth();
     }
 
     int indexLow = -1;
@@ -268,13 +269,12 @@ float Slider::valueToPosition(float value) {
     
     float intervalSize = 1.0 / (values->size() - 1);
     float percentage = intervalSize * (indexLow + percentageToLow);
-
-    return percentage * (main->getInnerWidth() - cursor->getWidth()); 
+ 
+    return (percentage * main->getInnerWidth()); 
 }
 
 float Slider::positionToValue(float position) {
-    float myInnerWidth = main->getInnerWidth() - cursor->getWidth();
-    float percent = position / myInnerWidth;
+    float percent = position / main->getInnerWidth();
 
     if (valueType == LINEAR) {
         return minValue + percent * (maxValue - minValue);
@@ -288,7 +288,6 @@ float Slider::positionToValue(float position) {
     }
 
     float intervalSize = 1.0 / (values->size() - 1);
-    //float percentDivByInt = percent / intervalSize;
     int indexLow = int(percent / intervalSize);
     int indexHigh = indexLow + 1;
    

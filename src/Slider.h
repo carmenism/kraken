@@ -1,16 +1,14 @@
 #ifndef SLIDER_H_
 #define SLIDER_H_
 
-// a slider that works in the range 0..1.0 in pixel coordinates
 class Color;
 class ShadowedRectangle;
-
-
 
 enum {POS_ABOVE, POS_BELOW, POS_LEFT, POS_RIGHT};
 
 #include "MouseEventItem.h"
 #include "ShadowedRectangle.h"
+#include "Cursor.h"
 #include <string>
 #include <vector>
 
@@ -77,7 +75,8 @@ public:
     void setLabelFontHeight(float h) { labelFontHeight = h; }
 protected:
     ValueType valueType;
-    ShadowedRectangle *main, *cursor;
+    ShadowedRectangle *main;
+    Cursor *cursor;
     float minValue, maxValue;
     float startCurX, curX;
     float labelFontHeight;
