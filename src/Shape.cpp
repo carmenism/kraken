@@ -40,7 +40,6 @@ Shape::~Shape() {
 //------------------ public methods -------------------------------
 
 void Shape::draw() {
-    glDisable(GL_LINE_SMOOTH);
     glPushMatrix();
         glTranslatef(x, y, 0);
         glRotatef(rotation, 0, 0, 1);
@@ -69,7 +68,6 @@ void Shape::draw() {
             glLineWidth(1);
         }
     glPopMatrix();
-    glEnable(GL_LINE_SMOOTH);
 }
 
 void Shape::drawToPick() {

@@ -18,7 +18,7 @@ void Circle::drawAtOrigin() {
     float num_segments = 72.0;
 
 	float theta = 2 * 3.1415926 / num_segments; 
-    float tangetial_factor = tanf(theta);//calculate the tangential factor 
+	float tangetial_factor = tanf(theta);//calculate the tangential factor 
 
 	float radial_factor = cosf(theta);//calculate the radial factor 
 	

@@ -91,7 +91,6 @@ private:
 
     std::string label;
     ChartPointList *points;
-    //ChartPoint **points;
     ChartPoint *legendPoint;
     ChartPoint *min, *max;
     Point *previousMin, *previousMax;

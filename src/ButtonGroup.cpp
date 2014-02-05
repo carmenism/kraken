@@ -2,7 +2,6 @@
 #include "Button.h"
 #include "PrintText.h"
 #include <GL/glut.h>
-#include <cmath>
 
 ButtonGroup::ButtonGroup(std::string groupLabels, std::vector<std::string> buttonLabels, int inactiveIndex) {
     this->label = groupLabels;

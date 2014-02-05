@@ -141,7 +141,7 @@ float AbsoluteSizesChart::getRadiusFromValue(float value) {
 }
 
 float AbsoluteSizesChart::radiusFromArea(float area) {
-    return sqrt(area / 3.14159265359);
+    return sqrt(area /  3.14159265359);
 }
 
 bool AbsoluteSizesChart::getDisplayLegend() {

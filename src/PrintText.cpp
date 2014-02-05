@@ -61,7 +61,7 @@ void PrintText::drawStrokeText(std::string text, float x, float y, float h, int 
             drawWhiteBackground(text, h, 4);
         }
 
-        for (unsigned int i = 0; i < text.size(); i++) {
+        for (int i = 0; i < text.size(); i++) {
             glutStrokeCharacter(GLUT_STROKE_ROMAN, text[i]);
         }
     glPopMatrix();

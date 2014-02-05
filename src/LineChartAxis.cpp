@@ -78,15 +78,13 @@ void LineChartAxis::draw() {
             setMinorTickSpacing(interval / 5.0);
         }
 
-        glDisable(GL_LINE_SMOOTH);
         if (displayMinorTicks) {
             drawTicks(axisLength, minorTickSpacing, minorTickLength);
         }
 
         if (displayMajorTicks) {
             drawTicks(axisLength, majorTickSpacing, majorTickLength);
-        }       
-        glEnable(GL_LINE_SMOOTH);
+        }        
     glPopMatrix();
 
     if (displayTickLabels) {

@@ -1,7 +1,7 @@
 #include "Picker.h"
 #include "Pickable.h"
 #include "MyQGLWidget.h"
-#include <QtOpenGL>
+#include <GL/glut.h>
 
 Picker::Picker(MyQGLWidget *widget) {
     this->widget = widget;
