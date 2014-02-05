@@ -64,7 +64,7 @@ public:
     void setLeftAxisDisplay(bool d);
     void setRightAxisDisplay(bool d);
 
-    virtual ChartPointList *getPoints();
+    virtual ChartPoint **getPoints();
     
     void setAxesFontHeight(float h);
     void setLegendFontHeight(float h);
