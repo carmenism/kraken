@@ -1,7 +1,6 @@
 #include "LineChartAxis.h"
 #include "LineChart.h"
 #include "PrintText.h"
-#include <QtOpenGL>
 #include <iostream>
 #include <algorithm>
 #include <cmath>
@@ -79,13 +78,15 @@ void LineChartAxis::draw() {
             setMinorTickSpacing(interval / 5.0);
         }
 
+        glDisable(GL_LINE_SMOOTH);
         if (displayMinorTicks) {
             drawTicks(axisLength, minorTickSpacing, minorTickLength);
         }
 
         if (displayMajorTicks) {
             drawTicks(axisLength, majorTickSpacing, majorTickLength);
-        }        
+        }       
+        glEnable(GL_LINE_SMOOTH);
     glPopMatrix();
 
     if (displayTickLabels) {
@@ -273,9 +274,9 @@ float LineChartAxis::f(float num, float c) {
 }
 
 float LineChartAxis::roundDown(float num) { 
-    float m = max(f(num, 1), f(num, 2));
+    float m = std::max(f(num, 1), f(num, 2));
 
-    return max(m, f(num, 5));
+    return std::max(m, f(num, 5));
 }
 
 float LineChartAxis::g(float num, float c) { 
@@ -283,9 +284,9 @@ float LineChartAxis::g(float num, float c) {
 }
 
 float LineChartAxis::roundUp(float num) { 
-    float m = min(g(num, 1), g(num, 2));
+    float m = std::min(g(num, 1), g(num, 2));
     
-    return min(m, g(num, 5));
+    return std::min(m, g(num, 5));
 }
 
 float LineChartAxis::getSize() {

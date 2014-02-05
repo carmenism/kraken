@@ -4,7 +4,7 @@
 #include "ChartPointSeries.h"
 #include "ChartPoint.h"
 #include "LineChart.h"
-#include <QtOpenGL>
+#include <GL/glut.h>
 #include <limits>
 
 AbsoluteSizesChart::AbsoluteSizesChart(LineChart *lineChart) {
@@ -141,7 +141,7 @@ float AbsoluteSizesChart::getRadiusFromValue(float value) {
 }
 
 float AbsoluteSizesChart::radiusFromArea(float area) {
-    return sqrt(area / M_PI);
+    return sqrt(area / 3.14159265359);
 }
 
 bool AbsoluteSizesChart::getDisplayLegend() {

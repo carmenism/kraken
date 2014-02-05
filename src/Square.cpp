@@ -1,5 +1,5 @@
 #include "Square.h"
-#include <QtOpenGL>
+#include <GL/glut.h>
 
 Square::Square()
 {

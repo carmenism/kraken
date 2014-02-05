@@ -2,7 +2,7 @@
 #include "AbsoluteSizesChart.h"
 #include "AbsoluteSizeIndicator.h"
 #include "PrintText.h"
-#include <QtOpenGL>
+#include <GL/glut.h>
 #include <string>
 
 AbsoluteSizeLegend::AbsoluteSizeLegend(AbsoluteSizesChart *chart, std::vector<float> sampleValues) {

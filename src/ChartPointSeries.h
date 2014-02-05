@@ -90,7 +90,8 @@ private:
     LineChart *chart;
 
     std::string label;
-    ChartPointList *points;
+    //ChartPointList *points;
+    ChartPoint **points;
     ChartPoint *legendPoint;
     ChartPoint *min, *max;
     Point *previousMin, *previousMax;

@@ -1,6 +1,6 @@
 #include "Triangle.h"
-#include <QtOpenGL>
-//#include <cmath>
+#include <GL/glut.h>
+#include <cmath>
 
 Triangle::Triangle()
 {

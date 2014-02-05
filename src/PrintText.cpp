@@ -1,5 +1,5 @@
 #include "PrintText.h"
-#include <QtOpenGL>
+#include <GL/glut.h>
 
 static GLubyte blackBitmap[16384] = {0x00};
 
@@ -61,7 +61,7 @@ void PrintText::drawStrokeText(std::string text, float x, float y, float h, int 
             drawWhiteBackground(text, h, 4);
         }
 
-        for (int i = 0; i < text.size(); i++) {
+        for (unsigned int i = 0; i < text.size(); i++) {
             glutStrokeCharacter(GLUT_STROKE_ROMAN, text[i]);
         }
     glPopMatrix();

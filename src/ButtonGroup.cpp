@@ -1,7 +1,8 @@
 #include "ButtonGroup.h"
 #include "Button.h"
 #include "PrintText.h"
-#include <QtOpenGL>
+#include <GL/glut.h>
+#include <cmath>
 
 ButtonGroup::ButtonGroup(std::string groupLabels, std::vector<std::string> buttonLabels, int inactiveIndex) {
     this->label = groupLabels;
@@ -50,7 +51,7 @@ void ButtonGroup::draw() {
         buttons->at(i)->setLocation(x + runningWidth, y + spacing);
 
         runningWidth = runningWidth + spacing + buttons->at(i)->getWidth();
-        largestHeight = max(largestHeight, buttons->at(i)->getHeight());
+        largestHeight = std::max(largestHeight, buttons->at(i)->getHeight());
     }
 
     for (int i = 0; i < buttons->size(); i++) {

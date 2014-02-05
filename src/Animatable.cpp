@@ -1,7 +1,6 @@
 #include "Animatable.h"
 #include <GL/glut.h>
 #include <math.h>
-#include <QtOpenGL>
 #include <iostream>
 
 Animatable::Animatable() {

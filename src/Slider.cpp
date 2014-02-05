@@ -29,7 +29,7 @@ void Slider::initialize(std::string myTitle, float startValue) {
     main->setHeight(12 + 2 * main->getBorder());
 
     cursor = new Cursor();
-    cursor->setWidth(12);
+    cursor->setWidth(14);
     cursor->setHeight(12);
     cursor->setBorder(2);
 

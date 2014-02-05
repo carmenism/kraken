@@ -5,8 +5,8 @@
 #include "PrintText.h"
 #include <limits>
 #include <iostream>
-#include <QtOpenGL>
 #include <GL/glut.h>
+#include <cmath>
 
 LineChart::LineChart() : Chart2D() {
     seriesList = new ChartPointSeriesList();
@@ -217,6 +217,8 @@ void LineChart::calculateGlobalBounds() {
 }
 
 void LineChart::drawBoundary() {  
+    glDisable(GL_LINE_SMOOTH);
+
     glPolygonMode(GL_FRONT, GL_LINE);  
     glLineWidth(1.0);
     glColor4f(0.5, 0.5, 0.5, 1);
@@ -227,6 +229,8 @@ void LineChart::drawBoundary() {
         glVertex2f( innerWidth, innerHeight );
         glVertex2f( innerWidth, 0 );
     glEnd();
+
+    glEnable(GL_LINE_SMOOTH);
 }
 
 void LineChart::drawLines() {
@@ -385,7 +389,7 @@ float LineChart::getLargestFinalValue() {
     float maxValue = -1 * (std::numeric_limits<float>::max)();
 
     for (unsigned int i = 0; i < seriesList->size(); i++) {
-        maxValue = max(maxValue, seriesList->at(i)->getFinalValue());
+        maxValue = std::max(maxValue, seriesList->at(i)->getFinalValue());
     }
 
     return maxValue;

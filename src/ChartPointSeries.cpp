@@ -5,7 +5,7 @@
 #include "LineChart.h"
 #include "PrintText.h"
 #include "LineChart.h"
-#include <QtOpenGL>
+#include <GL/glut.h>
 
 #define NUM_RECTS 75
 #define START_ALPHA 0.45
@@ -16,8 +16,8 @@ ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vec
     this->chart = chart;
     this->label = label;
     
-    points = new ChartPointList();
-
+    middle = new Point*[numberPoints];
+    
     if (x->size() != y->size()) {
         throw "should be equal number of x and y values";
     }
@@ -170,6 +170,7 @@ float ChartPointSeries::drawInLegend(float x, float y, float lineLength, float s
 }
 
 void ChartPointSeries::drawAsLines() {   
+    glDisable(GL_LINE_SMOOTH);
     glPolygonMode(GL_FRONT, GL_LINE);
     glLineWidth(lineWidth);
     glColor4f(lineColor->r, lineColor->g, lineColor->b, lineColor->a);
@@ -180,6 +181,7 @@ void ChartPointSeries::drawAsLines() {
         }
     glEnd();    
     glLineWidth(1);
+    glEnable(GL_LINE_SMOOTH);
 
     if (displayMarkers) {
         FOREACH_POINTP(it, points) {

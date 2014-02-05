@@ -1,5 +1,5 @@
 #include "Legend.h"
-#include <QtOpenGL>
+#include <GL/glut.h>
 
 Legend::Legend() {
     fontHeight = 12;
