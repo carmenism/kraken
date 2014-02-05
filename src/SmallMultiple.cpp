@@ -70,12 +70,12 @@ SmallMultiple::~SmallMultiple() {
     delete harvest;
 }
 
-ChartPoint **SmallMultiple::getPoints() {
+ChartPointList *SmallMultiple::getPoints() {
     if (displayHarvest) {
         return harvest->getPoints();
     }
 
-    return seriesList[0]->getPoints();
+    return LineChart::getPoints();
 }
 
 void SmallMultiple::setValues(std::vector<float> *x, std::vector<float> *yBiomass, std::vector<float> *yHarvest) {

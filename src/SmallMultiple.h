@@ -39,7 +39,7 @@ public:
     void displayHarvestOn() { displayHarvest = true; }
     void displayHarvestOff() { displayHarvest = false; }
 
-    virtual ChartPoint **getPoints();
+    virtual ChartPointList *getPoints();
 
     void setAbsLegendLocation(float x, float y);
 

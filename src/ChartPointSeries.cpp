@@ -25,15 +25,14 @@ ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vec
         throw "should not be empty values for x or y";
     }
 
-    numberPoints = x->size();
-    points = new ChartPoint*[numberPoints];
+    points = new ChartPointList();
 
     max = NULL;
     min = NULL;
 
-    for (int i = 0; i < x->size(); i++) {
+    for (unsigned int i = 0; i < x->size(); i++) {
         ChartPoint *point = new ChartPoint(chart, label, x->at(i), y->at(i));
-        points[i] = point;
+        points->push_back(point);
 
         if (max == NULL || max->getY() < point->getY()) {
             max = point;
@@ -55,7 +54,13 @@ ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vec
 }
 
 ChartPointSeries::~ChartPointSeries() {
-    delete[] points;
+    while (!points->empty()) {
+        ChartPoint *p = points->back();
+        points->pop_back();
+        delete p;
+    }
+
+    delete points;
     delete legendPoint;
     delete lineColor;
 }
@@ -79,24 +84,24 @@ void ChartPointSeries::setValues(std::vector<float> *x, std::vector<float> *y) {
     max = NULL;
     min = NULL;
 
-    for (int i = 0; i < points->size(); i++) {
-        points[i]->setX(x->at(i));
-        points[i]->setY(y->at(i));
+    for (unsigned int i = 0; i < points->size(); i++) {
+        points->at(i)->setX(x->at(i));
+        points->at(i)->setY(y->at(i));
 
-        if (max == NULL || max->getY() < points[i]->getY()) { 
-            max = points[i];
+        if (max == NULL || max->getY() < points->at(i)->getY()) { 
+            max = points->at(i);
         }
 
-        if (min == NULL || min->getY() > points[i]->getY()) {
-            min = points[i];
+        if (min == NULL || min->getY() > points->at(i)->getY()) {
+            min = points->at(i);
         }
 
-        if (previousMax == NULL || previousMax->getY() < points[i]->getPrevious()->getY()) { 
-            previousMax = points[i]->getPrevious();
+        if (previousMax == NULL || previousMax->getY() < points->at(i)->getPrevious()->getY()) { 
+            previousMax = points->at(i)->getPrevious();
         }
 
-        if (previousMin == NULL || previousMin->getY() > points[i]->getPrevious()->getY()) {
-            previousMin = points[i]->getPrevious();
+        if (previousMin == NULL || previousMin->getY() > points->at(i)->getPrevious()->getY()) {
+            previousMin = points->at(i)->getPrevious();
         }
     }
 }
@@ -114,8 +119,8 @@ void ChartPointSeries::draw() {
 }
 
 void ChartPointSeries::drawSelected() {
-    for (int i = 0; i < numberPoints; i++) {
-        points[i]->drawSelected();
+    FOREACH_POINTP(it, points) {
+        (*it)->drawSelected();
     }
 }
 
@@ -123,15 +128,15 @@ void ChartPointSeries::drawToPick() {
     if (display) {
         calculatePointLocations();
 
-        for (int i = 0; i < numberPoints; i++) {
-            points[i]->drawToPick();
+        FOREACH_POINTP(it, points) {
+            (*it)->drawToPick();
         } 
     }
 }
 
 void ChartPointSeries::calculatePointLocations() {
-    for (int i = 0; i < numberPoints; i++) {
-        points[i]->calculateLocation(); 
+    FOREACH_POINTP(it, points) {
+        (*it)->calculateLocation(); 
     } 
 }
 
@@ -172,16 +177,16 @@ void ChartPointSeries::drawAsLines() {
     glColor4f(lineColor->r, lineColor->g, lineColor->b, lineColor->a);
     
     glBegin(GL_LINE_STRIP);
-        for (int i = 0; i < numberPoints; i++) {    
-            glVertex2f(points[i]->getPositionX(), points[i]->getPositionY());
+        FOREACH_POINTP(it, points) {      
+            glVertex2f((*it)->getPositionX(), (*it)->getPositionY());
         }
     glEnd();    
     glLineWidth(1);
     glEnable(GL_LINE_SMOOTH);
 
     if (displayMarkers) {
-        for (int i = 0; i < numberPoints; i++) {
-            points[i]->draw();
+        FOREACH_POINTP(it, points) {
+            (*it)->draw();
         }            
     }
 }
@@ -192,9 +197,9 @@ void ChartPointSeries::drawAsArea() {
     
     glBegin( GL_QUAD_STRIP );
 
-    for (int i = 0; i < numberPoints; i++) { 
-        glVertex2f(points[i]->getPositionX(), points[i]->getPositionY()); 
-        glVertex2f(points[i]->getPositionX(), 0); 
+    FOREACH_POINTP(it, points) {   
+        glVertex2f((*it)->getPositionX(), (*it)->getPositionY()); 
+        glVertex2f((*it)->getPositionX(), 0); 
     }
 
     glEnd();
@@ -211,8 +216,8 @@ void ChartPointSeries::drawGhostAsLine() {
     glEnable(GL_LINE_STIPPLE);
     
     glBegin(GL_LINE_STRIP);
-        for (int i = 0; i < numberPoints; i++) {
-            glVertex2f(points[i]->getPreviousPositionX(), points[i]->getPreviousPositionY());    
+        FOREACH_POINTP(it, points) { 
+            glVertex2f((*it)->getPreviousPositionX(), (*it)->getPreviousPositionY());    
         }
     glEnd();    
     glLineWidth(1);
@@ -225,14 +230,14 @@ void ChartPointSeries::drawGhostAsBlend() {
     glPolygonMode( GL_FRONT, GL_FILL );
     
     ChartPoint *last = NULL;
-    for (int p = 0; p < numberPoints; p++) {  
+    FOREACH_POINTP(it, points) {   
         if (last != NULL) {
             float leftX = last->getPositionX();
-            float rightX = points[p]->getPositionX();
+            float rightX = (*it)->getPositionX();
 
             float startLeftY = last->getPositionY();
-            float startRightY = points[p]->getPositionY();
-            float endRightY = points[p]->getPreviousPositionY();
+            float startRightY = (*it)->getPositionY();
+            float endRightY = (*it)->getPreviousPositionY();
             float endLeftY = last->getPreviousPositionY();
 
             float rightDiffY = endRightY - startRightY;
@@ -243,17 +248,17 @@ void ChartPointSeries::drawGhostAsBlend() {
 
             glBegin( GL_QUAD_STRIP );
 
-            for (int r = 0; r < NUM_RECTS; r++) {
-                glColor4f(lineColor->r, lineColor->g, lineColor->b, START_ALPHA - r * D_ALPHA);
+            for (int i = 0; i < NUM_RECTS; i++) {
+                glColor4f(lineColor->r, lineColor->g, lineColor->b, START_ALPHA - i * D_ALPHA);
 
-                glVertex2f(rightX, startRightY + r * rightY);   
-                glVertex2f(leftX, startLeftY + r * leftY); 
+                glVertex2f(rightX, startRightY + i * rightY);   
+                glVertex2f(leftX, startLeftY + i * leftY); 
             }
 
             glEnd();
         }
         
-        last = points[p];
+        last = *it;
     }
 
     // more efficient code but draws weirdly?
@@ -297,32 +302,32 @@ float ChartPointSeries::getPreviousMaximumValueY() {
 }
 
 void ChartPointSeries::setMarkerShape(int shape) {
-    for (int i = 0; i < numberPoints; i++) {
-        points[i]->setShape(shape);
+    FOREACH_POINTP(it, points) {
+        (*it)->setShape(shape);
     }
 
     legendPoint->setShape(shape);
 }
 
 void ChartPointSeries::setMarkerSize(float size) {
-    for (int i = 0; i < numberPoints; i++) {
-        points[i]->setSize(size);
+    FOREACH_POINTP(it, points) {
+        (*it)->setSize(size);
     }
 
     legendPoint->setSize(size);
 }
 
 void ChartPointSeries::setMarkerBorderColor(Color *color) {
-    for (int i = 0; i < numberPoints; i++) {
-        points[i]->setBorderColor(color);
+    FOREACH_POINTP(it, points) {
+        (*it)->setBorderColor(color);
     }
 
     legendPoint->setBorderColor(color);
 }
 
 void ChartPointSeries::setMarkerFillColor(Color *color) {
-    for (int i = 0; i < numberPoints; i++) {
-        points[i]->setFillColor(color);
+    FOREACH_POINTP(it, points) {
+        (*it)->setFillColor(color);
     }
 
     legendPoint->setFillColor(color);
@@ -342,8 +347,8 @@ void ChartPointSeries::capturePreviousValues() {
     //lastMin = min;
     //lastMax = max;
 
-    for (int i = 0; i < numberPoints; i++) {
-        points[i]->capturePreviousValues();
+    FOREACH_POINTP(it, points) {
+        (*it)->capturePreviousValues();
     }
 }
 
@@ -352,17 +357,17 @@ int ChartPointSeries::size() {
 }
 
 float ChartPointSeries::getPercentIncreaseOfFinalValue() {
-    return points[numberPoints - 1]->getPercentIncreaseFromPrevious();
+    return points->back()->getPercentIncreaseFromPrevious();
 }
 
 float ChartPointSeries::getFinalValue() {
-    return points[numberPoints - 1]->getY();
+    return points->back()->getY();
 }
 
 float ChartPointSeries::getPreviousFinalValue() {
-    return points[numberPoints - 1]->getPreviousValue();
+    return points->back()->getPreviousValue();
 }
 
 float ChartPointSeries::getStartValue() {
-    return points[0]->getY();
+    return points->front()->getY();
 }

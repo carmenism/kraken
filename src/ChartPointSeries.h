@@ -9,6 +9,14 @@ class Point;
 class Color;
 class Shape;
 
+typedef std::vector<ChartPoint *> ChartPointList;
+typedef std::vector<ChartPoint *>::const_iterator ChartPointIterator;
+
+#define FOREACH_POINT(it, chartPointList) \
+    for(ChartPointIterator it = chartPointList.begin(); it != chartPointList.end(); ++it)
+#define FOREACH_POINTP(it, chartPointList) \
+    for(ChartPointIterator it = chartPointList->begin(); it != chartPointList->end(); ++it)
+
 class ChartPointSeries
 {
 public:
@@ -62,8 +70,7 @@ public:
     void setColor(Color *c);
     Color *getColor();
 
-    int getNumberPoints() { return numberPoints; }
-    ChartPoint **getPoints() { return points; }
+    ChartPointList *getPoints() { return points; }
 
     void capturePreviousValues();
 
@@ -80,11 +87,11 @@ public:
     float getFinalValue();
     float getPreviousFinalValue();
 private:
-    int numberPoints;
     LineChart *chart;
 
     std::string label;
-    ChartPoint **points;
+    ChartPointList *points;
+    //ChartPoint **points;
     ChartPoint *legendPoint;
     ChartPoint *min, *max;
     Point *previousMin, *previousMax;
