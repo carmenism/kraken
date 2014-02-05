@@ -16,7 +16,6 @@ ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vec
     this->chart = chart;
     this->label = label;
     
-    middle = new Point*[numberPoints];
     
     if (x->size() != y->size()) {
         throw "should be equal number of x and y values";
@@ -25,6 +24,8 @@ ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vec
     if (x->empty() || y->empty()) {
         throw "should not be empty values for x or y";
     }
+
+    points = new ChartPointList();
 
     max = NULL;
     min = NULL;
