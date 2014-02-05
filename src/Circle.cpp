@@ -1,7 +1,8 @@
 // http://slabode.exofire.net/circle_draw.shtml
 
 #include "Circle.h"
-#include <QtOpenGL>
+#include <GL/glut.h>
+#include <cmath>
 
 Circle::Circle()
 {

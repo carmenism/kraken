@@ -3,10 +3,11 @@
 #include <string>
 
 #include "Triangle.h"
-#include <QtOpenGL>
+#include <GL/glut.h>
 #include "PrintText.h"
 #include "Color.h"
 #include "PlotManager.h"
+#include <cmath>
 
 float *InterSpeciesArc::xArc = new float[NUM_SEGMENTS];
 float *InterSpeciesArc::yArc = new float[NUM_SEGMENTS];
@@ -31,7 +32,7 @@ InterSpeciesArc::InterSpeciesArc(PlotManager *pm, float coefficient, SmallMultip
 
     //CW_CODE
 	for(int i = 0; i < NUM_SEGMENTS; i++) {
-		double a = M_PI * float(i) / (NUM_SEGMENTS - 1);
+		double a = 3.14159265359 * float(i) / (NUM_SEGMENTS - 1);
 		xArc[i] = sin(a);
 		yArc[i] = -cos(a);
 	}
@@ -183,7 +184,7 @@ void InterSpeciesArc::determineThickness() {
     if (displayDynamically) {     
         this->setThickness(getDynamicThickness());        
     } else {        
-        this->setThickness(min(30, 30 * getCoefficent()));
+        this->setThickness(std::min(30.0f, 30 * getCoefficent()));
     }
 }
 
@@ -271,7 +272,7 @@ void InterSpeciesArc::drawSelected() {
 
 void InterSpeciesArc::determineCenterLocation() {
     radius = fabs(yA - yB) / 2;
-    y = min(yA, yB) + radius;
+    y = std::min(yA, yB) + radius;
 }
 
 
@@ -343,7 +344,7 @@ void InterSpeciesArc::positionTriangles() {
     arrowB->setBorderWidth(2);
     arrowMiddle->setBorderWidth(1.5);
 
-    float size = max(6, fabs(getThickness() / 2));
+    float size = std::max(6.0f, fabs(getThickness() / 2));
 
     int oneFourth = NUM_SEGMENTS / 4;
 

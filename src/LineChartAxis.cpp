@@ -1,7 +1,6 @@
 #include "LineChartAxis.h"
 #include "LineChart.h"
 #include "PrintText.h"
-#include <QtOpenGL>
 #include <iostream>
 #include <algorithm>
 #include <cmath>
@@ -273,9 +272,9 @@ float LineChartAxis::f(float num, float c) {
 }
 
 float LineChartAxis::roundDown(float num) { 
-    float m = max(f(num, 1), f(num, 2));
+    float m = std::max(f(num, 1), f(num, 2));
 
-    return max(m, f(num, 5));
+    return std::max(m, f(num, 5));
 }
 
 float LineChartAxis::g(float num, float c) { 
@@ -283,9 +282,9 @@ float LineChartAxis::g(float num, float c) {
 }
 
 float LineChartAxis::roundUp(float num) { 
-    float m = min(g(num, 1), g(num, 2));
+    float m = std::min(g(num, 1), g(num, 2));
     
-    return min(m, g(num, 5));
+    return std::min(m, g(num, 5));
 }
 
 float LineChartAxis::getSize() {

@@ -1,5 +1,5 @@
 #include "PrintText.h"
-#include <QtOpenGL>
+#include <GL/glut.h>
 
 static GLubyte blackBitmap[16384] = {0x00};
 

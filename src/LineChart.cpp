@@ -5,7 +5,6 @@
 #include "PrintText.h"
 #include <limits>
 #include <iostream>
-#include <QtOpenGL>
 #include <GL/glut.h>
 
 LineChart::LineChart() : Chart2D() {
@@ -385,7 +384,7 @@ float LineChart::getLargestFinalValue() {
     float maxValue = -1 * (std::numeric_limits<float>::max)();
 
     for (unsigned int i = 0; i < seriesList->size(); i++) {
-        maxValue = max(maxValue, seriesList->at(i)->getFinalValue());
+        maxValue = std::max(maxValue, seriesList->at(i)->getFinalValue());
     }
 
     return maxValue;

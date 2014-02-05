@@ -5,7 +5,7 @@
 #include "LineChart.h"
 #include "PrintText.h"
 #include "LineChart.h"
-#include <QtOpenGL>
+#include <GL/glut.h>
 
 #define NUM_RECTS 75
 #define START_ALPHA 0.45

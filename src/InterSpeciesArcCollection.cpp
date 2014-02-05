@@ -4,7 +4,7 @@
 #include "PredationArc.h"
 #include "PrintText.h"
 #include "ColorLegend.h"
-#include <QtOpenGL>
+#include <GL/glut.h>
 #include <iostream>
 
 extern int timer;

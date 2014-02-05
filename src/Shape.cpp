@@ -12,7 +12,7 @@
  */
 #include "Shape.h"
 #include "Color.h"
-#include <QtOpenGL>
+#include <GL/glut.h>
 //------------------ Constructors ------------------------------------
 /**
  * Create a new shape at position 0,0 of size 1,1 with a black border of width
