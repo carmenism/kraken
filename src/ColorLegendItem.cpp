@@ -24,6 +24,7 @@ float ColorLegendItem::draw(float fontHeight, float padding) {
         glVertex2f( boxWidth, 0 );
     glEnd();
 
+    glDisable(GL_LINE_SMOOTH);
     glPolygonMode(GL_FRONT, GL_LINE);  
     glLineWidth(1.0);
     glColor4f(0.5, 0.5, 0.5, 1);
@@ -34,6 +35,7 @@ float ColorLegendItem::draw(float fontHeight, float padding) {
         glVertex2f( boxWidth, boxHeight );
         glVertex2f( boxWidth, 0 );
     glEnd();
+    glEnable(GL_LINE_SMOOTH);
 
     glColor4f(0, 0, 0, 1);
     PrintText::drawStrokeText(label, boxWidth + padding, boxHeight / 2, fontHeight, HORIZ_LEFT, VERT_CENTER);

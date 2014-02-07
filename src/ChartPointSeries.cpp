@@ -144,6 +144,7 @@ float ChartPointSeries::drawInLegend(float x, float y, float lineLength, float s
         glTranslatef(x, y, 0);
         glTranslatef(lineLength / 2.0 + spacing, h / 2, 0);
 
+        glDisable(GL_LINE_SMOOTH);
         glLineWidth(lineWidth);
         glColor4f(lineColor->r, lineColor->g, lineColor->b, lineColor->a);
         glBegin(GL_LINES);
@@ -151,6 +152,7 @@ float ChartPointSeries::drawInLegend(float x, float y, float lineLength, float s
             glVertex2f(lineLength / 2.0, 0);
         glEnd();
         glLineWidth(1);
+        glEnable(GL_LINE_SMOOTH);
 
         if (displayMarkers) {
             legendPoint->setPositionX(0);
@@ -169,7 +171,8 @@ float ChartPointSeries::drawInLegend(float x, float y, float lineLength, float s
     return PrintText::strokeWidth(label, h) + 3 * spacing + lineLength;
 }
 
-void ChartPointSeries::drawAsLines() {   
+void ChartPointSeries::drawAsLines() {
+    glDisable(GL_LINE_SMOOTH);
     glPolygonMode(GL_FRONT, GL_LINE);
     glLineWidth(lineWidth);
     glColor4f(lineColor->r, lineColor->g, lineColor->b, lineColor->a);
@@ -180,6 +183,7 @@ void ChartPointSeries::drawAsLines() {
         }
     glEnd();    
     glLineWidth(1);
+    glEnable(GL_LINE_SMOOTH);
 
     if (displayMarkers) {
         FOREACH_POINTP(it, points) {

@@ -194,6 +194,7 @@ void LineChartAxis::drawTicks(float axisLength, float tickSpacing, float tickLen
     
     glLineWidth(1.0);
     glColor4f(0.5, 0.5, 0.5, 1.0);
+    glDisable(GL_LINE_SMOOTH);
 
     while (value <= maxValue) {
         float pos = valueToPosition(axisLength, value);
@@ -205,6 +206,8 @@ void LineChartAxis::drawTicks(float axisLength, float tickSpacing, float tickLen
 
         value = value + tickSpacing;
     }
+
+    glEnable(GL_LINE_SMOOTH);
 }
 
 float LineChartAxis::valueToPosition(float axisLength, float value) {

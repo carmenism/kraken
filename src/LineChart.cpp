@@ -25,6 +25,8 @@ LineChart::LineChart() : Chart2D() {
     
     offsetX = 40;
     offsetY = 40;
+    innerWidth = 10;
+    innerHeight = 10;
 
     updateActualSize();
 
@@ -216,6 +218,7 @@ void LineChart::calculateGlobalBounds() {
 }
 
 void LineChart::drawBoundary() {  
+    glDisable(GL_LINE_SMOOTH);
     glPolygonMode(GL_FRONT, GL_LINE);  
     glLineWidth(1.0);
     glColor4f(0.5, 0.5, 0.5, 1);
@@ -226,6 +229,7 @@ void LineChart::drawBoundary() {
         glVertex2f( innerWidth, innerHeight );
         glVertex2f( innerWidth, 0 );
     glEnd();
+    glEnable(GL_LINE_SMOOTH);
 }
 
 void LineChart::drawLines() {

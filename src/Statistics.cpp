@@ -302,6 +302,9 @@ void Statistics::drawBoxPlots() {
     }
 
     float halfBoxWidth = boxWidth / 2;
+    glDisable(GL_LINE_SMOOTH);
+    glColor3f(0, 0, 0);
+    glLineWidth(1);
 
     while (index < boxMiddle->size()) {
         float xPos = calculateXLocation(index);
@@ -309,11 +312,8 @@ void Statistics::drawBoxPlots() {
         float yPosBot = calculateYLocation(boxBottom->at(index));
         float yPosMid = calculateYLocation(boxMiddle->at(index));
         float yPosMax = calculateYLocation(max->at(index));
-        float yPosMin = calculateYLocation(min->at(index));
-
-        glColor3f(0, 0, 0);
-        glLineWidth(1);
-
+        float yPosMin = calculateYLocation(min->at(index));       
+        
         glBegin(GL_LINE_LOOP);
             glVertex2f(xPos - halfBoxWidth, yPosTop);
             glVertex2f(xPos + halfBoxWidth, yPosTop);
@@ -348,6 +348,8 @@ void Statistics::drawBoxPlots() {
 
         index = index + interval;
     }
+
+    glEnable(GL_LINE_SMOOTH);
 }
 
 void Statistics::drawErrorBars() {

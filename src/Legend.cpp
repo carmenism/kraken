@@ -21,7 +21,8 @@ void Legend::draw() {
     glPopMatrix();
 }
 
-void Legend::drawBoundary() {  
+void Legend::drawBoundary() { 
+    glDisable(GL_LINE_SMOOTH);
     glPolygonMode(GL_FRONT, GL_LINE);  
     glLineWidth(1.0);
     glColor4f(0.5, 0.5, 0.5, 1);
@@ -32,4 +33,5 @@ void Legend::drawBoundary() {
         glVertex2f( width, height );
         glVertex2f( width, 0 );
     glEnd();
+    glEnable(GL_LINE_SMOOTH);
 }

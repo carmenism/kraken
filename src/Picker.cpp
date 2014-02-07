@@ -57,7 +57,3 @@ void Picker::setHovered(Pickable *pickable, float x, float y) {
     hovered->setMouseX(x);
     hovered->setMouseY(y);
 }
-
-//void Picker::drawPicked() {
-//    hovered->drawSelected();
-//}

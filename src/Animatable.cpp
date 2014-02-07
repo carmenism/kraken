@@ -36,8 +36,10 @@ Animatable::Animatable() {
 
 void Animatable::drawSign(float x, float y, float grey, float alpha, bool positive) {
     glPushMatrix();
+        glDisable(GL_LINE_SMOOTH);
         glTranslatef(x, y, 0.0);
         drawSign(grey, alpha, positive);
+        glEnable(GL_LINE_SMOOTH);
     glPopMatrix();
 }
 

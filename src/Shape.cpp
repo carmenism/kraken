@@ -60,11 +60,13 @@ void Shape::draw() {
             glPolygonMode(GL_FRONT, GL_LINE);
             glColor4f( borderColor->r, borderColor->g, borderColor->b, borderColor->a );
             glLineWidth(borderWidth);
+            glEnable(GL_LINE_SMOOTH);
             
             glBegin(GL_LINE_LOOP);//glBegin(GL_POLYGON);
                 drawAtOrigin();
             glEnd();
 
+            glDisable(GL_LINE_SMOOTH);
             glLineWidth(1);
         }
     glPopMatrix();
