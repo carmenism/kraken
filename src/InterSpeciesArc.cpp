@@ -362,7 +362,7 @@ void InterSpeciesArc::positionTriangles() {
 }
 
 void InterSpeciesArc::drawLineArc() {
-    glEnable(GL_POLYGON_SMOOTH);
+    glEnable(GL_LINE_SMOOTH);
     
     float diff = startAlpha - finalAlpha;
     float alphaStep = diff / NUM_SEGMENTS;
@@ -385,7 +385,7 @@ void InterSpeciesArc::drawLineArc() {
     glEnd();
 
     glLineWidth(1);
-    glDisable(GL_POLYGON_SMOOTH);
+    glDisable(GL_LINE_SMOOTH);
 }
 
 void InterSpeciesArc::drawPolygonArc() {
@@ -435,9 +435,7 @@ void InterSpeciesArc::drawPolygonArc() {
     }
 }
 
-void InterSpeciesArc::drawToPickAsLineStrips() {
-    glEnable(GL_POLYGON_SMOOTH);
-        
+void InterSpeciesArc::drawToPickAsLineStrips() {       
     glLineWidth(thickness);
     glColor3ub(pickR, pickG, pickB);
 
@@ -450,7 +448,6 @@ void InterSpeciesArc::drawToPickAsLineStrips() {
     glEnd();
 
     glLineWidth(1);
-    glDisable(GL_POLYGON_SMOOTH);
 }
 
 void InterSpeciesArc::drawToPickAsPolygons() {

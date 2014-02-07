@@ -1,6 +1,7 @@
 #ifndef CHARTPOINTSERIES_H_
 #define CHARTPOINTSERIES_H_
 
+#include "Displayable.h"
 #include <vector>
 
 class LineChart;
@@ -17,7 +18,7 @@ typedef std::vector<ChartPoint *>::const_iterator ChartPointIterator;
 #define FOREACH_POINTP(it, chartPointList) \
     for(ChartPointIterator it = chartPointList->begin(); it != chartPointList->end(); ++it)
 
-class ChartPointSeries
+class ChartPointSeries : public Displayable
 {
 public:
     ChartPointSeries(LineChart *chart, std::string label, std::vector<float> *x, std::vector<float> *y);
@@ -40,11 +41,6 @@ public:
     
     float getPreviousMinimumValueY();
     float getPreviousMaximumValueY(); 
-
-    void setDisplay(bool d) { display = d; }
-    bool getDisplay() { return display; }
-    void displayOn() { display = true; }
-    void displayOff() { display = false; }
 
     void setDisplayMarkers(bool d) { displayMarkers = d; }
     bool getDisplayMarkers() { return displayMarkers; }
@@ -96,7 +92,7 @@ private:
     Point *previousMin, *previousMax;
     float lineWidth;
     Color *lineColor;
-    bool display, displayMarkers, displayAsArea;
+    bool displayMarkers, displayAsArea;
 
     void calculatePointLocations();
     void drawAsLines();

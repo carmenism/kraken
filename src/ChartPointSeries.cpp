@@ -15,6 +15,8 @@
 ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vector<float> *x, std::vector<float> *y) {
     this->chart = chart;
     this->label = label;
+    display = true;
+    displayMarkers = true;
     
     points = new ChartPointList();
 
@@ -144,7 +146,7 @@ float ChartPointSeries::drawInLegend(float x, float y, float lineLength, float s
         glTranslatef(x, y, 0);
         glTranslatef(lineLength / 2.0 + spacing, h / 2, 0);
 
-        glDisable(GL_LINE_SMOOTH);
+        glEnable(GL_LINE_SMOOTH);
         glLineWidth(lineWidth);
         glColor4f(lineColor->r, lineColor->g, lineColor->b, lineColor->a);
         glBegin(GL_LINES);
@@ -152,7 +154,7 @@ float ChartPointSeries::drawInLegend(float x, float y, float lineLength, float s
             glVertex2f(lineLength / 2.0, 0);
         glEnd();
         glLineWidth(1);
-        glEnable(GL_LINE_SMOOTH);
+        glDisable(GL_LINE_SMOOTH);
 
         if (displayMarkers) {
             legendPoint->setPositionX(0);

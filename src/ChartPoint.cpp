@@ -118,7 +118,7 @@ void ChartPoint::drawHistoryLine() {
 
     glScissor(startX - 2, startY, chart->getInnerWidth() + 4, chart->getInnerHeight());
 
-    glDisable(GL_LINE_SMOOTH);
+    glEnable(GL_LINE_SMOOTH);
     glColor4f(c->r, c->g, c->b, 0.6);
     glLineWidth(3);
     glBegin(GL_LINES);
@@ -126,7 +126,6 @@ void ChartPoint::drawHistoryLine() {
         glVertex3f(previousPositionX, previousPositionY, 0);
     glEnd();
     glLineWidth(1);
-    glEnable(GL_LINE_SMOOTH);
 
     glDisable(GL_SCISSOR_TEST);
 }
