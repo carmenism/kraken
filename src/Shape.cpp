@@ -49,7 +49,7 @@ void Shape::draw() {
         if (drawFill) {
             glPolygonMode( GL_FRONT, GL_FILL );            
             glColor4f( fillColor->r, fillColor->g, fillColor->b, fillColor->a );
-
+            glEnable(GL_POLYGON_SMOOTH);
             glBegin( GL_POLYGON );
                 drawAtOrigin();
             glEnd();
@@ -66,7 +66,7 @@ void Shape::draw() {
                 drawAtOrigin();
             glEnd();
 
-            glDisable(GL_LINE_SMOOTH);
+            //glDisable(GL_LINE_SMOOTH);
             glLineWidth(1);
         }
     glPopMatrix();
@@ -82,6 +82,7 @@ void Shape::drawToPick() {
         if (drawFill) {
             glPolygonMode( GL_FRONT, GL_FILL );            
             glColor3ub(pickR, pickG, pickB);
+            
 
             glBegin( GL_POLYGON );
                 drawAtOrigin();
@@ -93,7 +94,7 @@ void Shape::drawToPick() {
             glPolygonMode(GL_FRONT, GL_LINE);          
             glColor3ub(pickR, pickG, pickB);
             glLineWidth(borderWidth);
-            
+
             glBegin(GL_LINE_LOOP);
                 drawAtOrigin();
             glEnd();

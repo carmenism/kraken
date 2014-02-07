@@ -52,7 +52,7 @@ void PrintText::drawStrokeText(std::string text, float x, float y, float h, int 
         horizOff = tmp;
     }
 
-    glEnable(GL_POLYGON_SMOOTH);
+    glEnable(GL_LINE_SMOOTH);
 
     glPushMatrix();
         glTranslatef(x - horizOff, y - vertOff, 0);
@@ -68,7 +68,7 @@ void PrintText::drawStrokeText(std::string text, float x, float y, float h, int 
         }
     glPopMatrix();
 
-    glDisable(GL_POLYGON_SMOOTH);
+    glDisable(GL_LINE_SMOOTH);
 }
 
 void PrintText::drawWhiteBackground(std::string label, float fontHeight, float padding) {
