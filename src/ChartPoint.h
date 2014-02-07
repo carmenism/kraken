@@ -54,7 +54,6 @@ private:
 
     Shape *marker;
     std::string label;
-
     float fontHeight;
 
     void drawHistoryLine();

@@ -17,6 +17,7 @@ ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vec
     this->label = label;
     display = true;
     displayMarkers = true;
+    displayAsArea = false;
     
     points = new ChartPointList();
 
@@ -49,7 +50,6 @@ ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vec
     lineColor = &Color::black;
     lineWidth = 1.0;
 
-    displayAsArea = false;
 
     legendPoint = new ChartPoint(chart, "", -1, -1);
 }
