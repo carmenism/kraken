@@ -140,7 +140,7 @@ void HarvestSpline::drawHelper(float alpha) {
     float timeval;
 	timeval = float(timer % numberPoints)/float(numberPoints);
 
-    if (animated) {
+    if (displayDynamically && animated) {
 	    glEnable(GL_TEXTURE_2D);
     } 
 
@@ -151,13 +151,13 @@ void HarvestSpline::drawHelper(float alpha) {
 	for (int i = 0; i < numberPoints; i++) {
         float tc = 1.5*((numberPoints - float(i))/numberPoints+timeval);
 
-        if (animated) {
+        if (displayDynamically && animated) {
             glTexCoord2f(tc,0.3);
         }
 
 		glVertex2f(middle[i]->x + left[i]->x, middle[i]->y + left[i]->y);
 		
-        if (animated) {
+        if (displayDynamically && animated) {
             glTexCoord2f(tc,0.3);
         }
 
@@ -165,7 +165,7 @@ void HarvestSpline::drawHelper(float alpha) {
 	}
 	glEnd();
 
-    if (animated) {
+    if (displayDynamically && animated) {
         glDisable(GL_TEXTURE_2D);
     }
 
