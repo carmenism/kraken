@@ -40,8 +40,8 @@ SmallMultiple::SmallMultiple(std::vector<float> *xValues, std::vector<float> *yB
     absChart->setDisplayLegend(displayXAxisLabels);
 
     displayAbsoluteSizes = true;
-
     displayHarvest = false;
+    displayChart = true;
     
     harvest = new LineChart();
     harvest->setDisplayTitle(false);
