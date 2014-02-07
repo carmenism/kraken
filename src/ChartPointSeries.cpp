@@ -172,7 +172,7 @@ float ChartPointSeries::drawInLegend(float x, float y, float lineLength, float s
 }
 
 void ChartPointSeries::drawAsLines() {
-    glDisable(GL_LINE_SMOOTH);
+    glEnable(GL_LINE_SMOOTH);
     glPolygonMode(GL_FRONT, GL_LINE);
     glLineWidth(lineWidth);
     glColor4f(lineColor->r, lineColor->g, lineColor->b, lineColor->a);
@@ -183,7 +183,7 @@ void ChartPointSeries::drawAsLines() {
         }
     glEnd();    
     glLineWidth(1);
-    glEnable(GL_LINE_SMOOTH);
+    glDisable(GL_LINE_SMOOTH);
 
     if (displayMarkers) {
         FOREACH_POINTP(it, points) {

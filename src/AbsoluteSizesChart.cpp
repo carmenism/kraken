@@ -62,13 +62,13 @@ void AbsoluteSizesChart::draw() {
         legend->draw();
     }
 
-    setXLocation(lineChart->getXLocation() + lineChart->getOffsetX());
-    setYLocation(lineChart->getYLocation() + lineChart->getOffsetY());
+    setX(lineChart->getX() + lineChart->getOffsetX());
+    setY(lineChart->getY() + lineChart->getOffsetY());
     width = lineChart->getInnerWidth();
     height = lineChart->getInnerHeight();
 
     glPushMatrix();
-        glTranslatef(getXLocation(), getYLocation(), 0); 
+        glTranslatef(getX(), getY(), 0); 
                 
         drawAtOrigin();
     glPopMatrix();
@@ -109,13 +109,13 @@ void AbsoluteSizesChart::positionPoint(AbsoluteSizeIndicator *point) {
 }
 
 void AbsoluteSizesChart::drawToPick() {
-    setXLocation(lineChart->getXLocation() + lineChart->getOffsetX());
-    setYLocation(lineChart->getYLocation() + lineChart->getOffsetY());
+    setX(lineChart->getX() + lineChart->getOffsetX());
+    setY(lineChart->getY() + lineChart->getOffsetY());
     width = lineChart->getInnerWidth();
     height = lineChart->getInnerHeight();
 
     glPushMatrix();
-        glTranslatef(getXLocation(), getYLocation(), 0); 
+        glTranslatef(getX(), getY(), 0); 
                 
         drawToPickAtOrigin();
     glPopMatrix();

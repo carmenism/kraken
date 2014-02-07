@@ -60,8 +60,8 @@ void HarvestSpline::construct() {
     float sliderX = slider->getX() + slider->getWidth();
     float sliderY = slider->getY() + slider->getHeight() / 2.0;
     
-    float chartX = chart->getXLocation();
-    float chartY = chart->getYLocation() + chart->getHeight() / 2.0;
+    float chartX = chart->getX();
+    float chartY = chart->getY() + chart->getHeight() / 2.0;
 
     if (getThickness() != newThickness 
         || pointA->x != sliderX || pointA->y != sliderY

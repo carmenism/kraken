@@ -8,10 +8,10 @@
 #include <GL/glut.h>
 #include <iostream>
 
-SmallMultiple::SmallMultiple(std::vector<float> *x, std::vector<float> *yBiomass, std::vector<float> *yHarvest, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex) 
+SmallMultiple::SmallMultiple(std::vector<float> *xValues, std::vector<float> *yBiomass, std::vector<float> *yHarvest, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex) 
 : LineChart() {      
     sideLabel = label;
-    ChartPointSeries *biomassSeries = new ChartPointSeries(this, label, x, yBiomass);
+    ChartPointSeries *biomassSeries = new ChartPointSeries(this, label, xValues, yBiomass);
     Color *c = Color::getEvenlyDistributedColor(numGuilds, guildIndex);
     biomassSeries->setColor(c);
     
@@ -55,7 +55,7 @@ SmallMultiple::SmallMultiple(std::vector<float> *x, std::vector<float> *yBiomass
     harvest->getBottomAxis()->setDisplayTickLabels(displayXAxisLabels);
     harvest->setAxesFontHeight(9);
 
-    ChartPointSeries *harvestSeries = new ChartPointSeries(harvest, label, x, yHarvest);
+    ChartPointSeries *harvestSeries = new ChartPointSeries(harvest, label, xValues, yHarvest);
     harvestSeries->setColor(c);
 
     harvest->addPointSeries(harvestSeries);
@@ -78,20 +78,20 @@ ChartPointList *SmallMultiple::getPoints() {
     return LineChart::getPoints();
 }
 
-void SmallMultiple::setValues(std::vector<float> *x, std::vector<float> *yBiomass, std::vector<float> *yHarvest) {
-    seriesList->front()->setValues(x, yBiomass);
-    harvest->getPointSeriesList()->front()->setValues(x, yHarvest);
+void SmallMultiple::setValues(std::vector<float> *xValues, std::vector<float> *yBiomass, std::vector<float> *yHarvest) {
+    seriesList->front()->setValues(xValues, yBiomass);
+    harvest->getPointSeriesList()->front()->setValues(xValues, yHarvest);
 }
 
 void SmallMultiple::draw() {
     if (displayHarvest) {
         float w = harvest->getLeftAxis()->getSize();
-        harvest->setLocation(xPos, yPos + offsetY);
+        harvest->setLocation(x, y + offsetY);
         harvest->setWidth(getInnerWidth() + w);
         harvest->setHeight(getInnerHeight());
 
         if (harvest->getBottomAxis()->getDisplayLabel()) {
-            harvest->setLocation(xPos, yPos);
+            harvest->setLocation(x, y);
             float h = harvest->getBottomAxis()->getSize();
             harvest->setHeight(getInnerHeight() + h);
         }

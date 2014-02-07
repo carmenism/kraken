@@ -13,8 +13,8 @@ class SmallMultiple : public LineChart {
 public:
     SmallMultiple();
     ~SmallMultiple();
-    SmallMultiple(std::vector<float> *x, std::vector<float> *yBiomass, std::vector<float> *yHarvest, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex);
-    void setValues(std::vector<float> *x, std::vector<float> *yBiomass, std::vector<float> *yHarvest);
+    SmallMultiple(std::vector<float> *xValues, std::vector<float> *yBiomass, std::vector<float> *yHarvest, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex);
+    void setValues(std::vector<float> *xValues, std::vector<float> *yBiomass, std::vector<float> *yHarvest);
     void drawAtOrigin();
     virtual void draw();
     virtual void drawToPick();

@@ -4,10 +4,11 @@
 #include "Point.h"
 #include "Pickable.h"
 #include "Animatable.h"
+#include "Object2D.h"
 
-class Link : public Point, public Pickable, public Animatable {
+class Link : public Object2D, public Pickable, public Animatable {
 public:
-	Link() : Point(0, 0) { }
+	Link() { }
     ~Link() { }
 
 	virtual void draw() = 0;

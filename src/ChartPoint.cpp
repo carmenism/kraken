@@ -113,8 +113,8 @@ void ChartPoint::drawHistoryLine() {
 
     glEnable(GL_SCISSOR_TEST);
 
-    float startX = chart->getOffsetX() + chart->getXLocation();
-    float startY = chart->getOffsetY() + chart->getYLocation();
+    float startX = chart->getOffsetX() + chart->getX();
+    float startY = chart->getOffsetY() + chart->getY();
 
     glScissor(startX - 2, startY, chart->getInnerWidth() + 4, chart->getInnerHeight());
 

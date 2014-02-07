@@ -4,10 +4,12 @@
 class Button;
 
 #include "MouseEventItem.h"
+#include "Object2D.h"
+#include "Displayable.h"
 #include <string>
 #include <vector>
 
-class ButtonGroup: public MouseEventItem {
+class ButtonGroup: public MouseEventItem, public Displayable, public Object2D {
 public:
     ButtonGroup(std::string groupLabels, std::vector<std::string> buttonLabels, int inactiveIndex);
     ~ButtonGroup();
@@ -16,15 +18,6 @@ public:
     virtual bool mouseMoved(float x, float y);
     virtual bool mousePressed(float x, float y);
     virtual bool mouseReleased(float x, float y);
-
-    float getWidth() { return width; }
-
-    float getX() { return x; }
-    float getY() { return y; }
-
-    void setLocation(float x, float y) { this->x = x; this->y = y; }
-    void setX(float x) { this->x = x; }
-    void setY(float y) { this->y = y; }
 
     int getReleasedIndex() { return releasedIndex; }
 
@@ -35,13 +28,9 @@ public:
 protected:
     std::string label;
 private:
-    float x, y;
-    float width, height;
     float spacing;
     int releasedIndex;
     std::vector<Button *> *buttons;
-    
-    void drawBox();
 };
 
 #endif 

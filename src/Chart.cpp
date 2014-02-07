@@ -3,8 +3,8 @@
 #include <GL/glut.h>
 
 Chart::Chart() {
-    xPos = 0;
-    yPos = 0;
+    x = 0;
+    y = 0;
     fontHeight = 14;
     title = "";
     displayTitle = true;
@@ -12,7 +12,7 @@ Chart::Chart() {
 
 void Chart::draw() {
     glPushMatrix();
-        glTranslatef(xPos, yPos, 0); 
+        glTranslatef(x, y, 0); 
                 
         drawAtOrigin();
     glPopMatrix();
@@ -20,7 +20,7 @@ void Chart::draw() {
 
 void Chart::drawToPick() {
     glPushMatrix();
-        glTranslatef(xPos, yPos, 0); 
+        glTranslatef(x, y, 0); 
         
         drawToPickAtOrigin();
     glPopMatrix();

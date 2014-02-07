@@ -3,10 +3,10 @@
 
 class Color;
 
-#include "Point.h"
+#include "Object2D.h"
 #include "Pickable.h"
 
-class Shape : public Point {//, public Pickable {
+class Shape : public Object2D {
 public:
    Shape();
    virtual ~Shape();
@@ -14,14 +14,8 @@ public:
    void setId(int i) { id = i; }
    int getId() { return id; }
 
-   void setLocation(float x, float y);
-
    float getRotation() { return rotation; }
    void setRotation(float r) { rotation = r; }
-
-   float getWidth() { return width; }
-   float getHeight() { return height; }
-   void setSize(float w, float h) { width = w; height = h; }
 
    Color *getFillColor() { return fillColor; }
    void setFillColor(float r, float g, float b); // set color
@@ -47,10 +41,8 @@ public:
    void drawToPick();
    
    virtual void drawAtOrigin() = 0; // to be overwritten
-   //virtual void mouseHover();
 protected: 
    int id;                       // id of the object
-   float width, height;          // size of the object
    float rotation;               // rotation
    float borderWidth;            // width of the boundary
 
@@ -61,7 +53,6 @@ protected:
 
    bool drawFill;               // true to draw fill color
    bool drawBorder;             // true to draw boundary
-//   bool drawToPick;             
 };
 
 #endif /*SHAPE_H_*/

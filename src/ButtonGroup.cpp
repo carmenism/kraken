@@ -63,22 +63,10 @@ void ButtonGroup::draw() {
     glColor4f(0, 0, 0, 1);
     PrintText::drawStrokeText(label, x + spacing, y + height / 2, 10, HORIZ_LEFT, VERT_CENTER);
     
-    drawBox();
-}
-
-void ButtonGroup::drawBox() {
-    glDisable(GL_LINE_SMOOTH);
-    glPolygonMode(GL_FRONT, GL_LINE);  
-        glLineWidth(1);
-        glColor4f(0.5, 0.5, 0.5, 1);
-
-        glBegin(GL_LINE_LOOP);
-        glVertex2f( x, y );
-        glVertex2f( x, y + height );
-        glVertex2f( x + width, y + height );
-        glVertex2f( x + width, y );
-    glEnd();
-    glEnable(GL_LINE_SMOOTH);
+    glPushMatrix();
+        glTranslatef(x, y, 0);
+        drawBoundary();
+    glPopMatrix();
 }
 
 bool ButtonGroup::mouseMoved(float mouseX, float mouseY) {

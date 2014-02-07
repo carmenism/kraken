@@ -18,7 +18,7 @@
  * Create a new shape at position 0,0 of size 1,1 with a black border of width
  * 2.
  */
-Shape::Shape() : Point(0, 0) {
+Shape::Shape() {
    setRotation(0);
    setSize(100, 100);
    setBorderWidth(1.0);
@@ -133,8 +133,4 @@ void Shape::setBorderColor(float r, float g, float b) {
     borderColor->r = r;
     borderColor->g = g;
     borderColor->b = b;
-}
-
-void Shape::setLocation(float x, float y) {
-    setValues(x, y);
 }

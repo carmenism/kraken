@@ -960,7 +960,7 @@ void MyQGLWidget::positionSlidersForSpecies() {
         if (indices.size() % 2 == 1) {
             int middle = indices[indices.size() / 2];
             LineChart *middleChart = charts->at(middle);
-            float y = middleChart->getYLocation() + middleChart->getOffsetY() + middleChart->getInnerHeight() / 2;
+            float y = middleChart->getY() + middleChart->getOffsetY() + middleChart->getInnerHeight() / 2;
             sliders->at(i)->setLocation(65, y);
         } else {
             int a = indices[indices.size() / 2];
@@ -968,8 +968,8 @@ void MyQGLWidget::positionSlidersForSpecies() {
 
             LineChart *chartA = charts->at(a);
             LineChart *chartB = charts->at(b);
-            float yA = chartA->getYLocation() + chartA->getOffsetY() + chartA->getInnerHeight() / 2;
-            float yB = chartB->getYLocation() + chartB->getOffsetY() + chartB->getInnerHeight() / 2;
+            float yA = chartA->getY() + chartA->getOffsetY() + chartA->getInnerHeight() / 2;
+            float yB = chartB->getY() + chartB->getOffsetY() + chartB->getInnerHeight() / 2;
             sliders->at(i)->setLocation(65, (yA + yB) / 2);
         }
 
@@ -1013,7 +1013,7 @@ void MyQGLWidget::positionSlidersForGroups() {
     for (unsigned int i = 0; i < sliders->size(); i++) {
         MultiSpeciesLineChart *chart = managerPanel->getChartAt(i);
         float width = min(chart->getInnerWidth() * 0.65, 220);
-        sliders->at(i)->setLocation(chart->getXLocation() + 55, chart->getYLocation() - 30);
+        sliders->at(i)->setLocation(chart->getX() + 55, chart->getY() - 30);
         sliders->at(i)->titlePositionRight();
         sliders->at(i)->setWidth(width);
     }

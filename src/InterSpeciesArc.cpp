@@ -166,13 +166,13 @@ void InterSpeciesArc::draw() {
 
 void InterSpeciesArc::setUpForDrawing() {
     if (isArcToRight()) {
-        this->x = source->getXLocation() + source->getWidth();
+        this->x = source->getX() + source->getWidth();
     } else {
-        this->x = source->getXLocation();// + source->getOffsetX();
+        this->x = source->getX();// + source->getOffsetX();
     }
 
-    this->yA = source->getYLocation() + source->getOffsetY() + source->getInnerHeight() / 2;
-    this->yB = recipient->getYLocation() + recipient->getOffsetY() + recipient->getInnerHeight() / 2;
+    this->yA = source->getY() + source->getOffsetY() + source->getInnerHeight() / 2;
+    this->yB = recipient->getY() + recipient->getOffsetY() + recipient->getInnerHeight() / 2;
     
     adjustPositions();             
     determineCenterLocation();

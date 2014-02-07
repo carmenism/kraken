@@ -1,9 +1,10 @@
 #ifndef CHART_H_
 #define CHART_H_
 
+#include "Object2D.h"
 #include <string>
 
-class Chart {
+class Chart : public Object2D {
     public:
         Chart();
         virtual void draw();
@@ -16,20 +17,6 @@ class Chart {
         void setDisplayTitle(bool d) { displayTitle = d; }
         void displayTitleOn() { displayTitle = true; }
         void displayTitleOff() { displayTitle = false; }
-
-        float getXLocation() { return xPos; }
-        void setXLocation(float x) { xPos = x; }
-     
-        float getYLocation() { return yPos; }
-        void setYLocation(float y) { yPos = y; }
-
-        void setLocation(float x, float y) { xPos = x; yPos = y; }
-        
-        float getWidth() { return width; }
-        virtual void setWidth(float w) { width = w; }
-
-        float getHeight() { return height; }
-        virtual void setHeight(float h) { height = h; }
     
         float getFontHeight() { return fontHeight; }
         void setFontHeight(float h) { fontHeight = h; }
@@ -39,9 +26,7 @@ class Chart {
     protected:
         std::string title;
         float fontHeight;
-        float width, height;
         bool displayTitle;
-        float xPos, yPos;
 };
 
 #endif
