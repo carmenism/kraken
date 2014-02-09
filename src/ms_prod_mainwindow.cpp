@@ -33,20 +33,16 @@ MS_PROD_MainWindow::MS_PROD_MainWindow(QWidget *parent) :
 }
 
 
-MS_PROD_MainWindow::~MS_PROD_MainWindow()
-{
-    //delete glWidget;
+MS_PROD_MainWindow::~MS_PROD_MainWindow() {
     delete ui;
 }
 
 void MS_PROD_MainWindow::closeEvent(QCloseEvent *event) {
     glWidget->close();
-    //delete glWidget;
 }
 
 void MS_PROD_MainWindow::pb_Load_Clicked() {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open MS-PROD Parameter File"), "/", tr("CSV files (*.csv)"));
-
     loadFromParameterFile(fileName);
 
     QString fileName_TS = QFileDialog::getOpenFileName(this, tr("Open TimeSeries Parameter File"), "/", tr("CSV files (*.csv)"));
@@ -609,6 +605,12 @@ QString MS_PROD_MainWindow::convertDoubleToString(double number) {
 }
 
 void MS_PROD_MainWindow::pb_Run_Clicked() {
+    QString fileName("test_params_QEnew_harvest_predI_SAMEACROSSTIME.csv");
+    loadFromParameterFile(fileName);
+    
+    QString fileName_TS("observedTimeSeriesTest_10spp_Type1.csv");
+    loadFromTimeSeriesFile(fileName_TS);
+    
     testFramework();
     if (!paramObj.loaded()) {
         pb_Load_Clicked();
