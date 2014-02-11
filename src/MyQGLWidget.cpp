@@ -857,7 +857,7 @@ void MyQGLWidget::initialize() {
     viewLabels.push_back("Four Panel");
     viewLabels.push_back("Small Mult.");
     viewLabels.push_back("Uncertainty");
-    bgView = new ButtonGroup("View", viewLabels, 0);
+    bgView = new ButtonGroup("View", viewLabels, 1);
 
     std::vector<std::string> changeLabels;
     changeLabels.push_back("Line");
@@ -903,7 +903,7 @@ void MyQGLWidget::initialize() {
     bgUncertaintyLine = new ButtonGroup("Line Type", lineType, 1);
     bgUncertaintyLine->activeOff();
 
-    displayByGroup();
+    displayBySpecies();
 }
 
 void MyQGLWidget::displayByGroup() {
@@ -933,6 +933,10 @@ void MyQGLWidget::displayMonteCarlo() {
 }
 
 void MyQGLWidget::positionSlidersForSpecies() {
+    if (managerSmallMult->empty()) {
+        return;
+    }   
+
     for (unsigned int i = 0; i < sliders->size(); i++) {
         sliders->at(i)->titlePositionAbove();
     }
