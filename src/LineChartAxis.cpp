@@ -6,9 +6,9 @@
 #include <cmath>
 #include <GL/glut.h>
 
-LineChartAxis::LineChartAxis(LineChart *chart, int type) {
+LineChartAxis::LineChartAxis(LineChart *chart, AxisType axisType) {
     this->chart = chart;
-    axisType = type;    
+    this->axisType = axisType;    
 
     minorTickLength = 5.0;
     majorTickLength = 10.0;

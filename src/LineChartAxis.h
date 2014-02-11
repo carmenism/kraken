@@ -5,14 +5,14 @@
 
 class LineChart;
 
-enum {BOTTOM, TOP, LEFT, RIGHT};
+enum AxisType {BOTTOM, TOP, LEFT, RIGHT};
 
 #define OFFSET 5
 
 class LineChartAxis
 {
 public:
-    LineChartAxis(LineChart *chart, int type = BOTTOM);
+    LineChartAxis(LineChart *chart, AxisType axisType = BOTTOM);
     ~LineChartAxis();
 
     void draw();
@@ -70,7 +70,7 @@ public:
 private:
     LineChart *chart;
 
-    int axisType;
+    AxisType axisType;
 
     void *font;
 
