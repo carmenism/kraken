@@ -53,29 +53,29 @@ LineChart::~LineChart() {
 }
 
 void LineChart::setUpAxes() {
-    axes->push_back(new LineChartAxis(this, AXIS_BOTTOM));
-    axes->push_back(new LineChartAxis(this, AXIS_TOP));
-    axes->push_back(new LineChartAxis(this, AXIS_LEFT));
-    axes->push_back(new LineChartAxis(this, AXIS_RIGHT));
-    axes->at(AXIS_TOP)->displayOff();
-    axes->at(AXIS_RIGHT)->displayOff();
+    axes->push_back(new LineChartAxis(this, BOTTOM));
+    axes->push_back(new LineChartAxis(this, TOP));
+    axes->push_back(new LineChartAxis(this, LEFT));
+    axes->push_back(new LineChartAxis(this, RIGHT));
+    axes->at(TOP)->displayOff();
+    axes->at(RIGHT)->displayOff();
 }
 
 void LineChart::updateActualSize() {
     innerWidth = width;
     innerHeight = height;
 
-    innerWidth = innerWidth - axes->at(AXIS_RIGHT)->getSize();
-    innerWidth = innerWidth - axes->at(AXIS_LEFT)->getSize();
-    innerHeight = innerHeight - axes->at(AXIS_TOP)->getSize();
-    innerHeight = innerHeight - axes->at(AXIS_BOTTOM)->getSize();
+    innerWidth = innerWidth - axes->at(RIGHT)->getSize();
+    innerWidth = innerWidth - axes->at(LEFT)->getSize();
+    innerHeight = innerHeight - axes->at(TOP)->getSize();
+    innerHeight = innerHeight - axes->at(BOTTOM)->getSize();
 
     if (displayTitle) {
         innerHeight = innerHeight - fontHeight - fontHeight / 3;
     }
 
-    offsetX = axes->at(AXIS_LEFT)->getSize();
-    offsetY = axes->at(AXIS_BOTTOM)->getSize();
+    offsetX = axes->at(LEFT)->getSize();
+    offsetY = axes->at(BOTTOM)->getSize();
 }
 
 void LineChart::setWidth(float w) {
@@ -104,8 +104,8 @@ void LineChart::drawAtOrigin() {
         }
 
         float titlePos = innerHeight + fontHeight / 3;
-        if (axes->at(AXIS_TOP)->getDisplay()) {
-            titlePos = titlePos + axes->at(AXIS_TOP)->getSize();
+        if (axes->at(TOP)->getDisplay()) {
+            titlePos = titlePos + axes->at(TOP)->getSize();
         }
         if (displayTitle) {
             glColor4f(0, 0, 0, 1);
@@ -118,11 +118,11 @@ void LineChart::drawAtOrigin() {
 
 
 void LineChart::drawAxes() {
-    drawXAxis(axes->at(AXIS_BOTTOM));
-    drawXAxis(axes->at(AXIS_TOP));
+    drawXAxis(axes->at(BOTTOM));
+    drawXAxis(axes->at(TOP));
     
-    drawYAxis(axes->at(AXIS_LEFT));
-    drawYAxis(axes->at(AXIS_RIGHT));
+    drawYAxis(axes->at(LEFT));
+    drawYAxis(axes->at(RIGHT));
 }
 
 void LineChart::drawXAxis(LineChartAxis *axisX) {
@@ -327,51 +327,51 @@ void LineChart::displayAsLines() {
 }
 
 LineChartAxis *LineChart::getBottomAxis() {
-    return axes->at(AXIS_BOTTOM);
+    return axes->at(BOTTOM);
 }
 
 LineChartAxis *LineChart::getTopAxis() {
-    return axes->at(AXIS_TOP);
+    return axes->at(TOP);
 }
 
 LineChartAxis *LineChart::getLeftAxis() {
-    return axes->at(AXIS_LEFT);
+    return axes->at(LEFT);
 }
 
 LineChartAxis *LineChart::getRightAxis() {
-    return axes->at(AXIS_RIGHT);
+    return axes->at(RIGHT);
 }
 
 bool LineChart::getBottomAxisDisplay() {
-    return axes->at(AXIS_BOTTOM)->getDisplay();
+    return axes->at(BOTTOM)->getDisplay();
 }
 
 bool LineChart::getTopAxisDisplay() {
-    return axes->at(AXIS_TOP)->getDisplay();
+    return axes->at(TOP)->getDisplay();
 }
 
 bool LineChart::getLeftAxisDisplay() {
-    return axes->at(AXIS_LEFT)->getDisplay();
+    return axes->at(LEFT)->getDisplay();
 }
 
 bool LineChart::getRightAxisDisplay() {
-    return axes->at(AXIS_RIGHT)->getDisplay();
+    return axes->at(RIGHT)->getDisplay();
 }
 
 void LineChart::setBottomAxisDisplay(bool d) {
-    axes->at(AXIS_BOTTOM)->setDisplay(d);
+    axes->at(BOTTOM)->setDisplay(d);
 }
 
 void LineChart::setTopAxisDisplay(bool d) {
-    axes->at(AXIS_TOP)->setDisplay(d);
+    axes->at(TOP)->setDisplay(d);
 }
 
 void LineChart::setLeftAxisDisplay(bool d) {
-    axes->at(AXIS_LEFT)->setDisplay(d);
+    axes->at(LEFT)->setDisplay(d);
 }
 
 void LineChart::setRightAxisDisplay(bool d) {
-    axes->at(AXIS_RIGHT)->setDisplay(d);
+    axes->at(RIGHT)->setDisplay(d);
 }
 
 void LineChart::capturePreviousValues() {

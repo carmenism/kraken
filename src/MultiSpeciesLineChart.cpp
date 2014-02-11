@@ -29,8 +29,8 @@ MultiSpeciesLineChart::MultiSpeciesLineChart(QList<QList<double>> matrix, QStrin
         delete y;
     }     
 
-    axes->at(AXIS_BOTTOM)->setLabel("Year");
-    axes->at(AXIS_LEFT)->setLabel("Biomass (mt)");
+    axes->at(BOTTOM)->setLabel("Year");
+    axes->at(LEFT)->setLabel("Biomass (mt)");
 
     legend->setDisplay(true);
 }

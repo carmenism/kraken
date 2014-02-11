@@ -20,13 +20,13 @@ LineChartAxis::LineChartAxis(LineChart *chart, int type) {
     displayLabel = true;
 
     switch (axisType) {
-        case AXIS_LEFT:      
-        case AXIS_RIGHT:
+        case LEFT:      
+        case RIGHT:
             minorTickSpacing = 10000.0;
             majorTickSpacing = 50000.0;
             break;
-        case AXIS_TOP:
-        case AXIS_BOTTOM:
+        case TOP:
+        case BOTTOM:
         default:            
             minorTickSpacing = 1.0;
             majorTickSpacing = 5.0;
@@ -47,22 +47,22 @@ void LineChartAxis::draw() {
         float axisLength;
 
         switch (axisType) {
-            case AXIS_TOP:
+            case TOP:
                 axisLength = chart->getInnerWidth();
                 glTranslatef(0, chart->getInnerHeight(), 0);
                 glScalef(1.0, -1.0, 1.0);
                 break;
-            case AXIS_LEFT:            
+            case LEFT:            
                 axisLength = chart->getInnerHeight();
                 glRotatef(90, 0, 0, 1);
                 glScalef(1.0, -1.0, 1.0);
                 break;
-            case AXIS_RIGHT:
+            case RIGHT:
                 axisLength = chart->getInnerHeight();
                 glTranslatef(chart->getInnerWidth(), 0, 0);
                 glRotatef(90, 0, 0, 1);
                 break;
-            case AXIS_BOTTOM:
+            case BOTTOM:
             default:
                 axisLength = chart->getInnerWidth();
                 break;
@@ -107,7 +107,7 @@ void LineChartAxis::drawLabel(float axisLength) {
     }
 
     switch (axisType) {
-        case AXIS_TOP:
+        case TOP:
             x = chart->getInnerWidth() / 2;
             if (displayTickLabels) {
                 y = chart->getInnerHeight() + 2 * fontHeight / 3 + fontHeight;
@@ -116,7 +116,7 @@ void LineChartAxis::drawLabel(float axisLength) {
             }
             PrintText::drawStrokeText(label, x, y, fh, HORIZ_CENTER, VERT_BOTTOM, false, 0);
             break;
-        case AXIS_LEFT:            
+        case LEFT:            
             if (displayTickLabels) {
                 x = -2 * fontHeight / 3 - fontHeight;
             } else {
@@ -125,7 +125,7 @@ void LineChartAxis::drawLabel(float axisLength) {
             y = chart->getInnerHeight() / 2;
             PrintText::drawStrokeText(label, x, y, fh, HORIZ_CENTER, VERT_BOTTOM, false, 90);
             break;
-        case AXIS_RIGHT:
+        case RIGHT:
             if (displayTickLabels) {
                 x = chart->getInnerWidth() + 2 * fontHeight / 3 + fontHeight;
             } else {
@@ -134,7 +134,7 @@ void LineChartAxis::drawLabel(float axisLength) {
             y = chart->getInnerHeight() / 2;
             PrintText::drawStrokeText(label, x, y, fh, HORIZ_CENTER, VERT_BOTTOM, false, -90);
             break;
-        case AXIS_BOTTOM:
+        case BOTTOM:
         default:
             x = chart->getInnerWidth() / 2;
             if (displayTickLabels) {
@@ -162,22 +162,22 @@ void LineChartAxis::drawTickLabels(float axisLength) {
     while (value <= maxValue) {
         std::string label = numToStr(value);
         switch (axisType) {
-            case AXIS_TOP:
+            case TOP:
                 x = valueToPosition(chart->getInnerWidth(), value);
                 y = chart->getInnerHeight() + fontHeight / 3;
                 PrintText::drawStrokeText(label, x, y, fh, HORIZ_CENTER, VERT_BOTTOM, false, 0);
                 break;
-            case AXIS_LEFT:            
+            case LEFT:            
                 x = -fontHeight / 3;
                 y = valueToPosition(chart->getInnerHeight(), value);
                 PrintText::drawStrokeText(label, x, y, fh, HORIZ_CENTER, VERT_BOTTOM, false, 90);
                 break;
-            case AXIS_RIGHT:
+            case RIGHT:
                 x = chart->getInnerWidth() + fontHeight / 3;
                 y = valueToPosition(chart->getInnerHeight(), value);
                 PrintText::drawStrokeText(label, x, y, fh, HORIZ_CENTER, VERT_BOTTOM, false, -90);
                 break;
-            case AXIS_BOTTOM:
+            case BOTTOM:
             default:
                 x = valueToPosition(chart->getInnerWidth(), value);
                 y = -fontHeight / 3;

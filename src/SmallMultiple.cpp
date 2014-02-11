@@ -27,12 +27,12 @@ SmallMultiple::SmallMultiple(std::vector<float> *xValues, std::vector<float> *yB
     legend->setDisplay(false);
     displayTitleOff();
 
-    axes->at(AXIS_BOTTOM)->setLabel("Year");
-    axes->at(AXIS_BOTTOM)->setDisplayLabel(displayXAxisLabels);
-    axes->at(AXIS_BOTTOM)->setDisplayTickLabels(displayXAxisLabels);
+    axes->at(BOTTOM)->setLabel("Year");
+    axes->at(BOTTOM)->setDisplayLabel(displayXAxisLabels);
+    axes->at(BOTTOM)->setDisplayTickLabels(displayXAxisLabels);
 
-    axes->at(AXIS_LEFT)->setLabel("Biomass (mt)");
-    axes->at(AXIS_LEFT)->displayLabelOn();
+    axes->at(LEFT)->setLabel("Biomass (mt)");
+    axes->at(LEFT)->displayLabelOn();
 
     updateActualSize();
 
