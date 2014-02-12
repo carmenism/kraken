@@ -153,12 +153,12 @@ void SmallMultiplesWithArcsManager::initializeCharts(QList<QList<double> *> *bio
 }
 
 void SmallMultiplesWithArcsManager::initializeInteractionArcs(MS_PROD_MainWindow *mainWindow) {
-    arcsInter = new InterSpeciesArcCollection(this, "Arcs Represent Species Interaction");
+    arcsInter = new InterSpeciesArcCollection(this, "Arcs Represent Species Competition");
     initializeArcs(arcsInter, ARC_INTERACTION, mainWindow->getParameters()->getWithinGuildCompMatrix());
 
     ColorLegend *legend = new ColorLegend();
     QStringList guilds = mainWindow->getParameters()->getGuildList();
-    legend->addColorLegendItem(new ColorLegendItem(&Color::skyblue, "Interaction"));
+    legend->addColorLegendItem(new ColorLegendItem(&Color::skyblue, "Competition"));
     legend->addColorLegendItem(new ColorLegendItem(new Color(0.9, 0.9, 0, 0.45), "Harvest"));
     legend->setLocation(5, 5);
 
@@ -178,7 +178,7 @@ void SmallMultiplesWithArcsManager::initializePredationArcs(MS_PROD_MainWindow *
 }
 
 void SmallMultiplesWithArcsManager::initializeBothArcs(MS_PROD_MainWindow *mainWindow) {
-    arcsBoth = new InterSpeciesArcCollection(this, "ARCS - Orange: Predation, Blue: Interaction");
+    arcsBoth = new InterSpeciesArcCollection(this, "ARCS - Orange: Predation, Blue: Competition");
     initializeArcs(arcsBoth, ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix());
     arcsBoth->adjustLarger();
     //arcsBoth->setAdjustPercentage(0.5);
@@ -194,7 +194,7 @@ void SmallMultiplesWithArcsManager::initializeBothArcs(MS_PROD_MainWindow *mainW
     
     ColorLegend *legend = new ColorLegend();
     legend->addColorLegendItem(new ColorLegendItem(&Color::orange, "Predation"));
-    legend->addColorLegendItem(new ColorLegendItem(&Color::skyblue, "Interaction"));
+    legend->addColorLegendItem(new ColorLegendItem(&Color::skyblue, "Competition"));
     legend->addColorLegendItem(new ColorLegendItem(new Color(0.9, 0.9, 0, 0.45), "Harvest"));
     legend->setLocation(5, 5);
 
