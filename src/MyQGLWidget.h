@@ -25,13 +25,7 @@ class UndoButton;
 class GroupReordering;
 class ButtonGroup;
 
-typedef std::vector<MultiSpeciesLineChart *> MSLineChartList;
-typedef std::vector<MultiSpeciesLineChart *>::const_iterator MSLineChartIterator;
-
-#define FOREACH_MSLINECHART(it, msLineChartList) \
-    for(MSLineChartIterator it = msLineChartList.begin(); it != msLineChartList.end(); ++it)
-#define FOREACH_MSLINECHARTP(it, msLineChartList) \
-    for(MSLineChartIterator it = msLineChartList->begin(); it != msLineChartList->end(); ++it)
+enum Mode {NORMAL, EXPERIMENTAL};
 
 class MyQGLWidget : public QGLWidget {
 
@@ -62,6 +56,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
 private:
+    Mode mode;
     bool splinesUninitialized;
 
     int paddingTop;
@@ -83,6 +78,8 @@ private:
     ToggleButton *toggleAbsButton, *toggleChartsButton;
     //ToggleButton *toggleHarvButton;
     
+    ButtonGroup* bgConditions;
+    
     MS_PROD_MainWindow *mainWindow;
 
     std::vector<PlotManager *> *plotManagers;
@@ -94,12 +91,16 @@ private:
 
     std::string labelSuffix;
 
-    bool mouseReleaseButtons(float x, float y);
+    bool mouseReleaseButtonsNormal(float x, float y);
+    bool mouseReleaseButtonsExperimental(float x, float y);
+    bool mouseReleaseButtonsForSliders(float x, float y);
 
-    bool mousePressButtons(float x, float y);
+    bool mousePressButtonsNormal(float x, float y);
+    bool mousePressButtonsExperimental(float x, float y);
     bool mousePressSliders(float x, float y);
 
-    bool mouseMoveButtons(float x, float y);
+    bool mouseMoveButtonsNormal(float x, float y);
+    bool mouseMoveButtonsExperimental(float x, float y);
     bool mouseMoveSliders(float x, float y);
     void mouseMovePickables(int x, int y);
 
@@ -132,6 +133,14 @@ private:
     void displayGhostOff();
     void displayGhostAsLine();
     void displayGhostAsBlend();
+
+    void drawNormal();
+    void drawExperimental();
+
+    void experimentConditionA();
+    void experimentConditionB();
+    void experimentConditionC();
+    void experimentConditionD();
 };
 
 #endif  /* _MYQGLWIDGET_H */

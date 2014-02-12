@@ -33,6 +33,8 @@
 #include <iostream>
 
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
+    mode = EXPERIMENTAL;
+    
     plotManagers = new std::vector<PlotManager *>();
     sliders = new std::vector<ChangeSlider *>();
     sliderButtons = new std::vector<SliderButton *>();
@@ -152,97 +154,123 @@ void MyQGLWidget::timerEvent(QTimerEvent *) {
 void MyQGLWidget::paintGL() {
     ++timer; //CW_CODE for animation
 
-    glClear(GL_COLOR_BUFFER_BIT);
-
     if (!managerPanel->empty()) {
-        glPushMatrix();
-            glTranslatef(paddingLeft, paddingBottom, 0);
-            for (unsigned int i = 0; i < plotManagers->size(); i++) {
-                if (plotManagers->at(i)->getDisplay()) {
-                    plotManagers->at(i)->draw(size().rwidth() - paddingRight - paddingLeft, size().rheight() - paddingTop - paddingBottom);
-                }
-            }
-        glPopMatrix();
+        glClear(GL_COLOR_BUFFER_BIT);
 
-        float xPos = size().rwidth() - 100;
-        float yPos = size().rheight() - 25;
-        float panelTopY = size().rheight() - 30;
-        float panelBottomY = size().rheight() - 60;
-        float panelStartX = 5;
-        float spacing = 5;
+        if (mode == NORMAL) {
+            drawNormal();
+        } else {
+            drawExperimental();
+        }
         
-        baselineButton->setLocation(280, yPos);
-        resetAllButton->setLocation(355, yPos);
-
-        if (managerSmallMult->getDisplay() || managerPanel->getDisplay()) {
-            bgChange->setLocation(panelStartX, panelBottomY);
-            bgChange->draw();
-
-            float changeWidth = bgChange->getWidth();
-
-            if (managerSmallMult->getDisplay()) {
-                positionSlidersForSpecies();
-               
-                bgArc->setLocation(panelStartX + changeWidth + spacing, panelBottomY);
-                bgArc->draw();
-
-                if (bgArc->getActive(3)) {
-                    bgArcStyle->setLocation(bgArc->getX() + bgArc->getWidth() + spacing, bgArc->getY());
-                    bgArcStyle->draw();
-
-                    if (bgArcStyle->getActive(0)) {
-                        bgArcAnimate->setLocation(bgArcStyle->getX() + bgArcStyle->getWidth() + spacing, bgArcStyle->getY());
-                        bgArcAnimate->draw();
-                    }
-                }
-
-                float arcWidth = bgArc->getWidth();
-
-                float xPos = 445;
-                toggleAbsButton->setLocation(xPos, yPos);
-
-                xPos = xPos + toggleAbsButton->getWidth() + spacing;
-                toggleChartsButton->setLocation(xPos, yPos);
-                
-                for (unsigned int i = 0; i < speciesButtons->size(); i++) {
-                    speciesButtons->at(i)->draw();
-                }
-            } else {
-                positionSlidersForGroups();
-            }
-
-            for (unsigned int i = 0; i < speciesGroupButtons->size(); i++) {
-                speciesGroupButtons->at(i)->draw();
-            }
-
+        if (mode == EXPERIMENTAL || !managerMC->getDisplay()) {
             for (unsigned int i = 0; i < sliders->size(); i++) {
                 sliders->at(i)->draw();
             }
 
             for (unsigned int i = 0; i < sliderButtons->size(); i++) {
                 sliderButtons->at(i)->draw();
-            }         
-        } else {
-            runMCButton->setLocation(280, yPos);
-            runMCButton->draw();
+            }  
+        }
+    }
+}
 
-            bgUncertainty->setLocation(panelStartX, panelBottomY);
-            bgUncertainty->draw();
-            
-            if (bgUncertainty->getActive(0)) {
-                float xx = panelStartX + spacing + bgUncertainty->getWidth();
-
-                bgUncertaintyStats->setLocation(xx, panelBottomY);
-                bgUncertaintyStats->draw();
-                
-                bgUncertaintyLine->setLocation(xx + spacing + bgUncertaintyStats->getWidth(), panelBottomY);
-                bgUncertaintyLine->draw();
+void MyQGLWidget::drawNormal() {
+    glPushMatrix();
+        glTranslatef(paddingLeft, paddingBottom, 0);
+        for (unsigned int i = 0; i < plotManagers->size(); i++) {
+            if (plotManagers->at(i)->getDisplay()) {
+                plotManagers->at(i)->draw(size().rwidth() - paddingRight - paddingLeft, size().rheight() - paddingTop - paddingBottom);
             }
         }
+    glPopMatrix();
 
-        bgView->setLocation(panelStartX, panelTopY);
-        bgView->draw();
+    float xPos = size().rwidth() - 100;
+    float yPos = size().rheight() - 25;
+    float panelTopY = size().rheight() - 30;
+    float panelBottomY = size().rheight() - 60;
+    float panelStartX = 5;
+    float spacing = 5;
+    
+    baselineButton->setLocation(280, yPos);
+    resetAllButton->setLocation(355, yPos);
+
+    if (managerSmallMult->getDisplay() || managerPanel->getDisplay()) {
+        bgChange->setLocation(panelStartX, panelBottomY);
+        bgChange->draw();
+
+        float changeWidth = bgChange->getWidth();
+
+        if (managerSmallMult->getDisplay()) {
+            positionSlidersForSpecies();
+           
+            bgArc->setLocation(panelStartX + changeWidth + spacing, panelBottomY);
+            bgArc->draw();
+
+            if (bgArc->getActive(3)) {
+                bgArcStyle->setLocation(bgArc->getX() + bgArc->getWidth() + spacing, bgArc->getY());
+                bgArcStyle->draw();
+
+                if (bgArcStyle->getActive(0)) {
+                    bgArcAnimate->setLocation(bgArcStyle->getX() + bgArcStyle->getWidth() + spacing, bgArcStyle->getY());
+                    bgArcAnimate->draw();
+                }
+            }
+
+            float arcWidth = bgArc->getWidth();
+
+            float xPos = 445;
+            toggleAbsButton->setLocation(xPos, yPos);
+
+            xPos = xPos + toggleAbsButton->getWidth() + spacing;
+            toggleChartsButton->setLocation(xPos, yPos);
+            
+            for (unsigned int i = 0; i < speciesButtons->size(); i++) {
+                speciesButtons->at(i)->draw();
+            }
+        } else {
+            positionSlidersForGroups();
+        }
+
+        for (unsigned int i = 0; i < speciesGroupButtons->size(); i++) {
+            speciesGroupButtons->at(i)->draw();
+        }       
+    } else {
+        runMCButton->setLocation(280, yPos);
+        runMCButton->draw();
+
+        bgUncertainty->setLocation(panelStartX, panelBottomY);
+        bgUncertainty->draw();
+        
+        if (bgUncertainty->getActive(0)) {
+            float xx = panelStartX + spacing + bgUncertainty->getWidth();
+
+            bgUncertaintyStats->setLocation(xx, panelBottomY);
+            bgUncertaintyStats->draw();
+            
+            bgUncertaintyLine->setLocation(xx + spacing + bgUncertaintyStats->getWidth(), panelBottomY);
+            bgUncertaintyLine->draw();
+        }
     }
+
+    bgView->setLocation(panelStartX, panelTopY);
+    bgView->draw();
+}
+
+void MyQGLWidget::drawExperimental() {
+    glPushMatrix();
+        glTranslatef(paddingLeft, paddingBottom, 0);
+        for (unsigned int i = 0; i < plotManagers->size(); i++) {
+            if (plotManagers->at(i)->getDisplay()) {
+                plotManagers->at(i)->draw(size().rwidth() - paddingRight - paddingLeft, size().rheight() - paddingTop - paddingBottom);
+            }
+        }
+    glPopMatrix();
+
+    positionSlidersForSpecies();
+
+    bgConditions->setLocation(5, size().rheight() - 30);
+    bgConditions->draw();
 }
 
 void MyQGLWidget::drawToPick() {
@@ -261,8 +289,16 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
     float x = event->x();
     float y = size().rheight() - event->y();
 
+    bool mouseReleased = false;
+
     if (event->button() == Qt::LeftButton) {
-        if (!mouseReleaseButtons(x, y)) {
+        if (mode == NORMAL) {
+            mouseReleased = mouseReleaseButtonsNormal(x, y);
+        } else {
+            mouseReleased = mouseReleaseButtonsExperimental(x, y);
+        }        
+        
+        if (!mouseReleased) {
             for (unsigned int i = 0; i < sliders->size(); i++) {
                 if (sliders->at(i)->mouseReleased(x, y)) {
                     break;
@@ -274,7 +310,48 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
     updateGL();
 }
 
-bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
+bool MyQGLWidget::mouseReleaseButtonsExperimental(float x, float y) {
+    if (bgConditions->mouseReleased(x, y)) {
+        int releasedIndex = bgConditions->getReleasedIndex();
+
+        if (releasedIndex == 0) {      
+            experimentConditionA();
+        } else if (releasedIndex == 1) {
+            experimentConditionB();
+        } else if (releasedIndex == 2) { 
+            experimentConditionC();
+        } else if (releasedIndex == 3) {    
+            experimentConditionD();
+        }
+            
+        return true;
+    }
+
+    return mouseReleaseButtonsForSliders(x, y);
+}
+
+bool MyQGLWidget::mouseReleaseButtonsForSliders(float x, float y) {
+    SliderButton *button = NULL;
+
+    for (unsigned int i = 0; i < sliderButtons->size(); i++) {
+        if (sliderButtons->at(i)->mouseReleased(x, y)) {
+            button = sliderButtons->at(i);
+            break;
+        }
+    }
+    
+    if (button != NULL) {
+        updateEffortToSlider(button->getSlider());
+
+        runModel();
+
+        return true;
+    }
+
+    return false;
+}
+
+bool MyQGLWidget::mouseReleaseButtonsNormal(float x, float y) {
     if (bgView->mouseReleased(x, y)) {
         int releasedIndex = bgView->getReleasedIndex();
 
@@ -434,23 +511,8 @@ bool MyQGLWidget::mouseReleaseButtons(float x, float y) {
 
             return true;
         }
-    }
-
-    SliderButton *button = NULL;
-
-    for (unsigned int i = 0; i < sliderButtons->size(); i++) {
-        if (sliderButtons->at(i)->mouseReleased(x, y)) {
-            button = sliderButtons->at(i);
-            break;
-        }
-    }
-    
-    if (button != NULL) {
-        updateEffortToSlider(button->getSlider());
-
-        runModel();
-
-        return true;
+    } else {
+        return mouseReleaseButtonsForSliders(x, y);
     }
 
     return false;
@@ -497,10 +559,16 @@ void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
     float x = event->x();
     float y = size().rheight() - event->y();
     
-    if (event->button() == Qt::LeftButton) {
-        bool buttonPressed = mousePressButtons(x, y);
+    bool mousePressed = false;
 
-        if (!buttonPressed) {
+    if (event->button() == Qt::LeftButton) {
+        if (mode == NORMAL) {
+            mousePressed = mousePressButtonsNormal(x, y);
+        } else {
+            mousePressed = mousePressButtonsExperimental(x, y);
+        }
+
+        if (!mousePressed) {
             bool sliderPressed = mousePressSliders(x, y);
         }
     }
@@ -508,7 +576,21 @@ void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
     updateGL();
 }
 
-bool MyQGLWidget::mousePressButtons(float x, float y) {
+bool MyQGLWidget::mousePressButtonsExperimental(float x, float y) {
+    if (bgConditions->mousePressed(x, y)) {
+        return true; 
+    }
+
+    for (unsigned int i = 0; i < sliderButtons->size(); i++) {
+        if (sliderButtons->at(i)->mousePressed(x, y)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool MyQGLWidget::mousePressButtonsNormal(float x, float y) {
     if (bgView->mousePressed(x, y)) {
         return true;
     }
@@ -597,7 +679,13 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
     float x = event->x();
     float y = size().rheight() - event->y();
 
-    bool buttonMoved = mouseMoveButtons(x, y);
+    bool buttonMoved = false;
+    
+    if (mode == NORMAL) {
+        buttonMoved = mouseMoveButtonsNormal(x, y);
+    } else { // EXPERIMENTAL
+        buttonMoved = mouseMoveButtonsExperimental(x, y);
+    }
 
     if (!buttonMoved) {
         bool sliderMoved = mouseMoveSliders(x, y);
@@ -610,7 +698,21 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
     updateGL();
 }
 
-bool MyQGLWidget::mouseMoveButtons(float x, float y) {
+bool MyQGLWidget::mouseMoveButtonsExperimental(float x, float y) {
+    if (bgConditions->mouseMoved(x, y)) {
+        return true;
+    }
+    
+    for (unsigned int i = 0; i < sliderButtons->size(); i++) {
+        if (sliderButtons->at(i)->mouseMoved(x, y)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool MyQGLWidget::mouseMoveButtonsNormal(float x, float y) {
     if (bgView->mouseMoved(x, y)) {
         return true;
     }
@@ -757,12 +859,14 @@ void MyQGLWidget::updateCharts(Model *model) {
 
     if (splinesUninitialized) {
         managerSmallMult->initializeSplines(mainWindow, sliders, labelSuffix);
-        splinesUninitialized = false;
+        splinesUninitialized = false;      
+
+        if (mode == EXPERIMENTAL) {
+            experimentConditionA();
+        }
     }
 
     updateGL();    
-
-    updateGL();
 }
 
 
@@ -774,6 +878,8 @@ void MyQGLWidget::capturePreviousValues() {
 
 void MyQGLWidget::initialize() {
     this->show();
+
+    resize(1200, 800);
 
     gr = new GroupReordering(mainWindow);
     managerSmallMult->setGroupReordering(gr);
@@ -902,6 +1008,13 @@ void MyQGLWidget::initialize() {
     lineType.push_back("Median");
     bgUncertaintyLine = new ButtonGroup("Line Type", lineType, 1);
     bgUncertaintyLine->activeOff();
+
+    std::vector<std::string> condType;
+    condType.push_back("A");
+    condType.push_back("B");
+    condType.push_back("C");
+    condType.push_back("D");
+    bgConditions = new ButtonGroup("Condition", condType, 0);
 
     displayBySpecies();
 }
@@ -1094,4 +1207,25 @@ void MyQGLWidget::displayGhostAsBlend() {
     managerPanel->displayGhostAsBlend();
     managerSmallMult->displayGhostAsBlend();
     managerMC->displayGhostOff();
+}
+
+void MyQGLWidget::experimentConditionA() {
+    managerSmallMult->displayNoArcs();
+}
+
+void MyQGLWidget::experimentConditionB() {
+    managerSmallMult->displayBothArcs();
+    managerSmallMult->displayArcsDynamicallyOff();
+}
+
+void MyQGLWidget::experimentConditionC() {     
+    managerSmallMult->displayBothArcs();
+    managerSmallMult->displayArcsDynamicallyOn();
+    managerSmallMult->arcsAnimatedOff();
+}
+
+void MyQGLWidget::experimentConditionD() {     
+    managerSmallMult->displayBothArcs();
+    managerSmallMult->displayArcsDynamicallyOn();
+    managerSmallMult->arcsAnimatedOn();
 }
