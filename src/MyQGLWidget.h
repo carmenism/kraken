@@ -25,7 +25,7 @@ class UndoButton;
 class GroupReordering;
 class ButtonGroup;
 
-enum Mode {NORMAL, EXPERIMENTAL};
+enum Mode {NORMAL, EXPERIMENTAL, PRESENTATION};
 
 class MyQGLWidget : public QGLWidget {
 
@@ -78,7 +78,7 @@ private:
     ToggleButton *toggleAbsButton, *toggleChartsButton;
     //ToggleButton *toggleHarvButton;
     
-    ButtonGroup* bgConditions;
+    ButtonGroup* bgArcConditions;
     
     MS_PROD_MainWindow *mainWindow;
 
@@ -93,15 +93,25 @@ private:
 
     bool mouseReleaseButtonsNormal(float x, float y);
     bool mouseReleaseButtonsExperimental(float x, float y);
+    bool mouseReleaseButtonsPresentation(float x, float y);
     bool mouseReleaseButtonsForSliders(float x, float y);
+    
+    bool mouseReleaseBgArcConditions(float x, float y);
+    bool mouseReleaseButtonsUncertainty(float x, float y);
+    bool mouseReleaseBgView(float x, float y);
 
     bool mousePressButtonsNormal(float x, float y);
     bool mousePressButtonsExperimental(float x, float y);
+    bool mousePressButtonsPresentation(float x, float y);
     bool mousePressSliders(float x, float y);
+    bool mousePressButtonsUncertainty(float x, float y);
 
     bool mouseMoveButtonsNormal(float x, float y);
     bool mouseMoveButtonsExperimental(float x, float y);
+    bool mouseMoveButtonsPresentation(float x, float y);
     bool mouseMoveSliders(float x, float y);
+    bool mouseMoveSliderButtons(float x, float y);
+    bool mouseMoveButtonsUncertainty(float x, float y);
     void mouseMovePickables(int x, int y);
 
     void setBaseline();
@@ -136,6 +146,7 @@ private:
 
     void drawNormal();
     void drawExperimental();
+    void drawPresentation();
 
     void experimentConditionA();
     void experimentConditionB();

@@ -14,8 +14,7 @@ float *InterSpeciesArc::yArc = new float[NUM_SEGMENTS];
 
 extern int timer;
 
-InterSpeciesArc::InterSpeciesArc(PlotManager *pm, float coefficient, SmallMultiple *source, SmallMultiple *recipient, std::string label) 
- {
+InterSpeciesArc::InterSpeciesArc(PlotManager *pm, float coefficient, SmallMultiple *source, SmallMultiple *recipient, std::string label) {
     radius = 10;
     thickness = 1;
     highlightThickness = 4;
