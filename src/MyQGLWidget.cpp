@@ -36,9 +36,9 @@
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
     mode = EXPERIMENTAL;
 
-    //if (mode == EXPERIMENTAL) {
-       // evalWidget = new EvaluationWidget(mainWindow, parent);
-    //}
+    if (mode == EXPERIMENTAL) {
+        evalWidget = new EvaluationWidget(mainWindow, NULL);
+    }
     
     plotManagers = new std::vector<PlotManager *>();
     sliders = new std::vector<ChangeSlider *>();

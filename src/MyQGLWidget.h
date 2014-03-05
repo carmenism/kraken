@@ -67,7 +67,7 @@ private:
 
     int timer;
 
-    //EvaluationWidget *evalWidget;
+    EvaluationWidget *evalWidget;
 
     GroupReordering *gr;
     KrakenMonteCarlo *kmc;
