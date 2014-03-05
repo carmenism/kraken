@@ -37,7 +37,7 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     mode = EXPERIMENTAL;
 
     if (mode == EXPERIMENTAL) {
-        evalWidget = new EvaluationWidget(mainWindow, NULL);
+        evalWidget = new EvaluationWidget(this, NULL);
     }
     
     plotManagers = new std::vector<PlotManager *>();

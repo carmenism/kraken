@@ -4,11 +4,15 @@
 #include <QFormLayout>
 #include <QStackedWidget>
 #include <QDialogButtonBox>
+
 #include "QuestionWidget.h"
+#include "MyQGLWidget.h"
+
 #include <iostream>
 
-EvaluationWidget::EvaluationWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : 
+EvaluationWidget::EvaluationWidget(MyQGLWidget *myQGLWidget, QWidget *parent) : 
 QWidget(parent) {
+    this->myQGLWidget = myQGLWidget;
     //resize(320, 240);
     show();
     setWindowTitle("Evaluation");
@@ -50,7 +54,8 @@ QWidget(parent) {
 }
 
 EvaluationWidget::~EvaluationWidget() {
-
+    delete stackedWidget;
+    delete layout;
 }
 
 
@@ -66,10 +71,20 @@ void EvaluationWidget::accept() {
     QWidget *currentWidget = stackedWidget->widget(currentIndex);
 
     if (currentIndex + 1 < stackedWidget->count()) {
-        if (currentWidget) {
+        QuestionWidget *questionWidget = static_cast<QuestionWidget *> (currentWidget);
+        if (questionWidget) {
+            QString what = questionWidget->whatAnswer();
+            QString why = questionWidget->whyAnswer();
+            
+            if (what.isEmpty() || why.isEmpty()) {
 
-        }
-        stackedWidget->setCurrentIndex(currentIndex + 1);
+            } else {
+                // advance 
+                stackedWidget->setCurrentIndex(currentIndex + 1);
+            }
+        }        
+    } else {
+        // end evaluation
     }
 }
 
