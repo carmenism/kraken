@@ -9,6 +9,7 @@
 #include "ChangeSlider.h"
 #include "ChartPoint.h"
 #include "Color.h"
+#include "EvaluationWidget.h"
 #include "GroupReordering.h"
 #include "Model.h"
 #include "MS_PROD_MainWindow.h"
@@ -33,7 +34,11 @@
 #include <iostream>
 
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
-    mode = PRESENTATION;
+    mode = EXPERIMENTAL;
+
+    //if (mode == EXPERIMENTAL) {
+       // evalWidget = new EvaluationWidget(mainWindow, parent);
+    //}
     
     plotManagers = new std::vector<PlotManager *>();
     sliders = new std::vector<ChangeSlider *>();
@@ -316,6 +321,15 @@ void MyQGLWidget::drawNormal() {
 }
 
 void MyQGLWidget::drawExperimental() {
+    glPushMatrix();
+        glTranslatef(paddingLeft, paddingBottom, 0);
+        for (unsigned int i = 0; i < plotManagers->size(); i++) {
+            if (plotManagers->at(i)->getDisplay()) {
+                plotManagers->at(i)->draw(size().rwidth() - paddingRight - paddingLeft, size().rheight() - paddingTop - paddingBottom);
+            }
+        }
+    glPopMatrix();
+
     positionSlidersForSpecies();
 
     bgArcConditions->setLocation(5, size().rheight() - 30);
@@ -1212,10 +1226,6 @@ void MyQGLWidget::initialize() {
     bgArcConditions = new ButtonGroup("Arc Condition", condType, 0);
 
     displayBySpecies();
-
-    if (mode == PRESENTATION) {
-        experimentConditionA();
-    }
 }
 
 void MyQGLWidget::displayByGroup() {

@@ -24,6 +24,7 @@ class ToggleButton;
 class UndoButton;
 class GroupReordering;
 class ButtonGroup;
+class EvaluationWidget;
 
 enum Mode {NORMAL, EXPERIMENTAL, PRESENTATION};
 
@@ -65,6 +66,8 @@ private:
     int paddingLeft;
 
     int timer;
+
+    //EvaluationWidget *evalWidget;
 
     GroupReordering *gr;
     KrakenMonteCarlo *kmc;
