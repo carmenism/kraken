@@ -3,7 +3,9 @@
 
 #include <QtGui/QWidget>
 #include <QString>
+#include <QTime>
 #include <fstream>
+#include <string>
 #include <cstdio>
 
 class MyQGLWidget;
@@ -24,6 +26,8 @@ public:
         void accept();
         void accepted();
 private:
+    QTime start;
+
     FILE * outFile;
     std::string filename;
     MyQGLWidget *myQGLWidget;
@@ -36,9 +40,14 @@ private:
     void makeQuestion(const QString & question);
     void makeInstruction(const QString & message);
 
+    void attemptToAdvance();
+    void makeWarning();
     QWidget *getCurrentWidget();
     bool isAdvancable();
     void advancePage();
+    float getSecondsFromStart();
+
+    template <typename T> std::string toStr(const T& t);
 
     void determineFilename(QString initials);
 

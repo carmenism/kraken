@@ -16,7 +16,7 @@
 #include "MyQGLWidget.h"
 
 #include <iostream>
-#include <string>
+#include <sstream>
 
 EvaluationWidget::EvaluationWidget(MyQGLWidget *myQGLWidget, QWidget *parent) : 
 QWidget(parent) {
@@ -80,32 +80,8 @@ void EvaluationWidget::makeQuestion(const QString & question) {
 }
 
 void EvaluationWidget::accept() {    
-    QWidget *currentWidget = getCurrentWidget();
-
     if (isAdvancable()) {
-        ResponseWidget *responseWidget = dynamic_cast<ResponseWidget *> (currentWidget);
-        InstructionalWidget *instructionWidget = dynamic_cast<InstructionalWidget *> (currentWidget);
-
-        if (responseWidget) {
-            QuestionWidget *quest = dynamic_cast<QuestionWidget *> (currentWidget);
-            DemographicsWidget *demo = dynamic_cast<DemographicsWidget *> (currentWidget);
-
-            if (responseWidget->completed()) {
-                advancePage();
-
-                if (demo) {
-                    determineFilename(demo->initials());
-                    openFile();
-                }
-
-                writeToFile(responseWidget->getLine());
-            } else {
-                warningMessage->setText("Please fill out all fields.");
-            }
-        } else if (instructionWidget) {
-            myQGLWidget->resetAllSliders();
-            advancePage();
-        }
+        attemptToAdvance();
     } else {
         // end evaluation
         closeFile();
@@ -113,6 +89,54 @@ void EvaluationWidget::accept() {
     }
 }
 
+void EvaluationWidget::attemptToAdvance() {    
+    QWidget *currentWidget = getCurrentWidget();
+    ResponseWidget *responseWidget = dynamic_cast<ResponseWidget *> (currentWidget);
+    InstructionalWidget *instructionWidget = dynamic_cast<InstructionalWidget *> (currentWidget);
+
+    if (responseWidget) {
+        QuestionWidget *quest = dynamic_cast<QuestionWidget *> (currentWidget);
+        DemographicsWidget *demo = dynamic_cast<DemographicsWidget *> (currentWidget);
+
+        if (responseWidget->completed()) {            
+            std::string line = responseWidget->getLine();
+
+            if (demo) {
+                determineFilename(demo->initials());
+                openFile();
+            } else if (quest) {
+                std::cout << "End question\n";
+                line = line + "\t" + toStr(getSecondsFromStart());
+            }
+
+            writeToFile(line);
+            advancePage();
+        } else {
+            makeWarning();
+        }
+    } else if (instructionWidget) {
+        myQGLWidget->resetAllSliders();
+        advancePage();
+    }
+}
+
+float EvaluationWidget::getSecondsFromStart() {
+    QTime end = QDateTime::currentDateTime().time();
+    int msec = start.msecsTo(end);
+    float sec = msec / 1000.0;
+
+    return sec;
+}
+
+template <typename T> std::string EvaluationWidget::toStr(const T& t) { 
+    std::ostringstream os;
+    os << t; 
+    return os.str();
+}
+
+void EvaluationWidget::makeWarning() {
+    warningMessage->setText("Please fill out all fields.");
+}
 
 QWidget *EvaluationWidget::getCurrentWidget() {
     int currentIndex = stackedWidget->currentIndex();
@@ -130,6 +154,14 @@ void EvaluationWidget::advancePage() {
     int currentIndex = stackedWidget->currentIndex();
     warningMessage->setText("");
     stackedWidget->setCurrentIndex(currentIndex + 1);
+
+    QWidget *currentWidget = getCurrentWidget();
+    QuestionWidget *quest = dynamic_cast<QuestionWidget *> (currentWidget);
+    
+    if (quest) {
+        std::cout << "Start question\n";
+        start = QDateTime::currentDateTime().time();
+    }
 }
 
 void EvaluationWidget::writeToFile(std::string line) {
