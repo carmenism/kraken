@@ -24,6 +24,7 @@ public:
     QString whyAnswer();
 
     virtual bool completed();
+    virtual std::string getLine();
 private:
     QFormLayout *layout;
 

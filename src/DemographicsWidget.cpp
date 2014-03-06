@@ -62,3 +62,9 @@ QString DemographicsWidget::school() {
 bool DemographicsWidget::completed() {
     return !initials().isEmpty() && !gender().isEmpty() && !school().isEmpty();
 }
+
+std::string DemographicsWidget::getLine() {
+   return "Initials\t" + initials().toStdString() + "\t"
+        + "Gender\t" + gender().toStdString() + "\t"
+        + "College\t" + school().toStdString();
+}

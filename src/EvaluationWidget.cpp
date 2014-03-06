@@ -5,6 +5,9 @@
 #include <QStackedWidget>
 #include <QDialogButtonBox>
 #include <QLabel>
+#include <QDateTime>
+#include <QTime>
+#include <QTime>
 
 #include "DemographicsWidget.h"
 #include "QuestionWidget.h"
@@ -13,6 +16,7 @@
 #include "MyQGLWidget.h"
 
 #include <iostream>
+#include <string>
 
 EvaluationWidget::EvaluationWidget(MyQGLWidget *myQGLWidget, QWidget *parent) : 
 QWidget(parent) {
@@ -75,31 +79,79 @@ void EvaluationWidget::makeQuestion(const QString & question) {
     stackedWidget->addWidget(page);
 }
 
-void EvaluationWidget::accept() {
-    
-    int currentIndex = stackedWidget->currentIndex();
-    QWidget *currentWidget = stackedWidget->widget(currentIndex);
+void EvaluationWidget::accept() {    
+    QWidget *currentWidget = getCurrentWidget();
 
-    if (currentIndex + 1 < stackedWidget->count()) {
+    if (isAdvancable()) {
         ResponseWidget *responseWidget = dynamic_cast<ResponseWidget *> (currentWidget);
         InstructionalWidget *instructionWidget = dynamic_cast<InstructionalWidget *> (currentWidget);
 
         if (responseWidget) {
+            QuestionWidget *quest = dynamic_cast<QuestionWidget *> (currentWidget);
+            DemographicsWidget *demo = dynamic_cast<DemographicsWidget *> (currentWidget);
+
             if (responseWidget->completed()) {
-                warningMessage->setText("");
-                stackedWidget->setCurrentIndex(currentIndex + 1);
+                advancePage();
+
+                if (demo) {
+                    determineFilename(demo->initials());
+                    openFile();
+                }
+
+                writeToFile(responseWidget->getLine());
             } else {
                 warningMessage->setText("Please fill out all fields.");
             }
         } else if (instructionWidget) {
-            warningMessage->setText("");
-            stackedWidget->setCurrentIndex(currentIndex + 1);
+            myQGLWidget->resetAllSliders();
+            advancePage();
         }
     } else {
         // end evaluation
+        closeFile();
+        exit(0);
     }
 }
 
+
+QWidget *EvaluationWidget::getCurrentWidget() {
+    int currentIndex = stackedWidget->currentIndex();
+    
+    return stackedWidget->widget(currentIndex);
+}
+
+bool EvaluationWidget::isAdvancable() {
+    int currentIndex = stackedWidget->currentIndex();
+
+    return currentIndex + 1 < stackedWidget->count();
+}
+
+void EvaluationWidget::advancePage() {
+    int currentIndex = stackedWidget->currentIndex();
+    warningMessage->setText("");
+    stackedWidget->setCurrentIndex(currentIndex + 1);
+}
+
+void EvaluationWidget::writeToFile(std::string line) {
+    std::cout << line + "\n";
+    fputs(line.c_str(), outFile);
+    fputs("\n", outFile);
+}
+
+void EvaluationWidget::openFile() {
+    outFile = fopen(filename.c_str(), "w");
+}
+
+void EvaluationWidget::closeFile() {
+    fclose(outFile);
+}
+
+void EvaluationWidget::determineFilename(QString initials) {
+    QDateTime now = QDateTime::currentDateTime();
+    QString date = now.date().toString("yyyy.MM.dd");
+    QString time = now.time().toString("HH.mm");
+    filename = date.toStdString() + "_" + time.toStdString() + "_" + initials.toStdString() + ".csv";
+}
 
 void EvaluationWidget::accepted() {
     std::cout << "evaluation accepted\n";

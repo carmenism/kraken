@@ -23,6 +23,7 @@ public:
     QString school();
 
     virtual bool completed();
+    virtual std::string getLine();
 private:
     QFormLayout *layout;
 

@@ -673,6 +673,10 @@ bool MyQGLWidget::mouseReleaseButtonsNormal(float x, float y) {
 }
 
 void MyQGLWidget::resetAllSliders() {
+    if (managerPanel->empty()) {
+        return;
+    }
+
     for (unsigned int i = 0; i < sliders->size(); i++) {
         sliders->at(i)->reset();            
         updateEffortToSlider(sliders->at(i));

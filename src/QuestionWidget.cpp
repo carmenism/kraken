@@ -56,3 +56,10 @@ QString QuestionWidget::whyAnswer() {
 bool QuestionWidget::completed() {
     return !whatAnswer().isEmpty() && !whyAnswer().isEmpty();
 }
+
+std::string QuestionWidget::getLine() {
+    return whatQuestion().toStdString() + "\t"
+        + whatAnswer().toStdString() + "\t"
+        + whyQuestion().toStdString() + "\t"
+        + whyAnswer().toStdString();
+}
