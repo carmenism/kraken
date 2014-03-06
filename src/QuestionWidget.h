@@ -3,13 +3,14 @@
 
 #include <QtGui/QWidget>
 #include <QString>
+#include "ResponseWidget.h"
 
 class QTextEdit;
 class QLabel;
 class QDialogButtonBox;
 class QFormLayout;
 
-class QuestionWidget : public QWidget {
+class QuestionWidget : public ResponseWidget {
     Q_OBJECT // must include this if you use Qt signals/slots
 
 public:
@@ -22,7 +23,7 @@ public:
     QString whatAnswer();
     QString whyAnswer();
 
-    bool completed();
+    virtual bool completed();
 private:
     QFormLayout *layout;
 

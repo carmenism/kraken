@@ -29,6 +29,7 @@ private:
     QLabel *warningMessage;
 
     void makeQuestion(const QString & question);
+    void makeInstruction(const QString & message);
 };
 
 #endif

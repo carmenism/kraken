@@ -6,7 +6,7 @@
 #include <QDialogButtonBox>
 
 QuestionWidget::QuestionWidget(const QString & question, QWidget *parent) : 
-QWidget(parent) {
+ResponseWidget(parent) {
     whatLabel = new QLabel(question);
     
     whatTextEdit = new QTextEdit(this);

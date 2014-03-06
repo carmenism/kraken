@@ -9,7 +9,7 @@
 #include <QRadioButton>
 
 DemographicsWidget::DemographicsWidget(QWidget *parent) : 
-QWidget(parent) {
+ResponseWidget(parent) {
     initialsLabel = new QLabel("Enter initials:");
     
     initialsLineEdit = new QLineEdit(this);

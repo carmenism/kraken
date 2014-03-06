@@ -42,6 +42,8 @@ public:
     void drawToPick();
 
     void runModel();
+    
+    void resetAllSliders();
 
     int getPaddingTop() { return paddingTop; }
     int getPaddingBottom() { return paddingBottom; }
@@ -134,7 +136,6 @@ private:
     void positionSliderButtons();
 
     void setSlidersBaseline();
-    void resetAllSliders();
     void updateEffortToSlider(Slider *slider);
     void setEffort(float value, std::string guildName);
 

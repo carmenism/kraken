@@ -3,6 +3,7 @@
 
 #include <QtGui/QWidget>
 #include <QString>
+#include "ResponseWidget.h"
 
 class QLineEdit;
 class QLabel;
@@ -10,7 +11,7 @@ class QDialogButtonBox;
 class QFormLayout;
 class QComboBox;
 
-class DemographicsWidget : public QWidget {
+class DemographicsWidget : public ResponseWidget {
     Q_OBJECT // must include this if you use Qt signals/slots
 
 public:
@@ -21,7 +22,7 @@ public:
     QString gender();
     QString school();
 
-    bool completed();
+    virtual bool completed();
 private:
     QFormLayout *layout;
 
