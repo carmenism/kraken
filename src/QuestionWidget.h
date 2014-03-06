@@ -21,6 +21,8 @@ public:
 
     QString whatAnswer();
     QString whyAnswer();
+
+    bool completed();
 private:
     QFormLayout *layout;
 

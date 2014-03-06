@@ -5,8 +5,6 @@
 #include <QLabel>
 #include <QDialogButtonBox>
 
-#include <iostream>
-
 QuestionWidget::QuestionWidget(const QString & question, QWidget *parent) : 
 QWidget(parent) {
     whatLabel = new QLabel(question);
@@ -53,4 +51,8 @@ QString QuestionWidget::whatAnswer() {
 
 QString QuestionWidget::whyAnswer() {
     return whyTextEdit->toPlainText();
+}
+
+bool QuestionWidget::completed() {
+    return !whatAnswer().isEmpty() && !whyAnswer().isEmpty();
 }

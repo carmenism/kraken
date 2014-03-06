@@ -4,7 +4,9 @@
 #include <QFormLayout>
 #include <QStackedWidget>
 #include <QDialogButtonBox>
+#include <QLabel>
 
+#include "DemographicsWidget.h"
 #include "QuestionWidget.h"
 #include "MyQGLWidget.h"
 
@@ -13,24 +15,17 @@
 EvaluationWidget::EvaluationWidget(MyQGLWidget *myQGLWidget, QWidget *parent) : 
 QWidget(parent) {
     this->myQGLWidget = myQGLWidget;
-    //resize(320, 240);
+    resize(600, 400);
     show();
     setWindowTitle("Evaluation");
 
-     /*QWidget *firstPageWidget = new QWidget;
-     QWidget *secondPageWidget = new QWidget;
-     QWidget *thirdPageWidget = new QWidget;
-
-     QStackedWidget *stackedWidget = new QStackedWidget;
-     addWidget(firstPageWidget);
-     addWidget(secondPageWidget);
-     addWidget(thirdPageWidget);
-
-     QVBoxLayout *layout = new QVBoxLayout;
-     layout->addWidget(stackedWidget);
-     setLayout(layout);*/
     stackedWidget = new QStackedWidget(this);
     stackedWidget->show();
+
+    stackedWidget->addWidget(new DemographicsWidget());
+
+    warningMessage = new QLabel("");
+    warningMessage->setStyleSheet("QLabel { color : red; }");
 
     buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
@@ -48,6 +43,7 @@ QWidget(parent) {
 
     layout = new QFormLayout;
     layout->addRow(stackedWidget);
+    layout->addRow(warningMessage);
     layout->addRow(buttonBox);
 
     setLayout(layout);
@@ -71,16 +67,23 @@ void EvaluationWidget::accept() {
     QWidget *currentWidget = stackedWidget->widget(currentIndex);
 
     if (currentIndex + 1 < stackedWidget->count()) {
-        QuestionWidget *questionWidget = static_cast<QuestionWidget *> (currentWidget);
-        if (questionWidget) {
-            QString what = questionWidget->whatAnswer();
-            QString why = questionWidget->whyAnswer();
-            
-            if (what.isEmpty() || why.isEmpty()) {
-
-            } else {
-                // advance 
+        QuestionWidget *questionWidget = dynamic_cast<QuestionWidget *> (currentWidget);
+        DemographicsWidget *demographicsWidget = dynamic_cast<DemographicsWidget *> (currentWidget);
+        
+        if (demographicsWidget) {
+            if (demographicsWidget->completed()) {
+                warningMessage->setText("");
                 stackedWidget->setCurrentIndex(currentIndex + 1);
+            } else {
+                warningMessage->setText("Please fill out all fields.");
+            }
+        } else if (questionWidget) {            
+            if (questionWidget->completed()) {
+                // advance 
+                warningMessage->setText("");
+                stackedWidget->setCurrentIndex(currentIndex + 1);
+            } else {
+                warningMessage->setText("Please fill out all fields.");
             }
         }        
     } else {

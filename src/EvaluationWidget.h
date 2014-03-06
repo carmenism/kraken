@@ -8,6 +8,7 @@ class MyQGLWidget;
 class QFormLayout;
 class QStackedWidget;
 class QDialogButtonBox;
+class QLabel;
 
 class EvaluationWidget : public QWidget {
     Q_OBJECT // must include this if you use Qt signals/slots
@@ -25,6 +26,7 @@ private:
     QFormLayout *layout;
     QStackedWidget *stackedWidget;
     QDialogButtonBox *buttonBox;
+    QLabel *warningMessage;
 
     void makeQuestion(const QString & question);
 };
