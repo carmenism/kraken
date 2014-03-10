@@ -48,7 +48,12 @@ public:
     int getPaddingTop() { return paddingTop; }
     int getPaddingBottom() { return paddingBottom; }
     int getPaddingRight() { return paddingRight; }
-    int getPaddingLeft() { return paddingLeft; }
+    int getPaddingLeft() { return paddingLeft; }   
+
+    void experimentConditionA();
+    void experimentConditionB();
+    void experimentConditionC();
+    void experimentConditionD();
 protected:
     void initializeGL();
     void resizeGL(int w, int h);
@@ -151,11 +156,6 @@ private:
     void drawNormal();
     void drawExperimental();
     void drawPresentation();
-
-    void experimentConditionA();
-    void experimentConditionB();
-    void experimentConditionC();
-    void experimentConditionD();
 };
 
 #endif  /* _MYQGLWIDGET_H */

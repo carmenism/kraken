@@ -44,7 +44,13 @@ ResponseWidget(parent) {
 }
 
 DemographicsWidget::~DemographicsWidget() {
-
+    delete initialsLabel;
+    delete genderLabel;
+    delete schoolLabel;
+    delete initialsLineEdit;
+    delete genderComboBox;
+    delete schoolComboBox;
+    delete layout;
 }
 
 QString DemographicsWidget::initials() {

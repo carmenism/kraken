@@ -14,9 +14,14 @@ class QStackedWidget;
 class QDialogButtonBox;
 class QLabel;
 class QWidget;
+class QAbstractButton;
+class QButtonGroup;
+class QPushButton;
 
 class EvaluationWidget : public QWidget {
     Q_OBJECT // must include this if you use Qt signals/slots
+
+enum Condition {COND_A, COND_B, COND_C, COND_D};
 
 public:
     EvaluationWidget(MyQGLWidget *myQGLWidget, QWidget *parent = NULL);
@@ -26,6 +31,8 @@ public:
         void accept();
         void accepted();
 private:
+    Condition condition;
+    int conditionIndex;
     QTime start;
 
     FILE * outFile;
@@ -36,9 +43,17 @@ private:
     QStackedWidget *stackedWidget;
     QDialogButtonBox *buttonBox;
     QLabel *warningMessage;
+    
+    void makeIntroPages();
+    void makeTrainingPages();
+    void makeExperimentPages();
+    
+    void makePage(const QString & message);
 
     void makeQuestion(const QString & question);
     void makeInstruction(const QString & message);
+
+    void setToCondition();
 
     void attemptToAdvance();
     void makeWarning();

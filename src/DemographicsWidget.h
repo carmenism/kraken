@@ -7,7 +7,6 @@
 
 class QLineEdit;
 class QLabel;
-class QDialogButtonBox;
 class QFormLayout;
 class QComboBox;
 

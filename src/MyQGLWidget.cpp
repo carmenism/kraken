@@ -1423,22 +1423,30 @@ void MyQGLWidget::displayGhostAsBlend() {
 }
 
 void MyQGLWidget::experimentConditionA() {
-    managerSmallMult->displayNoArcs();
+    if (!managerSmallMult->empty()) {
+        managerSmallMult->displayNoArcs();
+    }
 }
 
 void MyQGLWidget::experimentConditionB() {
-    managerSmallMult->displayBothArcs();
-    managerSmallMult->displayArcsDynamicallyOff();
+    if (!managerSmallMult->empty()) {
+        managerSmallMult->displayBothArcs();
+        managerSmallMult->displayArcsDynamicallyOff();
+    }
 }
 
 void MyQGLWidget::experimentConditionC() {     
-    managerSmallMult->displayBothArcs();
-    managerSmallMult->displayArcsDynamicallyOn();
-    managerSmallMult->arcsAnimatedOff();
+    if (!managerSmallMult->empty()) {
+        managerSmallMult->displayBothArcs();
+        managerSmallMult->displayArcsDynamicallyOn();
+        managerSmallMult->arcsAnimatedOff();
+    }
 }
 
 void MyQGLWidget::experimentConditionD() {     
-    managerSmallMult->displayBothArcs();
-    managerSmallMult->displayArcsDynamicallyOn();
-    managerSmallMult->arcsAnimatedOn();
+    if (!managerSmallMult->empty()) {
+        managerSmallMult->displayBothArcs();
+        managerSmallMult->displayArcsDynamicallyOn();
+        managerSmallMult->arcsAnimatedOn();
+    }
 }

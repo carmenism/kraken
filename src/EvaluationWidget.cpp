@@ -8,11 +8,16 @@
 #include <QDateTime>
 #include <QTime>
 #include <QTime>
+#include <QButtonGroup>
+#include <QPushButton>
+#include <QAbstractButton>
+#include <QGridLayout>
 
 #include "DemographicsWidget.h"
 #include "QuestionWidget.h"
 #include "ResponseWidget.h"
 #include "InstructionalWidget.h"
+#include "ConditionSelectorWidget.h"
 #include "MyQGLWidget.h"
 
 #include <iostream>
@@ -20,6 +25,7 @@
 
 EvaluationWidget::EvaluationWidget(MyQGLWidget *myQGLWidget, QWidget *parent) : 
 QWidget(parent) {
+    outFile = NULL;
     this->myQGLWidget = myQGLWidget;
     resize(600, 400);
     show();
@@ -28,13 +34,75 @@ QWidget(parent) {
     stackedWidget = new QStackedWidget(this);
     stackedWidget->show();
 
-    stackedWidget->addWidget(new DemographicsWidget());
-
     warningMessage = new QLabel("");
     warningMessage->setStyleSheet("QLabel { color : red; }");
-
+    
     buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+
+    stackedWidget->addWidget(new ConditionSelectorWidget());
+    makeIntroPages();
+    
+    layout = new QFormLayout;
+    layout->addRow(stackedWidget);
+    layout->addRow(warningMessage);
+    layout->addRow(buttonBox);
+
+    setLayout(layout);
+}
+
+EvaluationWidget::~EvaluationWidget() {
+    delete stackedWidget;
+    delete layout;
+    delete outFile;
+    delete warningMessage;
+    delete buttonBox;
+}
+
+void EvaluationWidget::makeIntroPages() {
+    makePage("Explain the model.");
+    makePage("Explain the depiction of change.");
+    makePage("Explain the depiction of interspecies relationships.");
+    conditionIndex = stackedWidget->count() - 1;
+}
+
+void EvaluationWidget::setToCondition() {
+    if (condition == COND_A) {
+        myQGLWidget->experimentConditionA();
+    } else if (condition == COND_B) {
+        myQGLWidget->experimentConditionB();
+    } else if (condition == COND_C) {
+        myQGLWidget->experimentConditionC();
+    } else if (condition == COND_D) {
+        myQGLWidget->experimentConditionD();
+    }
+}
+
+void EvaluationWidget::makeTrainingPages() {
+    makePage("Double the harvest of groundfish.\n\nNotice that the cod biomass declined dramatically.\n\nNotice that haddock and redfish biomasses increased only moderately.");
+
+    if (condition == COND_A) {
+        makePage("Interactions between the species must explain why haddock and redfish were almost unaffected by the change in harvest.");
+    } else if (condition == COND_B || condition == COND_C || condition == COND_D) {
+        makePage("Notice the lines going between cod, haddock, and redfish.\n\nObserve that cod competes with haddock and redfish, explaining why the absence of cod was an improvement for haddock and redfish.\n\nObserve the links going between the three types of groundfish species and other types of species.  These help to explain changes in the other biomass predictions.");
+    }
+}
+
+void EvaluationWidget::makePage(const QString & message) {
+    QLabel *label = new QLabel(message);
+    label->setAlignment(Qt::AlignCenter);
+
+    QGridLayout *layout = new QGridLayout;
+    layout->addWidget(label, 0, 0);
+
+    QWidget *page = new QWidget();
+    page->setLayout(layout);
+
+    stackedWidget->addWidget(page);
+}
+
+void EvaluationWidget::makeExperimentPages() {
+    stackedWidget->addWidget(new DemographicsWidget());
 
     makeInstruction("Click OK to start experiment.");
 
@@ -53,18 +121,6 @@ QWidget(parent) {
     makeQuestion("What is the effect on cod?");
 
     makeInstruction("End of experiment.  Thank you for participating.");
-    
-    layout = new QFormLayout;
-    layout->addRow(stackedWidget);
-    layout->addRow(warningMessage);
-    layout->addRow(buttonBox);
-
-    setLayout(layout);
-}
-
-EvaluationWidget::~EvaluationWidget() {
-    delete stackedWidget;
-    delete layout;
 }
 
 void EvaluationWidget::makeInstruction(const QString & message) {
@@ -114,8 +170,10 @@ void EvaluationWidget::attemptToAdvance() {
         } else {
             makeWarning();
         }
-    } else if (instructionWidget) {
-        myQGLWidget->resetAllSliders();
+    } else {//
+        if (instructionWidget) {
+            myQGLWidget->resetAllSliders();
+        }
         advancePage();
     }
 }
@@ -152,22 +210,35 @@ bool EvaluationWidget::isAdvancable() {
 
 void EvaluationWidget::advancePage() {
     int currentIndex = stackedWidget->currentIndex();
+
+    if (currentIndex == 1) {
+        myQGLWidget->experimentConditionA();
+        makeTrainingPages();
+        makeExperimentPages();
+    }
+
     warningMessage->setText("");
     stackedWidget->setCurrentIndex(currentIndex + 1);
 
     QWidget *currentWidget = getCurrentWidget();
     QuestionWidget *quest = dynamic_cast<QuestionWidget *> (currentWidget);
-    
+
     if (quest) {
         std::cout << "Start question\n";
         start = QDateTime::currentDateTime().time();
     }
+
+    if (stackedWidget->currentIndex() == conditionIndex) {
+        setToCondition();
+    }
 }
 
 void EvaluationWidget::writeToFile(std::string line) {
-    std::cout << line + "\n";
-    fputs(line.c_str(), outFile);
-    fputs("\n", outFile);
+    if (outFile != NULL) {
+        std::cout << line + "\n";
+        fputs(line.c_str(), outFile);
+        fputs("\n", outFile);
+    }
 }
 
 void EvaluationWidget::openFile() {
