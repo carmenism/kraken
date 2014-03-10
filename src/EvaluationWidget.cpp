@@ -28,7 +28,7 @@ QWidget(parent) {
     outFile = NULL;
     this->myQGLWidget = myQGLWidget;
     resize(600, 400);
-    show();
+   
     setWindowTitle("Evaluation");
 
     stackedWidget = new QStackedWidget(this);
@@ -49,6 +49,8 @@ QWidget(parent) {
     layout->addRow(buttonBox);
 
     setLayout(layout);
+
+    condition = COND_A;
 }
 
 EvaluationWidget::~EvaluationWidget() {
@@ -66,25 +68,13 @@ void EvaluationWidget::makeIntroPages() {
     conditionIndex = stackedWidget->count() - 1;
 }
 
-void EvaluationWidget::setToCondition() {
-    if (condition == COND_A) {
-        myQGLWidget->experimentConditionA();
-    } else if (condition == COND_B) {
-        myQGLWidget->experimentConditionB();
-    } else if (condition == COND_C) {
-        myQGLWidget->experimentConditionC();
-    } else if (condition == COND_D) {
-        myQGLWidget->experimentConditionD();
-    }
-}
-
 void EvaluationWidget::makeTrainingPages() {
     makePage("Double the harvest of groundfish.\n\nNotice that the cod biomass declined dramatically.\n\nNotice that haddock and redfish biomasses increased only moderately.");
 
     if (condition == COND_A) {
-        makePage("Interactions between the species must explain why haddock and redfish were almost unaffected by the change in harvest.");
+        makePage("Interactions between the species must explain why haddock and redfish were almost \nunaffected by the change in harvest.");
     } else if (condition == COND_B || condition == COND_C || condition == COND_D) {
-        makePage("Notice the lines going between cod, haddock, and redfish.\n\nObserve that cod competes with haddock and redfish, explaining why the absence of cod was an improvement for haddock and redfish.\n\nObserve the links going between the three types of groundfish species and other types of species.  These help to explain changes in the other biomass predictions.");
+        makePage("Notice the lines going between cod, haddock, and redfish.\n\nObserve that cod competes with haddock and redfish, explaining why the absence\n of cod was an improvement for haddock and redfish.\n\nObserve the links going between the three types of groundfish species and other types of species.\n\nThese help to explain changes in the other biomass predictions.");
     }
 }
 
@@ -148,9 +138,9 @@ void EvaluationWidget::accept() {
 void EvaluationWidget::attemptToAdvance() {    
     QWidget *currentWidget = getCurrentWidget();
     ResponseWidget *responseWidget = dynamic_cast<ResponseWidget *> (currentWidget);
-    InstructionalWidget *instructionWidget = dynamic_cast<InstructionalWidget *> (currentWidget);
 
     if (responseWidget) {
+        ConditionSelectorWidget *cond = dynamic_cast<ConditionSelectorWidget *> (currentWidget);
         QuestionWidget *quest = dynamic_cast<QuestionWidget *> (currentWidget);
         DemographicsWidget *demo = dynamic_cast<DemographicsWidget *> (currentWidget);
 
@@ -160,9 +150,12 @@ void EvaluationWidget::attemptToAdvance() {
             if (demo) {
                 determineFilename(demo->initials());
                 openFile();
+                writeCondition();
             } else if (quest) {
                 std::cout << "End question\n";
                 line = line + "\t" + toStr(getSecondsFromStart());
+            } else if (cond) {
+                setCondition(cond->condition().toStdString());
             }
 
             writeToFile(line);
@@ -170,11 +163,44 @@ void EvaluationWidget::attemptToAdvance() {
         } else {
             makeWarning();
         }
-    } else {//
-        if (instructionWidget) {
-            myQGLWidget->resetAllSliders();
-        }
+    } else {     
         advancePage();
+    }
+}
+
+void EvaluationWidget::setCondition(std::string input) {
+    if (input.compare("Condition A") == 0) {
+        condition = COND_A;
+    } else if (input.compare("Condition B") == 0) {
+        condition = COND_B;
+    } else if (input.compare("Condition C") == 0) {
+        condition = COND_C;
+    } else if (input.compare("Condition D") == 0) {
+        condition = COND_D;
+    }
+}
+
+void EvaluationWidget::setToCondition() {
+    if (condition == COND_A) {
+        myQGLWidget->experimentConditionA();
+    } else if (condition == COND_B) {
+        myQGLWidget->experimentConditionB();
+    } else if (condition == COND_C) {
+        myQGLWidget->experimentConditionC();
+    } else if (condition == COND_D) {
+        myQGLWidget->experimentConditionD();
+    }
+}
+
+void EvaluationWidget::writeCondition() {
+    if (condition == COND_A) {
+        writeToFile("Condition\tA");
+    } else if (condition == COND_B) {
+        writeToFile("Condition\tB");
+    } else if (condition == COND_C) {
+        writeToFile("Condition\tC");
+    } else if (condition == COND_D) {
+        writeToFile("Condition\tD");
     }
 }
 
@@ -222,13 +248,16 @@ void EvaluationWidget::advancePage() {
 
     QWidget *currentWidget = getCurrentWidget();
     QuestionWidget *quest = dynamic_cast<QuestionWidget *> (currentWidget);
-
-    if (quest) {
+    InstructionalWidget *instructionWidget = dynamic_cast<InstructionalWidget *> (currentWidget);
+    
+    if (instructionWidget) {
+        myQGLWidget->resetAllSliders();
+    } else if (quest) {
         std::cout << "Start question\n";
         start = QDateTime::currentDateTime().time();
     }
 
-    if (stackedWidget->currentIndex() == conditionIndex) {
+    if (currentIndex + 1 == conditionIndex) {
         setToCondition();
     }
 }
@@ -251,9 +280,20 @@ void EvaluationWidget::closeFile() {
 
 void EvaluationWidget::determineFilename(QString initials) {
     QDateTime now = QDateTime::currentDateTime();
-    QString date = now.date().toString("yyyy.MM.dd");
-    QString time = now.time().toString("HH.mm");
-    filename = date.toStdString() + "_" + time.toStdString() + "_" + initials.toStdString() + ".csv";
+    std::string date = now.date().toString("yyyy.MM.dd").toStdString();
+    std::string time = now.time().toString("HH.mm").toStdString();
+
+    std::string cond = "COND-A";
+
+    if (condition == COND_B) {
+        cond = "COND-B";
+    } else if (condition == COND_C) {
+        cond = "COND-C";
+    } else if (condition == COND_D) {
+        cond = "COND-D";
+    }
+
+    filename = cond + "_" + date + "_" + time + "_" + initials.toStdString() + ".csv";
 }
 
 void EvaluationWidget::accepted() {

@@ -1092,6 +1092,10 @@ void MyQGLWidget::capturePreviousValues() {
 void MyQGLWidget::initialize() {
     this->show();
 
+    if (mode == EXPERIMENTAL) {
+        evalWidget->show();
+    }
+
     resize(1200, 800);
 
     gr = new GroupReordering(mainWindow);

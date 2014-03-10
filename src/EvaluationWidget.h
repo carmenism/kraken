@@ -53,7 +53,9 @@ private:
     void makeQuestion(const QString & question);
     void makeInstruction(const QString & message);
 
+    void setCondition(std::string input);
     void setToCondition();
+    void writeCondition();
 
     void attemptToAdvance();
     void makeWarning();
