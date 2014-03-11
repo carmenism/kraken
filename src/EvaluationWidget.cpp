@@ -62,17 +62,10 @@ EvaluationWidget::~EvaluationWidget() {
 }
 
 void EvaluationWidget::makeIntroPages() {
-    makePage("In the other window, you will see a visualization for a\nmodel called Kraken, which predicts the effects of fishing\non ten species of fish over periods of 30 years.  The model\ntakes into account the effects of fishing by humans and the\neffects the fish have on each other, i.e. predation and \ncompetition.\n\nThe purpose of this visualization is to help people\nunderstand how fishing impacts fish over a few decades.");
+    makePage("EXPERIMENT PROCTOR, please explain to the participant:\n * The purpose of the Kraken model\n * The representation of biomass\n * The depiction of changes between forecasts\n * The four functional groups");
 
-    makePage("The biomass of an individual species is calculated from:\n * Growth\n * Losses due to harvesting\n * Losses due to interactions with other species.\n\nSpecies interact with each other through either predation\nor competition.");
+    makePage("EXPERIMENT PROCTOR, please explain to the participant:\n * The interactions between species (predation and competition)");
 
-    makePage("Since biomasses vary greatly from species to species, \neach fish species has its own chart with its own y-axis\nscale.  To allow for comparison between the species, the\ngray circles indicate the absolute biomass size.");
-
-   makePage("The ten fish species are divided into four functional groups\nA functional group is a biological grouping of species that\nperform similar functions within their ecosystem.  The \ncoloring and positions indicate functional group.\n\nThe fish are harvest according to functional group. The\nsliders on the left represent how much the fishermen are \ntrying to catch the fish in that group. All sliders are set\nto one right now.");
-
-    makePage("Changing a slider causes the model to instantaeously recalculate\nthe biomass.  Try adjusting the slider for groundfish.  We have\ndrawn a shaded ghost to help you compare the current biomass\nforecast with a baseline biomass forecast.  The baseline is\nfrom when all sliders were set to one.");
-
-    makePage("Before we mentioned that species face losses due to fishing\nor interactions with other fish.  These interactions can \nhelp to explain why some fish are indirectly affected by\nchanges in fishing effort.");
     conditionIndex = stackedWidget->count() - 1;
 }
 
