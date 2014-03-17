@@ -1226,8 +1226,6 @@ void Parameters::setMatrixForGuildAtAllColumns(InteractionMatrix *matrix, QStrin
 
         if (QString::compare(guild, guildName) == 0) {
             setMatrixAtAllColumns(matrix, i, value);
-
-            return;
         }
     }
 }
