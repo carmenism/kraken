@@ -75,12 +75,12 @@ void EvaluationWidget::makeTrainingPages() {
     //}
 
     makeInstruction("Click OK to start Training Example");
-    makePage("Double the harvest of groundfish.\n\nNotice that the cod biomass declined dramatically.\n\nNotice that haddock and redfish biomasses increased only moderately.");
+    makePage("Halve the harvest of groundfish.\n\nNotice that the redfish, haddock, and cod biomasses increased due to decreased harvesting.\n\nNotice that the biomass of other fish species changed as well, such as mackerel.");
 
     if (condition == COND_A) {
-        makePage("Interactions between the species must explain why haddock and redfish were almost \nunaffected by the change in harvest.");
+        makePage("Interactions between the species must explain why mackerel decreased.\n\nPerhaps one of the groundfish species eats or competes with mackerel.");
     } else if (condition == COND_B || condition == COND_C || condition == COND_D) {
-        makePage("Notice the lines going between cod, haddock, and redfish.\n\nObserve that cod competes with haddock and redfish, explaining why the absence\n of cod was an improvement for haddock and redfish.\n\nObserve the links going between the three types of groundfish species and other types of species.\n\nThese help to explain changes in the other biomass predictions.");
+        makePage("Notice the line going from redfish to mackerel.\n\nThis indicates redfish eat mackerel.\n\nWe halved the harvest of groundfish, so the biomass of redfish increased.\n\nSince the redfish biomass increased, more mackerel were being consumed.\n\nThis could explain the decreased mackerel biomass.");
     }
 }
 
@@ -104,17 +104,15 @@ void EvaluationWidget::makeExperimentPages() {
 
     makeInstruction("Using the sliders, double the fishing effort of small pelagics.");
     makeQuestion("What is the effect on herring?");
-    makeQuestion("What is the effect on mackerel?");
         
     makeInstruction("Using the sliders, halve the fishing effort of flatfish.");
+    makeQuestion("What is the effect on winter flounder?");   
     makeQuestion("What is the effect on yellowtail flounder?");
-    makeQuestion("What is the effect on winter flounder?");
         
     makeInstruction("Using the sliders, double the fishing effort of elasmobranchs.");
     makeQuestion("What is the effect on skates?");
-    makeQuestion("What is the effect on spiny dogfish?");
-    makeQuestion("What is the effect on windowpane?");
     makeQuestion("What is the effect on cod?");
+    makeQuestion("What is the effect on windowpane?");
 
     makeInstruction("End of experiment.  Thank you for participating.");
 }

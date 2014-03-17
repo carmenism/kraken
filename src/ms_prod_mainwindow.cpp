@@ -605,18 +605,18 @@ QString MS_PROD_MainWindow::convertDoubleToString(double number) {
 }
 
 void MS_PROD_MainWindow::pb_Run_Clicked() {
-    //QString fileName("test_params_QEnew_harvest_predI_SAMEACROSSTIME.csv");
-    //loadFromParameterFile(fileName);
+    QString fileName("test_params_QEnew_harvest_predI_SAMEACROSSTIME.csv");
+    loadFromParameterFile(fileName);
     
-    //QString fileName_TS("observedTimeSeriesTest_10spp_Type1.csv");
-    //loadFromTimeSeriesFile(fileName_TS);
+    QString fileName_TS("observedTimeSeriesTest_10spp_Type1.csv");
+    loadFromTimeSeriesFile(fileName_TS);
     
     testFramework();
     if (!paramObj.loaded()) {
         pb_Load_Clicked();
     }
-    runModel();
 
+    runModel();
 }
 
 void MS_PROD_MainWindow::runModel(bool updateCharts) {
