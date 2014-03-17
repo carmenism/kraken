@@ -4,20 +4,22 @@
 #include <QFormLayout>
 #include <QLabel>
 #include <QDialogButtonBox>
+#include <QLineEdit>
 
 QuestionWidget::QuestionWidget(const QString & question, QWidget *parent) : 
 ResponseWidget(parent) {
     whatLabel = new QLabel(question);
     
-    whatTextEdit = new QTextEdit(this);
+    whatTextEdit = new QLineEdit(this);
     //whatTextEdit->setText("ENTER ANSWER HERE");
     whatTextEdit->show();
 
-    whyLabel = new QLabel("Why?");
+    whyLabel = new QLabel("Why? [Try to explain in no more than three sentences.]");
 
     whyTextEdit = new QTextEdit(this);
     //whyTextEdit->setText("ENTER ANSWER HERE");
     whyTextEdit->show();
+    whyTextEdit->setTabChangesFocus(true);
     
     layout = new QFormLayout;
 
@@ -42,11 +44,11 @@ QString QuestionWidget::whatQuestion() {
 }
 
 QString QuestionWidget::whyQuestion() {
-    return whyLabel->text();
+    return "Why?";whyLabel->text();
 }
 
 QString QuestionWidget::whatAnswer() {
-    return whatTextEdit->toPlainText();
+    return whatTextEdit->text();
 }
 
 QString QuestionWidget::whyAnswer() {
