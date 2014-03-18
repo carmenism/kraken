@@ -41,6 +41,10 @@ ResponseWidget(parent) {
     layout->addRow(schoolLabel, schoolComboBox);
 
     setLayout(layout);
+    
+    setFocusProxy(initialsLineEdit);
+    setTabOrder(initialsLineEdit, genderComboBox);
+    setTabOrder(genderComboBox, schoolComboBox);
 }
 
 DemographicsWidget::~DemographicsWidget() {

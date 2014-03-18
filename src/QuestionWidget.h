@@ -7,7 +7,7 @@
 
 class QTextEdit;
 class QLabel;
-class QLineEdit;
+class QComboBox;
 class QDialogButtonBox;
 class QFormLayout;
 
@@ -34,7 +34,7 @@ private:
     QLabel *whatLabel;
     QLabel *whyLabel;
 
-    QLineEdit *whatTextEdit;
+    QComboBox *whatComboBox;
     QTextEdit *whyTextEdit;
 };
 

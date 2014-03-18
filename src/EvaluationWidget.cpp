@@ -51,6 +51,10 @@ QWidget(parent) {
     setLayout(layout);
 
     condition = COND_A;
+
+    setFocusProxy(stackedWidget);
+    setTabOrder(stackedWidget, buttonBox);
+    setTabOrder(buttonBox, stackedWidget);
 }
 
 EvaluationWidget::~EvaluationWidget() {
@@ -70,18 +74,19 @@ void EvaluationWidget::makeIntroPages() {
 }
 
 void EvaluationWidget::makeTrainingPages() {
-    //if (condition == COND_B || condition == COND_C || condition == COND_D) {
-    //    makePage("The arcs");
-    //}
+    makeInstruction("Click OK to start the training example");
+    makeInstruction("Using the sliders, halve the fishing effort of groundfish.");
+    makePage("Notice that the redfish, haddock, and cod biomasses increased due to decreased harvesting of groundfish.\nThat is, the shaded region shows how the current forecast compares with the baseline forecast.\n\nNotice that the biomass of other fish species changed as well, such as mackerel.\n\nNext, you will answer a question that is similar to the experiment questions.");
 
-    makeInstruction("Click OK to start Training Example");
-    makePage("Halve the harvest of groundfish.\n\nNotice that the redfish, haddock, and cod biomasses increased due to decreased harvesting.\n\nNotice that the biomass of other fish species changed as well, such as mackerel.");
+    makeQuestion("What is the effect on mackerel?");
 
     if (condition == COND_A) {
-        makePage("Interactions between the species must explain why mackerel decreased.\n\nPerhaps one of the groundfish species eats or competes with mackerel.");
+        makePage("Q: What is the effect on mackerel?\nA: Decreased a little.\n\nQ: Why?\nA: Interactions between the species must explain why mackerel decreased.\nPerhaps one of the groundfish species eats or competes with mackerel.");
     } else if (condition == COND_B || condition == COND_C || condition == COND_D) {
-        makePage("Notice the line going from redfish to mackerel.\n\nThis indicates redfish eat mackerel.\n\nWe halved the harvest of groundfish, so the biomass of redfish increased.\n\nSince the redfish biomass increased, more mackerel were being consumed.\n\nThis could explain the decreased mackerel biomass.");
+        makePage("Q: What is the effect on mackerel?\nA: Decreased a little.\n\nQ: Why?\nA: Redfish eat mackerel.  The decreased harvest on groundfish caused an increase in the redfish biomass.\nThere were more redfish to predate on the mackerel, so the mackerel suffered.\n\nExtra explanation: Notice the orange arrow going from redfish to mackerel.  This indicates redfish eat \nmackerel. We halved the harvest of groundfish, so the biomass of redfish increased.  Since the redfish\nbiomass increased, more mackerel were being consumed.  This could explain the decreased mackerel\nbiomass.");
     }
+
+    makeInstruction("End of Training Example");
 }
 
 void EvaluationWidget::makePage(const QString & message) {
@@ -112,6 +117,7 @@ void EvaluationWidget::makeExperimentPages() {
     makeInstruction("Using the sliders, double the fishing effort of elasmobranchs.");
     makeQuestion("What is the effect on skates?");
     makeQuestion("What is the effect on cod?");
+    makeQuestion("What is the effect on haddock?");
     makeQuestion("What is the effect on windowpane?");
 
     makeInstruction("End of experiment.  Thank you for participating.");
