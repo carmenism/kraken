@@ -12,6 +12,7 @@
 #include <QPushButton>
 #include <QAbstractButton>
 #include <QGridLayout>
+#include <QCloseEvent>
 
 #include "DemographicsWidget.h"
 #include "QuestionWidget.h"
@@ -66,6 +67,10 @@ EvaluationWidget::~EvaluationWidget() {
     delete outFile;
     delete warningMessage;
     delete buttonBox;
+}
+
+void EvaluationWidget::closeEvent(QCloseEvent * event) {
+    myQGLWidget->close();
 }
 
 void EvaluationWidget::makeIntroPages() {

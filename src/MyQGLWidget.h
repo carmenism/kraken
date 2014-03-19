@@ -25,6 +25,7 @@ class UndoButton;
 class GroupReordering;
 class ButtonGroup;
 class EvaluationWidget;
+class QCloseEvent;
 
 enum Mode {NORMAL, EXPERIMENTAL, PRESENTATION};
 
@@ -62,7 +63,8 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
-    void keyPressEvent(QKeyEvent *event);
+    void keyPressEvent(QKeyEvent *event);    
+    void closeEvent(QCloseEvent * event);
 private:
     Mode mode;
     bool splinesUninitialized;

@@ -31,6 +31,7 @@
 
 #include <QList>
 #include <QStringList>
+#include <QCloseEvent>
 #include <iostream>
 
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
@@ -114,6 +115,10 @@ MyQGLWidget::~MyQGLWidget() {
     delete picker;
     delete kmc;
     delete gr;
+}
+
+void MyQGLWidget::closeEvent(QCloseEvent * event) {
+    mainWindow->close();
 }
 
 void MyQGLWidget::deleteButtonList(std::vector<Button *> *list) {

@@ -17,6 +17,7 @@ class QWidget;
 class QAbstractButton;
 class QButtonGroup;
 class QPushButton;
+class QCloseEvent;
 
 class EvaluationWidget : public QWidget {
     Q_OBJECT // must include this if you use Qt signals/slots
@@ -32,6 +33,8 @@ public:
     public slots:
         void accept();
         void accepted();
+protected:
+    void closeEvent(QCloseEvent * event);
 private:
     Condition condition;
     int conditionIndex;
