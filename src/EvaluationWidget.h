@@ -27,6 +27,8 @@ public:
     EvaluationWidget(MyQGLWidget *myQGLWidget, QWidget *parent = NULL);
     ~EvaluationWidget();
     
+    static std::string delim;
+
     public slots:
         void accept();
         void accepted();
@@ -74,3 +76,5 @@ private:
 };
 
 #endif
+
+

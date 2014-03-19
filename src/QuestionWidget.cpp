@@ -1,5 +1,6 @@
 #include "QuestionWidget.h"
 
+#include "EvaluationWidget.h"
 #include <QTextEdit>
 #include <QFormLayout>
 #include <QLabel>
@@ -71,8 +72,17 @@ bool QuestionWidget::completed() {
 }
 
 std::string QuestionWidget::getLine() {
-    return whatQuestion().toStdString() + "\t"
-        + whatAnswer().toStdString() + "\t"
-        + whyQuestion().toStdString() + "\t"
-        + whyAnswer().toStdString();
+    QString newAnswer = QString(whyAnswer());
+
+    int j = 0;
+
+    while ((j = newAnswer.indexOf("\"", j)) != -1) {
+        newAnswer.replace(j, 1, "\"\"");
+        j = j + 2;
+    }
+
+    return whatQuestion().toStdString() + EvaluationWidget::delim
+        + whatAnswer().toStdString() + EvaluationWidget::delim
+        + whyQuestion().toStdString() + EvaluationWidget::delim
+        + "\"" + newAnswer.toStdString() + "\"";
 }

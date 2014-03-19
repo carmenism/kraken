@@ -1,5 +1,6 @@
 #include "DemographicsWidget.h"
 
+#include "EvaluationWidget.h"
 #include <QLineEdit>
 #include <QFormLayout>
 #include <QLabel>
@@ -74,7 +75,10 @@ bool DemographicsWidget::completed() {
 }
 
 std::string DemographicsWidget::getLine() {
-   return "Initials\t" + initials().toStdString() + "\t"
-        + "Gender\t" + gender().toStdString() + "\t"
-        + "College\t" + school().toStdString();
+   return ("Initials" + EvaluationWidget::delim 
+       + initials().toStdString() + "\n"
+       + "Gender" + EvaluationWidget::delim 
+       + gender().toStdString() + "\n"
+       + "College" + EvaluationWidget::delim 
+       + school().toStdString());
 }

@@ -23,8 +23,11 @@
 #include <iostream>
 #include <sstream>
 
+std::string EvaluationWidget::delim = ",";
+
 EvaluationWidget::EvaluationWidget(MyQGLWidget *myQGLWidget, QWidget *parent) : 
 QWidget(parent) {
+    delim = ',';
     outFile = NULL;
     this->myQGLWidget = myQGLWidget;
     resize(600, 400);
@@ -163,7 +166,7 @@ void EvaluationWidget::attemptToAdvance() {
                 writeCondition();
             } else if (quest) {
                 std::cout << "End question\n";
-                line = line + "\t" + toStr(getSecondsFromStart());
+                line = line + delim + toStr(getSecondsFromStart());
             } else if (cond) {
                 setCondition(cond->condition().toStdString());
             }
@@ -204,13 +207,13 @@ void EvaluationWidget::setToCondition() {
 
 void EvaluationWidget::writeCondition() {
     if (condition == COND_A) {
-        writeToFile("Condition\tA");
+        writeToFile("Condition" + delim + "A");
     } else if (condition == COND_B) {
-        writeToFile("Condition\tB");
+        writeToFile("Condition" + delim + "B");
     } else if (condition == COND_C) {
-        writeToFile("Condition\tC");
+        writeToFile("Condition" + delim + "C");
     } else if (condition == COND_D) {
-        writeToFile("Condition\tD");
+        writeToFile("Condition" + delim + "D");
     }
 }
 
@@ -257,6 +260,8 @@ void EvaluationWidget::advancePage() {
     stackedWidget->setCurrentIndex(currentIndex + 1);
 
     QWidget *currentWidget = getCurrentWidget();
+    //ConditionSelectorWidget *condSel = dynamic_cast<ConditionSelectorWidget *> (currentWidget);
+    //DemographicsWidget *demo = dynamic_cast<DemographicsWidget *> (currentWidget);
     QuestionWidget *quest = dynamic_cast<QuestionWidget *> (currentWidget);
     InstructionalWidget *instructionWidget = dynamic_cast<InstructionalWidget *> (currentWidget);
     
@@ -266,6 +271,10 @@ void EvaluationWidget::advancePage() {
         std::cout << "Start question\n";
         start = QDateTime::currentDateTime().time();
     }
+
+    //if (condSel || quest || demo) {
+    //    stackedWidget->setFocus();
+    //}
 
     if (currentIndex + 1 == conditionIndex) {
         setToCondition();
