@@ -46,6 +46,14 @@ ResponseWidget(parent) {
     setFocusProxy(initialsLineEdit);
     setTabOrder(initialsLineEdit, genderComboBox);
     setTabOrder(genderComboBox, schoolComboBox);
+
+    QFont f( "Arial", EvaluationWidget::fontSize);
+    initialsLabel->setFont(f);
+    genderLabel->setFont(f);
+    schoolLabel->setFont(f);
+    schoolComboBox->setFont(f);
+    genderComboBox->setFont(f);
+    initialsLineEdit->setFont(f);
 }
 
 DemographicsWidget::~DemographicsWidget() {

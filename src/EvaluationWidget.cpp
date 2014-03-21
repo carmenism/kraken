@@ -25,6 +25,8 @@
 #include <sstream>
 
 std::string EvaluationWidget::delim = ",";
+int EvaluationWidget::fontSize = 18;
+int EvaluationWidget::fontSizeLarger = 24;
 
 EvaluationWidget::EvaluationWidget(MyQGLWidget *myQGLWidget, QWidget *parent) : 
 QWidget(parent) {
@@ -43,6 +45,10 @@ QWidget(parent) {
     
     buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+
+    QFont f( "Arial", fontSize);
+    warningMessage->setFont(f);
+    buttonBox->setFont(f);
 
     stackedWidget->addWidget(new ConditionSelectorWidget());
     makeIntroPages();

@@ -29,6 +29,8 @@ public:
     ~EvaluationWidget();
     
     static std::string delim;
+    static int fontSize;
+    static int fontSizeLarger;
 
     public slots:
         void accept();

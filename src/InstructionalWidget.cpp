@@ -1,5 +1,6 @@
 #include "InstructionalWidget.h"
 
+#include "EvaluationWidget.h"
 #include <QGridLayout>
 #include <QLabel>
 
@@ -9,7 +10,7 @@ QWidget(parent) {
     label->setStyleSheet("QLabel { color : blue;}");
     label->setAlignment(Qt::AlignCenter);
     
-    QFont f( "Arial", 12, QFont::Bold);
+    QFont f( "Arial", EvaluationWidget::fontSizeLarger, QFont::Bold);
     label->setFont(f);
 
     QGridLayout *layout = new QGridLayout;

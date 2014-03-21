@@ -18,11 +18,16 @@ ConditionSelectorWidget::ConditionSelectorWidget(QWidget *parent)
     
     layout = new QFormLayout;
 
-    layout->addRow(conditionLabel, conditionComboBox);
+    layout->addRow(conditionLabel);
+    layout->addRow(conditionComboBox);
 
     setLayout(layout);
     
     setFocusProxy(conditionComboBox);
+    
+    QFont f( "Arial", EvaluationWidget::fontSize);
+    conditionLabel->setFont(f);
+    conditionComboBox->setFont(f);
 }
 
 ConditionSelectorWidget::~ConditionSelectorWidget() {

@@ -41,6 +41,12 @@ ResponseWidget(parent) {
 
     setFocusProxy(whatComboBox);
     setTabOrder(whatComboBox, whyTextEdit);
+    
+    QFont f( "Arial", EvaluationWidget::fontSize);
+    whatLabel->setFont(f);
+    whyLabel->setFont(f);
+    whatComboBox->setFont(f);
+    whyTextEdit->setFont(f);
 }
 
 QuestionWidget::~QuestionWidget() {
