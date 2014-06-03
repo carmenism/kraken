@@ -27,7 +27,7 @@ class ButtonGroup;
 class EvaluationWidget;
 class QCloseEvent;
 
-enum Mode {NORMAL, EXPERIMENTAL, PRESENTATION};
+enum Mode {NORMAL, EXPERIMENTAL, PRESENTATION, DYN_ANIM_ARCS_ONLY};
 
 class MyQGLWidget : public QGLWidget {
 

@@ -35,7 +35,7 @@
 #include <iostream>
 
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
-    mode = EXPERIMENTAL;
+    mode = NORMAL;
 
     if (mode == EXPERIMENTAL) {
         evalWidget = new EvaluationWidget(this, NULL);
@@ -169,7 +169,7 @@ void MyQGLWidget::paintGL() {
 
         if (mode == NORMAL) {
             drawNormal();
-        } else if (mode == EXPERIMENTAL) {
+        } else if (mode == EXPERIMENTAL || mode == DYN_ANIM_ARCS_ONLY) {
             drawExperimental();
         } else if (mode == PRESENTATION) {
             drawPresentation();
@@ -362,7 +362,7 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         if (mode == NORMAL) {
             mouseReleased = mouseReleaseButtonsNormal(x, y);
-        } else if (mode == EXPERIMENTAL) {
+        } else if (mode == EXPERIMENTAL || mode == DYN_ANIM_ARCS_ONLY) {
             mouseReleased = mouseReleaseButtonsExperimental(x, y);
         } else if (mode == PRESENTATION) {
             mouseReleased = mouseReleaseButtonsPresentation(x, y);
@@ -727,7 +727,7 @@ void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         if (mode == NORMAL) {
             mousePressed = mousePressButtonsNormal(x, y);
-        } else if (mode == EXPERIMENTAL) {
+        } else if (mode == EXPERIMENTAL || mode == DYN_ANIM_ARCS_ONLY) {
             mousePressed = mousePressButtonsExperimental(x, y);
         } else if (mode == PRESENTATION) {
             mousePressed = mousePressButtonsPresentation(x, y);
@@ -857,7 +857,7 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
     
     if (mode == NORMAL) {
         buttonMoved = mouseMoveButtonsNormal(x, y);
-    } else if (mode == EXPERIMENTAL) { 
+    } else if (mode == EXPERIMENTAL || mode == DYN_ANIM_ARCS_ONLY) { 
         buttonMoved = mouseMoveButtonsExperimental(x, y);
     } else if (mode == PRESENTATION) {
         buttonMoved = mouseMoveButtonsPresentation(x, y);
@@ -1081,6 +1081,8 @@ void MyQGLWidget::updateCharts(Model *model) {
 
         if (mode == PRESENTATION || mode == EXPERIMENTAL) {
             experimentConditionA();
+        } else if (mode == DYN_ANIM_ARCS_ONLY) {
+            experimentConditionD();
         }
     }
 
