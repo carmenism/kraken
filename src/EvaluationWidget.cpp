@@ -33,7 +33,7 @@ QWidget(parent) {
     delim = ',';
     outFile = NULL;
     this->myQGLWidget = myQGLWidget;
-    resize(600, 400);
+    resize(450, 400);
    
     setWindowTitle("Evaluation");
 
