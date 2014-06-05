@@ -14,7 +14,7 @@ class QStringList;
 
 class PlotManager : public Displayable {
     public:
-        PlotManager() {  }
+        PlotManager();
         ~PlotManager();
      
         virtual void draw(float windowWidth, float windowHeight);
@@ -37,6 +37,7 @@ class PlotManager : public Displayable {
         float getFontSize(float windowWidth, float windowHeight);
         float getMarkersSize(float chartWidth, float chartHeight);
     private: 
+        std::vector<Pickable *> *allPickables;
 };
 
 #endif  /* _PLOTMANAGER_H */

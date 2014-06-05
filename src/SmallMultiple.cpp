@@ -70,12 +70,12 @@ SmallMultiple::~SmallMultiple() {
     delete harvest;
 }
 
-ChartPointList *SmallMultiple::getPoints() {
+std::vector<Pickable *> *SmallMultiple::getPickables() {
     if (displayHarvest) {
-        return harvest->getPoints();
+        return harvest->getPickables();
     }
 
-    return LineChart::getPoints();
+    return LineChart::getPickables();
 }
 
 void SmallMultiple::setValues(std::vector<float> *xValues, std::vector<float> *yBiomass, std::vector<float> *yHarvest) {

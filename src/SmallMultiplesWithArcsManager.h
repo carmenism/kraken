@@ -68,6 +68,8 @@ public:
 
     SmallMultiple *getChartAt(int i) { return charts->at(i); }
 private:
+    std::vector<Link *> *visibleLinks;
+
     QList<double> percentChangeInFinalBiomass;
 
     InterSpeciesArcCollection *arcsInter;

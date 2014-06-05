@@ -7,6 +7,7 @@
 
 class LineChartAxis;
 class LineChartLegend;
+class Pickable;
 
 typedef std::vector<LineChartAxis *> LineChartAxisList;
 typedef std::vector<LineChartAxis *>::const_iterator LineChartAxisIterator;
@@ -64,7 +65,7 @@ public:
     void setLeftAxisDisplay(bool d);
     void setRightAxisDisplay(bool d);
 
-    virtual ChartPointList *getPoints();
+    virtual std::vector<Pickable *> *getPickables();
     
     void setAxesFontHeight(float h);
     void setLegendFontHeight(float h);
@@ -115,6 +116,8 @@ private:
     void drawYAxis(LineChartAxis *axisY);
 
     void setUpAxes();
+
+    std::vector<Pickable *> *allPickables;
 };
 
 #endif /*LINECHART_H_*/

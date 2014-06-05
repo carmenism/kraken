@@ -32,6 +32,8 @@ LineChart::LineChart() : Chart2D() {
 
     displayGhost = true;
     displayGhostAsLine = false;
+
+    allPickables = new std::vector<Pickable *>();
 }
 
 LineChart::~LineChart() {
@@ -50,6 +52,7 @@ LineChart::~LineChart() {
     delete axes;
     delete seriesList;
     delete legend;
+    delete allPickables;
 }
 
 void LineChart::setUpAxes() {
@@ -272,16 +275,19 @@ void LineChart::addPointSeries(ChartPointSeries *series) {
     seriesList->push_back(series);
 }
 
-ChartPointList *LineChart::getPoints() {
-    ChartPointList *newList = new ChartPointList();
+std::vector<Pickable *> *LineChart::getPickables() {
+    //ChartPointList *newList = new ChartPointList();
+
+    allPickables->clear();
 
     FOREACH_POINTSERIESP(it, seriesList) {
         if ((*it)->getDisplay()) {
-            newList->insert(newList->end(), (*it)->getPoints()->begin(), (*it)->getPoints()->end());
+            allPickables->insert(allPickables->end(), (*it)->getPoints()->begin(), (*it)->getPoints()->end());
         }
     }
 
-    return newList;
+    return allPickables;
+    //return newList;
 }
 
 void LineChart::setLineWidths(float w) {

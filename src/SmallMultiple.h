@@ -4,6 +4,7 @@
 class Color;
 class AbsoluteSizesChart;
 class AbsoluteSizeIndicator;
+class Pickable;
 
 #include "LineChart.h"
 #include <vector>
@@ -39,7 +40,7 @@ public:
     void displayHarvestOn() { displayHarvest = true; }
     void displayHarvestOff() { displayHarvest = false; }
 
-    virtual ChartPointList *getPoints();
+    virtual std::vector<Pickable *> *getPickables();
 
     void setAbsLegendLocation(float x, float y);
 

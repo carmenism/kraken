@@ -1052,10 +1052,6 @@ void MyQGLWidget::mouseMovePickables(int x, int y) {
         picker->pick(allPickables, x, y);   
 
         delete allPickables;
-
-		//if (allLinks != NULL) {
-		//	delete allLinks;
-		//}
     }
 }
 

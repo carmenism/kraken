@@ -3,8 +3,12 @@
 #include "ChartPoint.h"
 #include <limits>
 
-PlotManager::~PlotManager() {
+PlotManager::PlotManager() {
+    allPickables = new std::vector<Pickable *>();
+}
 
+PlotManager::~PlotManager() {
+    delete allPickables;
 }
 
 void PlotManager::draw(float windowWidth, float windowHeight) {
@@ -25,15 +29,17 @@ void PlotManager::drawToPick() {
 
 std::vector<Pickable *> *PlotManager::getPickables() {
     std::vector<LineChart *> *charts = getCharts();
-    std::vector<Pickable *> *allPicks = new std::vector<Pickable *>();
+    //std::vector<Pickable *> *allPicks = new std::vector<Pickable *>();
+
+    allPickables->clear();
 
     for (unsigned int i = 0; i < charts->size(); i++) {
-        ChartPointList *points = charts->at(i)->getPoints();
+        std::vector<Pickable *> *points = charts->at(i)->getPickables();
 
-        allPicks->insert(allPicks->end(), points->begin(), points->end());
+        allPickables->insert(allPickables->end(), points->begin(), points->end());
     }
 
-    return allPicks;
+    return allPickables;
 }
 
 void PlotManager::capturePreviousValues() {

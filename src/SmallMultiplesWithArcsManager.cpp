@@ -25,6 +25,7 @@ SmallMultiplesWithArcsManager::SmallMultiplesWithArcsManager() : charts() {
 
     charts = new std::vector<SmallMultiple *>();
     splines = new std::vector<HarvestSpline *>();
+    visibleLinks = new std::vector<Link *>();
 }
 
 SmallMultiplesWithArcsManager::~SmallMultiplesWithArcsManager() {
@@ -45,6 +46,7 @@ SmallMultiplesWithArcsManager::~SmallMultiplesWithArcsManager() {
     delete arcsBoth;
     delete charts;
     delete splines;
+    delete visibleLinks;
 }
 
 void SmallMultiplesWithArcsManager::updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) {
@@ -320,24 +322,24 @@ std::vector<Link *> *SmallMultiplesWithArcsManager::getLinks() {
         return NULL;
     }
 
-	std::vector<Link *> *list = new std::vector<Link *>();
-	//InterSpeciesArcList *arclist = arcsCurrent->getVisibleArcs();
+    visibleLinks->clear();
+	//std::vector<Link *> *list = new std::vector<Link *>();
 	
     for (unsigned int i = 0; i < arcsCurrent->size(); i++) {
         if (!arcsCurrent->at(i)->getDisplayDynamically()) {
-            list->push_back(arcsCurrent->at(i));
+            visibleLinks->push_back(arcsCurrent->at(i));
         } else if (arcsCurrent->at(i)->getDynamicThickness() != 0) {
-            list->push_back(arcsCurrent->at(i));
+            visibleLinks->push_back(arcsCurrent->at(i));
         }
     }
 
 	for (int i = 0; i < splines->size(); i++) {
 		if (fabs(splines->at(i)->getThickness()) > 0) {
-			list->push_back(splines->at(i));
+			visibleLinks->push_back(splines->at(i));
 		}
 	}
 
-    return list;
+    return visibleLinks;
 }
 
 bool SmallMultiplesWithArcsManager::getDisplayAbsoluteSizes() {
