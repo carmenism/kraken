@@ -34,11 +34,9 @@
 #include <QCloseEvent>
 #include <iostream>
 
-//#define _CRTDBG_MAP_ALLOC
-//#include <stdlib.h>
-//#include <crtdbg.h>
-
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
+    //setAttribute(Qt::WA_DeleteOnClose);
+    
     mode = NORMAL;
 
     if (mode == EXPERIMENTAL) {
@@ -90,6 +88,8 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
 }
 
 MyQGLWidget::~MyQGLWidget() {
+    std::cerr << "ENTERING MyQGLWidget DESTRUCTOR\n";
+
     while (!plotManagers->empty()) {
         PlotManager *m = plotManagers->back();
         plotManagers->pop_back();
@@ -119,10 +119,15 @@ MyQGLWidget::~MyQGLWidget() {
     delete picker;
     delete kmc;
     delete gr;
+
+    
+    std::cerr << "EXITING MyQGLWidget DESTRUCTOR\n";
 }
 
 void MyQGLWidget::closeEvent(QCloseEvent * event) {
-    //_CrtDumpMemoryLeaks();
+    killTimer(0);
+    //
+    std::cerr << "EXITING WINDOW\n";
 
     mainWindow->close();
 }
@@ -380,10 +385,10 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
                     break;
                 }
             }
+        } else {
+            updateGL();
         }
     }
-
-    updateGL();
 }
 
 bool MyQGLWidget::mousePressButtonsPresentation(float x, float y) {
@@ -741,10 +746,14 @@ void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
 
         if (!mousePressed) {
             bool sliderPressed = mousePressSliders(x, y);
+
+            if (sliderPressed) {
+                updateGL();
+            }
+        } else {
+            updateGL();
         }
     }
-
-    updateGL();
 }
 
 bool MyQGLWidget::mousePressButtonsExperimental(float x, float y) {
@@ -874,10 +883,12 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
 
         if (!sliderMoved) {
             mouseMovePickables(x, y);
+        } else {
+            updateGL();
         }
+    } else {
+        updateGL();
     }
-
-    updateGL();
 }
 
 bool MyQGLWidget::mouseMoveButtonsPresentation(float x, float y) {
@@ -1032,6 +1043,7 @@ bool MyQGLWidget::mouseMoveSliders(float x, float y) {
 void MyQGLWidget::mouseMovePickables(int x, int y) {
     if (!managerPanel->empty()) {
         std::vector<Pickable *> *allPickables = new std::vector<Pickable *>();
+        
         for (unsigned int i = 0; i < plotManagers->size(); i++) {
             if (plotManagers->at(i)->getDisplay()) {
                 std::vector<Pickable *> *p = plotManagers->at(i)->getPickables();
