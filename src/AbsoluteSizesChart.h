@@ -18,7 +18,9 @@ class AbsoluteSizesChart : public Chart2D {
         virtual void drawToPick();
         virtual void drawToPickAtOrigin();
 
-        std::vector<AbsoluteSizeIndicator *> *getPoints() { return points; }
+        int getSize() { return size; }
+
+        AbsoluteSizeIndicator **getPoints() { return points; }
 
         float getRadiusFromValue(float value);
 
@@ -35,13 +37,14 @@ class AbsoluteSizesChart : public Chart2D {
         AbsoluteSizeLegend *getLegend() { return legend; }
     protected:
     private:
+        int size;
         int startIndex, indexInterval; 
         float scalingFactor;
 
         LineChart *lineChart;
         AbsoluteSizeLegend *legend;
-        std::vector<AbsoluteSizeIndicator *> *points;
-
+        AbsoluteSizeIndicator **points;
+        
         void positionPoint(AbsoluteSizeIndicator *point);
 
         static float radiusFromArea(float area);

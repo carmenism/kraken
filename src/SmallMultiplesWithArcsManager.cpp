@@ -12,6 +12,7 @@
 #include "ColorLegend.h"
 #include "ColorLegendItem.h"
 #include "Link.h"
+#include "AbsoluteSizeIndicator.h"
 #include <QList>
 #include <QStringList>
 #include <string>
@@ -25,7 +26,9 @@ SmallMultiplesWithArcsManager::SmallMultiplesWithArcsManager() : charts() {
 
     charts = new std::vector<SmallMultiple *>();
     splines = new std::vector<HarvestSpline *>();
+
     visibleLinks = new std::vector<Link *>();
+    visibleAbsIndicator = new std::vector<AbsoluteSizeIndicator *>();
 }
 
 SmallMultiplesWithArcsManager::~SmallMultiplesWithArcsManager() {
@@ -397,15 +400,19 @@ void SmallMultiplesWithArcsManager::displayHarvestOff() {
 }
 
 std::vector<AbsoluteSizeIndicator *> *SmallMultiplesWithArcsManager::getAbsPoints() {
-    std::vector<AbsoluteSizeIndicator *> *allPoints = new std::vector<AbsoluteSizeIndicator *>();
+    visibleAbsIndicator->clear();
 
     for (unsigned int i = 0; i < charts->size(); i++) {
-        std::vector<AbsoluteSizeIndicator *> *points = charts->at(i)->getAbsPoints();
+        AbsoluteSizeIndicator **points = charts->at(i)->getAbsPoints();
 
-        allPoints->insert(allPoints->end(), points->begin(), points->end());
+        for (int j = 0; j < charts->at(i)->getAbsSize(); j++) {
+            if (points[j]->getDisplay()) {
+                visibleAbsIndicator->push_back(points[j]);
+            }
+        }
     }
 
-    return allPoints;
+    return visibleAbsIndicator;
 }
 
 void SmallMultiplesWithArcsManager::displayPredation() {

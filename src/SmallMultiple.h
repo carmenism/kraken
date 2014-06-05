@@ -21,7 +21,8 @@ public:
     virtual void drawToPick();
     Color *getColor();
     
-    std::vector<AbsoluteSizeIndicator *> *getAbsPoints();
+    AbsoluteSizeIndicator **getAbsPoints();
+    int getAbsSize();
 
     //virtual void addPointSeries(ChartPointSeries *s) {}
 

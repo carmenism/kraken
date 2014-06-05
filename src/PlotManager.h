@@ -22,7 +22,7 @@ class PlotManager : public Displayable {
         void capturePreviousValues();
         std::vector<Pickable *> *getPickables();
         
-        bool empty() { return getCharts()->empty(); }
+        bool empty() { if (getCharts() == NULL) return true; return getCharts()->empty(); }
 
         virtual std::vector<LineChart *> *getCharts() = 0;
         virtual void updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) = 0;

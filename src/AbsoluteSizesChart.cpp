@@ -13,10 +13,11 @@ AbsoluteSizesChart::AbsoluteSizesChart(LineChart *lineChart) {
     this->indexInterval = 5;
     this->scalingFactor = 0.01f;
 
-    points = new std::vector<AbsoluteSizeIndicator *>();
-
     ChartPointSeriesList *list = lineChart->getPointSeriesList();
     ChartPoint **lineChartPoints = list->front()->getPoints();
+
+    size = list->front()->getSize();
+    points = new AbsoluteSizeIndicator *[size];
 
     globalMinX = (std::numeric_limits<float>::max)();
     globalMaxX = -1 * (std::numeric_limits<float>::max)();
@@ -34,8 +35,7 @@ AbsoluteSizesChart::AbsoluteSizesChart(LineChart *lineChart) {
             globalMaxX = x;
         }
 
-        AbsoluteSizeIndicator *a = new AbsoluteSizeIndicator(label, x, y);
-        points->push_back(a);
+        points[i] = new AbsoluteSizeIndicator(label, x, y);
     }
 
     std::vector<float> sampleValues;
@@ -47,13 +47,7 @@ AbsoluteSizesChart::AbsoluteSizesChart(LineChart *lineChart) {
 }
 
 AbsoluteSizesChart::~AbsoluteSizesChart() {
-    while (!points->empty()) {
-        AbsoluteSizeIndicator *p = points->back();
-        points->pop_back();
-        delete p;
-    }
-
-    delete points;
+    delete[] points;
     delete legend;
 }
 
@@ -73,10 +67,15 @@ void AbsoluteSizesChart::draw() {
         drawAtOrigin();
     glPopMatrix();
 
+    for (int p = 0; p < size; p++) {
+        points[p]->setDisplay(false);
+    }
+
     unsigned int i = startIndex;
-    
-    while (i < points->size()) {
-        points->at(i)->drawSelected();
+
+    while (i < size) {
+        points[i]->setDisplay(true);
+        points[i]->drawSelected();
     
         i = i + indexInterval;
     }
@@ -87,11 +86,16 @@ void AbsoluteSizesChart::drawAtOrigin() {
     ChartPointSeriesList *list = lineChart->getPointSeriesList();
     ChartPoint **lineChartPoints = list->front()->getPoints();
 
-    while (i < points->size()) {
-        points->at(i)->setValueY(lineChartPoints[i]->getY());
+    for (int p = 0; p < size; p++) {
+        points[p]->setDisplay(false);
+    }
 
-        positionPoint(points->at(i));
-        points->at(i)->draw();
+    while (i < size) {
+        points[i]->setDisplay(true);
+        points[i]->setValueY(lineChartPoints[i]->getY());
+
+        positionPoint(points[i]);
+        points[i]->draw();
 
         i = i + indexInterval;
     }
@@ -126,11 +130,11 @@ void AbsoluteSizesChart::drawToPickAtOrigin() {
     ChartPointSeriesList *list = lineChart->getPointSeriesList();
     ChartPoint **lineChartPoints = list->front()->getPoints();
   
-    while (i < points->size()) {
-        points->at(i)->setValueY(lineChartPoints[i]->getY());
+    while (i < size) {
+        points[i]->setValueY(lineChartPoints[i]->getY());
 
-        positionPoint(points->at(i));
-        points->at(i)->drawToPick();
+        positionPoint(points[i]);
+        points[i]->drawToPick();
 
         i = i + indexInterval;
     }

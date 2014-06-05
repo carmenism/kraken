@@ -68,6 +68,7 @@ public:
 
     SmallMultiple *getChartAt(int i) { return charts->at(i); }
 private:
+    std::vector<AbsoluteSizeIndicator *> *visibleAbsIndicator;
     std::vector<Link *> *visibleLinks;
 
     QList<double> percentChangeInFinalBiomass;

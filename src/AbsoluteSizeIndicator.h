@@ -3,10 +3,12 @@
 
 #include "Circle.h"
 #include <string>
+#include "Pickable.h"
+#include "Displayable.h"
 
 #define MAX_SIZE 600000
 
-class AbsoluteSizeIndicator : public Circle, public Pickable {
+class AbsoluteSizeIndicator : public Displayable, public Circle, public Pickable {
 public:
     AbsoluteSizeIndicator(std::string label, float valueX, float valueY);
     ~AbsoluteSizeIndicator();

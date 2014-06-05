@@ -131,8 +131,12 @@ Color *SmallMultiple::getColor() {
     return seriesList->front()->getColor();
 }
 
-std::vector<AbsoluteSizeIndicator *> *SmallMultiple::getAbsPoints() {
+AbsoluteSizeIndicator **SmallMultiple::getAbsPoints() {
     return absChart->getPoints();
+}
+
+int SmallMultiple::getAbsSize() {
+    return absChart->getSize();
 }
 
 void SmallMultiple::setAbsLegendLocation(float x, float y) {
