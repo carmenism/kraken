@@ -16,15 +16,15 @@ AbsoluteSizesChart::AbsoluteSizesChart(LineChart *lineChart) {
     points = new std::vector<AbsoluteSizeIndicator *>();
 
     ChartPointSeriesList *list = lineChart->getPointSeriesList();
-    ChartPointList *lineChartPoints = list->front()->getPoints();
+    ChartPoint **lineChartPoints = list->front()->getPoints();
 
     globalMinX = (std::numeric_limits<float>::max)();
     globalMaxX = -1 * (std::numeric_limits<float>::max)();
 
-    for (unsigned int i = 0; i < lineChartPoints->size(); i++) {
-        std::string label = lineChartPoints->at(i)->getLabel();
-        float x = lineChartPoints->at(i)->getX();
-        float y = lineChartPoints->at(i)->getY();
+    for (unsigned int i = 0; i < list->front()->getSize(); i++) {
+        std::string label = lineChartPoints[i]->getLabel();
+        float x = lineChartPoints[i]->getX();
+        float y = lineChartPoints[i]->getY();
 
         if (globalMinX > x) {
             globalMinX = x;
@@ -85,10 +85,10 @@ void AbsoluteSizesChart::draw() {
 void AbsoluteSizesChart::drawAtOrigin() {
     unsigned int i = startIndex;
     ChartPointSeriesList *list = lineChart->getPointSeriesList();
-    ChartPointList *lineChartPoints = list->front()->getPoints();
+    ChartPoint **lineChartPoints = list->front()->getPoints();
 
     while (i < points->size()) {
-        points->at(i)->setValueY(lineChartPoints->at(i)->getY());
+        points->at(i)->setValueY(lineChartPoints[i]->getY());
 
         positionPoint(points->at(i));
         points->at(i)->draw();
@@ -124,10 +124,10 @@ void AbsoluteSizesChart::drawToPick() {
 void AbsoluteSizesChart::drawToPickAtOrigin() {
     unsigned int i = startIndex;
     ChartPointSeriesList *list = lineChart->getPointSeriesList();
-    ChartPointList *lineChartPoints = list->front()->getPoints();
+    ChartPoint **lineChartPoints = list->front()->getPoints();
   
     while (i < points->size()) {
-        points->at(i)->setValueY(lineChartPoints->at(i)->getY());
+        points->at(i)->setValueY(lineChartPoints[i]->getY());
 
         positionPoint(points->at(i));
         points->at(i)->drawToPick();

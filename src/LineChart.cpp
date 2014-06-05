@@ -282,7 +282,12 @@ std::vector<Pickable *> *LineChart::getPickables() {
 
     FOREACH_POINTSERIESP(it, seriesList) {
         if ((*it)->getDisplay()) {
-            allPickables->insert(allPickables->end(), (*it)->getPoints()->begin(), (*it)->getPoints()->end());
+            ChartPoint **allPoints = (*it)->getPoints();
+            
+            for (int i = 0; i < (*it)->getSize(); i++) {
+                allPickables->push_back(allPoints[i]);
+            }
+            //allPickables->insert(allPickables->end(), (*it)->getPoints()->begin(), (*it)->getPoints()->end());
         }
     }
 

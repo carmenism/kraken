@@ -34,6 +34,10 @@
 #include <QCloseEvent>
 #include <iostream>
 
+//#define _CRTDBG_MAP_ALLOC
+//#include <stdlib.h>
+//#include <crtdbg.h>
+
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
     mode = NORMAL;
 
@@ -118,6 +122,8 @@ MyQGLWidget::~MyQGLWidget() {
 }
 
 void MyQGLWidget::closeEvent(QCloseEvent * event) {
+    //_CrtDumpMemoryLeaks();
+
     mainWindow->close();
 }
 

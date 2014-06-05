@@ -101,7 +101,7 @@ void Statistics::recalculate() {
     ChartPointSeriesList * seriesList = chart->getSeriesList();
 
     int numSeries = seriesList->size();
-    int numTimes = seriesList->at(0)->size();
+    int numTimes = seriesList->at(0)->getSize();
 
     for (int time = 0; time < numTimes; time++) {
         QList<double> values;
@@ -110,7 +110,7 @@ void Statistics::recalculate() {
         float maxV = -1 * minV;
 
         for (int series = 0; series < numSeries; series++) {
-            float value = seriesList->at(series)->getPoints()->at(time)->getY();
+            float value = seriesList->at(series)->getPoints()[time]->getY();
             sum += value;
 
             if (minV > value) {
