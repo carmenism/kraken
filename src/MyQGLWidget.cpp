@@ -668,10 +668,6 @@ bool MyQGLWidget::mouseReleaseButtonsNormal(float x, float y) {
             toggleAbsoluteSizes();
             return true;
         }
-        /*if (toggleHarvButton->mouseReleased(x, y)) {
-            toggleHarvest();
-            return true;
-        }*/
     }
 
     if (managerMC->getDisplay()) {
@@ -1390,8 +1386,6 @@ void MyQGLWidget::toggleCharts() {
     if (managerSmallMult->getDisplay()) {
         if (toggleChartsButton->getValue()) {
             managerSmallMult->displayChartsOn();
-            managerSmallMult->displayHarvestOff();
-            //toggleHarvButton->setValue(false);
         } else {
             managerSmallMult->displayChartsOff();
         }
@@ -1399,20 +1393,6 @@ void MyQGLWidget::toggleCharts() {
         updateGL();
     }
 }
-/*
-void MyQGLWidget::toggleHarvest() {
-    if (managerSpecies->getDisplay()) {
-        if (toggleHarvButton->getValue()) {
-            managerSpecies->displayHarvestOn();
-            managerSpecies->displayChartsOff();
-            toggleChartsButton->setValue(false);
-        } else {
-            managerSpecies->displayHarvestOff();
-        }
-
-        updateGL();
-    }
-}*/
 
 void MyQGLWidget::setBaseline() {
     setSlidersBaseline();

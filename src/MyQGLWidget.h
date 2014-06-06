@@ -91,7 +91,6 @@ private:
     ButtonGroup *bgView, *bgChange, *bgArc, *bgArcStyle, *bgArcAnimate;
     ButtonGroup *bgUncertainty, *bgUncertaintyStats, *bgUncertaintyLine;
     ToggleButton *toggleAbsButton, *toggleChartsButton;
-    //ToggleButton *toggleHarvButton;
     
     ButtonGroup* bgArcConditions;
     
@@ -135,7 +134,6 @@ private:
 
     void toggleAbsoluteSizes();
     void toggleCharts();
-    void toggleHarvest();
 
     void displayByGroup();
     void displayBySpecies();

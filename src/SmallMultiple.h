@@ -14,8 +14,8 @@ class SmallMultiple : public LineChart {
 public:
     SmallMultiple();
     ~SmallMultiple();
-    SmallMultiple(std::vector<float> *xValues, std::vector<float> *yBiomass, std::vector<float> *yHarvest, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex);
-    void setValues(std::vector<float> *xValues, std::vector<float> *yBiomass, std::vector<float> *yHarvest);
+    SmallMultiple(std::vector<float> *xValues, std::vector<float> *yBiomass, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex);
+    void setValues(std::vector<float> *xValues, std::vector<float> *yBiomass);
     void drawAtOrigin();
     virtual void draw();
     virtual void drawToPick();
@@ -23,8 +23,6 @@ public:
     
     AbsoluteSizeIndicator **getAbsPoints();
     int getAbsSize();
-
-    //virtual void addPointSeries(ChartPointSeries *s) {}
 
     bool getDisplayChart() { return displayChart; }
     void setDisplayChart(bool d) { displayChart = d; }
@@ -36,13 +34,6 @@ public:
     void displayAbsoluteSizesOn() { displayAbsoluteSizes = true; }
     void displayAbsoluteSizesOff() { displayAbsoluteSizes = false; }
 
-    bool getDisplayHarvest() { return displayHarvest; }
-    void setDisplayHarvest(bool d) { displayHarvest = d; }
-    void displayHarvestOn() { displayHarvest = true; }
-    void displayHarvestOff() { displayHarvest = false; }
-
-    virtual std::vector<Pickable *> *getPickables();
-
     void setAbsLegendLocation(float x, float y);
 
     float getStartValue();
@@ -53,10 +44,8 @@ public:
 private:
     bool displayAbsoluteSizes;
     bool displayChart;
-    bool displayHarvest;
     std::string sideLabel;
     AbsoluteSizesChart *absChart;
-    LineChart *harvest;
 };
 
 #endif SMALLMULTIPLE_H_ 
