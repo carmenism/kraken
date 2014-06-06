@@ -24,7 +24,6 @@ protected:
     QList<QList<double>> origInteraction;
     QList<double> origCatchability;
     QList<double> origInitBio;
-    //QList<double> origEffort;
     QList<double> origGrowth;
 
     void saveValues();

@@ -10,7 +10,7 @@ SmallMultiplesManager::SmallMultiplesManager() {
 }
 
 SmallMultiplesManager::~SmallMultiplesManager() {
-    delete groupReordering;
+    //delete groupReordering;
 }
 
 void SmallMultiplesManager::setChartLocations(float windowWidth, float windowHeight) {

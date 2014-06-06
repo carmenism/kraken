@@ -5,9 +5,6 @@
 
 class Cursor : public ShadowedRectangle {
 public:
-    //Cursor();
-    //~Cursor();
-
     virtual void setLocation(float x, float y);
 
     virtual float getX();

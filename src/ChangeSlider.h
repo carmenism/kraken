@@ -21,7 +21,7 @@ public:
 private:
     Color *decreaseColor;
     Color *increaseColor;
-    Color *color;
+    Color *currentColor;
     bool display;
     int baselineIndex;
 

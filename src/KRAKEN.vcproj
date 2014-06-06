@@ -297,35 +297,11 @@
 				Name="GUI"
 				>
 				<File
-					RelativePath=".\Animatable.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\Color.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\HarvestSpline.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\KrakenMonteCarlo.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\MonteCarlo.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\MouseEventItem.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\MyQGLWidget.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Object2D.cpp"
 					>
 				</File>
 				<File
@@ -334,10 +310,6 @@
 				</File>
 				<File
 					RelativePath=".\PrintText.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Statistics.cpp"
 					>
 				</File>
 				<Filter
@@ -468,6 +440,14 @@
 					Name="Geometry"
 					>
 					<File
+						RelativePath=".\HarvestSpline.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Object2D.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\Point.cpp"
 						>
 					</File>
@@ -529,6 +509,34 @@
 					</File>
 					<File
 						RelativePath=".\Slider.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Uncertainty"
+					>
+					<File
+						RelativePath=".\KrakenMonteCarlo.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\MonteCarlo.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Statistics.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Interfaces"
+					>
+					<File
+						RelativePath=".\Animatable.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\MouseEventItem.cpp"
 						>
 					</File>
 				</Filter>
@@ -674,42 +682,18 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
+				RelativePath="ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<File
-				RelativePath="ui_ms_prod_mainwindow.h"
+				RelativePath=".\GeneratedFiles\ui_ms_prod_mainwindow.h"
 				>
 			</File>
 			<Filter
 				Name="GUI"
 				>
 				<File
-					RelativePath=".\Animatable.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Color.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Displayable.h"
-					>
-				</File>
-				<File
-					RelativePath=".\HarvestSpline.h"
-					>
-				</File>
-				<File
-					RelativePath=".\KrakenMonteCarlo.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MonteCarlo.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MouseEventItem.h"
 					>
 				</File>
 				<File
@@ -739,23 +723,11 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\Object2D.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Pickable.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Picker.h"
 					>
 				</File>
 				<File
 					RelativePath=".\PrintText.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Statistics.h"
 					>
 				</File>
 				<Filter
@@ -777,6 +749,14 @@
 				<Filter
 					Name="Geometry"
 					>
+					<File
+						RelativePath=".\HarvestSpline.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Object2D.h"
+						>
+					</File>
 					<File
 						RelativePath=".\Point.h"
 						>
@@ -959,6 +939,42 @@
 					</File>
 					<File
 						RelativePath=".\UndoButton.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Uncertainty"
+					>
+					<File
+						RelativePath=".\KrakenMonteCarlo.h"
+						>
+					</File>
+					<File
+						RelativePath=".\MonteCarlo.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Statistics.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Interfaces"
+					>
+					<File
+						RelativePath=".\Animatable.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Displayable.h"
+						>
+					</File>
+					<File
+						RelativePath=".\MouseEventItem.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Pickable.h"
 						>
 					</File>
 				</Filter>

@@ -21,7 +21,7 @@ void ChangeSlider::initialize() {
     decreaseColor = new Color(Color::red);
     increaseColor = new Color(Color::skyblue);
 
-    color = increaseColor;
+    currentColor = increaseColor;
     display = false;
     baselineIndex = 0;
 }
@@ -29,7 +29,7 @@ void ChangeSlider::initialize() {
 void ChangeSlider::draw() {
     if (display) {
         glPolygonMode(GL_FRONT, GL_FILL);
-        glColor4f(color->r, color->g, color->b, 0.5);
+        glColor4f(currentColor->r, currentColor->g, currentColor->b, 0.5);
 
         float value = getValue();        
         float previousValue = getPreviousValue();
@@ -67,9 +67,9 @@ bool ChangeSlider::mouseMoved(float x, float y) {
 
 void ChangeSlider::determineColor(float value, float previousValue) {
     if (previousValue < value) {
-        color = increaseColor;
+        currentColor = increaseColor;
     } else {
-        color = decreaseColor;
+        currentColor = decreaseColor;
     }
 }
 

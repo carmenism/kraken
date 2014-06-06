@@ -71,12 +71,10 @@ public:
     bool getUsingQuartiles();
     bool getUsingStandardDeviations();
 private:       
-    //bool displayOriginalLine;
     bool displayStreaks;
 
     Statistics *stats;
     Color *semiTransparentColor;
-    //Color *originalLineColor;
     std::string sideLabel;
 
     virtual void calculateGlobalBounds();

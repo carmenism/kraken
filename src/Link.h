@@ -9,7 +9,7 @@
 class Link : public Object2D, public Pickable, public Animatable {
 public:
 	Link() { }
-    ~Link() { }
+    ~Link() { delete color; }
 
 	virtual void draw() = 0;
     virtual void drawToPick() = 0;

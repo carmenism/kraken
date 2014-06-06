@@ -50,6 +50,7 @@ SmallMultiplesWithArcsManager::~SmallMultiplesWithArcsManager() {
     delete charts;
     delete splines;
     delete visibleLinks;
+    delete visibleAbsIndicator;
 }
 
 void SmallMultiplesWithArcsManager::updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) {
