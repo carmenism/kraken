@@ -8,8 +8,10 @@
 #include <GL/glut.h>
 
 LineChart::LineChart() : Chart2D() {
+    numberAxes = 4;
+
     seriesList = new ChartPointSeriesList();
-    axes = new LineChartAxisList();
+    axes = new LineChartAxis *[numberAxes];
     adjustYAxisToData = true;
 
     legend = new LineChartLegend(this);
@@ -43,42 +45,36 @@ LineChart::~LineChart() {
         delete s;
     }
 
-    while (!axes->empty()) {
-        LineChartAxis *a = axes->back();
-        axes->pop_back();
-        delete a;
-    }
-
-    delete axes;
+    delete[] axes;
     delete seriesList;
     delete legend;
     delete allPickables;
 }
 
 void LineChart::setUpAxes() {
-    axes->push_back(new LineChartAxis(this, BOTTOM));
-    axes->push_back(new LineChartAxis(this, TOP));
-    axes->push_back(new LineChartAxis(this, LEFT));
-    axes->push_back(new LineChartAxis(this, RIGHT));
-    axes->at(TOP)->displayOff();
-    axes->at(RIGHT)->displayOff();
+    axes[BOTTOM] = new LineChartAxis(this, BOTTOM);
+    axes[TOP] = new LineChartAxis(this, TOP);
+    axes[LEFT] = new LineChartAxis(this, LEFT);
+    axes[RIGHT] = new LineChartAxis(this, RIGHT);
+    axes[TOP]->displayOff();
+    axes[RIGHT]->displayOff();
 }
 
 void LineChart::updateActualSize() {
     innerWidth = width;
     innerHeight = height;
 
-    innerWidth = innerWidth - axes->at(RIGHT)->getSize();
-    innerWidth = innerWidth - axes->at(LEFT)->getSize();
-    innerHeight = innerHeight - axes->at(TOP)->getSize();
-    innerHeight = innerHeight - axes->at(BOTTOM)->getSize();
+    innerWidth = innerWidth - axes[RIGHT]->getSize();
+    innerWidth = innerWidth - axes[LEFT]->getSize();
+    innerHeight = innerHeight - axes[TOP]->getSize();
+    innerHeight = innerHeight - axes[BOTTOM]->getSize();
 
     if (displayTitle) {
         innerHeight = innerHeight - fontHeight - fontHeight / 3;
     }
 
-    offsetX = axes->at(LEFT)->getSize();
-    offsetY = axes->at(BOTTOM)->getSize();
+    offsetX = axes[LEFT]->getSize();
+    offsetY = axes[BOTTOM]->getSize();
 }
 
 void LineChart::setWidth(float w) {
@@ -107,8 +103,8 @@ void LineChart::drawAtOrigin() {
         }
 
         float titlePos = innerHeight + fontHeight / 3;
-        if (axes->at(TOP)->getDisplay()) {
-            titlePos = titlePos + axes->at(TOP)->getSize();
+        if (axes[TOP]->getDisplay()) {
+            titlePos = titlePos + axes[TOP]->getSize();
         }
         if (displayTitle) {
             glColor4f(0, 0, 0, 1);
@@ -121,11 +117,11 @@ void LineChart::drawAtOrigin() {
 
 
 void LineChart::drawAxes() {
-    drawXAxis(axes->at(BOTTOM));
-    drawXAxis(axes->at(TOP));
+    drawXAxis(axes[BOTTOM]);
+    drawXAxis(axes[TOP]);
     
-    drawYAxis(axes->at(LEFT));
-    drawYAxis(axes->at(RIGHT));
+    drawYAxis(axes[LEFT]);
+    drawYAxis(axes[RIGHT]);
 }
 
 void LineChart::drawXAxis(LineChartAxis *axisX) {
@@ -142,8 +138,8 @@ void LineChart::setLegendFontHeight(float h) {
 }
 
 void LineChart::setAxesFontHeight(float h) {
-    FOREACH_LINECHARTAXISP(it, axes) {
-        (*it)->setFontHeight(h);
+    for (int i = 0; i < numberAxes; i++) {
+        axes[i]->setFontHeight(h);
     }   
 }
 
@@ -338,51 +334,51 @@ void LineChart::displayAsLines() {
 }
 
 LineChartAxis *LineChart::getBottomAxis() {
-    return axes->at(BOTTOM);
+    return axes[BOTTOM];
 }
 
 LineChartAxis *LineChart::getTopAxis() {
-    return axes->at(TOP);
+    return axes[TOP];
 }
 
 LineChartAxis *LineChart::getLeftAxis() {
-    return axes->at(LEFT);
+    return axes[LEFT];
 }
 
 LineChartAxis *LineChart::getRightAxis() {
-    return axes->at(RIGHT);
+    return axes[RIGHT];
 }
 
 bool LineChart::getBottomAxisDisplay() {
-    return axes->at(BOTTOM)->getDisplay();
+    return axes[BOTTOM]->getDisplay();
 }
 
 bool LineChart::getTopAxisDisplay() {
-    return axes->at(TOP)->getDisplay();
+    return axes[TOP]->getDisplay();
 }
 
 bool LineChart::getLeftAxisDisplay() {
-    return axes->at(LEFT)->getDisplay();
+    return axes[LEFT]->getDisplay();
 }
 
 bool LineChart::getRightAxisDisplay() {
-    return axes->at(RIGHT)->getDisplay();
+    return axes[RIGHT]->getDisplay();
 }
 
 void LineChart::setBottomAxisDisplay(bool d) {
-    axes->at(BOTTOM)->setDisplay(d);
+    axes[BOTTOM]->setDisplay(d);
 }
 
 void LineChart::setTopAxisDisplay(bool d) {
-    axes->at(TOP)->setDisplay(d);
+    axes[TOP]->setDisplay(d);
 }
 
 void LineChart::setLeftAxisDisplay(bool d) {
-    axes->at(LEFT)->setDisplay(d);
+    axes[LEFT]->setDisplay(d);
 }
 
 void LineChart::setRightAxisDisplay(bool d) {
-    axes->at(RIGHT)->setDisplay(d);
+    axes[RIGHT]->setDisplay(d);
 }
 
 void LineChart::capturePreviousValues() {

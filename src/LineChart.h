@@ -9,14 +9,6 @@ class LineChartAxis;
 class LineChartLegend;
 class Pickable;
 
-typedef std::vector<LineChartAxis *> LineChartAxisList;
-typedef std::vector<LineChartAxis *>::const_iterator LineChartAxisIterator;
-
-#define FOREACH_LINECHARTAXIS(it, lineChartAxisList) \
-    for(LineChartAxisIterator it = lineChartAxisList.begin(); it != lineChartAxisList.end(); ++it)
-#define FOREACH_LINECHARTAXISP(it, lineChartAxisList) \
-    for(LineChartAxisIterator it = lineChartAxisList->begin(); it != lineChartAxisList->end(); ++it)
-
 typedef std::vector<ChartPointSeries *> ChartPointSeriesList;
 typedef std::vector<ChartPointSeries *>::const_iterator ChartPointSeriesIterator;
 
@@ -98,10 +90,11 @@ public:
     
     float getLargestFinalValue();
 protected:
+    int numberAxes;
     bool adjustYAxisToData;
     bool displayGhost, displayGhostAsLine;
     ChartPointSeriesList *seriesList;
-    LineChartAxisList *axes;
+    LineChartAxis **axes;
     float offsetX, offsetY;
     float innerWidth, innerHeight;
     void updateActualSize();

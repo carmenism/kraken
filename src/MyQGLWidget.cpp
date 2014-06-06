@@ -34,15 +34,13 @@
 #include <QCloseEvent>
 #include <iostream>
 
-//#define _CRTDBG_MAP_ALLOC
-//#include <stdlib.h>
-//#include <crtdbg.h>
-
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
-    mode = EXPERIMENTAL;
+    mode = NORMAL;
 
     if (mode == EXPERIMENTAL) {
         evalWidget = new EvaluationWidget(this, NULL);
+    } else {
+        evalWidget = NULL;
     }
 
     numberManagers = 3;
@@ -128,7 +126,10 @@ MyQGLWidget::~MyQGLWidget() {
 void MyQGLWidget::closeEvent(QCloseEvent * event) {
     killTimer(timerId);
 
-    evalWidget->close();
+    if (evalWidget != NULL) {
+        evalWidget->close();
+    }
+
     mainWindow->close();
 }
 

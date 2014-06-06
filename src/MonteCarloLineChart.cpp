@@ -28,12 +28,12 @@ MonteCarloLineChart::MonteCarloLineChart(std::string label, bool displayXAxisLab
     legend->setDisplay(false);
     displayTitleOff();
 
-    axes->at(BOTTOM)->setLabel("Year");
-    axes->at(BOTTOM)->setDisplayLabel(displayXAxisLabels);
-    axes->at(BOTTOM)->setDisplayTickLabels(displayXAxisLabels);
+    axes[BOTTOM]->setLabel("Year");
+    axes[BOTTOM]->setDisplayLabel(displayXAxisLabels);
+    axes[BOTTOM]->setDisplayTickLabels(displayXAxisLabels);
 
-    axes->at(LEFT)->setLabel("Biomass (mt)");
-    axes->at(LEFT)->displayLabelOn();
+    axes[LEFT]->setLabel("Biomass (mt)");
+    axes[LEFT]->displayLabelOn();
 
     updateActualSize();
 
