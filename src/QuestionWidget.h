@@ -29,8 +29,6 @@ public:
 private:
     QFormLayout *layout;
 
-    //QDialogButtonBox *buttonBox;
-
     QLabel *whatLabel;
     QLabel *whyLabel;
 

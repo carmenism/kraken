@@ -28,9 +28,10 @@ public:
 protected:
     std::string label;
 private:
+    int size;
     float spacing;
     int releasedIndex;
-    std::vector<Button *> *buttons;
+    Button **buttons;
 };
 
 #endif 

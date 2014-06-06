@@ -128,6 +128,7 @@ MyQGLWidget::~MyQGLWidget() {
 void MyQGLWidget::closeEvent(QCloseEvent * event) {
     killTimer(timerId);
 
+    evalWidget->close();
     mainWindow->close();
 }
 

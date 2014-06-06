@@ -11,10 +11,6 @@ QuestionWidget::QuestionWidget(const QString & question, QWidget *parent) :
 ResponseWidget(parent) {
     whatLabel = new QLabel(question);
     
-    //whatTextEdit = new QLineEdit(this);
-    //whatTextEdit->setText("ENTER ANSWER HERE");
-    //whatTextEdit->show();
-
     whatComboBox = new QComboBox;
     whatComboBox->addItem(tr(""));
     whatComboBox->addItem(tr("Increased a lot"));
@@ -26,7 +22,6 @@ ResponseWidget(parent) {
     whyLabel = new QLabel("Why? [Try to explain in no more than three sentences.]");
 
     whyTextEdit = new QTextEdit(this);
-    //whyTextEdit->setText("ENTER ANSWER HERE");
     whyTextEdit->show();
     whyTextEdit->setTabChangesFocus(true);
     
@@ -62,7 +57,7 @@ QString QuestionWidget::whatQuestion() {
 }
 
 QString QuestionWidget::whyQuestion() {
-    return "Why?";//whyLabel->text();
+    return "Why?";
 }
 
 QString QuestionWidget::whatAnswer() {

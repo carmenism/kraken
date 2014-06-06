@@ -6,20 +6,20 @@
 ButtonGroup::ButtonGroup(std::string groupLabels, std::vector<std::string> buttonLabels, int inactiveIndex) {
     this->label = groupLabels;
 
-    buttons = new std::vector<Button *>();
+    size = buttonLabels.size();
 
-    for (unsigned int i = 0; i < buttonLabels.size(); i++) {
-        Button *b = new Button(buttonLabels[i]);
-        b->setWidth(PrintText::strokeWidth(buttonLabels[i], 10) + 8);
-        b->setHeight(18);
+    buttons = new Button *[size];
+
+    for (unsigned int i = 0; i < size; i++) {
+        buttons[i] = new Button(buttonLabels[i]);
+        buttons[i]->setWidth(PrintText::strokeWidth(buttonLabels[i], 10) + 8);
+        buttons[i]->setHeight(18);
         
         if (i == inactiveIndex) {
-            b->setActive(false);
+            buttons[i]->setActive(false);
         } else {
-            b->setActive(true);
+            buttons[i]->setActive(true);
         }
-
-        buttons->push_back(b);
     }
 
     x = 0;
@@ -30,14 +30,7 @@ ButtonGroup::ButtonGroup(std::string groupLabels, std::vector<std::string> butto
 }
 
 ButtonGroup::~ButtonGroup() {
-    while (!buttons->empty()) {
-        Button *b = buttons->back();
-        buttons->pop_back();
-
-        delete b;
-    }
-
-    delete buttons;
+    delete[] buttons;
 }
 
 void ButtonGroup::draw() {
@@ -46,15 +39,15 @@ void ButtonGroup::draw() {
     float runningWidth = 2 * spacing + textWidth;
     float largestHeight = -1;
     
-    for (int i = 0; i < buttons->size(); i++) {
-        buttons->at(i)->setLocation(x + runningWidth, y + spacing);
+    for (int i = 0; i < size; i++) {
+        buttons[i]->setLocation(x + runningWidth, y + spacing);
 
-        runningWidth = runningWidth + spacing + buttons->at(i)->getWidth();
-        largestHeight = std::max(largestHeight, buttons->at(i)->getHeight());
+        runningWidth = runningWidth + spacing + buttons[i]->getWidth();
+        largestHeight = std::max(largestHeight, buttons[i]->getHeight());
     }
 
-    for (int i = 0; i < buttons->size(); i++) {
-        buttons->at(i)->draw();
+    for (int i = 0; i < size; i++) {
+        buttons[i]->draw();
     }
 
     this->width = runningWidth;
@@ -72,9 +65,9 @@ void ButtonGroup::draw() {
 bool ButtonGroup::mouseMoved(float mouseX, float mouseY) {
     Button *moved = NULL;
 
-    for (unsigned int i = 0; i < buttons->size(); i++) {
-        if (buttons->at(i)->mouseMoved(mouseX, mouseY)) {
-            moved = buttons->at(i);
+    for (unsigned int i = 0; i < size; i++) {
+        if (buttons[i]->mouseMoved(mouseX, mouseY)) {
+            moved = buttons[i];
         }
     }
 
@@ -82,8 +75,8 @@ bool ButtonGroup::mouseMoved(float mouseX, float mouseY) {
 }
 
 bool ButtonGroup::mousePressed(float mouseX, float mouseY) {
-    for (unsigned int i = 0; i < buttons->size(); i++) {
-        if (buttons->at(i)->mousePressed(mouseX, mouseY)) {
+    for (unsigned int i = 0; i < size; i++) {
+        if (buttons[i]->mousePressed(mouseX, mouseY)) {
             return true;
         }
     }
@@ -94,18 +87,18 @@ bool ButtonGroup::mousePressed(float mouseX, float mouseY) {
 bool ButtonGroup::mouseReleased(float mouseX, float mouseY) {
     releasedIndex = -1;
 
-    for (unsigned int i = 0; i < buttons->size(); i++) {
-        if (buttons->at(i)->mouseReleased(mouseX, mouseY)) {
+    for (unsigned int i = 0; i < size; i++) {
+        if (buttons[i]->mouseReleased(mouseX, mouseY)) {
             releasedIndex = i;
         }
     }
 
     if (releasedIndex != -1) {
-        for (unsigned int i = 0; i < buttons->size(); i++) {
+        for (unsigned int i = 0; i < size; i++) {
             if (i == releasedIndex) {
-                buttons->at(i)->activeOff();
+                buttons[i]->activeOff();
             } else {
-                buttons->at(i)->activeOn();
+                buttons[i]->activeOn();
             }
         }
 
@@ -116,21 +109,21 @@ bool ButtonGroup::mouseReleased(float mouseX, float mouseY) {
 }
 
 bool ButtonGroup::getActive(int buttonIndex) {
-    if (buttonIndex >= 0 && buttonIndex < buttons->size()) {
-        return buttons->at(buttonIndex)->isActive();
+    if (buttonIndex >= 0 && buttonIndex < size) {
+        return buttons[buttonIndex]->isActive();
     }
 
     return false;
 }
 
 void ButtonGroup::setActive(int buttonIndex, bool a) {
-    if (buttonIndex >= 0 && buttonIndex < buttons->size()) {
-        buttons->at(buttonIndex)->setActive(a);
+    if (buttonIndex >= 0 && buttonIndex < size) {
+        buttons[buttonIndex]->setActive(a);
     }
 }
 
 void ButtonGroup::activeOff() {
-    for (unsigned int i = 0; i < buttons->size(); i++) {
-        buttons->at(i)->activeOff();
+    for (unsigned int i = 0; i < size; i++) {
+        buttons[i]->activeOff();
     }
 }
