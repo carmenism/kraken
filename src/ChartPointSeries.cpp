@@ -47,7 +47,7 @@ ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vec
     previousMin = min;
     previousMax = max;
 
-    lineColor = &Color::black;
+    lineColor = new Color(Color::black);
     lineWidth = 1.0;
 
 

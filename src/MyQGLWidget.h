@@ -75,6 +75,9 @@ private:
     int paddingLeft;
 
     int timer;
+    int timerId;
+
+    int numberManagers;
 
     EvaluationWidget *evalWidget;
 
@@ -94,7 +97,7 @@ private:
     
     MS_PROD_MainWindow *mainWindow;
 
-    std::vector<PlotManager *> *plotManagers;
+    PlotManager **plotManagers;
     std::vector<ChangeSlider *> *sliders;
     std::vector<SliderButton *> *sliderButtons;
     std::vector<Button *> *speciesButtons;

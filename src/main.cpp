@@ -15,5 +15,7 @@ int main(int argc, char *argv[])
     w.setGLWidget(window);
     //window->setParameters(w.getParameters());
 
-    return a.exec();
+    int result = a.exec();
+
+    return result;
 }

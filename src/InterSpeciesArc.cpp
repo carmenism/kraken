@@ -18,7 +18,7 @@ InterSpeciesArc::InterSpeciesArc(PlotManager *pm, float coefficient, SmallMultip
     radius = 10;
     thickness = 1;
     highlightThickness = 4;
-    highlightColor = &Color::white;
+    highlightColor = new Color(Color::white);
 
     arcToRight = true;
     displayDynamically = false;

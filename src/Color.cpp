@@ -18,8 +18,10 @@
 Color::Color() {
     r = g = b = 0.0f;
     a = 1.0f;
+}
 
-    assigned = false;
+Color::~Color() {
+
 }
 
 Color::Color( float red, float green, float blue, float alpha ) {
@@ -28,8 +30,6 @@ Color::Color( float red, float green, float blue, float alpha ) {
     g = green;
     b = blue;
     a = alpha;
-
-    assigned = false;
 }
 //------------- copy constructor -----------------------
 /**
@@ -40,20 +40,6 @@ Color::Color( const Color& col ) {
     g = col.g;
     b = col.b;
     a = col.a;
-
-    assigned = false;
-}
-
-Color *Color::getUnassignedColor() {
-    for (int i = 0; i < numberColors; i++) {
-        if (!colors[i].assigned) {
-            colors[i].assigned = true;
-
-            return &colors[i];
-        }
-    }
-
-    return NULL;
 }
 
 // http://stackoverflow.com/questions/180/function-for-creating-color-wheels
@@ -134,14 +120,3 @@ Color Color::darkRed(0.55f, 0, 0);
 Color Color::gray(0.5, 0.5, 0.5);
 Color Color::black(0.0, 0.0, 0.0);
 Color Color::white(1.0, 1.0, 1.0);
-
-Color arr[] = {Color::red, Color::blue, Color::green, 
-                  Color::orange, Color::yellow, Color::purple,
-                  Color::tan, Color::pink, Color::skyblue,
-                  Color::lavender, Color::avocado, Color::navy,
-                  Color::brown, Color::gray, Color::magenta, 
-                  Color::goldenrod, Color::darkRed};
-
-Color *Color::colors = arr;
-
-int Color::numberColors = (sizeof(arr)/sizeof(*arr));

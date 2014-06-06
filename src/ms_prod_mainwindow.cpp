@@ -34,6 +34,7 @@ MS_PROD_MainWindow::MS_PROD_MainWindow(QWidget *parent) :
 
 
 MS_PROD_MainWindow::~MS_PROD_MainWindow() {
+    delete glWidget;
     delete ui;
 }
 

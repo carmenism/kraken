@@ -16,7 +16,7 @@ enum ValueType {LINEAR, CUSTOM};
 
 class Slider : public MouseEventItem {
 public:
-    Slider(std::string title, std::vector<float> *values, int startIndex);
+    Slider(std::string title, std::vector<float> values, int startIndex);
     Slider(std::string title, float min, float max, float start);
     ~Slider();
 
@@ -84,7 +84,7 @@ protected:
 
     float valueToPosition(float value);
 private:
-    std::vector<float> *values;
+    std::vector<float> values;
 
     bool displayTitle;
     std::string title;

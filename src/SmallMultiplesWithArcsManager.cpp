@@ -163,7 +163,7 @@ void SmallMultiplesWithArcsManager::initializeInteractionArcs(MS_PROD_MainWindow
 
     ColorLegend *legend = new ColorLegend();
     QStringList guilds = mainWindow->getParameters()->getGuildList();
-    legend->addColorLegendItem(new ColorLegendItem(&Color::skyblue, "Competition"));
+    legend->addColorLegendItem(new ColorLegendItem(new Color(Color::skyblue), "Competition"));
     legend->addColorLegendItem(new ColorLegendItem(new Color(0.9, 0.9, 0, 0.45), "Harvest"));
     legend->setLocation(5, 5);
 
@@ -175,7 +175,7 @@ void SmallMultiplesWithArcsManager::initializePredationArcs(MS_PROD_MainWindow *
     initializeArcs(arcsPred, ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix());
     
     ColorLegend *legend = new ColorLegend();
-    legend->addColorLegendItem(new ColorLegendItem(&Color::orange, "Predation"));
+    legend->addColorLegendItem(new ColorLegendItem(new Color(Color::orange), "Predation"));
     legend->addColorLegendItem(new ColorLegendItem(new Color(0.9, 0.9, 0, 0.45), "Harvest"));
     legend->setLocation(5, 5);
 
@@ -198,8 +198,8 @@ void SmallMultiplesWithArcsManager::initializeBothArcs(MS_PROD_MainWindow *mainW
     delete tmp;
     
     ColorLegend *legend = new ColorLegend();
-    legend->addColorLegendItem(new ColorLegendItem(&Color::orange, "Predation"));
-    legend->addColorLegendItem(new ColorLegendItem(&Color::skyblue, "Competition"));
+    legend->addColorLegendItem(new ColorLegendItem(new Color(Color::orange), "Predation"));
+    legend->addColorLegendItem(new ColorLegendItem(new Color(Color::skyblue), "Competition"));
     legend->addColorLegendItem(new ColorLegendItem(new Color(0.9, 0.9, 0, 0.45), "Harvest"));
     legend->setLocation(5, 5);
 
