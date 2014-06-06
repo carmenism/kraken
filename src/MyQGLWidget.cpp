@@ -39,7 +39,7 @@
 //#include <crtdbg.h>
 
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
-    mode = NORMAL;
+    mode = EXPERIMENTAL;
 
     if (mode == EXPERIMENTAL) {
         evalWidget = new EvaluationWidget(this, NULL);
@@ -113,12 +113,14 @@ MyQGLWidget::~MyQGLWidget() {
     delete bgArcStyle;
     delete bgArcAnimate;
     delete bgUncertainty;
+    delete bgArcConditions;
     delete sliders;
     delete[] plotManagers;
     delete picker;
     delete kmc;
     delete gr;
 
+    delete evalWidget;
     
     std::cerr << "EXITING DESTRUCTOR\n";
 }

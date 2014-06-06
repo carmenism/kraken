@@ -79,30 +79,32 @@ private:
 
     int numberManagers;
 
+    MS_PROD_MainWindow *mainWindow;
+
     EvaluationWidget *evalWidget;
 
     GroupReordering *gr;
     KrakenMonteCarlo *kmc;
     Picker *picker;    
+    
     FourPanelManager *managerPanel;
     SmallMultiplesWithArcsManager *managerSmallMult;
     MonteCarloPlotManager *managerMC;    
-    Button *runMCButton, *baselineButton, *resetAllButton;
+    PlotManager **plotManagers;
+            
     ButtonGroup *bgView, *bgChange, *bgArc, *bgArcStyle, *bgArcAnimate;
     ButtonGroup *bgUncertainty, *bgUncertaintyStats, *bgUncertaintyLine;
+    ButtonGroup* bgArcConditions;
+        
+    std::vector<ChangeSlider *> *sliders; 
+    std::vector<SliderButton *> *sliderButtons; // all sliders in this list are also part of speciesGroupButtons
+    std::vector<Button *> *speciesButtons; 
+    std::vector<Button *> *speciesGroupButtons; 
+    std::vector<Button *> *monteCarloButtons; 
+
+    Button *runMCButton, *baselineButton, *resetAllButton;
     ToggleButton *toggleAbsButton, *toggleChartsButton;
     
-    ButtonGroup* bgArcConditions;
-    
-    MS_PROD_MainWindow *mainWindow;
-
-    PlotManager **plotManagers;
-    std::vector<ChangeSlider *> *sliders;
-    std::vector<SliderButton *> *sliderButtons;
-    std::vector<Button *> *speciesButtons;
-    std::vector<Button *> *speciesGroupButtons;
-    std::vector<Button *> *monteCarloButtons;
-
     std::string labelSuffix;
 
     bool mouseReleaseButtonsNormal(float x, float y);
