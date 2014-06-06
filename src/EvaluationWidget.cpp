@@ -68,11 +68,11 @@ QWidget(parent) {
 }
 
 EvaluationWidget::~EvaluationWidget() {
-    delete stackedWidget;
     delete layout;
-    delete outFile;
-    delete warningMessage;
+    delete stackedWidget;
     delete buttonBox;
+    delete warningMessage;
+    delete outFile;
 }
 
 void EvaluationWidget::closeEvent(QCloseEvent * event) {
