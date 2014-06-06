@@ -344,9 +344,6 @@ void MyQGLWidget::drawExperimental() {
     glPopMatrix();
 
     positionSlidersForSpecies();
-
-    //bgArcConditions->setLocation(5, size().rheight() - 30);
-    //bgArcConditions->draw();
 }
 
 void MyQGLWidget::drawToPick() {
@@ -448,10 +445,6 @@ bool MyQGLWidget::mouseReleaseButtonsPresentation(float x, float y) {
 }
 
 bool MyQGLWidget::mouseReleaseButtonsExperimental(float x, float y) {
-    //if (mouseReleaseBgArcConditions(x, y)) {            
-    //    return true;
-    //}
-
     return mouseReleaseButtonsForSliders(x, y);
 }
 
@@ -746,10 +739,6 @@ void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 bool MyQGLWidget::mousePressButtonsExperimental(float x, float y) {
-    //if (bgArcConditions->mousePressed(x, y)) {
-    //    return true; 
-    //}
-
     for (unsigned int i = 0; i < sliderButtons->size(); i++) {
         if (sliderButtons->at(i)->mousePressed(x, y)) {
             return true;
@@ -902,11 +891,7 @@ bool MyQGLWidget::mouseMoveButtonsPresentation(float x, float y) {
     return false;
 }
 
-bool MyQGLWidget::mouseMoveButtonsExperimental(float x, float y) {
-    //if (bgArcConditions->mouseMoved(x, y)) {
-    //    return true;
-    //}
-    
+bool MyQGLWidget::mouseMoveButtonsExperimental(float x, float y) {   
     if (mouseMoveSliderButtons(x, y)) {
         return true;
     }
@@ -1173,10 +1158,6 @@ void MyQGLWidget::initialize() {
     toggleChartsButton = new ToggleButton("Biomass", true);
     toggleChartsButton->setHeight(buttonHeight);
     speciesButtons->push_back(toggleChartsButton);
-
-    /*toggleHarvButton = new ToggleButton("Harvest", false);
-    toggleHarvButton->setHeight(buttonHeight);
-    speciesButtons->push_back(toggleHarvButton);*/
     
     runMCButton = new Button("Run Simulation");
     runMCButton->setHeight(buttonHeight);
