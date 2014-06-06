@@ -3,7 +3,7 @@
 
 PredationArc::PredationArc(PlotManager *pm, float coefficient, SmallMultiple *source, SmallMultiple *recipient) 
 : InterSpeciesArc(pm, coefficient, source, recipient, " predate on ") {    
-    color = &Color::orange;
+    color = new Color(Color::orange);
 }
 
 PredationArc::~PredationArc() {

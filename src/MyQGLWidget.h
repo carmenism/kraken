@@ -75,6 +75,9 @@ private:
     int paddingLeft;
 
     int timer;
+    int timerId;
+
+    int numberManagers;
 
     EvaluationWidget *evalWidget;
 
@@ -88,13 +91,12 @@ private:
     ButtonGroup *bgView, *bgChange, *bgArc, *bgArcStyle, *bgArcAnimate;
     ButtonGroup *bgUncertainty, *bgUncertaintyStats, *bgUncertaintyLine;
     ToggleButton *toggleAbsButton, *toggleChartsButton;
-    //ToggleButton *toggleHarvButton;
     
     ButtonGroup* bgArcConditions;
     
     MS_PROD_MainWindow *mainWindow;
 
-    std::vector<PlotManager *> *plotManagers;
+    PlotManager **plotManagers;
     std::vector<ChangeSlider *> *sliders;
     std::vector<SliderButton *> *sliderButtons;
     std::vector<Button *> *speciesButtons;
@@ -132,7 +134,6 @@ private:
 
     void toggleAbsoluteSizes();
     void toggleCharts();
-    void toggleHarvest();
 
     void displayByGroup();
     void displayBySpecies();

@@ -3,7 +3,7 @@
 
 InteractionArc::InteractionArc(PlotManager *pm, float coefficient, SmallMultiple *source, SmallMultiple *recipient) 
 : InterSpeciesArc(pm, coefficient, source, recipient, " compete with ") {    
-    color = &Color::skyblue;
+    color = new Color(Color::skyblue);
 }
 
 InteractionArc::~InteractionArc() {

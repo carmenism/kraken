@@ -7,7 +7,7 @@ Object2D::Object2D() {
     y = 0;
     width = 0;
     height = 0;
-    borderColor = &Color::gray;
+    borderColor = new Color(Color::gray);
 }
 
 Object2D::~Object2D() {

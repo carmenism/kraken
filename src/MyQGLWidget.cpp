@@ -34,16 +34,20 @@
 #include <QCloseEvent>
 #include <iostream>
 
+//#define _CRTDBG_MAP_ALLOC
+//#include <stdlib.h>
+//#include <crtdbg.h>
+
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
-    //setAttribute(Qt::WA_DeleteOnClose);
-    
     mode = NORMAL;
 
     if (mode == EXPERIMENTAL) {
         evalWidget = new EvaluationWidget(this, NULL);
     }
-    
-    plotManagers = new std::vector<PlotManager *>();
+
+    numberManagers = 3;
+
+    plotManagers = new PlotManager *[numberManagers];
     sliders = new std::vector<ChangeSlider *>();
     sliderButtons = new std::vector<SliderButton *>();
     speciesButtons = new std::vector<Button *>();
@@ -51,7 +55,7 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
     monteCarloButtons = new std::vector<Button *>();
 
     //CW_CODE this triggers timerEvent callback
-	startTimer(0); //QT_Timer has the effect of glutIdle timer is called whenever widget is inactive
+	timerId = startTimer(0); //QT_Timer has the effect of glutIdle timer is called whenever widget is inactive
 
     paddingRight = 0;
     paddingLeft = 0;
@@ -78,9 +82,9 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
 
     kmc = new KrakenMonteCarlo(mainWindow, managerMC);
 
-    plotManagers->push_back(managerPanel);
-    plotManagers->push_back(managerSmallMult);
-    plotManagers->push_back(managerMC);
+    plotManagers[0] = managerPanel;
+    plotManagers[1] = managerSmallMult;
+    plotManagers[2] = managerMC;
 
     picker = new Picker(this);
 
@@ -88,13 +92,8 @@ MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLW
 }
 
 MyQGLWidget::~MyQGLWidget() {
-    std::cerr << "ENTERING MyQGLWidget DESTRUCTOR\n";
-
-    while (!plotManagers->empty()) {
-        PlotManager *m = plotManagers->back();
-        plotManagers->pop_back();
-        delete m;
-    }
+    std::cerr << "ENTERING DESTRUCTOR\n";
+    killTimer(timerId);
 
     while (!sliders->empty()) {
         ChangeSlider *s = sliders->back();
@@ -115,19 +114,17 @@ MyQGLWidget::~MyQGLWidget() {
     delete bgArcAnimate;
     delete bgUncertainty;
     delete sliders;
-    delete plotManagers;
+    delete[] plotManagers;
     delete picker;
     delete kmc;
     delete gr;
 
     
-    std::cerr << "EXITING MyQGLWidget DESTRUCTOR\n";
+    std::cerr << "EXITING DESTRUCTOR\n";
 }
 
 void MyQGLWidget::closeEvent(QCloseEvent * event) {
-    killTimer(0);
-    //
-    std::cerr << "EXITING WINDOW\n";
+    killTimer(timerId);
 
     mainWindow->close();
 }
@@ -201,9 +198,9 @@ void MyQGLWidget::paintGL() {
 void MyQGLWidget::drawPresentation() {
     glPushMatrix();
         glTranslatef(paddingLeft, paddingBottom, 0);
-        for (unsigned int i = 0; i < plotManagers->size(); i++) {
-            if (plotManagers->at(i)->getDisplay()) {
-                plotManagers->at(i)->draw(size().rwidth() - paddingRight - paddingLeft, size().rheight() - paddingTop - paddingBottom);
+        for (int i = 0; i < numberManagers; i++) {
+            if (plotManagers[i]->getDisplay()) {
+                plotManagers[i]->draw(size().rwidth() - paddingRight - paddingLeft, size().rheight() - paddingTop - paddingBottom);
             }
         }
     glPopMatrix();
@@ -257,9 +254,9 @@ void MyQGLWidget::drawPresentation() {
 void MyQGLWidget::drawNormal() { 
     glPushMatrix();
         glTranslatef(paddingLeft, paddingBottom, 0);
-        for (unsigned int i = 0; i < plotManagers->size(); i++) {
-            if (plotManagers->at(i)->getDisplay()) {
-                plotManagers->at(i)->draw(size().rwidth() - paddingRight - paddingLeft, size().rheight() - paddingTop - paddingBottom);
+        for (unsigned int i = 0; i < numberManagers; i++) {
+            if (plotManagers[i]->getDisplay()) {
+                plotManagers[i]->draw(size().rwidth() - paddingRight - paddingLeft, size().rheight() - paddingTop - paddingBottom);
             }
         }
     glPopMatrix();
@@ -339,9 +336,9 @@ void MyQGLWidget::drawNormal() {
 void MyQGLWidget::drawExperimental() {
     glPushMatrix();
         glTranslatef(paddingLeft, paddingBottom, 0);
-        for (unsigned int i = 0; i < plotManagers->size(); i++) {
-            if (plotManagers->at(i)->getDisplay()) {
-                plotManagers->at(i)->draw(size().rwidth() - paddingRight - paddingLeft, size().rheight() - paddingTop - paddingBottom);
+        for (unsigned int i = 0; i < numberManagers; i++) {
+            if (plotManagers[i]->getDisplay()) {
+                plotManagers[i]->draw(size().rwidth() - paddingRight - paddingLeft, size().rheight() - paddingTop - paddingBottom);
             }
         }
     glPopMatrix();
@@ -353,9 +350,9 @@ void MyQGLWidget::drawExperimental() {
 }
 
 void MyQGLWidget::drawToPick() {
-    for (unsigned int i = 0; i < plotManagers->size(); i++) {
-        if (plotManagers->at(i)->getDisplay()) {
-            plotManagers->at(i)->drawToPick();
+    for (unsigned int i = 0; i < numberManagers; i++) {
+        if (plotManagers[i]->getDisplay()) {
+            plotManagers[i]->drawToPick();
         }
     }
 }
@@ -385,10 +382,10 @@ void MyQGLWidget::mouseReleaseEvent(QMouseEvent *event) {
                     break;
                 }
             }
-        } else {
-            updateGL();
         }
     }
+
+    updateGL();
 }
 
 bool MyQGLWidget::mousePressButtonsPresentation(float x, float y) {
@@ -671,10 +668,6 @@ bool MyQGLWidget::mouseReleaseButtonsNormal(float x, float y) {
             toggleAbsoluteSizes();
             return true;
         }
-        /*if (toggleHarvButton->mouseReleased(x, y)) {
-            toggleHarvest();
-            return true;
-        }*/
     }
 
     if (managerMC->getDisplay()) {
@@ -746,14 +739,10 @@ void MyQGLWidget::mousePressEvent(QMouseEvent *event) {
 
         if (!mousePressed) {
             bool sliderPressed = mousePressSliders(x, y);
-
-            if (sliderPressed) {
-                updateGL();
-            }
-        } else {
-            updateGL();
         }
     }
+
+    updateGL();
 }
 
 bool MyQGLWidget::mousePressButtonsExperimental(float x, float y) {
@@ -883,12 +872,10 @@ void MyQGLWidget::mouseMoveEvent(QMouseEvent *event) {
 
         if (!sliderMoved) {
             mouseMovePickables(x, y);
-        } else {
-            updateGL();
         }
-    } else {
-        updateGL();
     }
+
+    updateGL();
 }
 
 bool MyQGLWidget::mouseMoveButtonsPresentation(float x, float y) {
@@ -1043,10 +1030,9 @@ bool MyQGLWidget::mouseMoveSliders(float x, float y) {
 void MyQGLWidget::mouseMovePickables(int x, int y) {
     if (!managerPanel->empty()) {
         std::vector<Pickable *> *allPickables = new std::vector<Pickable *>();
-        
-        for (unsigned int i = 0; i < plotManagers->size(); i++) {
-            if (plotManagers->at(i)->getDisplay()) {
-                std::vector<Pickable *> *p = plotManagers->at(i)->getPickables();
+        for (unsigned int i = 0; i < numberManagers; i++) {
+            if (plotManagers[i]->getDisplay()) {
+                std::vector<Pickable *> *p = plotManagers[i]->getPickables();
                 allPickables->insert(allPickables->end(), p->begin(), p->end());
             }
         }
@@ -1085,8 +1071,8 @@ void MyQGLWidget::keyPressEvent(QKeyEvent* event) {
 }
 
 void MyQGLWidget::updateCharts(Model *model) {
-    for (unsigned int i = 0; i < plotManagers->size(); i++) {
-        plotManagers->at(i)->updateCharts(model, mainWindow);
+    for (unsigned int i = 0; i < numberManagers; i++) {
+        plotManagers[i]->updateCharts(model, mainWindow);
     }
 
     if (splinesUninitialized) {
@@ -1105,8 +1091,8 @@ void MyQGLWidget::updateCharts(Model *model) {
 
 
 void MyQGLWidget::capturePreviousValues() {
-    for (unsigned int i = 0; i < plotManagers->size(); i++) {
-        plotManagers->at(i)->capturePreviousValues();
+    for (unsigned int i = 0; i < numberManagers; i++) {
+        plotManagers[i]->capturePreviousValues();
     }
 }
 
@@ -1132,16 +1118,16 @@ void MyQGLWidget::initialize() {
     sliders->clear();
 
     QStringList guilds = mainWindow->getParameters()->getGuildList();
-    std::vector<float> *values = new std::vector<float>();
-    values->push_back(0);
-    values->push_back(0.25);
-    values->push_back(0.5);
-    values->push_back(0.75);
-    values->push_back(1.0);
-    values->push_back(1.5);
-    values->push_back(2.0);
-    values->push_back(3);
-    values->push_back(4);
+    std::vector<float> values;
+    values.push_back(0);
+    values.push_back(0.25);
+    values.push_back(0.5);
+    values.push_back(0.75);
+    values.push_back(1.0);
+    values.push_back(1.5);
+    values.push_back(2.0);
+    values.push_back(3);
+    values.push_back(4);
 
     for (int i = 0; i < guilds.size(); i++) {
         std::string guild = guilds.at(i).toStdString();
@@ -1333,8 +1319,8 @@ void MyQGLWidget::positionSlidersForSpecies() {
         sliders->at(i)->setTitleFontHeight(12);
         
         Color *c=Color::getEvenlyDistributedColor(sliders->size(), i);
-        sliders->at(i)->setMainColor(c);
-        sliders->at(i)->setCursorColor(c);
+        sliders->at(i)->setMainColor(new Color(*c));
+        sliders->at(i)->setCursorColor(new Color(*c));
     }
     
     positionSliderButtons();
@@ -1355,8 +1341,8 @@ void MyQGLWidget::setSliderFontSizes() {
     for (unsigned int i = 0; i < sliders->size(); i++) {
         sliders->at(i)->setLabelFontHeight(labelHeight);
         sliders->at(i)->setTitleFontHeight(titleHeight);
-        sliders->at(i)->setMainColor(&Color::gray);
-        sliders->at(i)->setCursorColor(&Color::gray);
+        sliders->at(i)->setMainColor(new Color(Color::gray));
+        sliders->at(i)->setCursorColor(new Color(Color::gray));
     }
 }
 
@@ -1400,8 +1386,6 @@ void MyQGLWidget::toggleCharts() {
     if (managerSmallMult->getDisplay()) {
         if (toggleChartsButton->getValue()) {
             managerSmallMult->displayChartsOn();
-            managerSmallMult->displayHarvestOff();
-            //toggleHarvButton->setValue(false);
         } else {
             managerSmallMult->displayChartsOff();
         }
@@ -1409,20 +1393,6 @@ void MyQGLWidget::toggleCharts() {
         updateGL();
     }
 }
-/*
-void MyQGLWidget::toggleHarvest() {
-    if (managerSpecies->getDisplay()) {
-        if (toggleHarvButton->getValue()) {
-            managerSpecies->displayHarvestOn();
-            managerSpecies->displayChartsOff();
-            toggleChartsButton->setValue(false);
-        } else {
-            managerSpecies->displayHarvestOff();
-        }
-
-        updateGL();
-    }
-}*/
 
 void MyQGLWidget::setBaseline() {
     setSlidersBaseline();

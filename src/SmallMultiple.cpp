@@ -8,7 +8,7 @@
 #include <GL/glut.h>
 #include <iostream>
 
-SmallMultiple::SmallMultiple(std::vector<float> *xValues, std::vector<float> *yBiomass, std::vector<float> *yHarvest, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex) 
+SmallMultiple::SmallMultiple(std::vector<float> *xValues, std::vector<float> *yBiomass, std::string label, bool displayXAxisLabels, int numGuilds, int guildIndex) 
 : LineChart() {      
     sideLabel = label;
     ChartPointSeries *biomassSeries = new ChartPointSeries(this, label, xValues, yBiomass);
@@ -40,65 +40,20 @@ SmallMultiple::SmallMultiple(std::vector<float> *xValues, std::vector<float> *yB
     absChart->setDisplayLegend(displayXAxisLabels);
 
     displayAbsoluteSizes = true;
-    displayHarvest = false;
     displayChart = true;
-    
-    harvest = new LineChart();
-    harvest->setDisplayTitle(false);
-    harvest->getRightAxis()->setDisplay(false);
-    harvest->getLeftAxis()->setDisplay(true);
-    harvest->getLeftAxis()->displayLabelOn();
-    harvest->getLeftAxis()->setLabel("Harvest (mt)");
-    harvest->getBottomAxis()->setLabel("Year");
-    harvest->getBottomAxis()->displayLabelOn();
-    harvest->getBottomAxis()->setDisplayLabel(displayXAxisLabels);
-    harvest->getBottomAxis()->setDisplayTickLabels(displayXAxisLabels);
-    harvest->setAxesFontHeight(9);
-
-    ChartPointSeries *harvestSeries = new ChartPointSeries(harvest, label, xValues, yHarvest);
-    harvestSeries->setColor(c);
-
-    harvest->addPointSeries(harvestSeries);
-    harvest->setMarkersSize(6);
 
     fontHeight = 12;
 }
 
-
 SmallMultiple::~SmallMultiple() {
     delete absChart;
-    delete harvest;
 }
 
-std::vector<Pickable *> *SmallMultiple::getPickables() {
-    if (displayHarvest) {
-        return harvest->getPickables();
-    }
-
-    return LineChart::getPickables();
-}
-
-void SmallMultiple::setValues(std::vector<float> *xValues, std::vector<float> *yBiomass, std::vector<float> *yHarvest) {
+void SmallMultiple::setValues(std::vector<float> *xValues, std::vector<float> *yBiomass) {
     seriesList->front()->setValues(xValues, yBiomass);
-    harvest->getPointSeriesList()->front()->setValues(xValues, yHarvest);
 }
 
 void SmallMultiple::draw() {
-    if (displayHarvest) {
-        float w = harvest->getLeftAxis()->getSize();
-        harvest->setLocation(x, y + offsetY);
-        harvest->setWidth(getInnerWidth() + w);
-        harvest->setHeight(getInnerHeight());
-
-        if (harvest->getBottomAxis()->getDisplayLabel()) {
-            harvest->setLocation(x, y);
-            float h = harvest->getBottomAxis()->getSize();
-            harvest->setHeight(getInnerHeight() + h);
-        }
-
-        harvest->draw();
-    }
-
     if (displayAbsoluteSizes) {
         absChart->draw();
     }
@@ -112,10 +67,6 @@ void SmallMultiple::drawToPick() {
     if (displayAbsoluteSizes && !displayChart) {
         absChart->drawToPick();
     }    
-
-    if (displayHarvest) {
-        harvest->drawToPick();
-    }
 }
 
 void SmallMultiple::drawAtOrigin() {

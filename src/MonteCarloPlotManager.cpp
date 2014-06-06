@@ -42,6 +42,14 @@ void MonteCarloPlotManager::updateCharts(Model *model, MS_PROD_MainWindow *mainW
     if (getCharts()->empty()) {
         initializeCharts(biomassMatrix, mainWindow);
     }
+    
+    while (!biomassMatrix->empty()) {
+        QList<double> *r = biomassMatrix->at(0);
+        biomassMatrix->removeFirst();
+        delete r;
+    }
+
+    delete biomassMatrix;
 }
 
 void MonteCarloPlotManager::addValues(int simNum, MS_PROD_MainWindow *mainWindow, bool jittered) {

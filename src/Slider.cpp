@@ -5,11 +5,11 @@
 #include "PrintText.h"
 
 
-Slider::Slider(std::string myTitle, std::vector<float> *values, int startIndex) {
+Slider::Slider(std::string myTitle, std::vector<float> values, int startIndex) {
     valueType = CUSTOM;
     this->values = values;
 
-    initialize(myTitle, values->at(startIndex));
+    initialize(myTitle, values.at(startIndex));
 }
 
 Slider::Slider(std::string myTitle, float min, float max, float start) {
@@ -55,7 +55,6 @@ void Slider::initialize(std::string myTitle, float startValue) {
 Slider::~Slider() {
     delete main;
     delete cursor;
-    delete values;
 }
 
 void Slider::undo() {
@@ -209,11 +208,11 @@ void Slider::drawLabels() {
             value = value + labelInterval;
         }
     } else {
-        float intervalPercentage = 1.0 / (values->size() - 1);
+        float intervalPercentage = 1.0 / (values.size() - 1);
         float intervalSize = main->getInnerWidth() * intervalPercentage;
 
-        for (unsigned int i = 0; i < values->size(); i++) {
-            std::string label = toStr(values->at(i));
+        for (unsigned int i = 0; i < values.size(); i++) {
+            std::string label = toStr(values.at(i));
 
             float x = main->getInnerX() + intervalSize * i;
             float y = main->getY() - main->getBorder();
@@ -242,32 +241,32 @@ float Slider::valueToPosition(float value) {
 
     // CUSTOM
 
-    if (value == values->front()) {
+    if (value == values.front()) {
         return 0;
-    } else if (value == values->back()) {
+    } else if (value == values.back()) {
         return main->getInnerWidth();
     }
 
     int indexLow = -1;
     int indexHigh = -1;
     
-    for (int i = 0; i < values->size() - 1; i++) {
+    for (int i = 0; i < values.size() - 1; i++) {
         indexLow = i;
         indexHigh = i + 1;
         
-        if (values->at(indexHigh) > value) {
+        if (values.at(indexHigh) > value) {
             break;
         }
     }
 
-    float valueLow = values->at(indexLow);
-    float valueHigh = values->at(indexHigh);
+    float valueLow = values.at(indexLow);
+    float valueHigh = values.at(indexHigh);
 
     float distToLow = value - valueLow;
     float percentageToLow = distToLow / (valueHigh - valueLow);
     percentageToLow = std::min(1.0f, percentageToLow);
     
-    float intervalSize = 1.0 / (values->size() - 1);
+    float intervalSize = 1.0 / (values.size() - 1);
     float percentage = intervalSize * (indexLow + percentageToLow);
  
     return (percentage * main->getInnerWidth()); 
@@ -282,20 +281,20 @@ float Slider::positionToValue(float position) {
 
     // CUSTOM
     if (percent == 0) {
-        return values->front();
+        return values.front();
     } else if (percent == 1) {
-        return values->back();
+        return values.back();
     }
 
-    float intervalSize = 1.0 / (values->size() - 1);
+    float intervalSize = 1.0 / (values.size() - 1);
     int indexLow = int(percent / intervalSize);
     int indexHigh = indexLow + 1;
    
     float distFromLow = (percent - (indexLow * intervalSize)) / intervalSize;
     distFromLow = std::min(1.0f, distFromLow);
 
-    float valueLow = values->at(indexLow);
-    float valueHigh = values->at(indexHigh);    
+    float valueLow = values.at(indexLow);
+    float valueHigh = values.at(indexHigh);    
 
     return valueLow + distFromLow * (valueHigh - valueLow);
 }

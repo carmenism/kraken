@@ -21,12 +21,11 @@ class Color
 {
 public:
     Color();
+    ~Color();
     Color( const Color& c );
     Color( float red, float green, float blue, float alpha = 1.0f );
 
     float r, g, b, a;
-
-    bool assigned;
 
     static Color red;
     static Color orange;
@@ -50,11 +49,7 @@ public:
     static Color black;
     static Color white;
 
-    static Color *colors;
-    static int numberColors;
-
     static Color *getEvenlyDistributedColor(int numberColors, int offset);
-    static Color *getUnassignedColor();
 
 private:
     static Color *hslToRgb(float h, float s, float l, float a = 1.0);

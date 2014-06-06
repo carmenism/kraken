@@ -54,23 +54,11 @@ SmallMultiplesWithArcsManager::~SmallMultiplesWithArcsManager() {
 
 void SmallMultiplesWithArcsManager::updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) {
     QList<QList<double>> biomassMatrixOrig = mainWindow->getParameters()->getBiomassMatrix();
-    QList<QList<double>> harvestMatrixOrig = model->getHarvestMatrix();
-   
+    
     QList<QList<double> *> *biomassMatrix = groupReordering->getNewTimeSeriesMatrix(biomassMatrixOrig);
-    QList<QList<double> *> *harvestMatrix = groupReordering->getNewTimeSeriesMatrix(harvestMatrixOrig);
-
-    QList<QList<double> *> *newHarvestMatrix = new QList<QList<double> *>();
-    for (int i = 0; i < harvestMatrix->size(); i++) {
-        QList<double> *row = new QList<double>();
-        
-        for (int j = 0; j < harvestMatrix->at(i)->size(); j++) {
-            row->append(harvestMatrix->at(i)->at(j) * -1);
-        }        
-        newHarvestMatrix->append(row);
-    }
-
+    
     if (charts->empty()) {
-        initializeCharts(biomassMatrix, newHarvestMatrix, mainWindow);
+        initializeCharts(biomassMatrix, mainWindow);
         initializePredationArcs(mainWindow);
         initializeInteractionArcs(mainWindow);
         initializeBothArcs(mainWindow);
@@ -79,32 +67,19 @@ void SmallMultiplesWithArcsManager::updateCharts(Model *model, MS_PROD_MainWindo
         for (int i = 0; i < biomassMatrix->size(); i++) {
             std::vector<float> *x = new std::vector<float>;
             std::vector<float> *yBiomass = new std::vector<float>;
-            std::vector<float> *yHarvest = new std::vector<float>;
             
             for (int j = 0; j < biomassMatrix->at(i)->size(); j++) {
                 x->push_back(j);
                 yBiomass->push_back(biomassMatrix->at(i)->at(j));
-                yHarvest->push_back(newHarvestMatrix->at(i)->at(j));
             }
 
-            charts->at(i)->setValues(x, yBiomass, yHarvest);
+            charts->at(i)->setValues(x, yBiomass);
 
             delete x;
             delete yBiomass;
-            delete yHarvest;
         }
     }
 
-    while (!newHarvestMatrix->empty()) {
-        QList<double> *r = newHarvestMatrix->at(0);
-        newHarvestMatrix->removeFirst();
-        delete r;
-    }
-    while (!harvestMatrix->empty()) {
-        QList<double> *r = harvestMatrix->at(0);
-        harvestMatrix->removeFirst();
-        delete r;
-    }
     //if (biomassMatrix != NULL) {
         while (!biomassMatrix->empty()) {
             QList<double> *r = biomassMatrix->at(0);
@@ -113,13 +88,11 @@ void SmallMultiplesWithArcsManager::updateCharts(Model *model, MS_PROD_MainWindo
         }
         delete biomassMatrix;
     //}
-    delete newHarvestMatrix;
-    delete harvestMatrix;
     
     //lastBiomass = biomassMatrix;
 }
 
-void SmallMultiplesWithArcsManager::initializeCharts(QList<QList<double> *> *biomassMatrix, QList<QList<double> *> *harvestMatrix, MS_PROD_MainWindow *mainWindow) {
+void SmallMultiplesWithArcsManager::initializeCharts(QList<QList<double> *> *biomassMatrix, MS_PROD_MainWindow *mainWindow) {
     bool displayXAxis = true;
     QStringList guilds = mainWindow->getParameters()->getGuildList();
     QStringList *newLabels = groupReordering->getNewLabels();
@@ -136,15 +109,13 @@ void SmallMultiplesWithArcsManager::initializeCharts(QList<QList<double> *> *bio
             
         std::vector<float> *x = new std::vector<float>();
         std::vector<float> *yBiomass = new std::vector<float>();
-        std::vector<float> *yHarvest = new std::vector<float>();
         
         for (int j = 0; j < biomassMatrix->at(i)->size(); j++) {
             x->push_back(j);
-            yBiomass->push_back(biomassMatrix->at(i)->at(j));            
-            yHarvest->push_back(harvestMatrix->at(i)->at(j));
+            yBiomass->push_back(biomassMatrix->at(i)->at(j)); 
         }
 
-        SmallMultiple *chart = new SmallMultiple(x, yBiomass, yHarvest, newLabels->at(i).toStdString(), displayXAxis, guilds.size(), guildIndex);
+        SmallMultiple *chart = new SmallMultiple(x, yBiomass, newLabels->at(i).toStdString(), displayXAxis, guilds.size(), guildIndex);
         chart->setTitle(newLabels->at(i).toStdString());        
         chart->setLineWidths(1);
         charts->push_back(chart);
@@ -153,7 +124,6 @@ void SmallMultiplesWithArcsManager::initializeCharts(QList<QList<double> *> *bio
 
         delete x;
         delete yBiomass;
-        delete yHarvest;
     }
 }
 
@@ -163,7 +133,7 @@ void SmallMultiplesWithArcsManager::initializeInteractionArcs(MS_PROD_MainWindow
 
     ColorLegend *legend = new ColorLegend();
     QStringList guilds = mainWindow->getParameters()->getGuildList();
-    legend->addColorLegendItem(new ColorLegendItem(&Color::skyblue, "Competition"));
+    legend->addColorLegendItem(new ColorLegendItem(new Color(Color::skyblue), "Competition"));
     legend->addColorLegendItem(new ColorLegendItem(new Color(0.9, 0.9, 0, 0.45), "Harvest"));
     legend->setLocation(5, 5);
 
@@ -175,7 +145,7 @@ void SmallMultiplesWithArcsManager::initializePredationArcs(MS_PROD_MainWindow *
     initializeArcs(arcsPred, ARC_PREDATION, mainWindow->getParameters()->getPredationMatrix());
     
     ColorLegend *legend = new ColorLegend();
-    legend->addColorLegendItem(new ColorLegendItem(&Color::orange, "Predation"));
+    legend->addColorLegendItem(new ColorLegendItem(new Color(Color::orange), "Predation"));
     legend->addColorLegendItem(new ColorLegendItem(new Color(0.9, 0.9, 0, 0.45), "Harvest"));
     legend->setLocation(5, 5);
 
@@ -198,8 +168,8 @@ void SmallMultiplesWithArcsManager::initializeBothArcs(MS_PROD_MainWindow *mainW
     delete tmp;
     
     ColorLegend *legend = new ColorLegend();
-    legend->addColorLegendItem(new ColorLegendItem(&Color::orange, "Predation"));
-    legend->addColorLegendItem(new ColorLegendItem(&Color::skyblue, "Competition"));
+    legend->addColorLegendItem(new ColorLegendItem(new Color(Color::orange), "Predation"));
+    legend->addColorLegendItem(new ColorLegendItem(new Color(Color::skyblue), "Competition"));
     legend->addColorLegendItem(new ColorLegendItem(new Color(0.9, 0.9, 0, 0.45), "Harvest"));
     legend->setLocation(5, 5);
 
@@ -379,24 +349,6 @@ void SmallMultiplesWithArcsManager::displayChartsOn() {
 
 void SmallMultiplesWithArcsManager::displayChartsOff() {
     setDisplayCharts(false);
-}
-
-bool SmallMultiplesWithArcsManager::getDisplayHarvest() {
-    return charts->front()->getDisplayHarvest();
-}
-
-void SmallMultiplesWithArcsManager::setDisplayHarvest(bool d) {
-    for (unsigned int i = 0; i < charts->size(); i++) {
-        charts->at(i)->setDisplayHarvest(d);
-    }
-}
-
-void SmallMultiplesWithArcsManager::displayHarvestOn() {
-    setDisplayHarvest(true);
-}
-
-void SmallMultiplesWithArcsManager::displayHarvestOff() {
-    setDisplayHarvest(false);
 }
 
 std::vector<AbsoluteSizeIndicator *> *SmallMultiplesWithArcsManager::getAbsPoints() {

@@ -47,11 +47,6 @@ public:
     void displayAbsoluteSizesOn();
     void displayAbsoluteSizesOff();
 
-    bool getDisplayHarvest();
-    void setDisplayHarvest(bool d);
-    void displayHarvestOn();
-    void displayHarvestOff();
-
     void displayPredation();
     void displayInteraction();
     void displayBothArcs();
@@ -81,7 +76,7 @@ private:
     std::vector<SmallMultiple *> *charts;
     std::vector<HarvestSpline *> *splines;
     
-    void initializeCharts(QList<QList<double> *> *biomassMatrix, QList<QList<double> *> *harvestMatrix, MS_PROD_MainWindow *mainWindow);
+    void initializeCharts(QList<QList<double> *> *biomassMatrix, MS_PROD_MainWindow *mainWindow);
     void initializeArcs(InterSpeciesArcCollection *arcs, int arcType, QList<QList<double>> matix);
     void initializeInteractionArcs(MS_PROD_MainWindow *mainWindow);
     void initializePredationArcs(MS_PROD_MainWindow *mainWindow);
