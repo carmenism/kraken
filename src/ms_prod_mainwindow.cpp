@@ -94,12 +94,11 @@ void MS_PROD_MainWindow::loadFromParameterFile(QString fileName) {
 //        } else if (parameterName == "EFFORT") {
 //            setEffort();
         } else if (parameterName == "CATCHABILITY") {
-            QList<QList<double> > *catchabilityMatrix = new QList<QList<double> >;
-            catchabilityMatrix = initializeTimeSeriesMatrix(parameterFileStream);
+            QList<QList<double> > *catchabilityMatrix = initializeTimeSeriesMatrix(parameterFileStream);
             paramObj.setCatchabilityMatrix(*catchabilityMatrix);
+            delete catchabilityMatrix;
         } else if (parameterName == "EFFORT") {
-            QList<QList<double> > *effortMatrix = new QList<QList<double> >;
-            effortMatrix = initializeTimeSeriesMatrix(parameterFileStream);
+            QList<QList<double> > *effortMatrix = initializeTimeSeriesMatrix(parameterFileStream);
             paramObj.setEffortMatrix(*effortMatrix);
         } else if (parameterName == "INITIAL BIOMASS") {
             setInitialBiomass();
@@ -126,54 +125,45 @@ void MS_PROD_MainWindow::loadFromParameterFile(QString fileName) {
             paramObj.setBetweenGuildCompMatrix(*betweenGuildCompMatrix);
 
         } else if ((parameterName == "WITHIN GUILD COMPETITION COEFFICIENT") || (parameterName == "BETWEEN SPECIES COMPETITION COEFFICIENT") || (parameterName == "BETWEEN SPECIES INTERACTION COEFFICIENT")) {
-            QList<QList<double> > *withinGuildCompMatrix = new QList<QList<double> >;
-            withinGuildCompMatrix = initializeParamMatrix(parameterFileStream);
+            QList<QList<double> > *withinGuildCompMatrix = initializeParamMatrix(parameterFileStream);
             paramObj.setWithinGuildCompMatrix(*withinGuildCompMatrix);
-
+            delete withinGuildCompMatrix;
         } else if ((parameterName == "WITHIN GUILD COMPETITION COEFFICIENT MIN") || (parameterName == "BETWEEN SPECIES COMPETITION COEFFICIENT MIN") || (parameterName == "BETWEEN SPECIES INTERACTION COEFFICIENT MIN")) {
-            QList<QList<double> > *withinGuildCompMinMatrix = new QList<QList<double> >;
-            withinGuildCompMinMatrix = initializeParamMatrix(parameterFileStream);
+            QList<QList<double> > *withinGuildCompMinMatrix = initializeParamMatrix(parameterFileStream);
             paramObj.setWithinGuildCompMinMatrix(*withinGuildCompMinMatrix);
-
+            delete withinGuildCompMinMatrix;
         } else if ((parameterName == "WITHIN GUILD COMPETITION COEFFICIENT MAX") || (parameterName == "BETWEEN SPECIES COMPETITION COEFFICIENT MAX") || (parameterName == "BETWEEN SPECIES INTERACTION COEFFICIENT MAX")) {
-            QList<QList<double> > *withinGuildCompMaxMatrix = new QList<QList<double> >;
-            withinGuildCompMaxMatrix = initializeParamMatrix(parameterFileStream);
+            QList<QList<double> > *withinGuildCompMaxMatrix = initializeParamMatrix(parameterFileStream);
             paramObj.setWithinGuildCompMaxMatrix(*withinGuildCompMaxMatrix);
-
+            delete withinGuildCompMaxMatrix;
         } else if (parameterName == "PREDATION LOSS RATES") {
-            QList<QList<double> > *predationMatrix = new QList<QList<double> >;
-            predationMatrix = initializeParamMatrix(parameterFileStream);
+            QList<QList<double> > *predationMatrix = initializeParamMatrix(parameterFileStream);
             paramObj.setPredationMatrix(*predationMatrix);
-
+            delete predationMatrix;
         } else if (parameterName == "PREDATION LOSS RATES MIN") {
-            QList<QList<double> > *predationLossRatesMinMatrix = new QList<QList<double> >;
-            predationLossRatesMinMatrix = initializeParamMatrix(parameterFileStream);
+            QList<QList<double> > *predationLossRatesMinMatrix = initializeParamMatrix(parameterFileStream);
             paramObj.setPredationLossRatesMinMatrix(*predationLossRatesMinMatrix);
-
+            delete predationLossRatesMinMatrix;
         } else if (parameterName == "PREDATION LOSS RATES MAX") {
-            QList<QList<double> > *predationLossRatesMaxMatrix = new QList<QList<double> >;
-            predationLossRatesMaxMatrix = initializeParamMatrix(parameterFileStream);
+            QList<QList<double> > *predationLossRatesMaxMatrix = initializeParamMatrix(parameterFileStream);
             paramObj.setPredationLossRatesMaxMatrix(*predationLossRatesMaxMatrix);
-
+            delete predationLossRatesMaxMatrix;
         } else if (parameterName == "HANDLING TIMES") {
-            QList<QList<double> > *handlingTimeMatrix = new QList<QList<double> >;
-            handlingTimeMatrix = initializeParamMatrix(parameterFileStream);
+            QList<QList<double> > *handlingTimeMatrix = initializeParamMatrix(parameterFileStream);
             paramObj.setHandlingTimeMatrix(*handlingTimeMatrix);
-
+            delete handlingTimeMatrix;
         } else if (parameterName == "TYPE III B COEFFICIENTS") {
-            QList<QList<double> > *bCoefMatrix = new QList<QList<double> >;
-            bCoefMatrix = initializeParamMatrix(parameterFileStream);
+            QList<QList<double> > *bCoefMatrix = initializeParamMatrix(parameterFileStream);
             paramObj.setbCoefMatrix(*bCoefMatrix);
-
+            delete bCoefMatrix;
         } else if (parameterName == "SPATIAL OVERLAP") {
-            QList<QList<double> > *spatialOverlapMatrix = new QList<QList<double> >;
-            spatialOverlapMatrix = initializeParamMatrix(parameterFileStream);
+            QList<QList<double> > *spatialOverlapMatrix = initializeParamMatrix(parameterFileStream);
             paramObj.setSpatialOverlapMatrix(*spatialOverlapMatrix);
-
+            delete spatialOverlapMatrix;
         } else if (parameterName == "CATCH") {
-            QList<QList<double> > *catchMatrix = new QList<QList<double> >;
-            catchMatrix = initializeTimeSeriesMatrix(parameterFileStream);
+            QList<QList<double> > *catchMatrix = initializeTimeSeriesMatrix(parameterFileStream);
             paramObj.setCatchMatrix(*catchMatrix);
+            delete catchMatrix;
         } else if (parameterName == "PELAGIC") {
             setPelProportionList();
         } else if (parameterName == "DEMERSAL") {
@@ -269,13 +259,13 @@ QList<QList<double> >* MS_PROD_MainWindow::initializeParamMatrix(QTextStream & p
         paramLineList.removeAll("");
         double parameter = 0.0;
         QString strParameter = "";
-        QList<double> *newList = new QList<double>;
+        QList<double> newList;
         for (int i=0; i < numSpecies; i++) {
             strParameter = paramLineList.at(i);
             parameter = strParameter.toDouble();
-            newList->append(parameter);
+            newList.append(parameter);
         }
-        paramMatrix->append(*newList);
+        paramMatrix->append(newList);
     }
     return paramMatrix;
 }
@@ -293,14 +283,14 @@ QList<QList<double> >* MS_PROD_MainWindow::initializeTimeSeriesMatrix(QTextStrea
         paramLineList.removeFirst();
         double parameter = 0.0;
         QString strParameter = "";
-        QList<double> *newList = new QList<double>;
+        QList<double> newList;
         int catchVectorSize = paramLineList.size();
         for (int i=0; i < catchVectorSize; i++) {
             strParameter = paramLineList.at(i);
             parameter = strParameter.toDouble();
-            newList->append(parameter);
+            newList.append(parameter);
         }
-        paramMatrix->append(*newList);
+        paramMatrix->append(newList);
     }
     return paramMatrix;
 }

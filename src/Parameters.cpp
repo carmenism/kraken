@@ -6,10 +6,6 @@ Parameters::Parameters() {
     m_BiomassUnits = "mt";
     m_SystemK = 0;
     m_loaded = false;
-    QList<QList<double> >* initPredMatrix = new QList<QList<double> >;
-    QList<double>* initSpeciesKList = new QList<double>;
-    setPredationMatrix(*initPredMatrix);
-    m_SpeciesKList = *initSpeciesKList;
 }
 
 
@@ -468,16 +464,16 @@ void Parameters::setBiomassMatrix(QList<QList<double> > matrix) {
 
 
 void Parameters::clearBiomassMatrix() {
-    QList<QList<double> > *biomassMatrix = new QList<QList<double> >;
+    QList<QList<double> > biomassMatrix;
     int speciesIndex;
     double value;
     foreach (value, m_InitialBiomassList) {
-        QList<double> *newList = new QList<double>;
-        newList->append(value);
-        biomassMatrix->append(*newList);
+        QList<double> newList;
+        newList.append(value);
+        biomassMatrix.append(newList);
         speciesIndex++;
     }
-    setBiomassMatrix(*biomassMatrix);
+    setBiomassMatrix(biomassMatrix);
 }
 
 
@@ -921,16 +917,16 @@ double Parameters::getCatch(const int speciesIndex, const int time) {
 void Parameters::setInitialBiomassList(QList<double> list) {
     m_InitialBiomassList = list;
 
-    QList<QList<double> > *biomassMatrix = new QList<QList<double> >;
+    QList<QList<double> > biomassMatrix;// = new QList<QList<double> >;
     int speciesIndex;
     double value;
     foreach (value, m_InitialBiomassList) {
-        QList<double> *newList = new QList<double>;
-        newList->append(value);
-        biomassMatrix->append(*newList);
+        QList<double> newList;// = new QList<double>;
+        newList.append(value);
+        biomassMatrix.append(newList);
         speciesIndex++;
     }
-    setBiomassMatrix(*biomassMatrix);
+    setBiomassMatrix(biomassMatrix);
 }
 
 

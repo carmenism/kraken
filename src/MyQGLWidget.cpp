@@ -34,7 +34,7 @@
 #include <QCloseEvent>
 #include <iostream>
 
-#include "vld.h"
+//#include "vld.h"
 
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
     mode = NORMAL;
@@ -105,6 +105,7 @@ MyQGLWidget::~MyQGLWidget() {
     deleteButtonList(speciesGroupButtons);
     deleteButtonList(monteCarloButtons);
 
+    delete sliderButtons;
     delete bgUncertaintyStats;
     delete bgUncertaintyLine;
     delete bgView;
@@ -1128,8 +1129,8 @@ void MyQGLWidget::initialize() {
         ChangeSlider *slider = new ChangeSlider(guild + labelSuffix, values, 4);
               
         Color *c=Color::getEvenlyDistributedColor(guilds.size(), i);
-        slider->setMainColor(new Color(Color::gray));
-        slider->setCursorColor(new Color(Color::gray));
+        slider->getMainColor()->copyValues(&Color::gray);
+        slider->getCursorColor()->copyValues(&Color::gray);
         slider->setFunctGroupColor(new Color(*c));
         delete c;
 
