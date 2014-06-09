@@ -5,6 +5,7 @@
 #include "Pickable.h"
 #include "Animatable.h"
 #include "Object2D.h"
+#include "Color.h"
 
 class Link : public Object2D, public Pickable, public Animatable {
 public:

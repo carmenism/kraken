@@ -13,6 +13,9 @@ ChangeSlider::ChangeSlider(std::string title, float min, float max, float start)
 }
 
 ChangeSlider::~ChangeSlider() {
+    useOriginalColor();
+    delete functGroupColor;
+    delete functGroupCursorColor;
     delete increaseColor;
     delete decreaseColor;
 }
@@ -75,4 +78,21 @@ void ChangeSlider::determineColor(float value, float previousValue) {
 
 void ChangeSlider::setBaseline() {
     baselineIndex = valueHistory.size() - 1;
+}
+
+void ChangeSlider::setFunctGroupColor(Color *c) {
+    originalColor = getMainColor();
+    originalCursorColor = getCursorColor();
+    functGroupColor = c;
+    functGroupCursorColor = new Color(*c);
+}
+
+void ChangeSlider::useFunctGroupColor() {
+    setMainColor(functGroupColor);
+    setCursorColor(functGroupCursorColor);
+}
+
+void ChangeSlider::useOriginalColor() {
+    setMainColor(originalColor);
+    setCursorColor(originalCursorColor);
 }

@@ -32,6 +32,9 @@ public:
     virtual bool mousePressed(float x, float y);
     virtual bool mouseReleased(float x, float y);
 
+    Color *getMainColor() { return main->getColor(); }
+    Color *getCursorColor() { return cursor->getColor(); }
+
     void setMainColor(Color *c) { main->setColor(c); }
     void setCursorColor(Color *c) { cursor->setColor(c); }
 

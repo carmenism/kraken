@@ -1123,7 +1123,13 @@ void MyQGLWidget::initialize() {
         std::string guild = guilds.at(i).toStdString();
         
         ChangeSlider *slider = new ChangeSlider(guild + labelSuffix, values, 4);
-        
+              
+        Color *c=Color::getEvenlyDistributedColor(guilds.size(), i);
+        slider->setMainColor(new Color(Color::gray));
+        slider->setCursorColor(new Color(Color::gray));
+        slider->setFunctGroupColor(new Color(*c));
+        delete c;
+
         slider->setWidth(220);
         slider->setHeight(18);
         slider->displayLabelsOn();
@@ -1303,10 +1309,7 @@ void MyQGLWidget::positionSlidersForSpecies() {
         sliders->at(i)->setWidth(220);
         sliders->at(i)->setLabelFontHeight(10);
         sliders->at(i)->setTitleFontHeight(12);
-        
-        Color *c=Color::getEvenlyDistributedColor(sliders->size(), i);
-        sliders->at(i)->setMainColor(new Color(*c));
-        sliders->at(i)->setCursorColor(new Color(*c));
+        sliders->at(i)->useFunctGroupColor();
     }
     
     positionSliderButtons();
@@ -1327,8 +1330,6 @@ void MyQGLWidget::setSliderFontSizes() {
     for (unsigned int i = 0; i < sliders->size(); i++) {
         sliders->at(i)->setLabelFontHeight(labelHeight);
         sliders->at(i)->setTitleFontHeight(titleHeight);
-        sliders->at(i)->setMainColor(new Color(Color::gray));
-        sliders->at(i)->setCursorColor(new Color(Color::gray));
     }
 }
 
@@ -1343,6 +1344,7 @@ void MyQGLWidget::positionSlidersForGroups() {
         sliders->at(i)->setLocation(chart->getX() + 55, chart->getY() - 30);
         sliders->at(i)->titlePositionRight();
         sliders->at(i)->setWidth(width);
+        sliders->at(i)->useOriginalColor();
     }
     
     setSliderFontSizes();

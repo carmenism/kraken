@@ -18,10 +18,19 @@ public:
     void setBaseline();
 
     float getPreviousValue();
+
+    void setFunctGroupColor(Color *c); 
+    void useFunctGroupColor();
+    void useOriginalColor();
 private:
     Color *decreaseColor;
     Color *increaseColor;
     Color *currentColor;
+
+    Color *functGroupColor;
+    Color *functGroupCursorColor;
+    Color *originalColor;
+    Color *originalCursorColor;
     bool display;
     int baselineIndex;
 
