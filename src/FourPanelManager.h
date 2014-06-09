@@ -17,8 +17,6 @@ public:
 
     void draw(float windowWidth, float windowHeight);
     void updateCharts(Model *model, MS_PROD_MainWindow *mainWindow);
-
-    std::vector<LineChart *> *getCharts();
     
     MultiSpeciesLineChart *getChartAt(int i) { return charts->at(i); }
 protected:

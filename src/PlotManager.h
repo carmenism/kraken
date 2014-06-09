@@ -24,7 +24,7 @@ class PlotManager : public Displayable {
         
         bool empty() { if (getCharts() == NULL) return true; return getCharts()->empty(); }
 
-        virtual std::vector<LineChart *> *getCharts() = 0;
+        std::vector<LineChart *> *getCharts() { return lineCharts; }
         virtual void updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) = 0;
 
         float getLargestValue();
@@ -34,6 +34,8 @@ class PlotManager : public Displayable {
         void displayGhostAsLine();
         void displayGhostAsBlend();
     protected:
+        std::vector<LineChart *> *lineCharts;
+
         float getFontSize(float windowWidth, float windowHeight);
         float getMarkersSize(float chartWidth, float chartHeight);
     private: 

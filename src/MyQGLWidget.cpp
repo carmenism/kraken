@@ -34,6 +34,8 @@
 #include <QCloseEvent>
 #include <iostream>
 
+#include "vld.h"
+
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
     mode = NORMAL;
 
@@ -1026,9 +1028,8 @@ void MyQGLWidget::mouseMovePickables(int x, int y) {
             }
         }
 
-		std::vector<Link *> *allLinks = NULL;
 		if (managerSmallMult->getDisplay()) {
-			allLinks = managerSmallMult->getLinks();
+			std::vector<Link *> *allLinks = managerSmallMult->getLinks();
 
 			if (allLinks != NULL) {
 				allPickables->insert(allPickables->end(), allLinks->begin(), allLinks->end());

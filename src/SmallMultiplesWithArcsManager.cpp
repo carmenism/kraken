@@ -120,6 +120,7 @@ void SmallMultiplesWithArcsManager::initializeCharts(QList<QList<double> *> *bio
         chart->setTitle(newLabels->at(i).toStdString());        
         chart->setLineWidths(1);
         charts->push_back(chart);
+        lineCharts->push_back(chart);
 
         displayXAxis = false;
 
@@ -297,7 +298,6 @@ std::vector<Link *> *SmallMultiplesWithArcsManager::getLinks() {
     }
 
     visibleLinks->clear();
-	//std::vector<Link *> *list = new std::vector<Link *>();
 	
     for (unsigned int i = 0; i < arcsCurrent->size(); i++) {
         if (!arcsCurrent->at(i)->getDisplayDynamically()) {
@@ -384,16 +384,6 @@ void SmallMultiplesWithArcsManager::displayNoArcs() {
     arcsCurrent = NULL;
 }
 
-std::vector<LineChart *> *SmallMultiplesWithArcsManager::getCharts() {
-    std::vector<LineChart *> *lineCharts = new std::vector<LineChart *>();
-
-    for (unsigned int i = 0; i < charts->size(); i++) {
-        lineCharts->push_back(charts->at(i));
-    }
-
-    return lineCharts;
-}
-  
 void SmallMultiplesWithArcsManager::setDisplayArcsDynamically(bool d) {
     arcsInter->setDisplayDynamically(d);
     arcsPred->setDisplayDynamically(d);

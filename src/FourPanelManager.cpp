@@ -105,16 +105,7 @@ void FourPanelManager::initializeCharts(QList<QList<double>> matrix, QStringList
         chart->setAxesFontHeight(10);
         chart->setLegendFontHeight(12);
         charts->push_back(chart);
+        lineCharts->push_back(chart);
     }
-
 }
 
-std::vector<LineChart *> *FourPanelManager::getCharts() {
-    std::vector<LineChart *> *lineCharts = new std::vector<LineChart *>();
-
-    for (int i = 0; i < charts->size(); i++) {
-        lineCharts->push_back(charts->at(i));
-    }
-
-    return lineCharts;
-}

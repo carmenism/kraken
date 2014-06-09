@@ -15,8 +15,6 @@ class SmallMultiplesManager : public PlotManager {
         
         void setGroupReordering(GroupReordering *gr) { groupReordering = gr; }
 
-        virtual std::vector<LineChart *> *getCharts() = 0;
-
         virtual void draw(float windowWidth, float windowHeight) = 0;
         virtual void drawToPick() = 0;
         virtual void updateCharts(Model *model, MS_PROD_MainWindow *mainWindow) = 0; 

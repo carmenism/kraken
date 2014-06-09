@@ -5,10 +5,12 @@
 
 PlotManager::PlotManager() {
     allPickables = new std::vector<Pickable *>();
+    lineCharts = new std::vector<LineChart *>();
 }
 
 PlotManager::~PlotManager() {
     delete allPickables;
+    delete lineCharts;
 }
 
 void PlotManager::draw(float windowWidth, float windowHeight) {

@@ -102,19 +102,10 @@ void MonteCarloPlotManager::initializeCharts(QList<QList<double> *> *biomassMatr
         MonteCarloLineChart *chart = new MonteCarloLineChart(newLabels->at(i).toStdString(), displayXAxis, guilds.size(), guildIndex);
         chart->setTitle(newLabels->at(i).toStdString());   
         charts->push_back(chart);
+        lineCharts->push_back(chart);
 
         displayXAxis = false;
     }
-}
-
-std::vector<LineChart *> *MonteCarloPlotManager::getCharts() {
-    std::vector<LineChart *> *lineCharts = new std::vector<LineChart *>();
-
-    for (unsigned int i = 0; i < charts->size(); i++) {
-        lineCharts->push_back(charts->at(i));
-    }
-
-    return lineCharts;
 }
 
 void MonteCarloPlotManager::updateStatistics() {

@@ -32,7 +32,6 @@ public:
 
     void capturePreviousValues();
     std::vector<Link *> *getLinks();    
-    std::vector<LineChart *> *getCharts();
     void updateCharts(Model *model, MS_PROD_MainWindow *mainWindow);
 
     std::vector<AbsoluteSizeIndicator *> *getAbsPoints();
