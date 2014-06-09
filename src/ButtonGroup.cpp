@@ -30,6 +30,10 @@ ButtonGroup::ButtonGroup(std::string groupLabels, std::vector<std::string> butto
 }
 
 ButtonGroup::~ButtonGroup() {
+    for (int i = 0; i < size; i++) {
+        delete buttons[i];
+    }
+
     delete[] buttons;
 }
 

@@ -50,6 +50,7 @@ public:
     void setMarkerBorderWidth(float width);
     
     void setLineColor(Color *c) { lineColor = c; }
+    Color *getLineColor() { return lineColor; }
 
     float getLineWidth() { return lineWidth; }
     void setLineWidth(float w) { lineWidth = w; }
@@ -60,8 +61,6 @@ public:
     ChartPoint **getPoints() { return points; }
 
     void capturePreviousValues();
-
-    //void drawGhost();
     
     void drawGhostAsLine();
     void drawGhostAsBlend();

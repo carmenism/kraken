@@ -42,6 +42,20 @@ Color::Color( const Color& col ) {
     a = col.a;
 }
 
+void Color::setValues(float red, float green, float blue, float alpha) {
+    r = red;
+    g = green;
+    b = blue;
+    a = alpha;
+}
+
+void Color::copyValues(Color *c) {
+    r = c->r;
+    g = c->g;
+    b = c->b;
+    a = c->a;
+}
+
 // http://stackoverflow.com/questions/180/function-for-creating-color-wheels
 Color *Color::getEvenlyDistributedColor(int numberColors, int offset) {
     float hueInterval = 1.0f / numberColors;

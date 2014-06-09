@@ -14,6 +14,7 @@ SmallMultiple::SmallMultiple(std::vector<float> *xValues, std::vector<float> *yB
     ChartPointSeries *biomassSeries = new ChartPointSeries(this, label, xValues, yBiomass);
     Color *c = Color::getEvenlyDistributedColor(numGuilds, guildIndex);
     biomassSeries->setColor(c);
+    delete c;
     
     addPointSeries(biomassSeries);
 

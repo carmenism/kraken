@@ -191,6 +191,12 @@ void SmallMultiplesWithArcsManager::initializeArcs(InterSpeciesArcCollection *ar
         }        
     }   
 
+    for (int i = 0; i < newMatrix->size(); i++) {
+        QList<double> *row = newMatrix->at(i);
+
+        delete row;
+    }
+
     delete newMatrix;
 }
 

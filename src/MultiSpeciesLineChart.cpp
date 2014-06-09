@@ -22,6 +22,7 @@ MultiSpeciesLineChart::MultiSpeciesLineChart(QList<QList<double>> matrix, QStrin
         ChartPointSeries *series = new ChartPointSeries(this, labels.at(i).toStdString(), x, y);
         Color *c = Color::getEvenlyDistributedColor(matrix.size(), i);
         series->setColor(c);
+        delete c;
 
         addPointSeries(series);
 

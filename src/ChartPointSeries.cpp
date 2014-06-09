@@ -59,8 +59,13 @@ ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vec
 }
 
 ChartPointSeries::~ChartPointSeries() {
+    for (int i = 0; i < size; i++) {
+        delete points[i];
+    }
+
     delete[] points;
     delete marker;
+
     delete lineColor;
 }
 
@@ -315,9 +320,9 @@ void ChartPointSeries::setMarkerFillColor(Color *color) {
 }
 
 void ChartPointSeries::setColor(Color *c) {
-    setLineColor(c);
-    setMarkerBorderColor(c);
-    setMarkerFillColor(c);
+    getLineColor()->copyValues(c);
+    marker->getBorderColor()->copyValues(c);
+    marker->getFillColor()->copyValues(c);
 }
 
 Color *ChartPointSeries::getColor() {

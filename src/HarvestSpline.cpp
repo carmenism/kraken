@@ -43,6 +43,19 @@ HarvestSpline::~HarvestSpline() {
     delete pointB;
     delete controlA;
     delete controlB;
+
+    for (int i = 0; i < numberPoints; i++) {
+        delete right[i];
+    }
+
+    for (int i = 0; i < numberPoints; i++) {
+        delete left[i];
+    }
+
+    for (int i = 0; i < numberPoints; i++) {
+        delete middle[i];
+    }
+
     delete[] middle;
     delete[] left;
     delete[] right;

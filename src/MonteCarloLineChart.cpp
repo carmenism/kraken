@@ -17,6 +17,7 @@ MonteCarloLineChart::MonteCarloLineChart(std::string label, bool displayXAxisLab
     sideLabel = label;
     Color *c = Color::getEvenlyDistributedColor(numGuilds, guildIndex);
     semiTransparentColor = new Color(c->r, c->g, c->b, 0.075);
+    delete c;
 
     setLineWidths(2);
     setMarkersSize(6);
@@ -67,7 +68,7 @@ void MonteCarloLineChart::drawAtOrigin() {
 }
 
 void MonteCarloLineChart::addSemiTransparentPointSeries(int simNum, std::vector<float> *x, std::vector<float> *y) {
-    addPointSeries(simNum, x, y, semiTransparentColor);
+    addPointSeries(simNum, x, y, new Color(*semiTransparentColor));
 }
 
 void MonteCarloLineChart::addBlackPointSeries(int simNum, std::vector<float> *x, std::vector<float> *y) {

@@ -47,6 +47,10 @@ AbsoluteSizesChart::AbsoluteSizesChart(LineChart *lineChart) {
 }
 
 AbsoluteSizesChart::~AbsoluteSizesChart() {
+    for (int i = 0; i < size; i++) {
+        delete points[i];
+    }
+
     delete[] points;
     delete legend;
 }

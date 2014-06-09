@@ -37,18 +37,18 @@ InterSpeciesArc::InterSpeciesArc(PlotManager *pm, float coefficient, SmallMultip
 	}
 
     arrowA = new Triangle();
-    arrowA->setBorderColor(new Color(0, 0, 0, .95));
-    arrowA->setFillColor(new Color(1, 1, 1, .65));
+    arrowA->getBorderColor()->setValues(0, 0, 0, .95);
+    arrowA->getFillColor()->setValues(1, 1, 1, .65);
     arrowA->setSize(10, 10);
 
     arrowB = new Triangle();
-    arrowB->setBorderColor(new Color(0, 0, 0, .95));
-    arrowB->setFillColor(new Color(1, 1, 1, .65));
+    arrowB->getBorderColor()->setValues(0, 0, 0, .95);
+    arrowB->getFillColor()->setValues(1, 1, 1, .65);
     arrowB->setSize(10, 10);
     
     arrowMiddle = new Triangle();
-    arrowMiddle->setBorderColor(new Color(0, 0, 0, .95));
-    arrowMiddle->setFillColor(new Color(1, 1, 1, .65));
+    arrowMiddle->getBorderColor()->setValues(0, 0, 0, .95);
+    arrowMiddle->getFillColor()->setValues(1, 1, 1, .65);
     arrowMiddle->setSize(10, 10);
 
     //this->yA = yA;
@@ -66,11 +66,20 @@ InterSpeciesArc::InterSpeciesArc(PlotManager *pm, float coefficient, SmallMultip
 }
 
 InterSpeciesArc::~InterSpeciesArc() {
-    delete color;
     delete highlightColor;
     delete arrowA;
     delete arrowB;
     delete arrowMiddle;
+
+    if (xArc != NULL) {
+        delete[] xArc;
+        xArc = NULL;
+    }
+
+    if (yArc != NULL) {
+        delete[] yArc;
+        yArc = NULL;
+    }
 }
 
 void InterSpeciesArc::drawToPick() {
@@ -335,9 +344,9 @@ void InterSpeciesArc::drawTriangles() {
 void InterSpeciesArc::positionTriangles() {
     Color *c = this->getColor();
 
-    arrowA->setBorderColor(c);
-    arrowB->setBorderColor(c);    
-    arrowMiddle->setBorderColor(c);
+    arrowA->getBorderColor()->setValues(c->r, c->g, c->b);
+    arrowB->getBorderColor()->setValues(c->r, c->g, c->b);
+    arrowMiddle->getBorderColor()->setValues(c->r, c->g, c->b);
 
     arrowA->setBorderWidth(2);
     arrowB->setBorderWidth(2);

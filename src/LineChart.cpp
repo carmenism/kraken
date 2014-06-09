@@ -45,6 +45,10 @@ LineChart::~LineChart() {
         delete s;
     }
 
+    for (int i = 0; i < numberAxes; i++) {
+        delete axes[i];
+    }
+
     delete[] axes;
     delete seriesList;
     delete legend;

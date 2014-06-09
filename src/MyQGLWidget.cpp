@@ -34,7 +34,7 @@
 #include <QCloseEvent>
 #include <iostream>
 
-//#include "vld.h"
+#include "vld.h"
 
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
     mode = NORMAL;
@@ -115,6 +115,9 @@ MyQGLWidget::~MyQGLWidget() {
     delete bgUncertainty;
     delete bgArcConditions;
     delete sliders;
+    delete managerPanel;
+    delete managerSmallMult;
+    delete managerMC;
     delete[] plotManagers;
     delete picker;
     delete kmc;

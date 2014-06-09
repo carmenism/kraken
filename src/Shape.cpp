@@ -22,8 +22,8 @@ Shape::Shape() {
    setRotation(0);
    setSize(100, 100);
    setBorderWidth(1.0);
-   setFillColor(new Color(0.5, 0.5, 0.5));
-   setBorderColor(new Color(0.0, 0.0, 0.0));
+   fillColor = new Color(0.5, 0.5, 0.5);
+   borderColor = new Color(0.0, 0.0, 0.0);
    setDrawFill(true);
    setDrawBorder(true);
    setId(-1);

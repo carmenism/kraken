@@ -22,8 +22,11 @@ class Color
 public:
     Color();
     ~Color();
-    Color( const Color& c );
-    Color( float red, float green, float blue, float alpha = 1.0f );
+    Color(const Color& c);
+    Color(float red, float green, float blue, float alpha = 1.0f);
+
+    void setValues(float red, float green, float blue, float alpha = 1.0f);
+    void copyValues(Color *c);
 
     float r, g, b, a;
 
