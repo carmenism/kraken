@@ -8,7 +8,7 @@ class LineChart;
 class ChartPoint;
 class Point;
 class Color;
-class Shape;
+class Circle;
 
 class ChartPointSeries : public Displayable
 {
@@ -44,7 +44,6 @@ public:
     void displayAsAreaOn() { displayAsArea = true; }
     void displayAsAreaOff() { displayAsArea = false; }
 
-    void setMarkerShape(int shape);
     void setMarkerSize(float size);
     void setMarkerBorderColor(Color *color);
     void setMarkerFillColor(Color *color);
@@ -80,7 +79,7 @@ private:
 
     std::string label;
     ChartPoint **points;
-    ChartPoint *legendPoint;
+    Circle *marker;
     ChartPoint *min, *max;
     Point *previousMin, *previousMax;
     float lineWidth;

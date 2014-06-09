@@ -1,69 +1,57 @@
 #include "ChartPoint.h"
 #include "LineChart.h"
 #include "Shape.h"
-#include "Circle.h"
-#include "Square.h"
-#include "Triangle.h"
 #include "Color.h"
 #include "PrintText.h"
 #include <iostream>
 
-ChartPoint::ChartPoint(LineChart *chart, std::string label, float valueX, float valueY, int shape)
+ChartPoint::ChartPoint(LineChart *chart, std::string label, float valueX, float valueY)
  : Point(valueX, valueY), Pickable() {
+    position = new Point(0, 0);
+    previousPosition = new Point(0, 0);
     previousValues = new Point(valueX, valueY);
     this->chart = chart;
     this->label = label;
 
-    switch (shape) {
-        case SHAPE_SQUARE:
-            marker = new Square();
-            break;
-        case SHAPE_TRIANGLE:
-            marker = new Triangle();
-            break;
-        case SHAPE_CIRCLE:
-        default:
-            marker = new Circle();
-            break;
-    }
-
-    marker->setFillColor(new Color(0, 0, 0, 1));
-    marker->setBorderColor(new Color(0, 0, 0, 1));
-
-    setSize(8);
-    setBorderWidth(0.0);
     //setDisplayLabel(false);
     setFontHeight(14);
 }
 
 ChartPoint::~ChartPoint() {
-    delete marker;
     delete previousValues;
+    delete position;
+    delete previousPosition;
 }
 
 void ChartPoint::calculateLocation() {
     float posX = x * chart->getInnerWidth() / chart->getGlobalMaxX();
     float posY = y * chart->getInnerHeight() / chart->getGlobalMaxY();
 
-    marker->setLocation(posX, posY);
+    position->setValues(posX, posY);
 
-    previousPositionX = previousValues->getX() * chart->getInnerWidth() / chart->getGlobalMaxX();
-    previousPositionY = previousValues->getY() * chart->getInnerHeight() / chart->getGlobalMaxY();
+    previousPosition->setX(previousValues->getX() * chart->getInnerWidth() / chart->getGlobalMaxX());
+    previousPosition->setY(previousValues->getY() * chart->getInnerHeight() / chart->getGlobalMaxY());
 }
 
 void ChartPoint::draw() {
+    marker->setX(position->getX());
+    marker->setY(position->getY());
+
     marker->draw();
 }
 
-void ChartPoint::drawSelected() {
+void ChartPoint::drawSelected() {    
+    marker->setX(position->getX());
+    marker->setY(position->getY());
+
     if (selected) {
         float oldWidth = marker->getWidth();
         float oldHeight = marker->getHeight();
+        marker->setX(position->getX());
+        marker->setY(position->getY());
         marker->setSize(oldWidth * 1.5, oldHeight * 1.5);
         marker->draw();
         marker->setSize(oldWidth, oldHeight);
-
-        Color *c = marker->getFillColor();
 
         drawHistoryLine();
         drawLineToXAxis();
@@ -72,8 +60,8 @@ void ChartPoint::drawSelected() {
 
         float padding = 4;
 
-        float x = marker->getX() + 3 *(marker->getWidth() / 4) + padding;
-        float y = marker->getY() + (marker->getHeight() / 2) + padding;
+        float x = position->getX() + 3 *(marker->getWidth() / 4) + padding;
+        float y = position->getY() + (marker->getHeight() / 2) + padding;
 
         float h = fontHeight;
         float w = PrintText::strokeWidth(newLabel, fontHeight);
@@ -109,6 +97,9 @@ std::string ChartPoint::makeLabel() {
 }
 
 void ChartPoint::drawHistoryLine() {
+    marker->setX(position->getX());
+    marker->setY(position->getY());
+
     Color *c = marker->getBorderColor();
 
     glEnable(GL_SCISSOR_TEST);
@@ -123,14 +114,17 @@ void ChartPoint::drawHistoryLine() {
     glLineWidth(3);
     glBegin(GL_LINES);
         glVertex3f(marker->getX(), marker->getY(), 0);
-        glVertex3f(previousPositionX, previousPositionY, 0);
+        glVertex3f(previousPosition->getX(), previousPosition->getY(), 0);
     glEnd();
     glLineWidth(1);
 
     glDisable(GL_SCISSOR_TEST);
 }
 
-void ChartPoint::drawLineToXAxis() {
+void ChartPoint::drawLineToXAxis() {    
+    marker->setX(position->getX());
+    marker->setY(position->getY());
+
     float diff = y - previousValues->getY();
     
     glDisable(GL_LINE_SMOOTH);
@@ -138,7 +132,7 @@ void ChartPoint::drawLineToXAxis() {
 
     if (diff > 0) {
         glBegin(GL_LINES);
-            glVertex3f(previousPositionX, previousPositionY, 0);
+            glVertex3f(previousPosition->getX(), previousPosition->getY(), 0);
             glVertex3f(marker->getX(), 0, 0);
         glEnd();
     } else {
@@ -146,7 +140,7 @@ void ChartPoint::drawLineToXAxis() {
 
         glBegin(GL_LINES);
             glVertex3f(marker->getX(), marker->getY() - f, 0);
-            glVertex3f(previousPositionX, 0, 0);
+            glVertex3f(previousPosition->getX(), 0, 0);
         glEnd();
     }
 
@@ -154,6 +148,9 @@ void ChartPoint::drawLineToXAxis() {
 }
 
 void ChartPoint::drawToPick() {
+    marker->setX(position->getX());
+    marker->setY(position->getY());
+
     marker->setPickColor(pickR, pickG, pickB);
     float oldWidth = marker->getWidth();
     float oldHeight = marker->getHeight();
@@ -162,75 +159,26 @@ void ChartPoint::drawToPick() {
     marker->setSize(oldWidth, oldHeight);
 }
 
-void ChartPoint::setShape(int shape) {
-    Shape *newMarker;
-
-    switch (shape) {
-        case SHAPE_SQUARE:
-            newMarker = new Square();
-            break;
-        case SHAPE_TRIANGLE:
-            newMarker = new Triangle();
-            break;
-        case SHAPE_CIRCLE:
-        default:
-            newMarker = new Circle();
-            break;
-    }
-
-    newMarker->setSize(marker->getWidth(), marker->getHeight());
-    newMarker->setLocation(marker->getX(), marker->getY());
-    newMarker->setRotation(marker->getRotation());
-    newMarker->setDrawFill(marker->getDrawFill());
-    newMarker->setDrawBorder(marker->getDrawBorder());
-    newMarker->setFillColor(new Color(*marker->getFillColor()));
-    newMarker->setBorderColor(new Color(*marker->getBorderColor()));
-
-    delete marker;
-
-    marker = newMarker;
-}
-
-void ChartPoint::setSize(float size) {
-    marker->setSize(size, size);
-}
-
-void ChartPoint::setBorderColor(Color *color) {
-    marker->setBorderColor(color);
-}
-
-void ChartPoint::setFillColor(Color *color) {
-    marker->setFillColor(color);
-}
-
-void ChartPoint::setBorderWidth(float width) {
-    marker->setBorderWidth(width);
-}
-
 float ChartPoint::getPositionX() {
-    return marker->getX();
+    return position->getX();
 }
 
 float ChartPoint::getPositionY() {
-    return marker->getY();
+    return position->getY();
 }
-/*
-void ChartPoint::setPickColor(int r, int g, int b) {
-    marker->setPickColor(r, g, b);
-}*/
 
 void ChartPoint::setPositionX(float x) {
-    marker->setLocation(x, marker->getY());
+    position->setX(x);
 }
 
 void ChartPoint::setPositionY(float y) {
-    marker->setLocation(marker->getX(), y);
+    position->setY(y);
 }
 
 void ChartPoint::capturePreviousValues() {
     previousValues->setValues(x, y);
-    previousPositionX = marker->getX();
-    previousPositionY = marker->getY();
+    previousPosition->setX(position->getX());
+    previousPosition->setY(position->getY());
 }
 
 float ChartPoint::getDifferenceFromPrevious() {

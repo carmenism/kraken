@@ -1,6 +1,7 @@
 #include "ChartPointSeries.h"
 #include "ChartPoint.h"
 #include "Point.h"
+#include "Circle.h"
 #include "Color.h"
 #include "LineChart.h"
 #include "PrintText.h"
@@ -13,6 +14,10 @@
 #define D_ALPHA (START_ALPHA - END_ALPHA) / NUM_RECTS
 
 ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vector<float> *x, std::vector<float> *y) {
+    marker = new Circle();
+    marker->setBorderWidth(0);
+    marker->setSize(8, 8);
+    
     this->chart = chart;
     this->label = label;
     display = true;
@@ -42,6 +47,8 @@ ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vec
         if (min == NULL || min->getY() > points[i]->getY()) {
             min = points[i];
         }
+
+        points[i]->setMarker(marker);
     }
     
     previousMin = min;
@@ -49,14 +56,11 @@ ChartPointSeries::ChartPointSeries(LineChart *chart, std::string label, std::vec
 
     lineColor = new Color(Color::black);
     lineWidth = 1.0;
-
-
-    legendPoint = new ChartPoint(chart, "", -1, -1);
 }
 
 ChartPointSeries::~ChartPointSeries() {
     delete[] points;
-    delete legendPoint;
+    delete marker;
     delete lineColor;
 }
 
@@ -151,10 +155,10 @@ float ChartPointSeries::drawInLegend(float x, float y, float lineLength, float s
         glDisable(GL_LINE_SMOOTH);
 
         if (displayMarkers) {
-            legendPoint->setPositionX(0);
-            legendPoint->setPositionY(0);
+            marker->setX(0);
+            marker->setY(0);
 
-            legendPoint->draw();
+            marker->draw();
         }
 
         int posX = lineLength / 2.0 + spacing;
@@ -298,36 +302,16 @@ float ChartPointSeries::getPreviousMaximumValueY() {
     return previousMax->getY();
 }
 
-void ChartPointSeries::setMarkerShape(int shape) {
-    for (int i = 0; i < size; i++) {
-        points[i]->setShape(shape);
-    }
-
-    legendPoint->setShape(shape);
-}
-
 void ChartPointSeries::setMarkerSize(float mySize) {
-    for (int i = 0; i < size; i++) {
-        points[i]->setSize(mySize);
-    }
-
-    legendPoint->setSize(mySize);
+    marker->setSize(mySize, mySize);
 }
 
 void ChartPointSeries::setMarkerBorderColor(Color *color) {
-    for (int i = 0; i < size; i++) {
-        points[i]->setBorderColor(color);
-    }
-
-    legendPoint->setBorderColor(color);
+    marker->setBorderColor(color);
 }
 
 void ChartPointSeries::setMarkerFillColor(Color *color) {
-    for (int p = 0; p < size; p++) {
-        points[p]->setFillColor(color);
-    }
-
-    legendPoint->setFillColor(color);
+    marker->setFillColor(color);
 }
 
 void ChartPointSeries::setColor(Color *c) {

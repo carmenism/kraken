@@ -1,7 +1,7 @@
 #ifndef CHARTPOINT_H_
 #define CHARTPOINT_H_
 
-enum {SHAPE_CIRCLE, SHAPE_SQUARE, SHAPE_TRIANGLE};
+enum {SHAPE_CIRCLE};
 
 class LineChart;
 class Shape;
@@ -13,28 +13,22 @@ class Color;
 
 class ChartPoint : public Point, public Pickable {
 public:
-    ChartPoint(LineChart *chart, std::string label, float vX, float vY, int shape = SHAPE_CIRCLE);
+    ChartPoint(LineChart *chart, std::string label, float vX, float vY);
     virtual ~ChartPoint();
 
     void draw();
     void drawSelected();
-    void drawToPick();
+    virtual void drawToPick();
 
     void calculateLocation();
 
     std::string getLabel() { return label; }
 
-    void setShape(int shape);
-    void setSize(float size);
-    void setBorderColor(Color *color);
-    void setFillColor(Color *color);
-    void setBorderWidth(float width);
-
     void capturePreviousValues();
     Point *getPrevious() { return previousValues; }
     float getPreviousValue();
-    float getPreviousPositionX() { return previousPositionX; }
-    float getPreviousPositionY() { return previousPositionY; }
+    float getPreviousPositionX() { return previousPosition->getX(); }
+    float getPreviousPositionY() { return previousPosition->getY(); }
 
     void setPositionX(float x);  
     float getPositionX();
@@ -47,9 +41,11 @@ public:
 
     float getDifferenceFromPrevious();
     float getPercentIncreaseFromPrevious();
+
+    void setMarker(Shape *s) { marker = s; }
 private:
     LineChart *chart;
-    float previousPositionX, previousPositionY;
+    Point *position, *previousPosition;
     Point *previousValues;
 
     Shape *marker;

@@ -34,7 +34,7 @@
 #include <QCloseEvent>
 #include <iostream>
 
-#include "vld.h"
+//#include "vld.h"
 
 MyQGLWidget::MyQGLWidget(MS_PROD_MainWindow *mainWindow, QWidget *parent) : QGLWidget(parent) {
     mode = NORMAL;
