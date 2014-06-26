@@ -417,7 +417,7 @@ void InterSpeciesArc::drawPolygonArc() {
     glPolygonMode(GL_FRONT, GL_FILL);
 
 	glBegin(GL_TRIANGLE_STRIP);
-    for(int i = 0; i < NUM_SEGMENTS; i++) { 
+    for (int i = 0; i < NUM_SEGMENTS; i++) { 
         glColor4f( color->r, color->g, color->b, finalAlpha + i * alphaStep);
 
         tc = 1.5*((NUM_SEGMENTS - float(i))/NUM_SEGMENTS+timeval);
@@ -438,10 +438,135 @@ void InterSpeciesArc::drawPolygonArc() {
     }
     glEnd();
 
+    /*
+    /// begin dashed lines
+    int solidLength = 40;
+    int spaceLength = 10;
+    bool drawSolid = true;
+    int solid = 0;
+    int space = 0;
+
+    int remainder = timer % (solidLength + spaceLength);
+  
+    if (remainder < solidLength) { // start solid
+        solid = remainder;
+        drawSolid = true;
+    } else { // start space
+        space = remainder - solidLength;
+        drawSolid = false;
+    }
+
+    glBegin(GL_TRIANGLE_STRIP);
+    for (int i = 0; i < NUM_SEGMENTS; i++) { 
+        if (drawSolid) {
+            glColor4f( color->r, color->g, color->b, finalAlpha + i * alphaStep);
+            solid++;
+
+            if (solid == solidLength) {
+                drawSolid = false;
+                space = 0;
+            }
+        } else {
+            glColor4f(1,1,1,0);
+            space++;
+
+            if (space == spaceLength) {
+                drawSolid = true;
+                solid = 0;
+            }
+        }
+
+        tc = 1.5*((NUM_SEGMENTS - float(i))/NUM_SEGMENTS+timeval);
+
+        //CW_CODE 
+        //*
+        if (displayDynamically && animated) {
+            glTexCoord2f(tc, 0.3);
+        }
+
+        glVertex2f(xArc[i]*radiusOuter,yArc[i]*radiusOuter);
+
+        if (displayDynamically && animated) {
+            glTexCoord2f(tc,0.3);
+        }
+        
+        glVertex2f(xArc[i]*radiusInner, yArc[i]*radiusInner);
+    }
+    glEnd();
+    ///// end dashed lines
+    */
+
+    float pulseRadius = 15;
+    int pulseCenter = 40;
+
+    /*float x1 = 0;
+    float y1 = 0;
+    float r1 = radiusOuter;
+
+    float x2 = xArc[pulseCenter] * radius;
+    float y2 = yArc[pulseCenter] * radius;
+    float r2 = pulseRadius;
+
+    float D = sqrt((x2 - x1)*(x2 - x1) + (y2 - y1) * (y2 - y1));
+    float D2 = D*D;
+    float theta = 0.25 * sqrt((D+r1+r2)*(D+r1-r2)*(D-r1+r2)*(-D+r1+r2));
+
+    float xBegin = (x1 + x2) / 2 + (x2 - x1)(r1*r1 - r2*r2)/(2*D2);
+    float yBegin = (y1 + y2) / 2 + (y2 - y1)(r1*r1 - r2*r2)/(2*D2);
+
+    float xEnd = 2*(y1 - y2)*theta/D2;
+    float yEnd = 2*(x1 - x2)*theta/D2;
+
+    float xA = xBegin - xEnd;
+    float yA = yBegin + yEnd;
+    
+    float xB = xBegin + xEnd;
+    float yB = yBegin - yEnd;*/
+    
+
+    /*for (int i = 0; i < NUM_SEGMENTS; i++) {
+        glPushMatrix();
+		    glTranslatef(x, y, 0);
+            glBegin(GL_TRIANGLE_STRIP);
+            for (int j = 0; j < NUM_SEGMENTS; j++) { 
+                glVertex2f(xArc[i]*pulseRadius, yArc[i]*pulseRadius);
+            }
+            glEnd();
+        glPopMatrix();
+    }*/
+
     if (displayDynamically && animated) {
         glDisable(GL_TEXTURE_2D);
     }
 }
+/*
+bool InterSpeciesArc::circleIntersect(float x1, float y1, float radius1, float x2, float y2, float radius2) {
+    float D = sqrt((x2 - x1)*(x2 - x1) + (y2 - y1) * (y2 - y1))
+
+    if (r1 + r2 > D && D > fabs(r1 - r2)) {
+        return true;
+    }
+
+    return false;
+}*/
+/*
+Point *getPointA(float x1, float y1, float radius1, float x2, float y2, float radius2) {
+    float D = sqrt((x2 - x1)*(x2 - x1) + (y2 - y1) * (y2 - y1));
+    float D2 = D*D;
+    float theta = 0.25 * sqrt((D+r1+r2)*(D+r1-r2)*(D-r1+r2)*(-D+r1+r2));
+
+    float xBegin = (x1 + x2) / 2 + (x2 - x1)(r1*r1 - r2*r2)/(2*D2);
+    float yBegin = (y1 + y2) / 2 + (y2 - y1)(r1*r1 - r2*r2)/(2*D2);
+
+    float xEnd = 2*(y1 - y2)*theta/D2;
+    float yEnd = 2*(x1 - x2)*theta/D2;
+
+    float xA = xBegin + xEnd;
+    float yA = yBegin - yEnd;
+    
+    float xB = xBegin - xEnd;
+    float yB = yBegin + yEnd;
+}*/
 
 void InterSpeciesArc::drawToPickAsLineStrips() {       
     glLineWidth(thickness);
